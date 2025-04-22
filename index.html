@@ -2,237 +2,243 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>José Gregorio González - Técnico Profesional</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FeminaLab - Info</title>
+  <!-- Fuentes personalizadas -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #111;
-      color: #fff;
-      scroll-behavior: smooth;
-    }
-
-    header {
-      background: url('https://img.freepik.com/vector-premium/trabajador-mantenimiento-centro-servicio-electrodomesticos-reparando-personal-mantenimiento-clientes-renovacion-hogar_654623-948.jpg') center center / cover no-repeat;
-      height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(145deg, #ffe4ec, #fff5f9);
+      color: #333;
       display: flex;
-      align-items: center;
       justify-content: center;
-      text-align: center;
-      position: relative;
-      animation: fadeIn 2s ease-in-out;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
     }
 
-    header::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .intro {
-      position: relative;
-      z-index: 2;
-      max-width: 90%;
-      animation: slideDown 2s ease;
-    }
-
-    .intro h1 {
-      font-size: 2.5rem;
-      color: yellow;
-      margin-bottom: 1rem;
-      text-shadow: 2px 2px 4px #000;
-    }
-
-    .intro p {
-      font-size: 1.2rem;
-      color: #eee;
-      text-shadow: 1px 1px 3px #000;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    section {
-      padding: 3rem 1rem;
-      text-align: center;
-    }
-
-    .profile img {
-      width: 130px;
-      border-radius: 50%;
-      border: 4px solid yellow;
-      margin-bottom: 1rem;
-      box-shadow: 0 0 10px yellow;
+    .info {
+      max-width: 850px;
+      background-color: white;
+      border-radius: 25px;
+      box-shadow: 0 0 25px rgba(255, 153, 204, 0.3);
+      padding: 40px;
+      animation: fadeIn 1s ease-in-out;
     }
 
     h2 {
-      font-size: 2rem;
-      color: yellow;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      max-width: 800px;
-      margin: auto;
-      color: #ccc;
-      font-size: 1rem;
-    }
-
-    .whatsapp {
-      display: inline-block;
-      margin-top: 1.5rem;
-      padding: 1rem 2rem;
-      background: yellow;
-      color: black;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .services {
-      background-color: #222;
-    }
-
-    .services ul {
-      list-style: none;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .services li {
-      background: #333;
-      padding: 1.5rem;
-      border-left: 5px solid yellow;
-      border-radius: 10px;
-      transition: 0.3s ease;
-    }
-
-    .services li:hover {
-      background: #444;
-      transform: translateY(-5px);
-    }
-
-    .contact {
-      background: #1a1a1a;
-    }
-
-    .contact p {
-      margin-bottom: 1rem;
-    }
-
-    footer {
-      background: #000;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      color: #bbb;
-    }
-
-    .whatsapp-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25d366;
-      color: white;
-      padding: 15px;
-      border-radius: 50%;
-      font-size: 25px;
-      z-index: 999;
-      box-shadow: 0 0 10px #25d366;
-      transition: 0.3s ease;
+      font-family: 'Great Vibes', cursive;
+      color: #d63384;
+      font-size: 42px;
+      margin-bottom: 5px;
       text-align: center;
     }
 
-    .whatsapp-float:hover {
-      transform: scale(1.1);
+    h3 {
+      font-weight: 600;
+      font-size: 20px;
+      color: #b03060;
+      margin-top: 30px;
     }
 
-    @media (max-width: 768px) {
-      header {
-        height: 80vh;
-      }
+    p, li {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #444;
+    }
 
-      .intro h1 {
-        font-size: 2rem;
-      }
+    ul {
+      padding-left: 20px;
+    }
 
-      .intro p {
-        font-size: 1rem;
-      }
+    .links {
+      margin-top: 30px;
+    }
 
-      h2 {
-        font-size: 1.5rem;
-      }
+    .dropdown {
+      margin-bottom: 20px;
+    }
 
-      p {
-        font-size: 0.95rem;
-      }
+    .dropdown button {
+      background-color: #f8d7e8;
+      border: none;
+      padding: 14px 20px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      font-weight: bold;
+      color: #b03060;
+    }
+
+    .dropdown button:hover {
+      background-color: #f3c0dc;
+      color: white;
+      transform: scale(1.02);
+    }
+
+    .dropdown-content {
+      display: none;
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: #d63384;
+      font-weight: 500;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
     }
   </style>
 </head>
 <body>
+  <div class="info" id="info-v2">
+    <h2>¡Bienvenida a FeminaLab! 💖</h2>
+    <p><strong>Pago quincenal:</strong> 1,000 pesos colombianos. Accede a todos los cursos y recursos.</p>
+    <p><strong>¿Cómo ganar dinero?</strong> Puedes vender los PDFs a tu propio precio y emprender tu camino. ¡Aprovecha esta oportunidad!</p>
+    <p><strong>Recursos disponibles:</strong> Explora los recursos y cursos para comenzar tu emprendimiento.</p>
 
-  <header>
-    <div class="intro">
-      <h1>José Gregorio González</h1>
-      <p>Técnico de confianza para tus electrodomésticos</p>
-    </div>
-  </header>
-
-  <section class="profile">
-    <img src="https://i.pinimg.com/236x/d0/66/fa/d066fa64ac3db395903dc9a280e1756c.jpg" alt="José Gregorio">
-    <h2>¿Quién soy?</h2>
-    <p>Soy un técnico especializado en reparación de electrodomésticos: neveras, lavadoras, microondas, televisores, aires acondicionados y más. Ofrezco soluciones rápidas, efectivas y con garantía. Atención personalizada y experiencia comprobada en todo Barranquilla.</p>
-    <a class="whatsapp" href="https://wa.me/573212949163" target="_blank">💬 Escríbeme por WhatsApp</a>
-  </section>
-
-  <section class="services">
-    <h2>Servicios que ofrezco</h2>
+    <p><strong>Pago en otros países (equivalente a 1,000 COP):</strong></p>
     <ul>
-      <li>🧊 Reparación de neveras y congeladores</li>
-      <li>🌀 Arreglo de lavadoras automáticas y semi</li>
-      <li>🔥 Microondas y hornos eléctricos</li>
-      <li>❄️ Aires acondicionados (instalación y reparación)</li>
-      <li>🔧 Diagnóstico y mantenimiento preventivo</li>
-      <li>🛠️ Cambio de repuestos originales</li>
+      <li><strong>Argentina:</strong> 310 ARS</li>
+      <li><strong>México:</strong> 180 MXN</li>
+      <li><strong>Chile:</strong> 1,300 CLP</li>
+      <li><strong>Perú:</strong> 240 PEN</li>
+      <li><strong>Ecuador:</strong> 0.24 USD</li>
+      <li><strong>Brasil:</strong> 4.00 BRL</li>
+      <li><strong>Uruguay:</strong> 440 UYU</li>
+      <li><strong>Paraguay:</strong> 173 PYG</li>
+      <li><strong>Venezuela:</strong> 370 VES</li>
+      <li><strong>Bolivia:</strong> 20 BOB</li>
+      <li><strong>Honduras:</strong> 40 HNL</li>
+      <li><strong>El Salvador:</strong> 0.23 USD</li>
+      <li><strong>Nicaragua:</strong> 80 NIO</li>
+      <li><strong>Costa Rica:</strong> 3,900 CRC</li>
     </ul>
-  </section>
 
-  <section class="contact">
-    <h2>Contáctame</h2>
-    <p>📍 Ubicación: Bogotá, Colombia</p>
-    <p>📞 Teléfono y WhatsApp: <strong>+57 321 2949163</strong></p>
-    <p>🕒 Atención: Lunes a Sábado - 8:00am a 6:00pm</p>
-    <a class="whatsapp" href="https://wa.me/573212949163" target="_blank">💬 Solicitar servicio</a>
-  </section>
+    <div class="links">
+      <h3>Recursos y Kits:</h3>
 
-  <footer>
-    &copy; 2025 José Gregorio González - Todos los derechos reservados
-  </footer>
+      <div class="dropdown">
+        <button>Kit de Impresión Escolar</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Kit de Impresión Escolar</a><br>
+          <a href="#">PDF: Material Escolar Básico</a><br>
+          <a href="#">PDF: Etiquetas Escolares</a>
+        </div>
+      </div>
 
-  <a class="whatsapp-float" href="https://wa.me/573212949163" target="_blank">💬</a>
+      <div class="dropdown">
+        <button>Kit para Maestros y Maestras</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Planificación Educativa</a><br>
+          <a href="#">PDF: Agendas para Profesores</a>
+        </div>
+      </div>
 
+      <div class="dropdown">
+        <button>Cuadernos de Actividades de Navidad</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Actividades de Navidad</a><br>
+          <a href="#">PDF: Manualidades Navideñas</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Medicinas y Papelería en Casa</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Guía de Medicinas Básicas</a><br>
+          <a href="#">PDF: Papelería Básica para Casa</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Emprendimiento y Actividades Educativas</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Guía para Emprendedores</a><br>
+          <a href="#">PDF: Actividades Educativas para Niños</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Cursos Ofimáticos</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Introducción a la Ofimática</a><br>
+          <a href="#">PDF: Ofimática Avanzada</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Archivo de Atismos</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Guía para Archivos Atismos</a><br>
+          <a href="#">PDF: Ejercicios de Atismos</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Stickers Creativos para Emprendedores</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Cómo Crear Stickers</a><br>
+          <a href="#">PDF: Kit de Stickers Creativos</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Manualidades para Crear en Casa</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Manualidades Fáciles</a><br>
+          <a href="#">PDF: Manualidades Avanzadas</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Creadores de Material Educativo</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Crear Cuadernos</a><br>
+          <a href="#">PDF: Material Educativo Avanzado</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Cursos de Idiomas Gratuitos</button>
+        <div class="dropdown-content">
+          <a href="#">PDF: Cursos de Inglés</a><br>
+          <a href="#">PDF: Cursos de Francés</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Girls' Company</button>
+        <div class="dropdown-content">
+          <a href="https://www.tiktok.com/@girlscompany" target="_blank">TikTok: Girls' Company</a><br>
+          <a href="#">Información sobre Girls' Company</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>💬 Grupo de WhatsApp</button>
+        <div class="dropdown-content">
+          <a href="https://wa.me/1234567890" target="_blank">Únete al Grupo de WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
