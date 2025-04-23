@@ -154,6 +154,48 @@ ul {
   }
 }
 
+.policy-section {
+  text-align: center;
+  margin: 40px auto;
+  max-width: 700px;
+}
+
+.policy-button {
+  background-color: #d63384;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  font-size: 16px;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.policy-button:hover {
+  background-color: #b02a6e;
+  transform: scale(1.03);
+}
+
+.policy-box {
+  display: none;
+  background-color: #ffffff;
+  padding: 25px;
+  margin-top: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.note {
+  margin-top: 20px;
+  background-color: #fff0f5;
+  padding: 12px;
+  border-left: 4px solid #d63384;
+  border-radius: 8px;
+  font-weight: bold;
+}
 
     .dropdown button {
   background: linear-gradient(145deg, #fcd6e5, #ffe9f4);
@@ -423,9 +465,30 @@ a:hover {
       <li><strong>España:</strong> 2.30 EUR</li>
       <li><strong>Estados Unidos:</strong> 2.50 USD</li>
     </ul>
-    <p class="note"><strong>💡 Nota:</strong> El pago se realiza únicamente si la persona referida completa su inscripción en FeminaLab.</p>
+    <div class="policy-section">
+  <button class="policy-button" onclick="togglePolicies()">📜 Ver Políticas</button>
+
+  <div class="policy-box" id="policyBox">
+    <p>
+      En <strong>FeminaLab</strong>, apoyamos a chicas desde los <strong>14 años en adelante</strong> que deseen aprender, crecer como emprendedoras y generar ingresos con la venta de materiales digitales (PDF).
+    </p>
+    <p>
+      Esta plataforma fue creada para <strong>estudiantes</strong> con sueños grandes. Aquí pueden trabajar juntas, compartir sus experiencias y fortalecer sus habilidades.
+    </p>
+    <p>
+      Tú puedes vender los PDF al precio que desees, pero <strong>FeminaLab no se hace responsable</strong> del mal uso que se le dé a los materiales. Nuestra misión es educativa, colaborativa y de empoderamiento.
+    </p>
+    <p>
+      Si deseas retirarte, puedes avisarnos en cualquier momento y <strong>eliminaremos tus datos</strong> y perfil sin cobro adicional. El aporte económico actual es para mantener la web y seguir apoyando a más jóvenes.
+    </p>
+    <p>
+      Participar es fácil: solo publica en tus redes sociales que formas parte de FeminaLab e invita a otras chicas a unirse. 💕
+    </p>
+
+    <p class="note"><strong>💡 Nota:</strong> El pago por referidos se realiza únicamente si la persona completa su inscripción en FeminaLab.</p>
   </div>
 </div>
+
 
 
     <div class="links">
