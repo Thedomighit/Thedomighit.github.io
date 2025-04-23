@@ -154,102 +154,124 @@ ul {
   }
 }
 
-.
+
 
     .dropdowns-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      width: 100%;
-      max-width: 600px;
-    }
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
 
-    .dropdown {
-      position: relative;
-      width: 100%;
-    }
+/* Botón de Dropdown Estilo Floral y Brillante */
+.dropdown-btn {
+  width: 100%;
+  background: linear-gradient(145deg, #ff80ab, #ffb6c1);
+  color: white;
+  border: 2px solid #fff0f5;
+  padding: 15px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px rgba(255, 105, 180, 0.3);
+  position: relative;
+}
 
-    .dropdown-btn {
-      width: 100%;
-      background-color: #d63384;
-      color: white;
-      border: none;
-      padding: 15px 20px;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s;
-    }
+.dropdown-btn::before {
+  content: "🌸 ";
+}
 
-    .dropdown-btn:hover {
-      background-color: #b03060;
-      transform: scale(1.02);
-    }
+.dropdown-btn::after {
+  content: " 🌷";
+}
 
-    .dropdown-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease, opacity 0.3s ease;
-      opacity: 0;
-      background-color: #ffffff;
-      min-width: 100%;
-      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-      padding: 0 10px;
-      border-radius: 10px;
-      margin-top: 5px;
-    }
+.dropdown-btn:hover {
+  background: linear-gradient(145deg, #ff69b4, #ffccd5);
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(255, 105, 180, 0.4);
+}
 
-    .dropdown.open .dropdown-content {
-      max-height: 300px;
-      opacity: 1;
-      padding: 10px;
-    }
+/* Contenido desplegable */
+.dropdown {
+  position: relative;
+  width: 100%;
+}
 
-    .dropdown-content a {
-      color: #333;
-      text-decoration: none;
-      padding: 10px;
-      display: block;
-      border-radius: 8px;
-      transition: background-color 0.2s;
-    }
+.dropdown-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+  background-color: #fff0f5;
+  min-width: 100%;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 0 10px;
+  border-radius: 15px;
+  margin-top: 5px;
+  border: 1px solid #f8bbd0;
+}
 
-    .dropdown-content a:hover {
-      background-color: #f0f0f0;
-    }
+.dropdown.open .dropdown-content {
+  max-height: 300px;
+  opacity: 1;
+  padding: 10px;
+}
 
-    /* Enlaces elegantes */
-    a {
-      text-decoration: none;
-      color: #d63384;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
+/* Enlaces dentro del dropdown */
+.dropdown-content a {
+  color: #880e4f;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  border-radius: 10px;
+  transition: background-color 0.2s;
+  font-weight: 500;
+}
 
-    a:hover {
-      text-decoration: underline;
-      color: #b03060;
-    }
+.dropdown-content a:hover {
+  background-color: #ffeef4;
+  color: #ad1457;
+}
 
-/* Estilo para el botón de WhatsApp */
+/* Enlaces generales */
+a {
+  text-decoration: none;
+  color: #d63384;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #b03060;
+}
+
+
+/* Botón de WhatsApp - Tamaño reducido */
 .btn-whatsapp {
   background-color: #25d366;
   color: white;
   border: none;
-  padding: 12px 28px;
-  font-size: 16px;
-  border-radius: 40px;
+  padding: 6px 16px; /* más pequeño */
+  font-size: 13px;    /* texto más pequeño */
+  border-radius: 25px;
   cursor: pointer;
   margin-top: 20px;
   transition: background-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+  font-weight: 600;
 }
 
 .btn-whatsapp:hover {
   background-color: #128c7e;
   transform: scale(1.05);
 }
+
 
 /* Enlaces elegantes */
 a {
@@ -281,18 +303,24 @@ a:hover {
   background: linear-gradient(135deg, #f9c5d1, #fddde6);
   color: #b03060;
   border: none;
-  border-radius: 22px;
-  padding: 14px 24px;
-  font-size: 17px;
+  border-radius: 30px; /* más redondo */
+  padding: 8px 18px;   /* menos padding horizontal */
+  font-size: 14px;     /* más pequeño y delicado */
   font-weight: bold;
-  width: 100%;
+  width: fit-content;  /* se adapta al texto */
+  min-width: 140px;
+  max-width: 200px;
   box-shadow: 0 0 14px rgba(255, 153, 204, 0.4), 0 0 6px rgba(255, 182, 193, 0.3);
   transition: all 0.4s ease;
   font-family: 'Poppins', sans-serif;
   letter-spacing: 0.6px;
   position: relative;
   overflow: hidden;
+  text-align: center;
+  display: inline-block;
+  margin-top: 20px;
 }
+
 
 /* Efecto de brillo deslizante */
 .btn-whatsapp {
@@ -533,7 +561,7 @@ a:hover {
     </ul>
     <!-- Ver Políticas -->
 <div class="policy-section">
-  <button class="policy-button" onclick="togglePolicies()">📜 Ver Más</button>
+  <button class="policy-button" onclick="togglePolicies()">📜 Ver Politica</button>
 
   <div class="policy-box" id="policyBox" style="display: none;">
     <p>
@@ -705,4 +733,5 @@ a:hover {
     }
   }
 </script>
+
 
