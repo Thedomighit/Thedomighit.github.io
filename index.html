@@ -197,40 +197,75 @@ ul {
   font-weight: bold;
 }
 
-    .dropdown button {
-  background: linear-gradient(145deg, #fcd6e5, #ffe9f4);
-  border: 2px solid #ffc9e3;
-  padding: 14px 20px;
-  font-size: 16px;
-  border-radius: 14px;
-  cursor: pointer;
-  transition: all 0.35s ease;
-  width: 100%;
-  font-weight: 600;
-  color: #b03060;
-  box-shadow: 0 4px 12px rgba(255, 182, 215, 0.25);
+    /* Estilo para el dropdown de FeminaLab */
+.dropdown {
   position: relative;
+  display: inline-block;
 }
 
-.dropdown button:hover {
-  background: linear-gradient(145deg, #f8a9cb, #ffd9ec);
+.dropdown-btn {
+  background-color: #d63384;
   color: white;
-  transform: scale(1.03);
-  box-shadow: 0 6px 16px rgba(255, 153, 204, 0.35);
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 40px;
+  transition: background-color 0.3s ease;
 }
 
+.dropdown-btn:hover {
+  background-color: #b02a6e;
+}
+ }
+
+/* Contenido desplegable del dropdown */
 .dropdown-content {
   display: none;
-  padding-left: 25px;
-  margin-top: 10px;
-  animation: fadeIn 0.5s ease-in-out forwards;
-  border-left: 3px solid #ffd2eb;
-  padding-top: 8px;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+.dropdown-content a {
+  color: #333;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  border-radius: 8px;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+/* Estilo para el botón de WhatsApp */
+.btn-whatsapp {
+  background-color: #25d366;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  font-size: 16px;
+  border-radius: 40px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn-whatsapp:hover {
+  background-color: #128c7e;
+  transform: scale(1.05);
+}
+
 
 /* Enlaces elegantes */
 a {
@@ -595,13 +630,15 @@ a:hover {
   </div>
 </div>
 
-<!-- FeminaLab -->
+<!-- FeminaLab Dropdown Section -->
 <div class="dropdown">
-  <button>FeminaLab</button>
+  <button class="dropdown-btn">FeminaLab</button>
   <div class="dropdown-content">
     <a href="#" target="_blank">TikTok: Girls' Company</a><br>
     <a href="#">Información sobre FeminaLab Company</a>
   </div>
 </div>
 
-     <button class="btn-whatsapp">💬 Grupo de WhatsApp</button>
+<!-- WhatsApp Button -->
+<button class="btn-whatsapp">💬 Grupo de WhatsApp</button>
+
