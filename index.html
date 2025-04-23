@@ -154,99 +154,84 @@ ul {
   }
 }
 
-.policy-section {
-  text-align: center;
-  margin: 40px auto;
-  max-width: 700px;
-}
+.
 
-.policy-button {
-  background-color: #d63384;
-  color: white;
-  border: none;
-  padding: 12px 28px;
-  font-size: 16px;
-  border-radius: 40px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s;
-}
+    .dropdowns-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      width: 100%;
+      max-width: 600px;
+    }
 
-.policy-button:hover {
-  background-color: #b02a6e;
-  transform: scale(1.03);
-}
+    .dropdown {
+      position: relative;
+      width: 100%;
+    }
 
-.policy-box {
-  display: none;
-  background-color: #ffffff;
-  padding: 25px;
-  margin-top: 20px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  text-align: left;
-  font-size: 15px;
-  line-height: 1.6;
-}
+    .dropdown-btn {
+      width: 100%;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
 
-.note {
-  margin-top: 20px;
-  background-color: #fff0f5;
-  padding: 12px;
-  border-left: 4px solid #d63384;
-  border-radius: 8px;
-  font-weight: bold;
-}
+    .dropdown-btn:hover {
+      background-color: #b03060;
+      transform: scale(1.02);
+    }
 
-    /* Estilo para el dropdown de FeminaLab */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      opacity: 0;
+      background-color: #ffffff;
+      min-width: 100%;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      padding: 0 10px;
+      border-radius: 10px;
+      margin-top: 5px;
+    }
 
-.dropdown-btn {
-  background-color: #d63384;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 40px;
-  transition: background-color 0.3s ease;
-}
+    .dropdown.open .dropdown-content {
+      max-height: 300px;
+      opacity: 1;
+      padding: 10px;
+    }
 
-.dropdown-btn:hover {
-  background-color: #b02a6e;
-}
- }
+    .dropdown-content a {
+      color: #333;
+      text-decoration: none;
+      padding: 10px;
+      display: block;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+    }
 
-/* Contenido desplegable del dropdown */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #ffffff;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 5px;
-}
+    .dropdown-content a:hover {
+      background-color: #f0f0f0;
+    }
 
-.dropdown-content a {
-  color: #333;
-  text-decoration: none;
-  padding: 10px;
-  display: block;
-  border-radius: 8px;
-}
+    /* Enlaces elegantes */
+    a {
+      text-decoration: none;
+      color: #d63384;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
 
-.dropdown-content a:hover {
-  background-color: #f0f0f0;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+    a:hover {
+      text-decoration: underline;
+      color: #b03060;
+    }
 
 /* Estilo para el botón de WhatsApp */
 .btn-whatsapp {
@@ -266,7 +251,6 @@ ul {
   transform: scale(1.05);
 }
 
-
 /* Enlaces elegantes */
 a {
   text-decoration: none;
@@ -282,9 +266,16 @@ a:hover {
 
 /* Animación de entrada */
 @keyframes fadeIn {
-  from {opacity: 0; transform: translateY(20px);}
-  to {opacity: 1; transform: translateY(0);}
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 
     .btn-whatsapp {
   background: linear-gradient(135deg, #f9c5d1, #fddde6);
@@ -405,7 +396,47 @@ a:hover {
   font-style: italic;
 }
 
+  }
+.policy-section {
+  margin-top: 20px;
+  text-align: center;
+}
 
+.policy-button {
+  background-color: #ff8fb1;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.policy-button:hover {
+  background-color: #f56c98;
+  transform: scale(1.05);
+}
+
+.policy-box {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff0f5;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: left;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.policy-box p {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 15px;
+}
 
     
     
@@ -500,10 +531,11 @@ a:hover {
       <li><strong>España:</strong> 2.30 EUR</li>
       <li><strong>Estados Unidos:</strong> 2.50 USD</li>
     </ul>
-    <div class="policy-section">
-  <button class="policy-button" onclick="togglePolicies()">📜 Ver Políticas</button>
+    <!-- Ver Políticas -->
+<div class="policy-section">
+  <button class="policy-button" onclick="togglePolicies()">📜 Ver Más</button>
 
-  <div class="policy-box" id="policyBox">
+  <div class="policy-box" id="policyBox" style="display: none;">
     <p>
       En <strong>FeminaLab</strong>, apoyamos a chicas desde los <strong>14 años en adelante</strong> que deseen aprender, crecer como emprendedoras y generar ingresos con la venta de materiales digitales (PDF).
     </p>
@@ -519,94 +551,96 @@ a:hover {
     <p>
       Participar es fácil: solo publica en tus redes sociales que formas parte de FeminaLab e invita a otras chicas a unirse. 💕
     </p>
-
     <p class="note"><strong>💡 Nota:</strong> El pago por referidos se realiza únicamente si la persona completa su inscripción en FeminaLab.</p>
   </div>
 </div>
 
 
-
-    <div class="links">
+    <!-- HTML -->
+<div class="links">
   <div class="dropdown">
-    <button>Ventas Chicas</button>
+    <button class="dropdown-btn">Ventas Chicas</button>
     <div class="dropdown-content">
       <a href="https://drive.google.com/drive/folders/1onFZ7pziqJtVO2hgZqe-b9UMeXv61ghf" target="_blank">PDF: 1</a><br>
       <a href="https://drive.google.com/drive/folders/1XQq2SHYiw4a2HXP-ZhoERa4LuJR52EEO" target="_blank">PDF: 2</a><br>
       <a href="https://drive.google.com/drive/folders/1X-Gr28k6Qeft2DR2NZOkSPZadb_Y-g2z" target="_blank">PDF: 3</a>
     </div>
   </div>
+</div>
 
   <div class="dropdown">
-    <button>PDF un poco de todo</button>
-    <div class="dropdown-content">
-      <a href="https://drive.google.com/drive/folders/1JsH7s5aNUO0KPCof-apXQW5L63e4jesJ" target="_blank">PDF: Planificación Educativa</a><br>
-    </div>
+  <button class="dropdown-btn">PDF un poco de todo</button>
+  <div class="dropdown-content">
+    <a href="https://drive.google.com/drive/folders/1JsH7s5aNUO0KPCof-apXQW5L63e4jesJ" target="_blank">PDF: Planificación Educativa</a><br>
   </div>
 </div>
 
 <div class="dropdown">
-  <button>Medicinas y Papelería en Casa</button>
+  <button class="dropdown-btn">Medicinas y Papelería en Casa</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/drive/mobile/folders/1A9YU7r3SMkk4BtNAHIjq_YsTbY-uZebq" target="_blank">PDF: Guía de Medicinas Básicas</a><br>
     <a href="https://drive.google.com/drive/mobile/folders/1Fih6ZybJQIYqROx7Qydkx-RvH8VmeXYu" target="_blank">PDF: Papelería Básica para Casa</a>
   </div>
 </div>
 
-      <div class="dropdown">
-  <button>Emprendimiento y Actividades Educativas</button>
+<div class="dropdown">
+  <button class="dropdown-btn">Emprendimiento y Actividades Educativas</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/drive/mobile/folders/1G3TA2kR-o6DF2oNgrFQUudid9OsBoQf2?usp=sharing" target="_blank">PDF: Guía para Emprendedores</a><br>
     <a href="https://drive.google.com/drive/mobile/folders/1nPy9TGYxQZ4e9r7RghNFE_0oFivJwoKJ?sort=13&direction=a" target="_blank">PDF: Actividades Educativas para Niños</a>
   </div>
 </div>
 
+
 <div class="dropdown">
-  <button>Cursos Ofimáticos</button>
+  <button class="dropdown-btn">Cursos Ofimáticos</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/drive/mobile/folders/1JANwBtB90i2HJDg5pt9TInyBP-TLNCbP?usp=sharing" target="_blank">PDF: Introducción a la Ofimática</a><br>
   </div>
 </div>
 
 <div class="dropdown">
-  <button>Archivo de Atismos</button>
+  <button class="dropdown-btn">Archivo de Atismos</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/drive/mobile/folders/1NbfzIOb8DFZvknGKW5RRuHIrlAByq_RW" target="_blank">PDF: Guía para Archivos Atismos</a><br>
   </div>
 </div>
 
-      <div class="dropdown">
-  <button>Stickers Creativos para Emprendedores</button>
+<div class="dropdown">
+  <button class="dropdown-btn">Stickers Creativos para Emprendedores</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/drive/mobile/folders/12oO7Ztk5eUu4xqUGFi3b2Xa1TDP1gQPS" target="_blank">PDF: Cómo Crear Stickers</a><br>
     <a href="https://drive.google.com/drive/mobile/folders/1QuwGpfw3ArBwjFRYYgoV8RP3cemnNGQO?usp=sharing" target="_blank">PDF: Kit de Stickers Creativos</a>
   </div>
 </div>
 
+
 <div class="dropdown">
-  <button>Manualidades para Crear en Casa</button>
+  <button class="dropdown-btn">Manualidades para Crear en Casa</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/file/d/1h1znB-G45VzaX00Tdz65-OOXVYAovqoc/view?fbclid=PAAaZnCV8uGZI6ZLGg3ZNC3jD_-a-qHtbwaxcpuVvzVf0Ej65XS7Cc9DixV08" target="_blank">PDF: Manualidades Fáciles</a><br>
-    <a href="https://drive.google.com/file/d/1nghbH9dMEKg7x6vAZZsJ8M1RdZms2cld/view" target="_blank">PDF: Manualidades Avanzadas</a>
-    <a href="https://drive.google.com/drive/mobile/folders/14HH4-HTksgYvwFSMQ2AicqKgFyBTFdgM" target="_blank">PDF: Manualidades Avanzadas</a>
-    <a href="https://drive.google.com/drive/mobile/folders/1maUwebth0A-cJfe28U2r59mr1Q-Qzw_p" target="_blank">PDF: Manualidades Avanzadas</a>
-    <a href="https://drive.google.com/drive/mobile/folders/1nk2R6VLSKveMZ07sSqe_q1XJlx7kft5D?usp=sharing" target="_blank">PDF: Manualidades Avanzadas</a>
-    <a href="https://drive.google.com/drive/mobile/folders/1JT_cjdoJUY4mhFoGqVb_WhHRXdcCfYCa?usp=sharing" target="_blank">PDF: Manualidades Avanzadas</a>
-    <a href="https://drive.google.com/drive/folders/1JT_cjdoJUY4mhFoGqVb_WhHRXdcCfYCa" target="_blank">PDF: Manualidades Avanzadas</a>
+    <a href="https://drive.google.com/file/d/1nghbH9dMEKg7x6vAZZsJ8M1RdZms2cld/view" target="_blank">PDF: Manualidades Avanzadas</a><br>
+    <a href="https://drive.google.com/drive/mobile/folders/14HH4-HTksgYvwFSMQ2AicqKgFyBTFdgM" target="_blank">PDF: Manualidades Avanzadas</a><br>
+    <a href="https://drive.google.com/drive/mobile/folders/1maUwebth0A-cJfe28U2r59mr1Q-Qzw_p" target="_blank">PDF: Manualidades Avanzadas</a><br>
+    <a href="https://drive.google.com/drive/mobile/folders/1nk2R6VLSKveMZ07sSqe_q1XJlx7kft5D?usp=sharing" target="_blank">PDF: Manualidades Avanzadas</a><br>
+    <a href="https://drive.google.com/drive/mobile/folders/1JT_cjdoJUY4mhFoGqVb_WhHRXdcCfYCa?usp=sharing" target="_blank">PDF: Manualidades Avanzadas</a><br>
+    <a href="https://drive.google.com/drive/folders/1JT_cjdoJUY4mhFoGqVb_WhHRXdcCfYCa" target="_blank">PDF: Manualidades Avanzadas</a><br>
     <a href="https://drive.google.com/drive/mobile/folders/1hwjdYdCD33bBApG95lUGRsLjpa3eNIQn?usp=sharing" target="_blank">PDF: Manualidades Avanzadas</a>
   </div>
 </div>
 
 <div class="dropdown">
-  <button>Creadores de Material Educativo</button>
+  <button class="dropdown-btn">Creadores de Material Educativo</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/drive/mobile/folders/1Mxgko5fdkZkdoa7WolF3zkomuNE97iZJ" target="_blank">PDF: Crear Cuadernos</a><br>
-    <a href="https://drive.google.com/drive/mobile/folders/1gNqzk73hbVVNHN-pEk8Ah9zv_9Av4jWK?usp=sharing" target="_blank">PDF: Cajas</a><br>
+    <a href="https://drive.google.com/drive/mobile/folders/1gNqzk73hbVVNHN-pEk8Ah9zv_9Av4jWK?usp=sharing" target="_blank">PDF: Cajas</a>
   </div>
 </div>
 
-      <!-- Creadores de Material Educativo -->
+
+ <!-- Creadores de Material Educativo -->
 <div class="dropdown">
-  <button>Creadores de Material Educativo</button>
+  <button class="dropdown-btn">Creadores de Material Educativo</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/drive/mobile/folders/1Mxgko5fdkZkdoa7WolF3zkomuNE97iZJ" target="_blank">PDF: Crear Cuadernos</a><br>
     <a href="https://drive.google.com/drive/mobile/folders/1gNqzk73hbVVNHN-pEk8Ah9zv_9Av4jWK?usp=sharing" target="_blank">PDF: Cajas</a>
@@ -615,30 +649,60 @@ a:hover {
 
 <!-- Cursos de Idiomas Gratuitos -->
 <div class="dropdown">
-  <button>Cursos de Idiomas Gratuitos</button>
+  <button class="dropdown-btn">Cursos de Idiomas Gratuitos</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/file/d/1CKX-K8iwmYfqOqJ_e1Vik4HLqVpZewV7/view" target="_blank">PDF: Cursos de Inglés</a>
   </div>
 </div>
 
-<!-- Stickers -->
+
+  <!-- Stickers -->
 <div class="dropdown">
-  <button>Stickers</button>
+  <button class="dropdown-btn">Stickers</button>
   <div class="dropdown-content">
     <a href="https://drive.google.com/drive/mobile/folders/12oO7Ztk5eUu4xqUGFi3b2Xa1TDP1gQPS" target="_blank">PDF: Actividades de Navidad</a><br>
     <a href="https://drive.google.com/drive/mobile/folders/1QuwGpfw3ArBwjFRYYgoV8RP3cemnNGQO?usp=sharing" target="_blank">PDF: Manualidades Navideñas</a>
   </div>
 </div>
 
-<!-- FeminaLab Dropdown Section -->
-<div class="dropdown">
-  <button class="dropdown-btn">FeminaLab</button>
-  <div class="dropdown-content">
-    <a href="#" target="_blank">TikTok: Girls' Company</a><br>
-    <a href="#">Información sobre FeminaLab Company</a>
-  </div>
-</div>
-
-<!-- WhatsApp Button -->
+<!-- Botón de WhatsApp -->
 <button class="btn-whatsapp">💬 Grupo de WhatsApp</button>
+
+<script>
+  // Funcionalidad de dropdowns
+  document.querySelectorAll('.dropdown-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const dropdown = this.parentElement;
+      dropdown.classList.toggle('open');
+
+      document.querySelectorAll('.dropdown').forEach(other => {
+        if (other !== dropdown) {
+          other.classList.remove('open');
+        }
+      });
+    });
+  });
+
+  window.addEventListener('click', function (e) {
+    if (!e.target.matches('.dropdown-btn')) {
+      document.querySelectorAll('.dropdown').forEach(drop => {
+        drop.classList.remove('open');
+      });
+    }
+  });
+
+  // Mostrar / Ocultar políticas
+  function togglePolicies() {
+    const policyBox = document.getElementById('policyBox');
+    const button = document.querySelector('.policy-button');
+
+    if (policyBox.style.display === "none" || policyBox.style.display === "") {
+      policyBox.style.display = "block";
+      button.innerHTML = "📜 Ver Menos";
+    } else {
+      policyBox.style.display = "none";
+      button.innerHTML = "📜 Ver Más";
+    }
+  }
+</script>
 
