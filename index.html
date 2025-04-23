@@ -8,128 +8,342 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(145deg, #ffe4ec, #fff5f9);
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding: 40px 20px;
-    }
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(145deg, #ffe4ec, #fff5f9);
+  color: #3a3a3a;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
+  overflow-x: hidden;
+  animation: fadeIn 1.4s ease-in-out both;
+  position: relative;
+}
 
-    .info {
-      max-width: 850px;
-      background-color: white;
-      border-radius: 25px;
-      box-shadow: 0 0 25px rgba(255, 153, 204, 0.3);
-      padding: 40px;
-      animation: fadeIn 1s ease-in-out;
-    }
+/* Animación de entrada suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    h2 {
-      font-family: 'Great Vibes', cursive;
-      color: #d63384;
-      font-size: 42px;
-      margin-bottom: 5px;
-      text-align: center;
-    }
+/* Detalles decorativos suaves como estrellitas */
+body::before {
+  content: "✨";
+  font-size: 60px;
+  color: #ffd3e6;
+  position: absolute;
+  top: 20px;
+  left: 15px;
+  animation: float 4s ease-in-out infinite;
+  opacity: 0.5;
+}
 
-    h3 {
-      font-weight: 600;
-      font-size: 20px;
-      color: #b03060;
-      margin-top: 30px;
-    }
+body::after {
+  content: "🌸";
+  font-size: 60px;
+  color: #ffe6f0;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  animation: float 5s ease-in-out infinite;
+  opacity: 0.4;
+}
 
-    p, li {
-      font-size: 16px;
-      line-height: 1.7;
-      color: #444;
-    }
+/* Animación flotante para los adornos */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
 
-    ul {
-      padding-left: 20px;
-    }
 
-    .links {
-      margin-top: 30px;
-    }
+    ..info {
+  max-width: 850px;
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0 0 30px rgba(255, 153, 204, 0.35);
+  padding: 50px 40px;
+  animation: fadeIn 1.2s ease-in-out;
+  border: 2px solid #ffe0f0;
+  position: relative;
+  overflow: hidden;
+}
 
-    .dropdown {
-      margin-bottom: 20px;
-    }
+/* Brillito decorativo suave */
+.info::before {
+  content: "💫";
+  font-size: 60px;
+  color: #ffe6f0;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  opacity: 0.4;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Título con animación y cursiva elegante */
+h2 {
+  font-family: 'Great Vibes', cursive;
+  color: #d63384;
+  font-size: 46px;
+  margin-bottom: 10px;
+  text-align: center;
+  animation: glow 2.5s ease-in-out infinite alternate;
+}
+
+/* Subtítulos con más fuerza y presencia */
+h3 {
+  font-weight: 600;
+  font-size: 22px;
+  color: #b03060;
+  margin-top: 30px;
+}
+
+/* Estilo de párrafos refinado */
+p, li {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #4a4a4a;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Lista organizada */
+ul {
+  padding-left: 24px;
+  margin-top: 10px;
+}
+
+/* Espaciado para enlaces y botones */
+.links {
+  margin-top: 35px;
+}
+
+.dropdown {
+  margin-bottom: 25px;
+}
+
+/* Animación glow para el título */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 6px #ffd1e9, 0 0 12px #ffc2e1;
+  }
+  100% {
+    text-shadow: 0 0 12px #ffb6d9, 0 0 20px #ffa8d1;
+  }
+}
+
+/* Animación flotante reutilizada */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 
     .dropdown button {
-      background-color: #f8d7e8;
-      border: none;
-      padding: 14px 20px;
-      font-size: 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: 100%;
-      font-weight: bold;
-      color: #b03060;
-    }
+  background: linear-gradient(145deg, #fcd6e5, #ffe9f4);
+  border: 2px solid #ffc9e3;
+  padding: 14px 20px;
+  font-size: 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  width: 100%;
+  font-weight: 600;
+  color: #b03060;
+  box-shadow: 0 4px 12px rgba(255, 182, 215, 0.25);
+  position: relative;
+}
 
-    .dropdown button:hover {
-      background-color: #f3c0dc;
-      color: white;
-      transform: scale(1.02);
-    }
+.dropdown button:hover {
+  background: linear-gradient(145deg, #f8a9cb, #ffd9ec);
+  color: white;
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(255, 153, 204, 0.35);
+}
 
-    .dropdown-content {
-      display: none;
-      padding-left: 20px;
-      margin-top: 10px;
-    }
+.dropdown-content {
+  display: none;
+  padding-left: 25px;
+  margin-top: 10px;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  border-left: 3px solid #ffd2eb;
+  padding-top: 8px;
+}
 
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 
-    a {
-      text-decoration: none;
-      color: #d63384;
-      font-weight: 500;
-    }
+/* Enlaces elegantes */
+a {
+  text-decoration: none;
+  color: #d63384;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
 
-    a:hover {
-      text-decoration: underline;
-    }
+a:hover {
+  text-decoration: underline;
+  color: #b03060;
+}
 
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(30px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+    .btn-whatsapp {
+  background: linear-gradient(135deg, #f9c5d1, #fddde6);
+  color: #b03060;
+  border: none;
+  border-radius: 22px;
+  padding: 14px 24px;
+  font-size: 17px;
+  font-weight: bold;
+  width: 100%;
+  box-shadow: 0 0 14px rgba(255, 153, 204, 0.4), 0 0 6px rgba(255, 182, 193, 0.3);
+  transition: all 0.4s ease;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.6px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de brillo deslizante */
+.btn-whatsapp::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
+}
+
+.btn-whatsapp:hover::before {
+  left: 130%;
+}
+
+.btn-whatsapp:hover {
+  background: linear-gradient(135deg, #fcd6e1, #fbc2db);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 153, 204, 0.5), 0 0 10px rgba(255, 182, 193, 0.4);
+}
+
+
+    
+    
   </style>
 </head>
 <body>
   <div class="info" id="info-v2">
-    <h2>¡Bienvenida a FeminaLab! 💖</h2>
-    <p><strong>Pago quincenal:</strong> 1,000 pesos colombianos. Accede a todos los cursos y recursos.</p>
-    <p><strong>¿Cómo ganar dinero?</strong> Puedes vender los PDFs a tu propio precio y emprender tu camino. ¡Aprovecha esta oportunidad!</p>
-    <p><strong>Recursos disponibles:</strong> Explora los recursos y cursos para comenzar tu emprendimiento.</p>
+  <h2>💖 ¡Bienvenida a FeminaLab! 💖</h2>
 
-    <p><strong>Pago en otros países (equivalente a 1,000 COP):</strong></p>
+  <p style="font-size: 18px;"><strong>💸 Pago quincenal:</strong> Solo <strong style="color: #d63384;">$2.50 USD</strong> cada dos semanas. Accede a <em>todos los cursos</em> y <em>recursos exclusivos</em> sin límites.</p>
+
+  <hr style="border: none; border-top: 1px dashed #f8bbd0; margin: 25px 0;">
+
+  <p><strong>🌟 ¿Cómo ganar dinero?</strong></p>
+  <ul style="list-style: '💼 '; padding-left: 25px;">
+    <li>Revende nuestros PDFs al precio que tú decidas.</li>
+    <li>Emprende con contenido de calidad.</li>
+    <li>Recibe asesoría y herramientas paso a paso.</li>
+  </ul>
+
+  <hr style="border: none; border-top: 1px dashed #f8bbd0; margin: 25px 0;">
+
+  <p><strong>📚 Recursos disponibles:</strong> Cursos digitales, plantillas, guías, comunidad, talleres y mucho más para iniciar tu camino emprendedor.</p>
+
+  <p><strong>🌍 ¿Cuánto pago según mi país?</strong></p>
+  <p>
+    Muchas chicas de diferentes países nos acompañan, por eso el valor de <strong>1,000 COP</strong> ha sido adaptado para cada región. 
+    Por ejemplo: menos de <strong>0.30 USD</strong> o <strong>0.25 EUR</strong> en la mayoría de países. 
+    Aquí puedes ver una guía referencial:
+  </p>
+
+  <ul style="columns: 2; list-style: '🌸 '; padding-left: 25px;">
+    <li><strong>🇨🇴 Colombia:</strong> 1,000 COP</li>
+    <li><strong>🇦🇷 Argentina:</strong> 310 ARS</li>
+    <li><strong>🇲🇽 México:</strong> 180 MXN</li>
+    <li><strong>🇨🇱 Chile:</strong> 1,300 CLP</li>
+    <li><strong>🇵🇪 Perú:</strong> 240 PEN</li>
+    <li><strong>🇪🇨 Ecuador:</strong> 0.24 USD</li>
+    <li><strong>🇧🇷 Brasil:</strong> 4.00 BRL</li>
+    <li><strong>🇺🇾 Uruguay:</strong> 440 UYU</li>
+    <li><strong>🇵🇾 Paraguay:</strong> 173 PYG</li>
+    <li><strong>🇻🇪 Venezuela:</strong> 370 VES</li>
+    <li><strong>🇧🇴 Bolivia:</strong> 20 BOB</li>
+    <li><strong>🇭🇳 Honduras:</strong> 40 HNL</li>
+    <li><strong>🇸🇻 El Salvador:</strong> 0.23 USD</li>
+    <li><strong>🇳🇮 Nicaragua:</strong> 80 NIO</li>
+    <li><strong>🇨🇷 Costa Rica:</strong> 3,900 CRC</li>
+    <li><strong>🇬🇹 Guatemala:</strong> 20 GTQ</li>
+    <li><strong>🇵🇦 Panamá:</strong> 0.25 USD</li>
+    <li><strong>🇩🇴 R. Dominicana:</strong> 15 DOP</li>
+    <li><strong>🇪🇸 España:</strong> 2.30 EUR</li>
+    <li><strong>🇺🇸 EE.UU.:</strong> 2.50 USD</li>
+  </ul>
+
+  <p>
+    🧡 Puedes pagar con <strong>PayPal</strong>, <strong>Wise</strong>, <strong>Nequi Internacional</strong> u otros medios. Si necesitas ayuda para realizar tu pago, te guiamos con amor. 💌
+  </p>
+
+  <p>
+    Esta pequeña inversión te conecta a una <strong>comunidad de mujeres empoderadas</strong>, creativas y con grandes sueños. 🌈✨
+  </p>
+
+  <p>
+    ¿Tienes dudas o quieres saber el valor exacto en tu moneda? ¡Escríbenos directamente! Responderemos con cariño y claridad. 🤗
+  </p>
     <ul>
-      <li><strong>Argentina:</strong> 310 ARS</li>
-      <li><strong>México:</strong> 180 MXN</li>
-      <li><strong>Chile:</strong> 1,300 CLP</li>
-      <li><strong>Perú:</strong> 240 PEN</li>
-      <li><strong>Ecuador:</strong> 0.24 USD</li>
-      <li><strong>Brasil:</strong> 4.00 BRL</li>
-      <li><strong>Uruguay:</strong> 440 UYU</li>
-      <li><strong>Paraguay:</strong> 173 PYG</li>
-      <li><strong>Venezuela:</strong> 370 VES</li>
-      <li><strong>Bolivia:</strong> 20 BOB</li>
-      <li><strong>Honduras:</strong> 40 HNL</li>
-      <li><strong>El Salvador:</strong> 0.23 USD</li>
-      <li><strong>Nicaragua:</strong> 80 NIO</li>
-      <li><strong>Costa Rica:</strong> 3,900 CRC</li>
+     <ul>
+  <li><strong>Colombia:</strong> 1,000 COP</li>
+  <li><strong>Argentina:</strong> 310 ARS</li>
+  <li><strong>México:</strong> 180 MXN</li>
+  <li><strong>Chile:</strong> 1,300 CLP</li>
+  <li><strong>Perú:</strong> 240 PEN</li>
+  <li><strong>Ecuador:</strong> 0.24 USD</li>
+  <li><strong>Brasil:</strong> 4.00 BRL</li>
+  <li><strong>Uruguay:</strong> 440 UYU</li>
+  <li><strong>Paraguay:</strong> 173 PYG</li>
+  <li><strong>Venezuela:</strong> 370 VES</li>
+  <li><strong>Bolivia:</strong> 20 BOB</li>
+  <li><strong>Honduras:</strong> 40 HNL</li>
+  <li><strong>El Salvador:</strong> 0.23 USD</li>
+  <li><strong>Nicaragua:</strong> 80 NIO</li>
+  <li><strong>Costa Rica:</strong> 3,900 CRC</li>
+  <li><strong>Guatemala:</strong> 20 GTQ</li>
+  <li><strong>Panamá:</strong> 0.25 USD</li>
+  <li><strong>República Dominicana:</strong> 15 DOP</li>
+  <li><strong>España:</strong> 2.30 EUR</li>
+  <li><strong>Estados Unidos:</strong> 2.50 USD</li>
+</ul>
+
     </ul>
 
     <div class="links">
@@ -232,13 +446,4 @@
         </div>
       </div>
 
-      <div class="dropdown">
-        <button>💬 Grupo de WhatsApp</button>
-        <div class="dropdown-content">
-          <a href="https://wa.me/1234567890" target="_blank">Únete al Grupo de WhatsApp</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
+     <button class="btn-whatsapp">💬 Grupo de WhatsApp</button>
