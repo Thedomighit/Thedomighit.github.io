@@ -156,13 +156,17 @@ ul {
 
 
 
-    .dropdowns-container {
+    /* Contenedor principal de los dropdowns */
+.dropdowns-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
   width: 100%;
   max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Botón de Dropdown Estilo Floral y Brillante */
@@ -179,6 +183,8 @@ ul {
   transition: all 0.3s ease;
   box-shadow: 0 8px 15px rgba(255, 105, 180, 0.3);
   position: relative;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .dropdown-btn::before {
@@ -195,50 +201,80 @@ ul {
   box-shadow: 0 10px 20px rgba(255, 105, 180, 0.4);
 }
 
-/* Contenido desplegable */
+/* Dropdown Container */
 .dropdown {
   position: relative;
   width: 100%;
 }
 
+/* Contenido desplegable */
 .dropdown-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease;
-  opacity: 0;
-  background-color: #fff0f5;
-  min-width: 100%;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  padding: 0 10px;
+  max-height: 230px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #fff0f6, #ffe6f0); /* Fondo suave rosado */
   border-radius: 15px;
-  margin-top: 5px;
-  border: 1px solid #f8bbd0;
+  padding: 14px;
+  box-shadow: 0 8px 20px rgba(214, 51, 132, 0.25), 0 4px 10px rgba(255, 192, 203, 0.2);
+  position: absolute;
+  z-index: 1000;
+  display: none;
+  border: 2px solid #ffb6c1;
+  animation: dropdownFade 0.4s ease;
+  backdrop-filter: blur(3px);
+  transition: box-shadow 0.3s ease;
 }
 
-.dropdown.open .dropdown-content {
-  max-height: 300px;
-  opacity: 1;
-  padding: 10px;
+/* Scroll bonito */
+.dropdown-content::-webkit-scrollbar {
+  width: 8px;
+}
+.dropdown-content::-webkit-scrollbar-thumb {
+  background-color: #f79ac0;
+  border-radius: 10px;
+}
+.dropdown-content::-webkit-scrollbar-track {
+  background: #ffe6f0;
+}
+
+/* Efecto de mostrar */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Enlaces dentro del dropdown */
 .dropdown-content a {
-  color: #880e4f;
-  text-decoration: none;
-  padding: 10px;
   display: block;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background-color: #ffffffaa;
+  color: #d63384;
+  text-decoration: none;
+  font-weight: 600;
   border-radius: 10px;
-  transition: background-color 0.2s;
-  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
+/* Efecto al pasar el mouse */
 .dropdown-content a:hover {
-  background-color: #ffeef4;
-  color: #ad1457;
+  background: linear-gradient(135deg, #fcd6e1, #fbc2db);
+  color: white;
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(255, 182, 193, 0.6), 0 0 4px rgba(255, 105, 180, 0.4);
 }
 
-/* Enlaces generales */
+.dropdown.open .dropdown-content {
+  display: block;
+}
+
+
+/* Estilo general de los enlaces */
 a {
   text-decoration: none;
   color: #d63384;
@@ -251,27 +287,68 @@ a:hover {
   color: #b03060;
 }
 
+/* Media Query para mejorar la vista en celulares */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .dropdowns-container {
+    padding: 15px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 
-/* Botón de WhatsApp - Tamaño reducido */
+  .dropdown-btn {
+    font-size: 16.5px;
+    padding: 13px 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .dropdown-content {
+    padding: 0 10px;
+    margin-top: 6px;
+  }
+
+  .dropdown.open .dropdown-content {
+    padding: 10px 10px;
+  }
+
+  .dropdown-content a {
+    font-size: 15.5px;
+    padding: 9px 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  a {
+    font-size: 16px;
+    display: inline-block;
+    word-wrap: break-word;
+    max-width: 100%;
+  }
+}
+
+
+/* Botón de WhatsApp - Tamaño reducido pero responsive */
 .btn-whatsapp {
   background-color: #25d366;
   color: white;
   border: none;
-  padding: 6px 16px; /* más pequeño */
-  font-size: 13px;    /* texto más pequeño */
+  padding: 6px 16px;
+  font-size: 13px;
   border-radius: 25px;
   cursor: pointer;
   margin-top: 20px;
   transition: background-color 0.3s ease, transform 0.2s;
   box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
   font-weight: 600;
+  width: fit-content;
+  display: inline-block;
 }
 
 .btn-whatsapp:hover {
   background-color: #128c7e;
   transform: scale(1.05);
 }
-
 
 /* Enlaces elegantes */
 a {
@@ -298,46 +375,96 @@ a:hover {
   }
 }
 
+/* Media Query para adaptar el botón y enlaces en celulares grandes y vertical */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .btn-whatsapp {
+    font-size: 14px;
+    padding: 8px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
 
-    .btn-whatsapp {
+  a {
+    font-size: 16px;
+    display: inline-block;
+    word-wrap: break-word;
+    max-width: 100%;
+  }
+}
+
+
+
+    /* Estilo base del botón WhatsApp */
+.btn-whatsapp {
   background: linear-gradient(135deg, #f9c5d1, #fddde6);
   color: #b03060;
   border: none;
-  border-radius: 30px; /* más redondo */
-  padding: 8px 18px;   /* menos padding horizontal */
-  font-size: 14px;     /* más pequeño y delicado */
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 14px;
   font-weight: bold;
-  width: fit-content;  /* se adapta al texto */
+  width: fit-content;
   min-width: 140px;
   max-width: 200px;
   box-shadow: 0 0 14px rgba(255, 153, 204, 0.4), 0 0 6px rgba(255, 182, 193, 0.3);
   transition: all 0.4s ease;
   font-family: 'Poppins', sans-serif;
   letter-spacing: 0.6px;
-  position: relative;
-  overflow: hidden;
   text-align: center;
   display: inline-block;
   margin-top: 20px;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 999;
+  overflow: hidden;
+}
+
+/* Hover con transformación */
+.btn-whatsapp:hover {
+  background: linear-gradient(135deg, #fddde6, #f9c5d1);
+  color: #8b004a;
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 182, 193, 0.5);
+}
+
+/* Versión responsive para celular */
+@media (max-width: 768px) {
+  .btn-whatsapp {
+    font-size: 15px;
+    padding: 10px 20px;
+    bottom: 30px;
+    right: 15px;
+    min-width: 160px;
+    max-width: 100%;
+    width: auto;
+  }
 }
 
 
-/* Efecto de brillo deslizante */
 .btn-whatsapp {
-  position: fixed;
-  bottom: 80px; /* Ajusta aquí para subirlo más */
-  right: 20px;
-  background-color: #25d366;
-  color: white;
+  background: linear-gradient(135deg, #f9c5d1, #fddde6);
+  color: #b03060;
   border: none;
-  padding: 14px 20px;
-  border-radius: 50px;
-  font-size: 16px;
-  cursor: pointer;
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  width: fit-content;
+  min-width: 140px;
+  max-width: 200px;
+  box-shadow: 0 0 14px rgba(255, 153, 204, 0.4), 0 0 6px rgba(255, 182, 193, 0.3);
+  transition: all 0.4s ease;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.6px;
+  text-align: center;
+  display: inline-block;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
   z-index: 999;
   overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Efecto de brillo deslizante */
@@ -358,10 +485,13 @@ a:hover {
   transition: left 0.6s ease;
 }
 
-.btn-whatsapp:hover::before {
-  left: 130%;
+.btn-whatsapp {
+  margin-top: 50px; /* o la distancia que necesites */
+  position: relative;
 }
 
+
+/* Hover con transformación */
 .btn-whatsapp:hover {
   background: linear-gradient(135deg, #fcd6e1, #fbc2db);
   color: white;
@@ -369,8 +499,22 @@ a:hover {
   box-shadow: 0 0 20px rgba(255, 153, 204, 0.5), 0 0 10px rgba(255, 182, 193, 0.4);
 }
 
+/* Responsive para celulares */
+@media (max-width: 768px) {
+  .btn-whatsapp {
+    font-size: 15px;
+    padding: 10px 20px;
+    bottom: 30px;
+    right: 15px;
+    min-width: 160px;
+    max-width: 100%;
+    width: auto;
+  }
+}
 
-    .referral-section {
+
+
+    ..referral-section {
   background: #fff0f6;
   padding: 30px;
   border-radius: 20px;
@@ -388,46 +532,50 @@ a:hover {
 }
 
 .referral-info {
-  background-color: #fff;
+  background: linear-gradient(135deg, #fff0f6, #ffe6f0);
   padding: 25px;
-  border-radius: 15px;
-  border-left: 6px solid #d63384;
-  margin-top: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(255, 182, 193, 0.3);
+  text-align: center;
+  max-width: 700px;
+  margin: 30px auto;
+  position: relative;
 }
 
 .referral-info h3 {
   color: #d63384;
-  margin-bottom: 10px;
-  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
 
-.referral-info ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 10px 0;
-}
-
-.referral-info li {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-  font-weight: 500;
-}
-
-.referral-info li strong {
+.referral-info p {
   color: #444;
+  font-size: 15px;
+  margin-bottom: 20px;
 }
 
-.note {
-  font-size: 14px;
-  color: #d63384;
-  margin-top: 15px;
-  font-style: italic;
-}
-
-  }
-.policy-section {
+.referral-list {
+  display: none;
+  text-align: left;
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 15px;
   margin-top: 20px;
-  text-align: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.referral-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.referral-list li {
+  padding: 6px 0;
+  border-bottom: 1px dashed #f3c0d3;
+  font-size: 14px;
 }
 
 .policy-button {
@@ -441,6 +589,7 @@ a:hover {
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
+  margin-bottom: 15px;
 }
 
 .policy-button:hover {
@@ -448,23 +597,6 @@ a:hover {
   transform: scale(1.05);
 }
 
-.policy-box {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #fff0f5;
-  border-radius: 15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: left;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.policy-box p {
-  margin-bottom: 12px;
-  line-height: 1.6;
-  font-size: 15px;
-}
 
     
     
@@ -533,10 +665,12 @@ a:hover {
   </p>
 
   <div class="referral-info">
-    <h3>🎁 Gana dinero refiriendo a tus amigas</h3>
-    <p>
-      Invita a tus amigas a formar parte de FeminaLab y <strong>gana dinero por cada una que se inscriba</strong> desde los siguientes países:
-    </p>
+  
+  <!-- Botón Ver más -->
+  <button class="policy-button" onclick="toggleReferral()">📜 Ver más</button>
+
+  <!-- Lista oculta -->
+  <div id="referralList" class="referral-list">
     <ul>
       <li><strong>Colombia:</strong> 1,000 COP</li>
       <li><strong>Argentina:</strong> 310 ARS</li>
@@ -559,6 +693,16 @@ a:hover {
       <li><strong>España:</strong> 2.30 EUR</li>
       <li><strong>Estados Unidos:</strong> 2.50 USD</li>
     </ul>
+  </div>
+
+  <!-- Texto principal -->
+  <h3>🎁 Gana dinero refiriendo a tus amigas</h3>
+  <p>
+    Invita a tus amigas a formar parte de FeminaLab y <strong>gana dinero por cada una que se inscriba</strong> desde los siguientes países:
+  </p>
+
+</div>
+
     <!-- Ver Políticas -->
 <div class="policy-section">
   <button class="policy-button" onclick="togglePolicies()">📜 Ver Politica</button>
@@ -693,45 +837,65 @@ a:hover {
   </div>
 </div>
 
-<!-- Botón de WhatsApp -->
-<button class="btn-whatsapp">💬 Grupo de WhatsApp</button>
-
 <script>
-  // Funcionalidad de dropdowns
-  document.querySelectorAll('.dropdown-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-      const dropdown = this.parentElement;
-      dropdown.classList.toggle('open');
+  document.addEventListener('DOMContentLoaded', function () {
+    // Mostrar / Ocultar lista de países
+    window.toggleReferral = function () {
+      const list = document.getElementById('referralList');
+      const button = document.querySelector('.policy-button');
 
-      document.querySelectorAll('.dropdown').forEach(other => {
-        if (other !== dropdown) {
-          other.classList.remove('open');
-        }
+      if (list.style.display === "none" || list.style.display === "") {
+        list.style.display = "block";
+        button.innerHTML = "📜 Ver menos";
+      } else {
+        list.style.display = "none";
+        button.innerHTML = "📜 Ver más";
+      }
+    };
+
+    // Dropdown toggle
+    document.querySelectorAll('.dropdown-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const dropdown = this.parentElement;
+        dropdown.classList.toggle('open');
+
+        document.querySelectorAll('.dropdown').forEach(other => {
+          if (other !== dropdown) {
+            other.classList.remove('open');
+          }
+        });
       });
     });
-  });
 
-  window.addEventListener('click', function (e) {
-    if (!e.target.matches('.dropdown-btn')) {
+    // Cerrar dropdown al hacer clic fuera
+    window.addEventListener('click', function () {
       document.querySelectorAll('.dropdown').forEach(drop => {
         drop.classList.remove('open');
       });
-    }
+    });
+
+    // Mostrar / Ocultar políticas
+    window.togglePolicies = function () {
+      const policyBox = document.getElementById('policyBox');
+      const button = document.querySelector('.policy-button');
+
+      if (policyBox.style.display === "none" || policyBox.style.display === "") {
+        policyBox.style.display = "block";
+        button.innerHTML = "📜 Ver Menos";
+      } else {
+        policyBox.style.display = "none";
+        button.innerHTML = "📜 Ver Más";
+      }
+    };
   });
-
-  // Mostrar / Ocultar políticas
-  function togglePolicies() {
-    const policyBox = document.getElementById('policyBox');
-    const button = document.querySelector('.policy-button');
-
-    if (policyBox.style.display === "none" || policyBox.style.display === "") {
-      policyBox.style.display = "block";
-      button.innerHTML = "📜 Ver Menos";
-    } else {
-      policyBox.style.display = "none";
-      button.innerHTML = "📜 Ver Más";
-    }
-  }
 </script>
+
+<!-- Otros elementos arriba... -->
+
+<!-- Final del contenido principal -->
+
+<!-- Botón de WhatsApp abajo del todo -->
+<button class="btn-whatsapp">💬 Grupo de WhatsApp</button>
 
 
