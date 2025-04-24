@@ -514,16 +514,48 @@ a:hover {
 
 
 
-    ..referral-section {
-  background: #fff0f6;
-  padding: 30px;
-  border-radius: 20px;
+/* Sección principal decorada */
+.referral-section {
+  background: linear-gradient(135deg, #fff0f6, #ffe6f0);
+  padding: 40px 25px;
+  border-radius: 24px;
   box-shadow: 0 10px 30px rgba(214, 51, 132, 0.15);
   font-family: 'Segoe UI', sans-serif;
   color: #333;
-  max-width: 800px;
-  margin: 40px auto;
-  line-height: 1.6;
+  max-width: 900px;
+  margin: 50px auto;
+  line-height: 1.7;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Florcitas decorativas */
+.referral-section::before,
+.referral-section::after {
+  content: "🌸";
+  position: absolute;
+  font-size: 28px;
+  animation: floatFlowers 8s ease-in-out infinite;
+  opacity: 0.15;
+}
+
+.referral-section::before {
+  top: -10px;
+  left: 20px;
+}
+
+.referral-section::after {
+  bottom: -10px;
+  right: 25px;
+}
+
+@keyframes floatFlowers {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(10deg);
+  }
 }
 
 .referral-section p {
@@ -531,45 +563,57 @@ a:hover {
   font-size: 16px;
 }
 
+/* Contenedor principal de información */
 .referral-info {
-  background: linear-gradient(135deg, #fff0f6, #ffe6f0);
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(255, 182, 193, 0.3);
+  background: linear-gradient(135deg, #ffe0ec, #ffffff);
+  padding: 30px 20px;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(255, 182, 193, 0.4);
   text-align: center;
-  max-width: 700px;
+  max-width: 750px;
   margin: 30px auto;
   position: relative;
+  transition: transform 0.3s ease;
 }
 
+.referral-info:hover {
+  transform: translateY(-5px);
+}
+
+/* Título */
 .referral-info h3 {
   color: #d63384;
-  font-weight: bold;
-  margin-bottom: 12px;
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 16px;
 }
 
+/* Párrafo */
 .referral-info p {
-  color: #444;
+  color: #5c5c5c;
   font-size: 15px;
   margin-bottom: 20px;
 }
 
+/* Lista de países */
 .referral-list {
   display: none;
   text-align: left;
   max-height: 350px;
   overflow-y: auto;
-  padding: 15px;
+  padding: 18px;
   margin-top: 20px;
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .referral-list ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  columns: 2;
+  column-gap: 30px;
 }
 
 .referral-list li {
@@ -577,6 +621,26 @@ a:hover {
   border-bottom: 1px dashed #f3c0d3;
   font-size: 14px;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .referral-list ul {
+    columns: 1;
+  }
+
+  .referral-info {
+    padding: 20px 16px;
+  }
+
+  .referral-info h3 {
+    font-size: 18px;
+  }
+
+  .referral-section {
+    padding: 30px 15px;
+  }
+}
+
 
 .policy-button {
   background-color: #ff8fb1;
@@ -895,7 +959,14 @@ a:hover {
 
 <!-- Final del contenido principal -->
 
-<!-- Botón de WhatsApp abajo del todo -->
-<button class="btn-whatsapp">💬 Grupo de WhatsApp</button>
+<!-- Botón de WhatsApp abajo del todo, centrado -->
+<div style="text-align: center; margin-top: 60px;">
+  <button class="btn-whatsapp">💬 Grupo de WhatsApp</button>
+</div>
+
+<!-- Derechos reservados -->
+<footer style="text-align: center; margin-top: 30px; padding-bottom: 20px; font-size: 14px; font-family: 'Segoe UI', sans-serif; color: #b8005c;">
+  © 2025 Todos los derechos reservados · <strong style="color: #e60073; font-weight: 600;">FeminaLab</strong>
+</footer>
 
 
