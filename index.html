@@ -641,28 +641,213 @@ a:hover {
   }
 }
 
+  /* Estilos generales */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(45deg, #f1f1f1, #ffd1dc);
+  color: #333;
+}
 
-.policy-button {
-  background-color: #ff8fb1;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-size: 16px;
+h3 {
+  font-size: 2rem;
+  color: #d63384;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+p {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #555;
+  line-height: 1.6;
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Efecto de contadores con brillo */
+.dollar-counter {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 350px;
+  text-align: center;
+  animation: bounceIn 2s ease-out;
+  background: linear-gradient(135deg, #ff99cc, #d63384);
+  border: 2px solid #fff;
+}
+
+.dollar-counter h3 {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.dollar-counter p {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+#dollarAmount {
+  color: #28a745; /* Verde */
   font-weight: bold;
+  font-size: 1.5rem;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.withdraw-button {
+  background-color: #d63384;
+  color: white;
+  padding: 15px 30px;
+  border: none;
   border-radius: 30px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  margin-bottom: 15px;
+  font-size: 1.1rem;
+  margin-top: 15px;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.withdraw-button:hover {
+  background-color: #e60073;
+  transform: scale(1.1);
+}
+
+.withdraw-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Políticas con efectos */
+.policy-section {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  max-width: 350px;
+  margin: 20px auto;
+  animation: fadeIn 3s ease-in-out;
+  background: linear-gradient(135deg, #ff99cc, #d63384);
+  border: 2px solid #fff;
+}
+
+.policy-button {
+  background-color: #d63384;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .policy-button:hover {
-  background-color: #f56c98;
+  background-color: #e60073;
   transform: scale(1.05);
 }
 
+.policy-box {
+  display: none;
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #555;
+  text-align: left;
+  line-height: 1.6;
+}
 
-    
+.note {
+  font-size: 1rem;
+  color: #b8005c;
+  margin-top: 15px;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Media Queries */
+@media (max-width: 767px) {
+  h3 {
+    font-size: 1.7rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .dollar-counter, .policy-section {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .withdraw-button {
+    font-size: 1rem;
+  }
+
+  .policy-button {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+
+  .dollar-counter, .policy-section {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .withdraw-button {
+    font-size: 0.95rem;
+  }
+
+  .policy-button {
+    font-size: 0.95rem;
+  }
+}
+
+
+
+
     
   </style>
 </head>
@@ -759,17 +944,22 @@ a:hover {
     </ul>
   </div>
 
-  <!-- Texto principal -->
-  <h3>🎁 Gana dinero refiriendo a tus amigas</h3>
-  <p>
-    Invita a tus amigas a formar parte de FeminaLab y <strong>gana dinero por cada una que se inscriba</strong> desde los siguientes países:
-  </p>
+<!-- Texto principal -->
+<h3>🎁 Gana dinero refiriendo a tus amigas</h3>
+<p>
+  Invita a tus amigas a formar parte de FeminaLab y <strong>gana dinero por cada una que se inscriba</strong> desde los siguientes países:
+</p>
 
+<!-- Contador de saldo -->
+<div class="dollar-counter">
+  <h3>Saldo actual</h3>
+  <p>Tu saldo actual: <span id="dollarAmount">$0.00003936 USD</span></p>
+  <button id="withdrawButton" class="withdraw-button" onclick="window.location.href='https://wa.me/573008556516'" disabled>Retirar</button>
 </div>
 
-    <!-- Ver Políticas -->
+<!-- Políticas -->
 <div class="policy-section">
-  <button class="policy-button" onclick="togglePolicies()">📜 Ver Politica</button>
+  <button class="policy-button" onclick="togglePolicies()">📜 Ver Política</button>
 
   <div class="policy-box" id="policyBox" style="display: none;">
     <p>
@@ -790,6 +980,9 @@ a:hover {
     <p class="note"><strong>💡 Nota:</strong> El pago por referidos se realiza únicamente si la persona completa su inscripción en FeminaLab.</p>
   </div>
 </div>
+
+
+
 
 
     <!-- HTML -->
@@ -953,6 +1146,36 @@ a:hover {
         button.innerHTML = "📜 Ver Más";
       }
     };
+
+    // Configuración de la animación para aumentar el saldo cada segundo
+    let startAmount = 0.00000001; // Monto inicial
+    let endAmount = 1.00; // Monto final
+    let duration = 30 * 24 * 60 * 60; // Duración de 30 días en segundos
+    let incrementPerSecond = (endAmount - startAmount) / duration; // Incremento por segundo
+
+    let dollarAmountElement = document.getElementById("dollarAmount");
+    let withdrawButton = document.getElementById("withdrawButton");
+
+    // Función para actualizar el saldo cada segundo
+    function updateBalance() {
+      let currentAmount = startAmount;
+      let interval = setInterval(function() {
+        currentAmount += incrementPerSecond;
+        
+        // Limitar el saldo máximo a 1 USD
+        if (currentAmount >= endAmount) {
+          currentAmount = endAmount;
+          clearInterval(interval); // Detener el contador una vez que llega a 1 USD
+          withdrawButton.disabled = false; // Habilitar el botón de "Retirar" cuando se alcanza 1 USD
+        }
+
+        // Mostrar el saldo con 8 decimales
+        dollarAmountElement.textContent = `$${currentAmount.toFixed(8)} USD`;
+      }, 1000); // Actualizar cada segundo (1000ms)
+    }
+
+    // Iniciar la animación
+    updateBalance();
   });
 </script>
 
@@ -971,5 +1194,4 @@ a:hover {
 <footer style="text-align: center; margin-top: 30px; padding-bottom: 20px; font-size: 14px; font-family: 'Segoe UI', sans-serif; color: #b8005c;">
   © 2025 Todos los derechos reservados · <strong style="color: #e60073; font-weight: 600;">FeminaLab</strong>
 </footer>
-
 
