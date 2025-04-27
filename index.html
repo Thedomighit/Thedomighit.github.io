@@ -69,7 +69,37 @@ body::after {
 }
 
 
-    ..info {
+    /* Estilos generales */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(145deg, #ffe4ec, #fff5f9);
+  color: #3a3a3a;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
+  overflow-x: hidden;
+  animation: fadeIn 1.4s ease-in-out both;
+  position: relative;
+}
+
+/* Animación de entrada suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Caja de información decorada */
+.info {
   max-width: 850px;
   background-color: #fff;
   border-radius: 30px;
@@ -79,9 +109,10 @@ body::after {
   border: 2px solid #ffe0f0;
   position: relative;
   overflow: hidden;
+  margin-top: 50px;
 }
 
-/* Brillito decorativo suave */
+/* Brillo decorativo suave */
 .info::before {
   content: "💫";
   font-size: 60px;
@@ -93,7 +124,7 @@ body::after {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Título con animación y cursiva elegante */
+/* Título con animación y estilo elegante */
 h2 {
   font-family: 'Great Vibes', cursive;
   color: #d63384;
@@ -103,12 +134,13 @@ h2 {
   animation: glow 2.5s ease-in-out infinite alternate;
 }
 
-/* Subtítulos con más fuerza y presencia */
+/* Subtítulos con más presencia */
 h3 {
   font-weight: 600;
   font-size: 22px;
   color: #b03060;
   margin-top: 30px;
+  text-align: center;
 }
 
 /* Estilo de párrafos refinado */
@@ -128,10 +160,7 @@ ul {
 /* Espaciado para enlaces y botones */
 .links {
   margin-top: 35px;
-}
-
-.dropdown {
-  margin-bottom: 25px;
+  text-align: center;
 }
 
 /* Animación glow para el título */
@@ -143,6 +172,83 @@ ul {
     text-shadow: 0 0 12px #ffb6d9, 0 0 20px #ffa8d1;
   }
 }
+
+/* Animación flotante reutilizada */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Media Queries para adaptabilidad */
+@media (max-width: 1024px) {
+  .info {
+    padding: 40px 30px;
+    max-width: 90%;
+  }
+
+  h2 {
+    font-size: 38px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  p, li {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .info {
+    padding: 35px 20px;
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  p, li {
+    font-size: 15px;
+  }
+
+  .links {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .info {
+    padding: 25px 15px;
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  p, li {
+    font-size: 14px;
+  }
+
+  .links {
+    margin-top: 20px;
+  }
+}
+
 
 /* Animación flotante reutilizada */
 @keyframes float {
@@ -642,13 +748,6 @@ a:hover {
 }
 
   /* Estilos generales */
-body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(45deg, #f1f1f1, #ffd1dc);
-  color: #333;
-}
 
 h3 {
   font-size: 2rem;
@@ -734,8 +833,8 @@ p {
   max-width: 350px;
   margin: 20px auto;
   animation: fadeIn 3s ease-in-out;
-  background: linear-gradient(135deg, #ff99cc, #d63384);
-  border: 2px solid #fff;
+  background: #fff; /* Fondo blanco para las políticas */
+  border: 2px solid #d63384; /* Borde rosa */
 }
 
 .policy-button {
@@ -848,6 +947,7 @@ p {
 
 
 
+
     
   </style>
 </head>
@@ -916,19 +1016,19 @@ p {
   <div class="referral-info">
   
   <!-- Botón Ver más -->
-  <button class="policy-button" onclick="toggleReferral()">📜 Ver más</button>
+  <button class="policy-button" onclick="toggleReferral()">📜 Costo por Referidos</button>
 
   <!-- Lista oculta -->
   <div id="referralList" class="referral-list">
     <ul>
-      <li><strong>Colombia:</strong> 1,000 COP</li>
-      <li><strong>Argentina:</strong> 310 ARS</li>
-      <li><strong>México:</strong> 180 MXN</li>
-      <li><strong>Chile:</strong> 1,300 CLP</li>
-      <li><strong>Perú:</strong> 240 PEN</li>
-      <li><strong>Ecuador:</strong> 0.24 USD</li>
-      <li><strong>Brasil:</strong> 4.00 BRL</li>
-      <li><strong>Uruguay:</strong> 440 UYU</li>
+      <li><strong>Colombia:</strong> 2,000 COP</li>
+      <li><strong>Argentina:</strong> 685 ARS</li>
+      <li><strong>México:</strong> 360 MXN</li>
+      <li><strong>Chile:</strong> 3,120 CLP</li>
+      <li><strong>Perú:</strong> 690 PEN</li>
+      <li><strong>Ecuador:</strong> 0.50 USD</li>
+      <li><strong>Brasil:</strong> 2.00 BRL</li>
+      <li><strong>Uruguay:</strong> 460 UYU</li>
       <li><strong>Paraguay:</strong> 173 PYG</li>
       <li><strong>Venezuela:</strong> 370 VES</li>
       <li><strong>Bolivia:</strong> 20 BOB</li>
@@ -949,6 +1049,7 @@ p {
 <p>
   Invita a tus amigas a formar parte de FeminaLab y <strong>gana dinero por cada una que se inscriba</strong> desde los siguientes países:
 </p>
+
 
 <!-- Contador de saldo -->
 <div class="dollar-counter">
