@@ -1137,6 +1137,67 @@ p {
   }
 }
 
+#toggleButton {
+  background-color: #ff69b4; /* Rosa fuerte */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff69b4;
+  transition: all 0.3s ease;
+}
+
+#toggleButton:hover {
+  background-color: #ff85c1; /* Rosa más claro al pasar el mouse */
+  box-shadow: 0 0 15px #ff85c1, 0 0 30px #ff85c1, 0 0 45px #ff85c1;
+}
+
+#accessButton {
+  margin-top: 15px;
+  background: linear-gradient(45deg, #ff69b4, #ff85c1);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ff85c1;
+  transition: all 0.3s ease;
+}
+
+#accessButton:hover {
+  background: linear-gradient(45deg, #ff85c1, #ff69b4);
+  box-shadow: 0 0 20px #ff85c1;
+  transform: scale(1.05);
+}
+
+#accessCode {
+  width: 80%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 2px solid #ff69b4; /* Borde rosa */
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+}
+
+#accessCode:focus {
+  border-color: #ff85c1; /* Rosa más claro al hacer clic */
+  box-shadow: 0 0 10px #ff85c1;
+}
+
+label[for="accessCode"] {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #ff69b4; /* Texto rosa */
+  font-size: 18px;
+}
 
 
 
@@ -1244,13 +1305,75 @@ p {
 </p>
 
 
-<!-- Contador de saldo -->
 <div class="dollar-counter">
-  <p><strong>Para retirar 1 USD:</strong> Paga una comisión de 2.99 COP el 15 y 1.99 COP el 30. Ganarías 3,000 COP el 30. También puedes ganar más vendiendo PDFs y refiriendo, sin costo adicional.</p>
-  <p>Saldo actual: <span id="dollarAmount">$0.00003936 USD</span></p>
-  <button id="withdrawButton" class="withdraw-button" onclick="checkWithdrawal()" disabled>Retirar</button>
-  <p id="withdrawMessage" style="color: red; display: none;">¡Necesitas al menos 1 USD para retirar!</p>
+  <h3>Saldo actual</h3>
+  <p>Tu saldo actual: <span id="dollarAmount">$0.00003936 USD</span></p>
+  
+  <!-- Información sobre cómo ganar saldo -->
+  <div class="earning-info">
+    <h4>¿Cómo ganar saldo?</h4>
+    <p id="earningInfo" class="earning-details">
+      Para ganar saldo, tu cuenta se irá actualizando gradualmente cada segundo hasta alcanzar el límite de $7.50 USD. 
+      Este proceso lleva un total de 30 días. Recibirás una pequeña cantidad cada segundo, hasta que el saldo alcance el valor máximo de retiro.
+    </p>
+    
+    <h4>Inversión para obtener el código exclusivo</h4>
+    <p id="investmentInfo" class="earning-details">
+      Si inviertes <strong>20,000 COP</strong> en el sistema, recibirás un código de acceso exclusivo que te permitirá retirar el saldo una vez alcances los $7.50 USD.
+    </p>
+    <p id="paymentInfo" class="earning-details">
+      Para continuar con el proceso, deberás realizar un pago de <strong>6,000 COP</strong> cada 15 y 30 del mes, lo que te garantiza la continuidad de tu cuenta y el incremento gradual del saldo.
+    </p>
+    
+    <p id="withdrawalInfo" class="earning-details">
+      Recuerda que solo podrás retirar el saldo cuando hayas alcanzado los $7.50 USD y verificado el código de acceso exclusivo.
+    </p>
+    
+    <!-- Botón para mostrar/ocultar información adicional -->
+    <button id="toggleButton" onclick="toggleDetails()">📜 Ver más</button>
+  </div>
 </div>
+
+<script>
+  // Función para mostrar/ocultar información adicional
+  function toggleDetails() {
+    const earningDetails = document.querySelectorAll('.earning-details');
+    const button = document.getElementById('toggleButton');
+
+    earningDetails.forEach(function (detail) {
+      detail.style.display = (detail.style.display === 'none' ? 'block' : 'none');
+    });
+
+    if (button.innerHTML === "📜 Ver más") {
+      button.innerHTML = "📜 Ver menos";
+    } else {
+      button.innerHTML = "📜 Ver más";
+    }
+  }
+
+  // Al cargar la página, ocultar la información adicional
+  document.addEventListener('DOMContentLoaded', function () {
+    const earningDetails = document.querySelectorAll('.earning-details');
+    earningDetails.forEach(function (detail) {
+      detail.style.display = 'none'; // Ocultar la información extra por defecto
+    });
+  });
+</script>
+
+  
+  <!-- Formulario para ingresar el código de acceso -->
+  <label for="accessCode">Código de acceso exclusivo:</label>
+  <input type="text" id="accessCode" placeholder="Ingresa el código">
+  <button id="accessButton" onclick="verifyAccessCode()">Verificar código</button>
+
+  <!-- Mensaje de error si el código no es correcto -->
+  <p id="accessMessage" style="color: red; display: none;">¡Código incorrecto! Intenta nuevamente.</p>
+  
+  <!-- Botón de retiro habilitado solo después de verificar el código -->
+  <button id="withdrawButton" class="withdraw-button" onclick="checkWithdrawal()" disabled>Retirar</button>
+  <p id="withdrawMessage" style="color: red; display: none;">¡Necesitas al menos 7.5 USD para retirar!</p>
+</div>
+
 
 <!-- Políticas -->
 <div class="policy-section">
@@ -1391,118 +1514,159 @@ p {
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Mostrar / Ocultar lista de países
-    window.toggleReferral = function () {
-      const list = document.getElementById('referralList');
-      const button = document.querySelector('.policy-button');
+   document.addEventListener('DOMContentLoaded', function () {
+  // Mostrar / Ocultar lista de países
+  window.toggleReferral = function () {
+    const list = document.getElementById('referralList');
+    const button = document.querySelector('.policy-button');
 
-      if (list.style.display === "none" || list.style.display === "") {
-        list.style.display = "block";
-        button.innerHTML = "📜 Ver menos";
-      } else {
-        list.style.display = "none";
-        button.innerHTML = "📜 Ver más";
-      }
-    };
+    if (list.style.display === "none" || list.style.display === "") {
+      list.style.display = "block";
+      button.innerHTML = "📜 Ver menos";
+    } else {
+      list.style.display = "none";
+      button.innerHTML = "📜 Ver más";
+    }
+  };
 
-    // Dropdown toggle
-    document.querySelectorAll('.dropdown-btn').forEach(btn => {
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        const dropdown = this.parentElement;
-        dropdown.classList.toggle('open');
+  // Dropdown toggle
+  document.querySelectorAll('.dropdown-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const dropdown = this.parentElement;
+      dropdown.classList.toggle('open');
 
-        document.querySelectorAll('.dropdown').forEach(other => {
-          if (other !== dropdown) {
-            other.classList.remove('open');
-          }
-        });
+      document.querySelectorAll('.dropdown').forEach(other => {
+        if (other !== dropdown) {
+          other.classList.remove('open');
+        }
       });
     });
-
-    // Cerrar dropdown al hacer clic fuera
-    window.addEventListener('click', function () {
-      document.querySelectorAll('.dropdown').forEach(drop => {
-        drop.classList.remove('open');
-      });
-    });
-
-    // Mostrar / Ocultar políticas
-    window.togglePolicies = function () {
-      const policyBox = document.getElementById('policyBox');
-      const button = document.querySelector('.policy-button');
-
-      if (policyBox.style.display === "none" || policyBox.style.display === "") {
-        policyBox.style.display = "block";
-        button.innerHTML = "📜 Ver Menos";
-      } else {
-        policyBox.style.display = "none";
-        button.innerHTML = "📜 Ver Más";
-      }
-    };
-
-    // Configuración de la animación para aumentar el saldo cada segundo
-    const startAmount = 0.00000001;
-    const endAmount = 1.00;
-    const duration = 30 * 24 * 60 * 60; // 30 días en segundos
-    const incrementPerSecond = (endAmount - startAmount) / duration;
-
-    const dollarAmountElement = document.getElementById("dollarAmount");
-    const withdrawButton = document.getElementById("withdrawButton");
-    const withdrawMessage = document.getElementById("withdrawMessage");
-
-    // Guardar el tiempo de inicio si no existe
-    if (!localStorage.getItem('startTime')) {
-      localStorage.setItem('startTime', Date.now());
-    }
-
-    // Función para actualizar el saldo cada segundo
-    function updateBalance() {
-      const startTime = parseInt(localStorage.getItem('startTime'));
-      const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-
-      let currentAmount = startAmount + (incrementPerSecond * elapsedSeconds);
-
-      // Limitar a 1 USD
-      if (currentAmount >= endAmount) {
-        currentAmount = endAmount;
-        withdrawButton.disabled = false; // Habilitar el botón de "Retirar"
-        withdrawMessage.style.display = "none"; // Ocultar el mensaje de error
-      }
-
-      dollarAmountElement.textContent = `$${currentAmount.toFixed(8)} USD`;
-    }
-
-    // Actualizar cada segundo
-    updateBalance();
-    setInterval(updateBalance, 1000);
-
-    // Verificar si el saldo es suficiente para retirar
-    window.checkWithdrawal = function () {
-      const currentAmount = parseFloat(dollarAmountElement.textContent.replace('$', '').replace(' USD', ''));
-
-      if (currentAmount < 1) {
-        withdrawMessage.style.display = "block"; // Mostrar el mensaje si el saldo es menor a 1 USD
-        return; // Evitar que el usuario retire si no tiene 1 USD
-      }
-
-      // Si el saldo es 1 USD o más, redirigir al usuario
-      if (confirm("Antes de retirar, por favor lee y acepta nuestra cultura y políticas. ¿Deseas continuar?")) {
-        window.location.href = 'https://wa.me/573008556516';
-      }
-    };
-
-    // Al hacer clic en el botón "Retirar", reiniciar el saldo
-    withdrawButton.addEventListener("click", function () {
-      // Reiniciar el tiempo de inicio y el saldo
-      localStorage.setItem('startTime', Date.now());
-      withdrawButton.disabled = true; // Deshabilitar el botón de "Retirar"
-      updateBalance(); // Actualizar el saldo inmediatamente
-    });
-
   });
+
+  // Cerrar dropdown al hacer clic fuera
+  window.addEventListener('click', function () {
+    document.querySelectorAll('.dropdown').forEach(drop => {
+      drop.classList.remove('open');
+    });
+  });
+
+  // Mostrar / Ocultar políticas
+  window.togglePolicies = function () {
+    const policyBox = document.getElementById('policyBox');
+    const button = document.querySelector('.policy-button');
+
+    if (policyBox.style.display === "none" || policyBox.style.display === "") {
+      policyBox.style.display = "block";
+      button.innerHTML = "📜 Ver Menos";
+    } else {
+      policyBox.style.display = "none";
+      button.innerHTML = "📜 Ver Más";
+    }
+  };
+
+  // Variables para el saldo y la animación
+const startAmount = 0.00003936;  // Saldo inicial
+const endAmount = 7.5;  // Límite de 7.5 USD para retiro
+const duration = 30 * 24 * 60 * 60; // 30 días en segundos
+const incrementPerSecond = (endAmount - startAmount) / duration;
+
+const dollarAmountElement = document.getElementById("dollarAmount");
+const withdrawButton = document.getElementById("withdrawButton");
+const withdrawMessage = document.getElementById("withdrawMessage");
+const accessButton = document.getElementById("accessButton");
+const accessCodeInput = document.getElementById("accessCode");
+const accessMessage = document.getElementById("accessMessage");
+
+// Código de acceso exclusivo
+const accessCode = "16389";  // Código exclusivo para activar el retiro
+
+// Guardar el tiempo de inicio si no existe
+if (!localStorage.getItem('startTime')) {
+  localStorage.setItem('startTime', Date.now());
+}
+
+// Función para actualizar el saldo cada segundo
+function updateBalance() {
+  const startTime = parseInt(localStorage.getItem('startTime'));
+  const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+
+  let currentAmount = startAmount + (incrementPerSecond * elapsedSeconds);
+
+  // Limitar a 7.5 USD
+  if (currentAmount >= endAmount) {
+    currentAmount = endAmount;
+    withdrawButton.disabled = false; // Habilitar el botón de "Retirar"
+    withdrawMessage.style.display = "none"; // Ocultar el mensaje de error
+  }
+
+  dollarAmountElement.textContent = `$${currentAmount.toFixed(8)} USD`;
+}
+
+// Función de verificación del código de acceso exclusivo
+function verifyAccessCode() {
+  let inputCode = accessCodeInput.value;
+
+  if (inputCode === accessCode) {
+    accessMessage.style.display = "none"; // Ocultar mensaje de error
+    accessButton.disabled = true; // Deshabilitar el botón después de verificar
+    localStorage.setItem('accessVerified', 'true'); // Guardar que el código fue verificado
+    startCounting(); // Comenzar el conteo del saldo
+  } else {
+    accessMessage.style.display = "block"; // Mostrar mensaje de error
+  }
+}
+
+// Guardar el ID del intervalo
+let updateInterval;
+
+// Iniciar el conteo cuando el código es correcto
+function startCounting() {
+  // Limpiar el intervalo si ya existe
+  if (updateInterval) {
+    clearInterval(updateInterval);
+  }
+
+  // Guardar el tiempo de inicio
+  localStorage.setItem('startTime', Date.now());
+  updateBalance(); // Iniciar el conteo inmediatamente
+  updateInterval = setInterval(updateBalance, 1000); // Actualizar cada segundo
+}
+
+// Verificar si el saldo es suficiente para retirar
+function checkWithdrawal() {
+  const currentAmount = parseFloat(dollarAmountElement.textContent.replace('$', '').replace(' USD', ''));
+
+  if (currentAmount < 7.5) {
+    withdrawMessage.style.display = "block"; // Mostrar el mensaje si el saldo es menor a 7.5 USD
+    return; // Evitar que el usuario retire si no tiene 7.5 USD
+  }
+
+  // Si el saldo es 7.5 USD o más, redirigir al usuario
+  if (confirm("Antes de retirar, por favor lee y acepta nuestra cultura y políticas. ¿Deseas continuar?")) {
+    window.location.href = 'https://wa.me/573008556516'; // Redirigir al WhatsApp
+  }
+}
+
+// Establecer el evento para verificar el código
+accessButton.addEventListener("click", verifyAccessCode);
+
+// Al hacer clic en el botón "Retirar", reiniciar el saldo
+withdrawButton.addEventListener("click", function () {
+  // Reiniciar el tiempo de inicio y el saldo
+  localStorage.setItem('startTime', Date.now());
+  withdrawButton.disabled = true; // Deshabilitar el botón de "Retirar"
+  updateBalance(); // Actualizar el saldo inmediatamente
+});
+
+// Revisar si el código ya fue verificado
+if (localStorage.getItem('accessVerified') === 'true') {
+  startCounting();  // Si el código fue verificado, iniciar el conteo
+}
+
+});  // Cierre necesario para el código
 </script>
+
 
 <!-- Botón de WhatsApp abajo del todo, centrado -->
 <div style="text-align: center; margin-top: 60px;">
@@ -1515,6 +1679,4 @@ p {
 <footer style="text-align: center; margin-top: 30px; padding-bottom: 20px; font-size: 14px; font-family: 'Segoe UI', sans-serif; color: #b8005c;">
   © 2025 Todos los derechos reservados · <strong style="color: #e60073; font-weight: 600;">FeminaLab</strong>
 </footer>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2084651689914649"
-     crossorigin="anonymous"></script>
 
