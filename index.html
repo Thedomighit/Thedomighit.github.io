@@ -7,7 +7,8 @@
   <!-- Fuentes personalizadas -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    /* Estilos generales */
+body {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
@@ -17,7 +18,7 @@
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
-  padding: 40px 20px;
+  padding: 0 20px;
   overflow-x: hidden;
   animation: fadeIn 1.4s ease-in-out both;
   position: relative;
@@ -67,6 +68,163 @@ body::after {
     transform: translateY(-10px);
   }
 }
+
+/* Caja de información adaptativa */
+.info {
+  width: 100%;
+  max-width: 1200px; /* Máximo ancho para mantener el contenido centrado */
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0 0 30px rgba(255, 153, 204, 0.35);
+  padding: 50px 40px;
+  animation: fadeIn 1.2s ease-in-out;
+  border: 2px solid #ffe0f0;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-top: 50px;
+}
+
+/* Brillo decorativo suave */
+.info::before {
+  content: "💫";
+  font-size: 60px;
+  color: #ffe6f0;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  opacity: 0.4;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Título con animación y estilo elegante */
+h2 {
+  font-family: 'Great Vibes', cursive;
+  color: #d63384;
+  font-size: 46px;
+  margin-bottom: 10px;
+  text-align: center;
+  animation: glow 2.5s ease-in-out infinite alternate;
+}
+
+/* Subtítulos con más presencia */
+h3 {
+  font-weight: 600;
+  font-size: 22px;
+  color: #b03060;
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* Estilo de párrafos refinado */
+p, li {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #4a4a4a;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Lista organizada */
+ul {
+  padding-left: 24px;
+  margin-top: 10px;
+}
+
+/* Espaciado para enlaces y botones */
+.links {
+  margin-top: 35px;
+  text-align: center;
+}
+
+/* Animación glow para el título */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 6px #ffd1e9, 0 0 12px #ffc2e1;
+  }
+  100% {
+    text-shadow: 0 0 12px #ffb6d9, 0 0 20px #ffa8d1;
+  }
+}
+
+/* Animación flotante reutilizada */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Media Queries para adaptabilidad */
+@media (max-width: 1024px) {
+  .info {
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 90%; /* Asegura que se vea bien en pantallas medianas */
+  }
+
+  h2 {
+    font-size: 38px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  p, li {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .info {
+    padding: 35px 20px;
+    width: 100%;
+    max-width: 100%; /* Expande el contenido al 100% del ancho en pantallas pequeñas */
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  p, li {
+    font-size: 15px;
+  }
+
+  .links {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .info {
+    padding: 25px 15px;
+    width: 100%;
+    max-width: 100%; /* Asegura que se extienda al máximo en pantallas más pequeñas */
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  p, li {
+    font-size: 14px;
+  }
+
+  .links {
+    margin-top: 20px;
+  }
+}
+
 
 
     /* Estilos generales */
@@ -248,6 +406,7 @@ ul {
     margin-top: 20px;
   }
 }
+
 
 
 /* Animación flotante reutilizada */
@@ -439,8 +598,8 @@ a:hover {
   background-color: #25d366;
   color: white;
   border: none;
-  padding: 6px 16px;
-  font-size: 13px;
+  padding: 8px 20px; /* Ajustado el padding para un mejor diseño */
+  font-size: 16px;
   border-radius: 25px;
   cursor: pointer;
   margin-top: 20px;
@@ -449,6 +608,7 @@ a:hover {
   font-weight: 600;
   width: fit-content;
   display: inline-block;
+  text-align: center; /* Centrado para una mejor visualización */
 }
 
 .btn-whatsapp:hover {
@@ -481,21 +641,51 @@ a:hover {
   }
 }
 
-/* Media Query para adaptar el botón y enlaces en celulares grandes y vertical */
+/* Media Query para adaptar el botón y enlaces en dispositivos móviles grandes y verticales */
 @media screen and (max-width: 768px) and (orientation: portrait) {
   .btn-whatsapp {
-    font-size: 14px;
-    padding: 8px 20px;
+    font-size: 16px;
+    padding: 10px 25px; /* Aumenté el padding para mejorar la visibilidad en móviles */
     width: 100%;
     box-sizing: border-box;
     text-align: center;
   }
 
   a {
-    font-size: 16px;
+    font-size: 18px; /* Ajuste para que se vea bien en pantallas pequeñas */
     display: inline-block;
     word-wrap: break-word;
     max-width: 100%;
+  }
+}
+
+/* Media Query para dispositivos más pequeños, como teléfonos pequeños */
+@media screen and (max-width: 480px) {
+  .btn-whatsapp {
+    font-size: 15px;
+    padding: 10px 25px; /* Ajuste para tamaños más pequeños */
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  a {
+    font-size: 17px;
+    display: inline-block;
+    word-wrap: break-word;
+    max-width: 100%;
+  }
+}
+
+/* Media Query para pantallas grandes (PC) */
+@media screen and (min-width: 1024px) {
+  .btn-whatsapp {
+    font-size: 18px;
+    padding: 12px 30px; /* Ajustado para pantallas más grandes */
+  }
+
+  a {
+    font-size: 18px; /* Tamaño de fuente más grande para pantallas grandes */
   }
 }
 
@@ -614,11 +804,11 @@ a:hover {
     right: 15px;
     min-width: 160px;
     max-width: 100%;
-    width: auto;
+    width: 100%; /* <--- Ahora llena todo el ancho en móviles */
+    box-sizing: border-box;
+    text-align: center;
   }
 }
-
-
 
 /* Sección principal decorada */
 .referral-section {
@@ -628,11 +818,13 @@ a:hover {
   box-shadow: 0 10px 30px rgba(214, 51, 132, 0.15);
   font-family: 'Segoe UI', sans-serif;
   color: #333;
-  max-width: 900px;
+  max-width: 1200px; /* <--- Mejor límite para pantallas grandes */
+  width: 100%; /* <--- Llena todo el ancho disponible */
   margin: 50px auto;
   line-height: 1.7;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box; /* Asegura que padding no rompa el ancho */
 }
 
 /* Florcitas decorativas */
@@ -668,6 +860,7 @@ a:hover {
   margin-bottom: 16px;
   font-size: 16px;
 }
+
 
 /* Contenedor principal de información */
 .referral-info {
