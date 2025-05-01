@@ -1417,7 +1417,7 @@ label[for="accessCode"] {
   <div class="dropdown">
     <button class="dropdown-btn">Productos</button>
     <div class="dropdown-content">
-      <a href="https://drive.google.com/drive/folders/1onFZ7pziqJtVO2hgZqe-b9UMeXv61ghf" target="_blank">Productos de Feminalab: 1</a><br>
+      <a href="https://es.aliexpress.com/w/wholesale-belleza-y-maquillaje.html?spm=a2g0o.productlist.auto_suggest.2.18degYP8gYP8F8" target="_blank">Productos de Feminalab: 1</a><br>
     
     </div>
   </div>
@@ -1588,8 +1588,42 @@ if (localStorage.getItem('accessVerified') === 'true') {
   startCounting();  // Si el código fue verificado, iniciar el conteo
 }
 
+// ADVERTENCIA DEL NEGOCIO (Actualizada y Completa)
+document.querySelector('.dropdown-btn').addEventListener('click', function(e) {
+  e.preventDefault();
+
+  const confirmacion = confirm(
+    "⚠️ Advertencia importante FeminaLab ⚠️\n\n" +
+    "Antes de ver los productos, recuerda cómo funciona el negocio:\n\n" +
+    "✅ Tú solo promocionas los productos en redes sociales, familia o amigos\n" +
+    "✅ Puedes buscar cualquier producto en AliExpress (peluches, maquillaje, belleza, ropa, accesorios... lo que quieras que sea para chicas FeminaLab Girls)\n" +
+    "✅ El cliente paga directamente a FeminaLab (NO a ti)\n" +
+    "✅ FeminaLab se encarga de comprar, enviar el producto y gestionar todo el proceso\n" +
+    "✅ Tú recibes una gran comisión por cada venta\n\n" +
+    "❌ No puedes comprar los productos directo tú\n" +
+    "❌ No puedes recibir el dinero tú\n\n" +
+    "🚨 ¿Por qué? 🚨\n" +
+    "Por tu seguridad y tranquilidad:\n" +
+    "- Evitamos estafas y confusiones\n" +
+    "- Aseguramos que el producto llegue correctamente a tu cliente\n" +
+    "- Protegemos el inventario y garantizamos una entrega segura\n\n" +
+    "👩 FeminaLab fue creado especialmente para chicas de 14 a 17 años que todavía no saben manejar compras, pagos ni envíos. Si tienes 18 años o más, recuerda que igualmente nosotros nos hacemos responsables de todo para facilitarte el negocio.\n\n" +
+    "✨ Tú solo atrae al cliente y gana dinero fácil con FeminaLab ✨\n\n" +
+    "Si estás de acuerdo, toca 'Aceptar' para ver los productos"
+  );
+
+  if (confirmacion) {
+    // Si aceptan, muestra el menú desplegable
+    document.querySelector('.dropdown-content').style.display = 'block';
+  } else {
+    // Si cancelan, oculta el menú
+    document.querySelector('.dropdown-content').style.display = 'none';
+  }
+});
+
 });  // Cierre necesario para el código
 </script>
+
 
 
 <!-- Botón de WhatsApp abajo del todo, centrado -->
