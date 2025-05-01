@@ -1588,12 +1588,27 @@ if (localStorage.getItem('accessVerified') === 'true') {
   startCounting();  // Si el código fue verificado, iniciar el conteo
 }
 
-// ADVERTENCIA DEL NEGOCIO (Actualizada y Completa)
+// Establecer el evento para verificar el código
+accessButton.addEventListener("click", verifyAccessCode);
+
+// Al hacer clic en el botón "Retirar", reiniciar el saldo
+withdrawButton.addEventListener("click", function () {
+  localStorage.setItem('startTime', Date.now());
+  withdrawButton.disabled = true;
+  updateBalance();
+});
+
+// Revisar si el código ya fue verificado
+if (localStorage.getItem('accessVerified') === 'true') {
+  startCounting();
+}
+
+// ADVERTENCIA DEL NEGOCIO (Sin mostrar link ni nombre externo, solo "FeminaLab dice")
 document.querySelector('.dropdown-btn').addEventListener('click', function(e) {
   e.preventDefault();
 
   const confirmacion = confirm(
-    "⚠️ Advertencia importante FeminaLab ⚠️\n\n" +
+    "📢 FeminaLab dice 📢\n\n" +
     "Antes de ver los productos, recuerda cómo funciona el negocio:\n\n" +
     "✅ Tú solo promocionas los productos en redes sociales, familia o amigos\n" +
     "✅ Puedes buscar cualquier producto en AliExpress (peluches, maquillaje, belleza, ropa, accesorios... lo que quieras que sea para chicas FeminaLab Girls)\n" +
@@ -1613,15 +1628,13 @@ document.querySelector('.dropdown-btn').addEventListener('click', function(e) {
   );
 
   if (confirmacion) {
-    // Si aceptan, muestra el menú desplegable
     document.querySelector('.dropdown-content').style.display = 'block';
   } else {
-    // Si cancelan, oculta el menú
     document.querySelector('.dropdown-content').style.display = 'none';
   }
 });
 
-});  // Cierre necesario para el código
+}); // Cierre necesario para el código
 </script>
 
 
