@@ -1,1652 +1,774 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FeminaLab - Info</title>
-  <!-- Fuentes personalizadas -->
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    /* Estilos generales */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(145deg, #ffe4ec, #fff5f9);
-  color: #3a3a3a;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding: 0 20px;
-  overflow-x: hidden;
-  animation: fadeIn 1.4s ease-in-out both;
-  position: relative;
-}
-
-/* Animación de entrada suave */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Detalles decorativos suaves como estrellitas */
-body::before {
-  content: "✨";
-  font-size: 60px;
-  color: #ffd3e6;
-  position: absolute;
-  top: 20px;
-  left: 15px;
-  animation: float 4s ease-in-out infinite;
-  opacity: 0.5;
-}
-
-body::after {
-  content: "🌸";
-  font-size: 60px;
-  color: #ffe6f0;
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  animation: float 5s ease-in-out infinite;
-  opacity: 0.4;
-}
-
-/* Animación flotante para los adornos */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Caja de información adaptativa */
-.info {
-  width: 100%;
-  max-width: 1200px; /* Máximo ancho para mantener el contenido centrado */
-  background-color: #fff;
-  border-radius: 30px;
-  box-shadow: 0 0 30px rgba(255, 153, 204, 0.35);
-  padding: 50px 40px;
-  animation: fadeIn 1.2s ease-in-out;
-  border: 2px solid #ffe0f0;
-  position: relative;
-  overflow: hidden;
-  box-sizing: border-box;
-  margin-top: 50px;
-}
-
-/* Brillo decorativo suave */
-.info::before {
-  content: "💫";
-  font-size: 60px;
-  color: #ffe6f0;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  opacity: 0.4;
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Título con animación y estilo elegante */
-h2 {
-  font-family: 'Great Vibes', cursive;
-  color: #d63384;
-  font-size: 46px;
-  margin-bottom: 10px;
-  text-align: center;
-  animation: glow 2.5s ease-in-out infinite alternate;
-}
-
-/* Subtítulos con más presencia */
-h3 {
-  font-weight: 600;
-  font-size: 22px;
-  color: #b03060;
-  margin-top: 30px;
-  text-align: center;
-}
-
-/* Estilo de párrafos refinado */
-p, li {
-  font-size: 17px;
-  line-height: 1.8;
-  color: #4a4a4a;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* Lista organizada */
-ul {
-  padding-left: 24px;
-  margin-top: 10px;
-}
-
-/* Espaciado para enlaces y botones */
-.links {
-  margin-top: 35px;
-  text-align: center;
-}
-
-/* Animación glow para el título */
-@keyframes glow {
-  0% {
-    text-shadow: 0 0 6px #ffd1e9, 0 0 12px #ffc2e1;
-  }
-  100% {
-    text-shadow: 0 0 12px #ffb6d9, 0 0 20px #ffa8d1;
-  }
-}
-
-/* Animación flotante reutilizada */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-/* Media Queries para adaptabilidad */
-@media (max-width: 1024px) {
-  .info {
-    padding: 40px 30px;
-    width: 100%;
-    max-width: 90%; /* Asegura que se vea bien en pantallas medianas */
-  }
-
-  h2 {
-    font-size: 38px;
-  }
-
-  h3 {
-    font-size: 20px;
-  }
-
-  p, li {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 768px) {
-  .info {
-    padding: 35px 20px;
-    width: 100%;
-    max-width: 100%; /* Expande el contenido al 100% del ancho en pantallas pequeñas */
-  }
-
-  h2 {
-    font-size: 32px;
-  }
-
-  h3 {
-    font-size: 18px;
-  }
-
-  p, li {
-    font-size: 15px;
-  }
-
-  .links {
-    margin-top: 30px;
-  }
-}
-
-@media (max-width: 480px) {
-  .info {
-    padding: 25px 15px;
-    width: 100%;
-    max-width: 100%; /* Asegura que se extienda al máximo en pantallas más pequeñas */
-  }
-
-  h2 {
-    font-size: 28px;
-  }
-
-  h3 {
-    font-size: 16px;
-  }
-
-  p, li {
-    font-size: 14px;
-  }
-
-  .links {
-    margin-top: 20px;
-  }
-}
-
-
-
-    /* Estilos generales */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(145deg, #ffe4ec, #fff5f9);
-  color: #3a3a3a;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding: 40px 20px;
-  overflow-x: hidden;
-  animation: fadeIn 1.4s ease-in-out both;
-  position: relative;
-}
-
-/* Animación de entrada suave */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Caja de información decorada */
-.info {
-  max-width: 850px;
-  background-color: #fff;
-  border-radius: 30px;
-  box-shadow: 0 0 30px rgba(255, 153, 204, 0.35);
-  padding: 50px 40px;
-  animation: fadeIn 1.2s ease-in-out;
-  border: 2px solid #ffe0f0;
-  position: relative;
-  overflow: hidden;
-  margin-top: 50px;
-}
-
-/* Brillo decorativo suave */
-.info::before {
-  content: "💫";
-  font-size: 60px;
-  color: #ffe6f0;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  opacity: 0.4;
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Título con animación y estilo elegante */
-h2 {
-  font-family: 'Great Vibes', cursive;
-  color: #d63384;
-  font-size: 46px;
-  margin-bottom: 10px;
-  text-align: center;
-  animation: glow 2.5s ease-in-out infinite alternate;
-}
-
-/* Subtítulos con más presencia */
-h3 {
-  font-weight: 600;
-  font-size: 22px;
-  color: #b03060;
-  margin-top: 30px;
-  text-align: center;
-}
-
-/* Estilo de párrafos refinado */
-p, li {
-  font-size: 17px;
-  line-height: 1.8;
-  color: #4a4a4a;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* Lista organizada */
-ul {
-  padding-left: 24px;
-  margin-top: 10px;
-}
-
-/* Espaciado para enlaces y botones */
-.links {
-  margin-top: 35px;
-  text-align: center;
-}
-
-/* Animación glow para el título */
-@keyframes glow {
-  0% {
-    text-shadow: 0 0 6px #ffd1e9, 0 0 12px #ffc2e1;
-  }
-  100% {
-    text-shadow: 0 0 12px #ffb6d9, 0 0 20px #ffa8d1;
-  }
-}
-
-/* Animación flotante reutilizada */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-/* Media Queries para adaptabilidad */
-@media (max-width: 1024px) {
-  .info {
-    padding: 40px 30px;
-    max-width: 90%;
-  }
-
-  h2 {
-    font-size: 38px;
-  }
-
-  h3 {
-    font-size: 20px;
-  }
-
-  p, li {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 768px) {
-  .info {
-    padding: 35px 20px;
-    max-width: 100%;
-  }
-
-  h2 {
-    font-size: 32px;
-  }
-
-  h3 {
-    font-size: 18px;
-  }
-
-  p, li {
-    font-size: 15px;
-  }
-
-  .links {
-    margin-top: 30px;
-  }
-}
-
-@media (max-width: 480px) {
-  .info {
-    padding: 25px 15px;
-    max-width: 100%;
-  }
-
-  h2 {
-    font-size: 28px;
-  }
-
-  h3 {
-    font-size: 16px;
-  }
-
-  p, li {
-    font-size: 14px;
-  }
-
-  .links {
-    margin-top: 20px;
-  }
-}
-
-
-
-/* Animación flotante reutilizada */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-
-
-    /* Contenedor principal de los dropdowns */
-.dropdowns-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-/* Botón de Dropdown Estilo Floral y Brillante */
-.dropdown-btn {
-  width: 100%;
-  background: linear-gradient(145deg, #ff80ab, #ffb6c1);
-  color: white;
-  border: 2px solid #fff0f5;
-  padding: 15px 20px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 15px rgba(255, 105, 180, 0.3);
-  position: relative;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.dropdown-btn::before {
-  content: "🌸 ";
-}
-
-.dropdown-btn::after {
-  content: " 🌷";
-}
-
-.dropdown-btn:hover {
-  background: linear-gradient(145deg, #ff69b4, #ffccd5);
-  transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(255, 105, 180, 0.4);
-}
-
-/* Dropdown Container */
-.dropdown {
-  position: relative;
-  width: 100%;
-}
-
-/* Contenido desplegable */
-.dropdown-content {
-  max-height: 230px;
-  overflow-y: auto;
-  background: linear-gradient(135deg, #fff0f6, #ffe6f0); /* Fondo suave rosado */
-  border-radius: 15px;
-  padding: 14px;
-  box-shadow: 0 8px 20px rgba(214, 51, 132, 0.25), 0 4px 10px rgba(255, 192, 203, 0.2);
-  position: absolute;
-  z-index: 1000;
-  display: none;
-  border: 2px solid #ffb6c1;
-  animation: dropdownFade 0.4s ease;
-  backdrop-filter: blur(3px);
-  transition: box-shadow 0.3s ease;
-}
-
-/* Scroll bonito */
-.dropdown-content::-webkit-scrollbar {
-  width: 8px;
-}
-.dropdown-content::-webkit-scrollbar-thumb {
-  background-color: #f79ac0;
-  border-radius: 10px;
-}
-.dropdown-content::-webkit-scrollbar-track {
-  background: #ffe6f0;
-}
-
-/* Efecto de mostrar */
-@keyframes dropdownFade {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Enlaces dentro del dropdown */
-.dropdown-content a {
-  display: block;
-  padding: 10px 12px;
-  margin-bottom: 6px;
-  background-color: #ffffffaa;
-  color: #d63384;
-  text-decoration: none;
-  font-weight: 600;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-/* Efecto al pasar el mouse */
-.dropdown-content a:hover {
-  background: linear-gradient(135deg, #fcd6e1, #fbc2db);
-  color: white;
-  transform: scale(1.02);
-  box-shadow: 0 0 10px rgba(255, 182, 193, 0.6), 0 0 4px rgba(255, 105, 180, 0.4);
-}
-
-.dropdown.open .dropdown-content {
-  display: block;
-}
-
-
-/* Estilo general de los enlaces */
-a {
-  text-decoration: none;
-  color: #d63384;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  text-decoration: underline;
-  color: #b03060;
-}
-
-/* Media Query para mejorar la vista en celulares */
-@media screen and (max-width: 768px) and (orientation: portrait) {
-  .dropdowns-container {
-    padding: 15px;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  .dropdown-btn {
-    font-size: 16.5px;
-    padding: 13px 16px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .dropdown-content {
-    padding: 0 10px;
-    margin-top: 6px;
-  }
-
-  .dropdown.open .dropdown-content {
-    padding: 10px 10px;
-  }
-
-  .dropdown-content a {
-    font-size: 15.5px;
-    padding: 9px 10px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  a {
-    font-size: 16px;
-    display: inline-block;
-    word-wrap: break-word;
-    max-width: 100%;
-  }
-}
-
-
-/* Botón de WhatsApp - Tamaño reducido pero responsive */
-.btn-whatsapp {
-  background-color: #25d366;
-  color: white;
-  border: none;
-  padding: 8px 20px; /* Ajustado el padding para un mejor diseño */
-  font-size: 16px;
-  border-radius: 25px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s ease, transform 0.2s;
-  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
-  font-weight: 600;
-  width: fit-content;
-  display: inline-block;
-  text-align: center; /* Centrado para una mejor visualización */
-}
-
-.btn-whatsapp:hover {
-  background-color: #128c7e;
-  transform: scale(1.05);
-}
-
-/* Enlaces elegantes */
-a {
-  text-decoration: none;
-  color: #d63384;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  text-decoration: underline;
-  color: #b03060;
-}
-
-/* Animación de entrada */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Media Query para adaptar el botón y enlaces en dispositivos móviles grandes y verticales */
-@media screen and (max-width: 768px) and (orientation: portrait) {
-  .btn-whatsapp {
-    font-size: 16px;
-    padding: 10px 25px; /* Aumenté el padding para mejorar la visibilidad en móviles */
-    width: 100%;
-    box-sizing: border-box;
-    text-align: center;
-  }
-
-  a {
-    font-size: 18px; /* Ajuste para que se vea bien en pantallas pequeñas */
-    display: inline-block;
-    word-wrap: break-word;
-    max-width: 100%;
-  }
-}
-
-/* Media Query para dispositivos más pequeños, como teléfonos pequeños */
-@media screen and (max-width: 480px) {
-  .btn-whatsapp {
-    font-size: 15px;
-    padding: 10px 25px; /* Ajuste para tamaños más pequeños */
-    width: 100%;
-    box-sizing: border-box;
-    text-align: center;
-  }
-
-  a {
-    font-size: 17px;
-    display: inline-block;
-    word-wrap: break-word;
-    max-width: 100%;
-  }
-}
-
-/* Media Query para pantallas grandes (PC) */
-@media screen and (min-width: 1024px) {
-  .btn-whatsapp {
-    font-size: 18px;
-    padding: 12px 30px; /* Ajustado para pantallas más grandes */
-  }
-
-  a {
-    font-size: 18px; /* Tamaño de fuente más grande para pantallas grandes */
-  }
-}
-
-
-
-    /* Estilo base del botón WhatsApp */
-.btn-whatsapp {
-  background: linear-gradient(135deg, #f9c5d1, #fddde6);
-  color: #b03060;
-  border: none;
-  border-radius: 30px;
-  padding: 8px 18px;
-  font-size: 14px;
-  font-weight: bold;
-  width: fit-content;
-  min-width: 140px;
-  max-width: 200px;
-  box-shadow: 0 0 14px rgba(255, 153, 204, 0.4), 0 0 6px rgba(255, 182, 193, 0.3);
-  transition: all 0.4s ease;
-  font-family: 'Poppins', sans-serif;
-  letter-spacing: 0.6px;
-  text-align: center;
-  display: inline-block;
-  margin-top: 20px;
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  z-index: 999;
-  overflow: hidden;
-}
-
-/* Hover con transformación */
-.btn-whatsapp:hover {
-  background: linear-gradient(135deg, #fddde6, #f9c5d1);
-  color: #8b004a;
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(255, 182, 193, 0.5);
-}
-
-/* Versión responsive para celular */
-@media (max-width: 768px) {
-  .btn-whatsapp {
-    font-size: 15px;
-    padding: 10px 20px;
-    bottom: 30px;
-    right: 15px;
-    min-width: 160px;
-    max-width: 100%;
-    width: auto;
-  }
-}
-
-
-.btn-whatsapp {
-  background: linear-gradient(135deg, #f9c5d1, #fddde6);
-  color: #b03060;
-  border: none;
-  border-radius: 30px;
-  padding: 8px 18px;
-  font-size: 14px;
-  font-weight: bold;
-  width: fit-content;
-  min-width: 140px;
-  max-width: 200px;
-  box-shadow: 0 0 14px rgba(255, 153, 204, 0.4), 0 0 6px rgba(255, 182, 193, 0.3);
-  transition: all 0.4s ease;
-  font-family: 'Poppins', sans-serif;
-  letter-spacing: 0.6px;
-  text-align: center;
-  display: inline-block;
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  z-index: 999;
-  overflow: hidden;
-}
-
-/* Efecto de brillo deslizante */
-.btn-whatsapp::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -75%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.8) 50%,
-    rgba(255, 255, 255, 0.2) 100%
-  );
-  transform: skewX(-25deg);
-  transition: left 0.6s ease;
-}
-
-.btn-whatsapp {
-  margin-top: 50px; /* o la distancia que necesites */
-  position: relative;
-}
-
-
-/* Hover con transformación */
-.btn-whatsapp:hover {
-  background: linear-gradient(135deg, #fcd6e1, #fbc2db);
-  color: white;
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255, 153, 204, 0.5), 0 0 10px rgba(255, 182, 193, 0.4);
-}
-
-/* Responsive para celulares */
-@media (max-width: 768px) {
-  .btn-whatsapp {
-    font-size: 15px;
-    padding: 10px 20px;
-    bottom: 30px;
-    right: 15px;
-    min-width: 160px;
-    max-width: 100%;
-    width: 100%; /* <--- Ahora llena todo el ancho en móviles */
-    box-sizing: border-box;
-    text-align: center;
-  }
-}
-
-/* Sección principal decorada */
-.referral-section {
-  background: linear-gradient(135deg, #fff0f6, #ffe6f0);
-  padding: 40px 25px;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(214, 51, 132, 0.15);
-  font-family: 'Segoe UI', sans-serif;
-  color: #333;
-  max-width: 1200px; /* <--- Mejor límite para pantallas grandes */
-  width: 100%; /* <--- Llena todo el ancho disponible */
-  margin: 50px auto;
-  line-height: 1.7;
-  position: relative;
-  overflow: hidden;
-  box-sizing: border-box; /* Asegura que padding no rompa el ancho */
-}
-
-/* Florcitas decorativas */
-.referral-section::before,
-.referral-section::after {
-  content: "🌸";
-  position: absolute;
-  font-size: 28px;
-  animation: floatFlowers 8s ease-in-out infinite;
-  opacity: 0.15;
-}
-
-.referral-section::before {
-  top: -10px;
-  left: 20px;
-}
-
-.referral-section::after {
-  bottom: -10px;
-  right: 25px;
-}
-
-@keyframes floatFlowers {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(10deg);
-  }
-}
-
-.referral-section p {
-  margin-bottom: 16px;
-  font-size: 16px;
-}
-
-
-/* Contenedor principal de información */
-.referral-info {
-  background: linear-gradient(135deg, #ffe0ec, #ffffff);
-  padding: 30px 20px;
-  border-radius: 22px;
-  box-shadow: 0 8px 24px rgba(255, 182, 193, 0.4);
-  text-align: center;
-  max-width: 750px;
-  margin: 30px auto;
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-.referral-info:hover {
-  transform: translateY(-5px);
-}
-
-/* Título */
-.referral-info h3 {
-  color: #d63384;
-  font-weight: 700;
-  font-size: 20px;
-  margin-bottom: 16px;
-}
-
-/* Párrafo */
-.referral-info p {
-  color: #5c5c5c;
-  font-size: 15px;
-  margin-bottom: 20px;
-}
-
-/* Lista de países */
-.referral-list {
-  display: none;
-  text-align: left;
-  max-height: 350px;
-  overflow-y: auto;
-  padding: 18px;
-  margin-top: 20px;
-  background-color: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.referral-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  columns: 2;
-  column-gap: 30px;
-}
-
-.referral-list li {
-  padding: 6px 0;
-  border-bottom: 1px dashed #f3c0d3;
-  font-size: 14px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .referral-list ul {
-    columns: 1;
-  }
-
-  .referral-info {
-    padding: 20px 16px;
-  }
-
-  .referral-info h3 {
-    font-size: 18px;
-  }
-
-  .referral-section {
-    padding: 30px 15px;
-  }
-}
-
-  /* Estilos generales */
-
-h3 {
-  font-size: 2rem;
-  color: #d63384;
-  text-align: center;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 1.5s ease-in-out;
-}
-
-p {
-  font-size: 1.1rem;
-  text-align: center;
-  margin-bottom: 20px;
-  color: #555;
-  line-height: 1.6;
-  animation: fadeIn 2s ease-in-out;
-}
-
-/* Efecto de contadores con brillo */
-.dollar-counter {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  max-width: 350px;
-  text-align: center;
-  animation: bounceIn 2s ease-out;
-  background: linear-gradient(135deg, #ff99cc, #d63384);
-  border: 2px solid #fff;
-}
-
-.dollar-counter h3 {
-  color: #fff;
-  font-size: 1.5rem;
-}
-
-.dollar-counter p {
-  font-size: 1.2rem;
-  color: #fff;
-}
-
-#dollarAmount {
-  color: #28a745; /* Verde */
-  font-weight: bold;
-  font-size: 1.5rem;
-  animation: fadeIn 2s ease-in-out;
-}
-
-.withdraw-button {
-  background-color: #d63384;
-  color: white;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  margin-top: 15px;
-  width: 100%;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.withdraw-button:hover {
-  background-color: #e60073;
-  transform: scale(1.1);
-}
-
-.withdraw-button:disabled {
-  background-color: #ddd;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* Políticas con efectos */
-.policy-section {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-  max-width: 350px;
-  margin: 20px auto;
-  animation: fadeIn 3s ease-in-out;
-  background: #fff; /* Fondo blanco para las políticas */
-  border: 2px solid #d63384; /* Borde rosa */
-}
-
-.policy-button {
-  background-color: #d63384;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 1rem;
-  width: 100%;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.policy-button:hover {
-  background-color: #e60073;
-  transform: scale(1.05);
-}
-
-.policy-box {
-  display: none;
-  margin-top: 20px;
-  font-size: 1rem;
-  color: #555;
-  text-align: left;
-  line-height: 1.6;
-}
-
-.note {
-  font-size: 1rem;
-  color: #b8005c;
-  margin-top: 15px;
-}
-
-/* Animaciones */
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Media Queries */
-@media (max-width: 767px) {
-  h3 {
-    font-size: 1.7rem;
-  }
-
-  p {
-    font-size: 1rem;
-  }
-
-  .dollar-counter, .policy-section {
-    width: 90%;
-    padding: 15px;
-  }
-
-  .withdraw-button {
-    font-size: 1rem;
-  }
-
-  .policy-button {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  h3 {
-    font-size: 1.5rem;
-  }
-
-  p {
-    font-size: 0.9rem;
-  }
-
-  .dollar-counter, .policy-section {
-    width: 95%;
-    padding: 10px;
-  }
-
-  .withdraw-button {
-    font-size: 0.95rem;
-  }
-
-  .policy-button {
-    font-size: 0.95rem;
-  }
-}
-
-#toggleButton {
-  background-color: #ff69b4; /* Rosa fuerte */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 25px;
-  cursor: pointer;
-  box-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff69b4;
-  transition: all 0.3s ease;
-}
-
-#toggleButton:hover {
-  background-color: #ff85c1; /* Rosa más claro al pasar el mouse */
-  box-shadow: 0 0 15px #ff85c1, 0 0 30px #ff85c1, 0 0 45px #ff85c1;
-}
-
-#accessButton {
-  margin-top: 15px;
-  background: linear-gradient(45deg, #ff69b4, #ff85c1);
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 0 10px #ff85c1;
-  transition: all 0.3s ease;
-}
-
-#accessButton:hover {
-  background: linear-gradient(45deg, #ff85c1, #ff69b4);
-  box-shadow: 0 0 20px #ff85c1;
-  transform: scale(1.05);
-}
-
-#accessCode {
-  width: 80%;
-  padding: 10px;
-  margin-top: 10px;
-  border: 2px solid #ff69b4; /* Borde rosa */
-  border-radius: 8px;
-  font-size: 16px;
-  outline: none;
-  transition: 0.3s;
-}
-
-#accessCode:focus {
-  border-color: #ff85c1; /* Rosa más claro al hacer clic */
-  box-shadow: 0 0 10px #ff85c1;
-}
-
-label[for="accessCode"] {
-  display: block;
-  margin-top: 20px;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #ff69b4; /* Texto rosa */
-  font-size: 18px;
-}
-
-
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarrioSanLuisArriendo - Tu Hogar Ideal</title>
     
-  </style>
-</head>
-<body>
-  <div class="info" id="info-v2">
-  <h2>💖 ¡Bienvenida a FeminaLab! 💖</h2>
-
-  <p style="font-size: 18px;"><strong>💸 Pago quincenal:</strong> Solo <strong style="color: #d63384;">$2.50 USD</strong> cada dos semanas. Accede a <em>todos los cursos</em> y <em>recursos exclusivos</em> sin límites.</p>
-
-  <hr style="border: none; border-top: 1px dashed #f8bbd0; margin: 25px 0;">
-
-  <p><strong>🌟 ¿Cómo ganar dinero?</strong></p>
-<ul style="list-style: '💼 '; padding-left: 25px;">
-  <li>Revende nuestros <strong>cursos PDF de belleza</strong> al precio que tú decidas.</li>
-  <li>Promociona nuestros <strong>productos de maquillaje</strong> y recibe comisiones.</li>
-  <li>Recibe asesoría y herramientas paso a paso para mejorar tus ventas.</li>
-</ul>
-
-<hr style="border: none; border-top: 1px dashed #f8bbd0; margin: 25px 0;">
-
-<p><strong>📚 Recursos disponibles:</strong> Cursos digitales de belleza, catálogo de productos de maquillaje, asesorías, comunidad de emprendedoras y mucho más para iniciar tu camino.</p>
-
-<p><strong>🌍 ¿Cuánto pago según mi país?</strong></p>
-<p>
-  Muchas chicas de diferentes países nos acompañan, por eso el valor de <strong>1,000 COP</strong> ha sido adaptado para cada región. 
-  Por ejemplo: menos de <strong>0.30 USD</strong> o <strong>0.25 EUR</strong> en la mayoría de países.  
-  Aquí puedes ver una guía referencial:
-</p>
-
-
-  <ul style="columns: 2; list-style: '🌸 '; padding-left: 25px;">
-    <li><strong>🇨🇴 Colombia:</strong> 1,000 COP</li>
-    <li><strong>🇦🇷 Argentina:</strong> 310 ARS</li>
-    <li><strong>🇲🇽 México:</strong> 180 MXN</li>
-    <li><strong>🇨🇱 Chile:</strong> 1,300 CLP</li>
-    <li><strong>🇵🇪 Perú:</strong> 240 PEN</li>
-    <li><strong>🇪🇨 Ecuador:</strong> 0.24 USD</li>
-    <li><strong>🇧🇷 Brasil:</strong> 4.00 BRL</li>
-    <li><strong>🇺🇾 Uruguay:</strong> 440 UYU</li>
-    <li><strong>🇵🇾 Paraguay:</strong> 173 PYG</li>
-    <li><strong>🇻🇪 Venezuela:</strong> 370 VES</li>
-    <li><strong>🇧🇴 Bolivia:</strong> 20 BOB</li>
-    <li><strong>🇭🇳 Honduras:</strong> 40 HNL</li>
-    <li><strong>🇸🇻 El Salvador:</strong> 0.23 USD</li>
-    <li><strong>🇳🇮 Nicaragua:</strong> 80 NIO</li>
-    <li><strong>🇨🇷 Costa Rica:</strong> 3,900 CRC</li>
-    <li><strong>🇬🇹 Guatemala:</strong> 20 GTQ</li>
-    <li><strong>🇵🇦 Panamá:</strong> 0.25 USD</li>
-    <li><strong>🇩🇴 R. Dominicana:</strong> 15 DOP</li>
-    <li><strong>🇪🇸 España:</strong> 2.30 EUR</li>
-    <li><strong>🇺🇸 EE.UU.:</strong> 2.50 USD</li>
-  </ul>
-
-  <div class="referral-section">
-  <p>
-    🧡 Puedes pagar con <strong>PayPal</strong>, <strong>Wise</strong>, <strong>Nequi Internacional</strong> u otros medios. Si necesitas ayuda para realizar tu pago, te guiamos con amor. 💌
-  </p>
-
-  <p>
-    Esta pequeña inversión te conecta a una <strong>comunidad de mujeres empoderadas</strong>, creativas y con grandes sueños. 🌈✨
-  </p>
-
-  <p>
-    ¿Tienes dudas o quieres saber el valor exacto en tu moneda? ¡Escríbenos directamente! Responderemos con cariño y claridad. 🤗
-  </p>
-
-  <div class="referral-info">
-  
-  <!-- Botón Ver más -->
-  <button class="policy-button" onclick="toggleReferral()">📜 Costo por Referidos</button>
-
-  <!-- Lista oculta -->
-  <div id="referralList" class="referral-list">
-    <ul>
-      <li><strong>Colombia:</strong> 2,000 COP</li>
-      <li><strong>Argentina:</strong> 685 ARS</li>
-      <li><strong>México:</strong> 360 MXN</li>
-      <li><strong>Chile:</strong> 3,120 CLP</li>
-      <li><strong>Perú:</strong> 690 PEN</li>
-      <li><strong>Ecuador:</strong> 0.50 USD</li>
-      <li><strong>Brasil:</strong> 2.00 BRL</li>
-      <li><strong>Uruguay:</strong> 460 UYU</li>
-      <li><strong>Paraguay:</strong> 173 PYG</li>
-      <li><strong>Venezuela:</strong> 370 VES</li>
-      <li><strong>Bolivia:</strong> 20 BOB</li>
-      <li><strong>Honduras:</strong> 40 HNL</li>
-      <li><strong>El Salvador:</strong> 0.23 USD</li>
-      <li><strong>Nicaragua:</strong> 80 NIO</li>
-      <li><strong>Costa Rica:</strong> 3,900 CRC</li>
-      <li><strong>Guatemala:</strong> 20 GTQ</li>
-      <li><strong>Panamá:</strong> 0.25 USD</li>
-      <li><strong>República Dominicana:</strong> 15 DOP</li>
-      <li><strong>España:</strong> 2.30 EUR</li>
-      <li><strong>Estados Unidos:</strong> 2.50 USD</li>
-    </ul>
-  </div>
-
-<!-- Texto principal -->
-<h3>🎁 Gana dinero refiriendo a tus amigas</h3>
-<p>
-  Invita a tus amigas a formar parte de FeminaLab y <strong>gana dinero por cada una que se inscriba</strong> desde los siguientes países:
-</p>
-
-
-<div class="dollar-counter">
-  <h3>Saldo actual</h3>
-  <p>Tu saldo actual: <span id="dollarAmount">$0.00003936 USD</span></p>
-  
-  <!-- Información sobre cómo ganar saldo -->
-  <div class="earning-info">
-    <h4>¿Cómo ganar saldo?</h4>
-    <p id="earningInfo" class="earning-details">
-      Para ganar saldo, tu cuenta se irá actualizando gradualmente cada segundo hasta alcanzar el límite de $7.50 USD. 
-      Este proceso lleva un total de 30 días. Recibirás una pequeña cantidad cada segundo, hasta que el saldo alcance el valor máximo de retiro.
-    </p>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <h4>Inversión para obtener el código exclusivo</h4>
-    <p id="investmentInfo" class="earning-details">
-      Si inviertes <strong>20,000 COP</strong> en el sistema, recibirás un código de acceso exclusivo que te permitirá retirar el saldo una vez alcances los $7.50 USD.
-    </p>
-    <p id="paymentInfo" class="earning-details">
-      Para continuar con el proceso, deberás realizar un pago de <strong>6,000 COP</strong> cada 15 y 30 del mes, lo que te garantiza la continuidad de tu cuenta y el incremento gradual del saldo.
-    </p>
-    
-   <p id="withdrawalInfo" class="earning-details">
-    Recuerda que solo podrás retirar el saldo cuando hayas alcanzado los $7.50 USD y verificado el código de acceso exclusivo.
-</p>
-<p id="withdrawalReminder" class="earning-details">
-    Recuerda retirar tu saldo antes del 30, ya que el conteo se reiniciará al siguiente día.
-</p>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    
-    <!-- Botón para mostrar/ocultar información adicional -->
-    <button id="toggleButton" onclick="toggleDetails()">📜 Ver más</button>
-  </div>
-</div>
-
-<script>
-  // Función para mostrar/ocultar información adicional
-  function toggleDetails() {
-    const earningDetails = document.querySelectorAll('.earning-details');
-    const button = document.getElementById('toggleButton');
-
-    earningDetails.forEach(function (detail) {
-      detail.style.display = (detail.style.display === 'none' ? 'block' : 'none');
-    });
-
-    if (button.innerHTML === "📜 Ver más") {
-      button.innerHTML = "📜 Ver menos";
-    } else {
-      button.innerHTML = "📜 Ver más";
-    }
-  }
-
-  // Al cargar la página, ocultar la información adicional
-  document.addEventListener('DOMContentLoaded', function () {
-    const earningDetails = document.querySelectorAll('.earning-details');
-    earningDetails.forEach(function (detail) {
-      detail.style.display = 'none'; // Ocultar la información extra por defecto
-    });
-  });
-</script>
-
-  
-  <!-- Formulario para ingresar el código de acceso -->
-  <label for="accessCode">Código de acceso exclusivo:</label>
-  <input type="text" id="accessCode" placeholder="Ingresa el código">
-  <button id="accessButton" onclick="verifyAccessCode()">Verificar código</button>
-
-  <!-- Mensaje de error si el código no es correcto -->
-  <p id="accessMessage" style="color: red; display: none;">¡Código incorrecto! Intenta nuevamente.</p>
-  
-  <!-- Botón de retiro habilitado solo después de verificar el código -->
-  <button id="withdrawButton" class="withdraw-button" onclick="checkWithdrawal()" disabled>Retirar</button>
-  <p id="withdrawMessage" style="color: red; display: none;">¡Necesitas al menos 7.5 USD para retirar!</p>
-</div>
-
-
-<!-- Políticas -->
-<div class="policy-section">
-  <button class="policy-button" onclick="togglePolicies()">📜 Ver Política</button>
-
-  <div class="policy-box" id="policyBox" style="display: none;">
-    <p>
-  En <strong>FeminaLab</strong>, apoyamos a chicas desde los <strong>14 años en adelante</strong> que deseen aprender, crecer como emprendedoras y generar ingresos con la venta de <strong>cursos digitales de belleza (PDF)</strong> y <strong>productos de maquillaje</strong>.
-</p>
-<p>
-  Esta plataforma fue creada para <strong>estudiantes</strong> con sueños grandes. Aquí pueden trabajar juntas, compartir sus experiencias y fortalecer sus habilidades como vendedoras y líderes.
-</p>
-<p>
-  Tú puedes vender los <strong>PDF de belleza</strong> y promocionar los <strong>productos de maquillaje</strong> a través de tus redes sociales, familiares o amigas. <strong>No necesitas preocuparte por inventarios ni envíos</strong>, nosotros nos encargamos de todo. Solo promociona y recibe tus comisiones.
-</p>
-<p>
-  Además de las comisiones, <strong>las vendedoras más destacadas</strong> recibirán <strong>recompensas exclusivas</strong> como maquillaje, accesorios, ropa y más.
-</p>
-<p>
-  Si deseas retirarte, puedes avisarnos en cualquier momento y <strong>eliminaremos tus datos</strong> y perfil sin cobro adicional. El aporte económico actual es para mantener la web y seguir apoyando a más jóvenes.
-</p>
-<p>
-  Participar es fácil: solo publica en tus redes sociales que formas parte de FeminaLab e invita a otras chicas a unirse. 💕
-</p>
-<p class="note"><strong>💡 Nota:</strong> El pago por referidos y las comisiones se realizan únicamente si la persona completa su inscripción o compra en FeminaLab.</p>
-
-  </div>
-</div>
-
-
-
-
-
-    <!-- HTML -->
-<div class="links">
-  <div class="dropdown">
-    <button class="dropdown-btn">Productos</button>
-    <div class="dropdown-content">
-      <a href="https://es.aliexpress.com/w/wholesale-belleza-y-maquillaje.html?spm=a2g0o.productlist.auto_suggest.2.18degYP8gYP8F8" target="_blank">Productos de Feminalab: 1</a><br>
-    
-    </div>
-  </div>
-</div>
-
-  <div class="dropdown">
-  <button class="dropdown-btn">PDF Belleza</button>
-  <div class="dropdown-content">
-    <a href="https://drive.google.com/drive/folders/1-0QLBeCUmplWLO-oKa-ju_Leu3YdIS2m?usp=drive_link" target="_blank">PDF: Cursos Belleza</a><br>
-  </div>
-</div>
-
-<div class="dropdown">
-  <button class="dropdown-btn"> Recursos para TikTok</button>
-  <div class="dropdown-content">
-    <a href="https://drive.google.com/drive/folders/12eeIfmYCM1uCUpnbs11iy-wckLk6d7zk" target="_blank">PDF: Recursos para TikTok</a><br>
-  </div>
-</div>
-
-<script>
-   document.addEventListener('DOMContentLoaded', function () {
-  // Mostrar / Ocultar lista de países
-  window.toggleReferral = function () {
-    const list = document.getElementById('referralList');
-    const button = document.querySelector('.policy-button');
-
-    if (list.style.display === "none" || list.style.display === "") {
-      list.style.display = "block";
-      button.innerHTML = "📜 Ver menos";
-    } else {
-      list.style.display = "none";
-      button.innerHTML = "📜 Ver más";
-    }
-  };
-
-  // Dropdown toggle
-  document.querySelectorAll('.dropdown-btn').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      const dropdown = this.parentElement;
-      dropdown.classList.toggle('open');
-
-      document.querySelectorAll('.dropdown').forEach(other => {
-        if (other !== dropdown) {
-          other.classList.remove('open');
+    <style>
+        /* --- RESET Y VARIABLES GLOBALES --- */
+        :root {
+            --primary-color: #1a2a3a;
+            --secondary-color: #c5a47e;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --white-color: #ffffff;
+            --success-color: #28a745;
+            --danger-color: #e53935;
+            --tag-pet-color: #3d8c40;
+            --tag-new-color: #007bff;
+            --tag-furnished-color: #6f42c1;
+            --font-family: 'Poppins', sans-serif;
+            --card-background: var(--white-color);
+            --card-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            --card-shadow-hover: 0 10px 25px rgba(0,0,0,0.12);
+            --border-color: #ddd;
+            --modal-bg: rgba(0, 0, 0, 0.7);
         }
-      });
+
+        /* --- MODO OSCURO --- */
+        body[data-theme="dark"] {
+            --primary-color: #c5a47e;
+            --secondary-color: #1a2a3a;
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --card-background: #1e1e1e;
+            --card-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            --card-shadow-hover: 0 10px 25px rgba(0,0,0,0.3);
+            --border-color: #444;
+            --modal-bg: rgba(0, 0, 0, 0.85);
+        }
+        body[data-theme="dark"] .navbar.scrolled { background-color: rgba(30, 30, 30, 0.95); }
+        body[data-theme="dark"] .mobile-menu { background-color: #1e1e1e; }
+        body[data-theme="dark"] .section-title { color: var(--text-color); }
+        body[data-theme="dark"] .section-title::after { background-color: var(--primary-color); }
+        body[data-theme="dark"] .filter-section { background-color: rgba(30, 30, 30, 0.7); border-color: rgba(255, 255, 255, 0.1); }
+        body[data-theme="dark"] .filter-group label { color: var(--text-color); }
+        body[data-theme="dark"] .arriendo-card-content h3 { color: var(--primary-color); }
+        body[data-theme="dark"] .filter-input, body[data-theme="dark"] .filter-select { background-color: #333; color: var(--text-color); border-color: #555; }
+        body[data-theme="dark"] .btn-group button { background-color: #333; color: var(--text-color); border-color: #555; }
+        body[data-theme="dark"] .btn-group button.active { background-color: var(--primary-color); color: var(--secondary-color); border-color: var(--primary-color); }
+        body[data-theme="dark"] .service-group label { background-color: #333; color: var(--text-color); border-color: #555; }
+        body[data-theme="dark"] .service-group input[type="checkbox"]:checked + label { background-color: var(--primary-color); color: var(--secondary-color); border-color: var(--primary-color); }
+        body[data-theme="dark"] #slider-track { background: #555; }
+        body[data-theme="dark"] #slider-range-fill { background: var(--primary-color); }
+        body[data-theme="dark"] .price-slider-container input[type="range"]::-webkit-slider-thumb { background: var(--primary-color); }
+        body[data-theme="dark"] .arriendo-card-content p { color: #aaa; }
+        body[data-theme="dark"] #no-results { border-color: var(--border-color); color: #888; }
+        body[data-theme="dark"] .footer { background-color: #1e1e1e; color: var(--text-color); }
+        body[data-theme="dark"] .btn-primary { background-color: var(--primary-color); color: var(--secondary-color); }
+        body[data-theme="dark"] .btn-primary:hover { background-color: #d4b591; }
+        body[data-theme="dark"] #back-to-top-btn { background-color: var(--primary-color); color: var(--secondary-color); }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-family); background-color: var(--background-color); color: var(--text-color); overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
+        .icon { width: 1.2em; height: 1.2em; vertical-align: middle; margin-right: 8px; }
+
+        /* --- HEADER Y SLIDER PRINCIPAL --- */
+        .hero-section { height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white-color); overflow: hidden; }
+        .hero-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        .hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease-in-out; }
+        .hero-slide.active { opacity: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: -1; }
+        
+        /* ✅ MEJORA: Título adaptable con clamp() para evitar que se corte en móviles */
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem); /* Mínimo, Preferido (fluido), Máximo */
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            animation: slideInText 1s 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .hero-content p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-top: 10px;
+            font-weight: 300;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+            animation: slideInText 1s 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        @keyframes slideInText { to { opacity: 1; transform: translateY(0); } }
+        
+        /* --- NAVEGACIÓN --- */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+        .navbar.scrolled { background-color: rgba(26, 42, 58, 0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .nav-logo { color: var(--white-color); font-weight: 600; font-size: 1.5rem; text-decoration: none; }
+        .nav-items { display: flex; align-items: center; gap: 20px; }
+        .hamburger-menu { width: 30px; height: 22px; cursor: pointer; display: none; flex-direction: column; justify-content: space-between; z-index: 1001; }
+        .hamburger-menu .bar { width: 100%; height: 3px; background-color: var(--white-color); transition: all 0.4s ease-in-out; border-radius: 2px; }
+        .hamburger-menu.active .bar1 { transform: translateY(9.5px) rotate(45deg); }
+        .hamburger-menu.active .bar2 { opacity: 0; }
+        .hamburger-menu.active .bar3 { transform: translateY(-9.5px) rotate(-45deg); }
+        .mobile-menu { position: fixed; top: 0; right: 0; width: 100%; max-width: 350px; height: 100vh; background-color: var(--primary-color); display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1); z-index: 999; }
+        .mobile-menu.active { transform: translateX(0); }
+        .mobile-menu a { color: var(--white-color); text-decoration: none; font-size: 1.8rem; margin: 20px 0; font-weight: 600; opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .mobile-menu.active a { opacity: 1; transform: translateY(0); }
+        .mobile-menu.active a:nth-child(1) { transition-delay: 0.2s; } .mobile-menu.active a:nth-child(2) { transition-delay: 0.3s; } .mobile-menu.active a:nth-child(3) { transition-delay: 0.4s; }
+        .mobile-menu-controls { display: flex; align-items: center; gap: 25px; margin-top: 40px; opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .mobile-menu.active .mobile-menu-controls { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+
+        /* --- ICONOS DE NAV: FAVORITOS Y MODO OSCURO --- */
+        .nav-icon { background: none; border: none; color: var(--white-color); cursor: pointer; position: relative; padding: 5px; }
+        .nav-icon svg { width: 24px; height: 24px; }
+        .favorites-counter { position: absolute; top: 0; right: 0; background-color: var(--danger-color); color: var(--white-color); border-radius: 50%; width: 16px; height: 16px; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; transform: translate(50%, -25%) scale(0); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .favorites-counter.visible { transform: translate(50%, -25%) scale(1); }
+        .theme-switch-wrapper { display: flex; align-items: center; }
+        .theme-switch { display: inline-block; height: 24px; position: relative; width: 48px; }
+        .theme-switch input { display: none; }
+        .slider { background-color: #555; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .slider:before { background-color: #fff; bottom: 2px; content: ""; height: 20px; left: 2px; position: absolute; transition: .4s; width: 20px; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--primary-color); }
+        input:checked + .slider:before { transform: translateX(24px); }
+        
+        /* --- SECCIONES Y FILTROS --- */
+        .arriendos-section { padding: 80px 40px; text-align: center; }
+        .section-title { font-size: 2.5rem; margin-bottom: 20px; position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--secondary-color); }
+        .filter-section { max-width: 1200px; margin: 0 auto 50px auto; padding: 25px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 12px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1); border: 1px solid rgba(255, 255, 255, 0.18); display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; text-align: left; }
+        .filter-group { flex: 1 1 200px; }
+        .filter-group label { display: block; font-weight: 600; margin-bottom: 10px; color: var(--primary-color); }
+        .filter-input, .filter-select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-family); background-color: var(--white-color); color: var(--text-color); font-size: 1rem; }
+        .btn-group button { padding: 10px 15px; border: 1px solid #ccc; background-color: var(--white-color); cursor: pointer; transition: all 0.2s ease; }
+        .btn-group button:first-child { border-radius: 5px 0 0 5px; } .btn-group button:last-child { border-radius: 0 5px 5px 0; }
+        .btn-group button:not(:last-child) { border-right: none; }
+        .btn-group button.active { background-color: var(--primary-color); color: var(--white-color); border-color: var(--primary-color); }
+        .service-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .service-group label { display: flex; align-items: center; padding: 8px 12px; border: 1px solid #ccc; border-radius: 20px; cursor: pointer; transition: all 0.2s ease; font-weight: 400; }
+        .service-group input[type="checkbox"] { display: none; }
+        .service-group input[type="checkbox"]:checked + label { background-color: var(--secondary-color); color: var(--white-color); border-color: var(--secondary-color); }
+        .price-range-group { flex-basis: 300px; }
+        .price-slider-container { position: relative; height: 20px; width: 100%; }
+        .price-slider-container input[type="range"] { position: absolute; width: 100%; pointer-events: none; -webkit-appearance: none; background: transparent; }
+        .price-slider-container input[type="range"]::-webkit-slider-thumb { pointer-events: all; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-color); cursor: pointer; -webkit-appearance: none; }
+        #slider-track { position: absolute; width: 100%; height: 5px; background: #ddd; top: 7.5px; border-radius: 3px; }
+        #slider-range-fill { position: absolute; height: 5px; background: var(--secondary-color); top: 7.5px; border-radius: 3px; }
+        .price-values { display: flex; justify-content: space-between; margin-top: 10px; }
+        .filter-actions { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; margin-top: 10px; }
+
+        /* --- LISTA DE ARRIENDOS Y TARJETAS --- */
+        .arriendos-grid-container { position: relative; min-height: 200px; }
+        .arriendos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; transition: opacity 0.3s; }
+        #no-results { grid-column: 1 / -1; padding: 60px 20px; font-size: 1.5rem; color: #777; font-weight: 300; border: 2px dashed var(--border-color); border-radius: 10px; margin-top: 20px; }
+        #no-results::before { content: '🏠'; font-size: 3rem; display: block; margin-bottom: 15px; }
+        .loading-spinner { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; border: 5px solid var(--background-color); border-top-color: var(--secondary-color); border-radius: 50%; animation: spin 1s linear infinite; z-index: 10; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+        .loading-spinner.visible { opacity: 1; visibility: visible; }
+        .arriendos-grid.loading { opacity: 0.3; pointer-events: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .arriendo-card { background-color: var(--card-background); border-radius: 10px; overflow: hidden; box-shadow: var(--card-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: left; display: flex; flex-direction: column; }
+        .arriendo-card:hover { transform: translateY(-10px); box-shadow: var(--card-shadow-hover); }
+        .arriendo-card-img-container { position: relative; }
+        .arriendo-card-img { width: 100%; height: 220px; object-fit: cover; display: block; }
+        .arriendo-card-content { padding: 25px; flex-grow: 1; }
+        .arriendo-card-content h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--primary-color); }
+        .arriendo-card-content p { margin-bottom: 5px; color: #666; font-size: 0.9rem; }
+        .arriendo-card-price-per-sqm { font-size: 0.8rem; color: #888; font-style: italic; margin-top: 5px; }
+        .arriendo-card-actions { padding: 0 25px 25px 25px; }
+        .card-tags { position: absolute; top: 15px; left: 15px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .card-tag { color: var(--white-color); padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .tag-pet { background-color: var(--tag-pet-color); } .tag-new { background-color: var(--tag-new-color); } .tag-furnished { background-color: var(--tag-furnished-color); }
+        .favorite-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; }
+        .favorite-btn:hover { transform: scale(1.1); }
+        .favorite-btn svg { width: 22px; height: 22px; fill: #aaa; stroke: #888; stroke-width: 1.5; transition: fill 0.2s, stroke 0.2s; }
+        .favorite-btn.active svg { fill: var(--danger-color); stroke: var(--danger-color); }
+
+        /* --- BOTONES --- */
+        .btn { display: inline-block; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; cursor: pointer; border: none; text-align: center; }
+        .btn-primary { background-color: var(--secondary-color); color: var(--white-color); }
+        .btn-primary:hover { background-color: #b38e67; transform: translateY(-2px); }
+        .btn-secondary { background-color: #6c757d; color: var(--white-color); }
+        .btn-secondary:hover { background-color: #5a6268; }
+        .btn-whatsapp { background-color: var(--success-color); color: var(--white-color); }
+        .btn-whatsapp:hover { background-color: #218838; transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 2px solid var(--border-color); color: var(--text-color); }
+        .btn-outline:hover { background: var(--border-color); }
+        .btn-outline.active { border-color: var(--primary-color); background-color: var(--primary-color); color: var(--secondary-color); }
+
+        /* --- MODALES --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--modal-bg); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0s 0.4s; }
+        .modal.active { opacity: 1; visibility: visible; transition: opacity 0.4s ease; }
+        .modal-content { background-color: var(--card-background); padding: 30px; border-radius: 10px; max-width: 90%; width: 700px; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.9); transition: transform 0.4s ease; }
+        .modal.active .modal-content { transform: scale(1); }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; cursor: pointer; padding: 5px; z-index: 10; color: var(--text-color); }
+        .modal-close svg { width: 24px; height: 24px; stroke: currentColor; } .modal-close:hover { color: var(--secondary-color); }
+        .modal-arriendo-slider { width: 100%; height: 350px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 25px; }
+        .modal-arriendo-slider .slide { width: 100%; height: 100%; object-fit: cover; position: absolute; opacity: 0; transition: opacity 0.8s ease; } .modal-arriendo-slider .slide.active { opacity: 1; }
+        .slider-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); }
+        .slider-nav button { background-color: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; border-radius: 50%; margin: 0 10px; }
+        .slider-nav button:hover { background-color: rgba(0,0,0,0.8); }
+        .modal-arriendo-details { list-style: none; margin: 20px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .modal-arriendo-details li { display: flex; align-items: center; font-size: 1rem; }
+        .modal-arriendo-description { line-height: 1.6; margin: 20px 0; }
+        .modal-publicar-content, .modal-contacto-content { text-align: center; }
+        .modal-publicar-content h3, .modal-contacto-content h3 { font-size: 1.8rem; margin-bottom: 20px; color: var(--primary-color); }
+        .modal-publicar-content p, .modal-contacto-content p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; }
+        .modal-action-buttons { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 30px; justify-content: center; }
+        #modal-map .modal-content { padding: 0; overflow: hidden; height: 80vh; width: 80vw; }
+        #map-iframe { width: 100%; height: 100%; border: none; }
+
+        /* --- FOOTER Y BOTÓN "VOLVER ARRIBA" --- */
+        .footer { background-color: var(--primary-color); color: var(--white-color); padding: 60px 40px; text-align: center; }
+        .footer-content h3 { font-size: 2rem; margin-bottom: 20px; }
+        .footer-content p { margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        #back-to-top-btn { position: fixed; bottom: 20px; right: 20px; background-color: var(--secondary-color); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(20px); transition: opacity 0.3s, visibility 0.3s, transform 0.3s; }
+        #back-to-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        #back-to-top-btn:hover { background-color: #b38e67; }
+        #back-to-top-btn svg { width: 24px; height: 24px; }
+
+        /* --- RESPONSIVIDAD --- */
+        @media (max-width: 992px) { .filter-group { flex-basis: calc(50% - 10px); } .price-range-group, .filter-actions { flex-basis: 100%; } }
+        
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 20px; }
+            .nav-logo { font-size: 1.2rem; }
+            .hamburger-menu { display: flex; }
+            .navbar .nav-items > .nav-icon, .navbar .nav-items > .theme-switch-wrapper { display: none; }
+            .arriendos-section { padding: 60px 20px; }
+            .section-title { font-size: 2rem; }
+            .filter-group { flex-basis: 100%; }
+            .filter-actions .btn { width: 100%; }
+            .modal-content { width: 95%; padding: 20px; }
+            .modal-arriendo-slider { height: 250px; }
+            .modal-action-buttons { flex-direction: column; }
+        }
+
+        @media (max-width: 480px) {
+            /* No es necesario tocar .hero-content h1 gracias a clamp() */
+            .arriendos-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <!-- ======== NAVEGACIÓN ======== -->
+    <nav class="navbar">
+        <a href="#" class="nav-logo">BarrioSanLuisArriendo</a>
+        <div class="nav-items">
+            <!-- Controles para versión PC -->
+            <button class="nav-icon" id="favorites-btn-desktop" title="Ver Favoritos">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                <span class="favorites-counter">0</span>
+            </button>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="theme-checkbox-desktop" title="Cambiar tema">
+                    <input type="checkbox" id="theme-checkbox-desktop" />
+                    <div class="slider"></div>
+                </label>
+            </div>
+            <!-- Menú hamburguesa (se activa en CSS para móvil) -->
+            <div class="hamburger-menu">
+                <div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div>
+            </div>
+        </div>
+    </nav>
+    <div class="mobile-menu">
+        <a href="#arriendos" class="menu-link">Arriendos</a>
+        <a href="#" class="menu-link" id="publicar-link">Publicar</a>
+        <a href="#" class="menu-link" id="contacto-link">Contacto</a>
+
+        <div class="mobile-menu-controls">
+             <button class="nav-icon" id="favorites-btn-mobile" title="Ver Favoritos">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                <span class="favorites-counter">0</span>
+            </button>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="theme-checkbox-mobile" title="Cambiar tema">
+                    <input type="checkbox" id="theme-checkbox-mobile" />
+                    <div class="slider"></div>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ======== HERO SECTION / PORTADA ======== -->
+    <header class="hero-section">
+        <div class="hero-slider">
+            <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop');"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>BarrioSanLuisArriendo</h1>
+            <p>Tu próximo hogar te está esperando</p>
+        </div>
+    </header>
+
+    <!-- ======== SECCIÓN DE ARRIENDOS Y FILTROS ======== -->
+    <main id="arriendos">
+        <section class="arriendos-section">
+            <h2 class="section-title" data-aos="fade-up">Arriendos Disponibles</h2>
+            
+            <div class="filter-section" data-aos="fade-up" data-aos-delay="100">
+                <div class="filter-group">
+                    <label for="keyword-search">Palabra Clave</label>
+                    <input type="text" id="keyword-search" class="filter-input" placeholder="Ej: balcón, amoblado...">
+                </div>
+                <div class="filter-group">
+                    <label for="sort-by">Ordenar por</label>
+                    <select id="sort-by" class="filter-select">
+                        <option value="default">Recomendados</option>
+                        <option value="price-asc">Precio (Menor a Mayor)</option>
+                        <option value="price-desc">Precio (Mayor a Menor)</option>
+                        <option value="newest">Más Nuevos</option>
+                    </select>
+                </div>
+                <div class="filter-group price-range-group">
+                    <label>Rango de Precio</label>
+                    <div class="price-slider-container">
+                        <div id="slider-track"></div>
+                        <div id="slider-range-fill"></div>
+                        <input type="range" id="min-price-slider" min="500000" max="5000000" value="500000" step="100000">
+                        <input type="range" id="max-price-slider" min="500000" max="5000000" value="5000000" step="100000">
+                    </div>
+                    <div class="price-values">
+                        <span id="min-price-value">$500.000</span>
+                        <span id="max-price-value">$5.000.000</span>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Cuartos</label>
+                    <div class="btn-group" id="rooms-filter">
+                        <button class="active" data-value="all">Todos</button>
+                        <button data-value="1">1</button><button data-value="2">2</button>
+                        <button data-value="3">3</button><button data-value="4">4+</button>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Baños</label>
+                    <div class="btn-group" id="baths-filter">
+                        <button class="active" data-value="all">Todos</button>
+                        <button data-value="1">1</button><button data-value="2">2</button>
+                        <button data-value="3">3+</button>
+                    </div>
+                </div>
+                <div class="filter-group" style="flex-basis: 100%;">
+                    <label>Servicios Incluidos</label>
+                    <div class="service-group" id="services-filter">
+                        <input type="checkbox" id="service-agua" value="Agua"><label for="service-agua"><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2a10,10 0 0,0 -10,10c0,5.52 4.48,10 10,10s10,-4.48 10,-10a10,10 0 0,0 -10,-10zM12,18a6,6 0 0,1 -6,-6c0,-2.64 1.71,-4.9 4,-5.65v1.15c-1.6.66 -2.8,2.16 -2.8,4.5c0,2.65 2.15,4.8 4.8,4.8s4.8,-2.15 4.8,-4.8c0,-2.34 -1.2,-4.34 -2.8,-4.65v-1.15c2.29,0.75 4,3.01 4,5.65a6,6 0 0,1 -6,6z"></path></svg>Agua</label>
+                        <input type="checkbox" id="service-luz" value="Luz"><label for="service-luz"><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2A7,7 0 0,0 5,9c0,2.38 1.19,4.47 3,5.74V17a1,1 0 0,0 1,1h6a1,1 0 0,0 1,-1v-2.26c1.81,-1.27 3,-3.36 3,-5.74A7,7 0 0,0 12,2z"></path></svg>Luz</label>
+                        <input type="checkbox" id="service-internet" value="Internet"><label for="service-internet"><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5s5,2.24 5,5s-2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3s3,-1.34 3,-3s-1.34,-3 -3,-3z"></path></svg>Internet</label>
+                        <input type="checkbox" id="service-gas" value="Gas"><label for="service-gas"><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M16.5,8c-1.5,0 -3,0.5 -4.5,1.5c-1.5,-1 -3,-1.5 -4.5,-1.5c-1.66,0 -3,1.34 -3,3c0,1.31 0.84,2.42 2,2.82v5.68h2v-4.5c0.59,-0.34 1.27,-0.5 2,-0.5s1.41,0.16 2,0.5v4.5h2v-5.68c1.16,-0.4 2,-1.51 2,-2.82c0,-1.66 -1.34,-3 -3,-3z"></path></svg>Gas</label>
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button id="show-favorites-filter" class="btn btn-outline">❤️ Mostrar Favoritos</button>
+                    <button id="reset-filters" class="btn btn-secondary">Limpiar</button>
+                    <button id="apply-filters" class="btn btn-primary">Aplicar Filtros</button>
+                </div>
+            </div>
+
+            <!-- GALERÍA DE ARRIENDOS -->
+            <div class="arriendos-grid-container">
+                <div class="loading-spinner"></div>
+                <div class="arriendos-grid">
+                    <p id="no-results" style="display: none;">Lo sentimos, no se encontraron arriendos con esos criterios.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======== FOOTER ======== -->
+    <footer class="footer" data-aos="fade-up">
+        <div class="footer-content">
+            <h3>¿Tienes alguna pregunta?</h3>
+            <p>Estamos aquí para ayudarte. Si tienes dudas sobre alguna propiedad o sobre el proceso para publicar, no dudes en escribirnos.</p>
+            <button class="btn btn-whatsapp" id="footer-contacto-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19.04 18.22c-1.34.02-2.65-.34-3.84-.99a13.36 13.36 0 0 1-5.83-5.83c-.65-1.19-1.01-2.5-1-3.84V4.96h3.48l.81 3.22-1.46 1.46c.44.89 1.04 1.73 1.79 2.48.75.75 1.59 1.35 2.48 1.79l1.46-1.46 3.22.81v3.48h-.02zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>
+                Contáctanos por WhatsApp
+            </button>
+        </div>
+    </footer>
+
+    <!-- ======== MODALES ======== -->
+    <div id="modal-arriendo" class="modal"><div class="modal-content"></div></div>
+    <div id="modal-publicar" class="modal">
+        <div class="modal-content modal-publicar-content">
+            <button class="modal-close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            <h3>Publica tu Arriendo</h3><p>¿Deseas publicar tu arriendo? Envíanos los datos e imágenes por WhatsApp y nosotros nos encargamos.</p>
+            <a href="https://wa.me/5738556516?text=Hola,%20quiero%20publicar%20mi%20arriendo%20en%20BarrioSanLuisArriendo." target="_blank" class="btn btn-whatsapp">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19.04 18.22c-1.34.02-2.65-.34-3.84-.99a13.36 13.36 0 0 1-5.83-5.83c-.65-1.19-1.01-2.5-1-3.84V4.96h3.48l.81 3.22-1.46 1.46c.44.89 1.04 1.73 1.79 2.48.75.75 1.59 1.35 2.48 1.79l1.46-1.46 3.22.81v3.48h-.02zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>
+                Enviar por WhatsApp</a>
+        </div>
+    </div>
+    <div id="modal-contacto" class="modal">
+        <div class="modal-content modal-contacto-content">
+            <button class="modal-close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            <h3>Contáctanos</h3><p>Para consultas generales, soporte o información sobre nuestro servicio, puedes escribirnos directamente a nuestro WhatsApp.</p>
+            <a href="https://wa.me/5738556516?text=Hola,%20necesito%20información%20sobre%20el%20servicio%20de%20BarrioSanLuisArriendo." target="_blank" class="btn btn-whatsapp">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19.04 18.22c-1.34.02-2.65-.34-3.84-.99a13.36 13.36 0 0 1-5.83-5.83c-.65-1.19-1.01-2.5-1-3.84V4.96h3.48l.81 3.22-1.46 1.46c.44.89 1.04 1.73 1.79 2.48.75.75 1.59 1.35 2.48 1.79l1.46-1.46 3.22.81v3.48h-.02zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>
+                Contactar por WhatsApp</a>
+        </div>
+    </div>
+    <div id="modal-map" class="modal">
+        <div class="modal-content">
+            <button class="modal-close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            <iframe id="map-iframe" src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+    
+    <button id="back-to-top-btn" title="Volver arriba">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
+    </button>
+
+
+    <!-- ======== SCRIPTS ======== -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // ✅ MEJORA: Base de datos expandida a 10 propiedades con datos variados.
+        const arriendosData = [
+            { id: 1, nombre: 'Apartamento Moderno con Balcón', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613553423758-d8425552399c?q=80&w=1974&auto=format&fit=crop', 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1505691938895-1758d7FEB511?q=80&w=2070&auto=format&fit=crop'], direccion: 'Calle 123 #45-67, Apto 501', cuartos: 3, banos: 2, area: 95, precio: 2500000, servicios: ['Agua', 'Luz', 'Internet'], tags: ['Acepta Mascotas', 'Nuevo'], descripcion: 'Espectacular apartamento con acabados de lujo, excelente iluminación natural y un amplio balcón con vista al parque. Ubicado en una zona tranquila y segura, cerca de centros comerciales y transporte público.', whatsapp: '5738556516', fechaPublicacion: '2024-05-15', lat: 4.6986, lng: -74.0321 },
+            { id: 2, nombre: 'Casa Familiar Amplia y Acogedora', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&w=2070&auto=format&fit=crop'], direccion: 'Carrera 10 # 80-20', cuartos: 4, banos: 3, area: 180, precio: 4200000, servicios: ['Agua', 'Luz', 'Gas'], tags: ['Acepta Mascotas'], descripcion: 'Casa de dos pisos ideal para familias. Cuenta con un patio trasero, estudio, parqueadero y cocina integral remodelada. El conjunto residencial ofrece vigilancia 24/7, piscina y salón social.', whatsapp: '5738556516', fechaPublicacion: '2024-05-10', lat: 4.7001, lng: -74.0345 },
+            { id: 3, nombre: 'Apartaestudio Amoblado Cerca al Parque', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1594904533828-78a709998e3c?q=80&w=2070&auto=format&fit=crop'], direccion: 'Calle 100 # 15-30', cuartos: 1, banos: 1, area: 45, precio: 1600000, servicios: ['Agua', 'Luz', 'Internet', 'Gas'], tags: ['Amoblado', 'Nuevo'], descripcion: 'Perfecto para una persona o pareja. Totalmente amoblado con estilo moderno, incluye todos los servicios y está a pasos del parque principal, ideal para hacer ejercicio y relajarse.', whatsapp: '5738556516', fechaPublicacion: '2024-05-20', lat: 4.6955, lng: -74.0310 },
+            { id: 4, nombre: 'Penthouse Dúplex con Terraza Privada', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1600607686527-6fb886290705?q=80&w=1974&auto=format&fit=crop'], direccion: 'Av. Circunvalar # 50-10, Apto 1201', cuartos: 3, banos: 4, area: 220, precio: 4800000, servicios: ['Agua', 'Luz', 'Gas'], tags: ['Acepta Mascotas'], descripcion: 'Lujoso penthouse de dos niveles con una impresionante terraza con vista a la ciudad. Cuenta con jacuzzi, BBQ, y acabados de primera calidad. Exclusividad y confort en un solo lugar.', whatsapp: '5738556516', fechaPublicacion: '2024-04-28', lat: 4.7020, lng: -74.0300 },
+            { id: 5, nombre: 'Apartamento Económico y Bien Ubicado', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop'], direccion: 'Carrera 7 # 95-55', cuartos: 2, banos: 1, area: 60, precio: 1350000, servicios: ['Agua', 'Luz'], tags: [], descripcion: 'Apartamento funcional en un edificio tradicional. Ideal para estudiantes o parejas que buscan una opción económica sin sacrificar una buena ubicación. Cerca a vías principales.', whatsapp: '5738556516', fechaPublicacion: '2024-05-18', lat: 4.6978, lng: -74.0355 },
+            { id: 6, nombre: 'Casa con Jardín y Parqueadero Doble', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop'], direccion: 'Calle 116 # 20-40', cuartos: 4, banos: 3, area: 200, precio: 3900000, servicios: ['Agua', 'Luz', 'Gas'], tags: ['Acepta Mascotas'], descripcion: 'Amplia casa con un hermoso jardín interior, perfecta para familias con niños o mascotas. Cuenta con parqueadero para dos vehículos y un cuarto de servicio.', whatsapp: '5738556516', fechaPublicacion: '2024-05-05', lat: 4.6999, lng: -74.0333 },
+            { id: 7, nombre: 'Loft Industrial para Artistas', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop'], direccion: 'Transversal 5 # 78-12', cuartos: 1, banos: 2, area: 110, precio: 2800000, servicios: ['Agua', 'Luz', 'Internet'], tags: ['Nuevo'], descripcion: 'Espacio abierto tipo loft con techos altos y grandes ventanales. Ideal para creativos, artistas o profesionales que trabajan desde casa y necesitan un espacio inspirador.', whatsapp: '5738556516', fechaPublicacion: '2024-05-21', lat: 4.6963, lng: -74.0328 },
+            { id: 8, nombre: 'Apartamento Remodelado con Cocina Abierta', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=2070&auto=format&fit=crop'], direccion: 'Calle 92 # 11-80', cuartos: 2, banos: 2, area: 80, precio: 2200000, servicios: ['Agua', 'Luz', 'Gas'], tags: ['Amoblado', 'Acepta Mascotas'], descripcion: 'Recién remodelado con un diseño moderno. La cocina abierta se integra perfectamente con el área social. Se entrega amoblado y listo para habitar.', whatsapp: '5738556516', fechaPublicacion: '2024-05-12', lat: 4.6981, lng: -74.0340 },
+            { id: 9, nombre: 'Apartamento de 1 Habitación con Estudio', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=2074&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=2074&auto=format&fit=crop'], direccion: 'Carrera 13 # 105-21', cuartos: 1, banos: 2, area: 70, precio: 1950000, servicios: ['Agua', 'Luz', 'Internet'], tags: [], descripcion: 'Acogedor apartamento que además de su habitación principal, cuenta con un espacio independiente ideal para oficina en casa. Edificio con gimnasio y salón comunal.', whatsapp: '5738556516', fechaPublicacion: '2024-05-01', lat: 4.7015, lng: -74.0315 },
+            { id: 10, nombre: 'Casa Esquinera Comercial y Residencial', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=2070&auto=format&fit=crop'], direccion: 'Esquina Calle 85 con Carrera 15', cuartos: 5, banos: 4, area: 250, precio: 5000000, servicios: ['Agua', 'Luz'], tags: [], descripcion: 'Propiedad de uso mixto. Ideal para una familia grande o para quien desee tener su negocio en el primer piso y la vivienda en el segundo. Ubicación estratégica de alta visibilidad.', whatsapp: '5738556516', fechaPublicacion: '2024-04-25', lat: 4.6990, lng: -74.0360 }
+        ];
+
+        AOS.init({ duration: 800, once: true, offset: 50 });
+
+        // --- MANEJO DE SCRIPTS BÁSICOS (NAV, HERO, MODALES) ---
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const menuLinks = document.querySelectorAll('.menu-link');
+        hamburgerMenu.addEventListener('click', () => { hamburgerMenu.classList.toggle('active'); mobileMenu.classList.toggle('active'); });
+        menuLinks.forEach(link => { link.addEventListener('click', () => { hamburgerMenu.classList.remove('active'); mobileMenu.classList.remove('active'); }); });
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => { window.scrollY > 50 ? navbar.classList.add('scrolled') : navbar.classList.remove('scrolled'); });
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        let currentHeroSlide = 0;
+        setInterval(() => {
+            heroSlides[currentHeroSlide].classList.remove('active');
+            currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+            heroSlides[currentHeroSlide].classList.add('active');
+        }, 5000);
+
+        const allModals = document.querySelectorAll('.modal');
+        const openModal = (modal) => modal.classList.add('active');
+        const closeModal = (modal) => modal.classList.remove('active');
+        document.getElementById('publicar-link').addEventListener('click', (e) => { e.preventDefault(); openModal(document.getElementById('modal-publicar')); });
+        document.getElementById('contacto-link').addEventListener('click', (e) => { e.preventDefault(); openModal(document.getElementById('modal-contacto')); });
+        document.getElementById('footer-contacto-btn').addEventListener('click', () => openModal(document.getElementById('modal-contacto')));
+        allModals.forEach(modal => {
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal); });
+            const closeBtn = modal.querySelector('.modal-close');
+            if(closeBtn) closeBtn.addEventListener('click', () => closeModal(modal));
+        });
+
+        // --- LÓGICA MODO OSCURO ---
+        const themeSwitches = [
+            document.getElementById('theme-checkbox-desktop'),
+            document.getElementById('theme-checkbox-mobile')
+        ];
+        const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.body.setAttribute('data-theme', currentTheme);
+        
+        const applyTheme = (theme) => {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            const isDark = theme === 'dark';
+            themeSwitches.forEach(sw => sw.checked = isDark);
+        };
+
+        themeSwitches.forEach(sw => {
+            sw.addEventListener('change', e => {
+                applyTheme(e.target.checked ? 'dark' : 'light');
+            });
+        });
+        applyTheme(currentTheme);
+
+
+        // --- LÓGICA DE FAVORITOS ---
+        const favoritesBtns = [
+            document.getElementById('favorites-btn-desktop'),
+            document.getElementById('favorites-btn-mobile')
+        ];
+        const favoritesCounters = document.querySelectorAll('.favorites-counter');
+        const showFavoritesFilterBtn = document.getElementById('show-favorites-filter');
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let showingOnlyFavorites = false;
+
+        const updateFavoritesCounter = () => {
+            favoritesCounters.forEach(counter => {
+                counter.textContent = favorites.length;
+                counter.classList.toggle('visible', favorites.length > 0);
+            });
+        };
+        
+        const toggleFavorite = (id) => {
+            const idAsNumber = parseInt(id, 10);
+            const index = favorites.indexOf(idAsNumber);
+            if (index > -1) favorites.splice(index, 1); else favorites.push(idAsNumber);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoritesCounter();
+            if (showingOnlyFavorites) applyFilters();
+        };
+
+        favoritesBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                hamburgerMenu.classList.remove('active'); 
+                mobileMenu.classList.remove('active');
+                document.getElementById('arriendos').scrollIntoView({ behavior: 'smooth' });
+                if (!showingOnlyFavorites) showFavoritesFilterBtn.click();
+            });
+        });
+        
+        // --- BOTÓN "VOLVER ARRIBA" ---
+        const backToTopBtn = document.getElementById('back-to-top-btn');
+        window.addEventListener('scroll', () => backToTopBtn.classList.toggle('visible', window.scrollY > 300));
+        backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        
+        // --- LÓGICA DE FILTROS Y RENDERIZADO ---
+        const arriendosGrid = document.querySelector('.arriendos-grid');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        const noResultsMessage = document.getElementById('no-results');
+        const keywordInput = document.getElementById('keyword-search');
+        const sortBySelect = document.getElementById('sort-by');
+        const minPriceSlider = document.getElementById('min-price-slider');
+        const maxPriceSlider = document.getElementById('max-price-slider');
+        const minPriceValue = document.getElementById('min-price-value');
+        const maxPriceValue = document.getElementById('max-price-value');
+        const rangeFill = document.getElementById('slider-range-fill');
+        const roomsFilter = document.getElementById('rooms-filter');
+        const bathsFilter = document.getElementById('baths-filter');
+        const servicesFilter = document.getElementById('services-filter');
+        const applyFiltersBtn = document.getElementById('apply-filters');
+        const resetFiltersBtn = document.getElementById('reset-filters');
+        
+        function formatPrice(value) {
+            return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
+        }
+
+        function updatePriceSlider() {
+            let min = parseInt(minPriceSlider.value), max = parseInt(maxPriceSlider.value);
+            if (min >= max) {
+                if (this.id === 'min-price-slider') {
+                    min = max - parseInt(minPriceSlider.step);
+                    minPriceSlider.value = min;
+                } else {
+                    max = min + parseInt(maxPriceSlider.step);
+                    maxPriceSlider.value = max;
+                }
+            }
+            minPriceValue.textContent = formatPrice(min); maxPriceValue.textContent = formatPrice(max);
+            const minPercent = ((min - minPriceSlider.min) / (minPriceSlider.max - minPriceSlider.min)) * 100;
+            const maxPercent = ((max - minPriceSlider.min) / (minPriceSlider.max - minPriceSlider.min)) * 100;
+            rangeFill.style.left = `${minPercent}%`; rangeFill.style.width = `${maxPercent - minPercent}%`;
+        }
+        [minPriceSlider, maxPriceSlider].forEach(slider => slider.addEventListener('input', updatePriceSlider));
+
+        [roomsFilter, bathsFilter].forEach(filterGroup => {
+            filterGroup.addEventListener('click', e => {
+                if (e.target.tagName === 'BUTTON') {
+                    filterGroup.querySelector('.active').classList.remove('active');
+                    e.target.classList.add('active');
+                }
+            });
+        });
+
+        function generateTags(tags) {
+            if (!tags || tags.length === 0) return '';
+            const tagMap = { 'Acepta Mascotas': 'tag-pet', 'Nuevo': 'tag-new', 'Amoblado': 'tag-furnished' };
+            return `<div class="card-tags">${tags.map(tag => `<span class="card-tag ${tagMap[tag] || ''}">${tag}</span>`).join('')}</div>`;
+        }
+
+        const renderArriendos = (data) => {
+            arriendosGrid.innerHTML = '';
+            noResultsMessage.style.display = 'none';
+            if (data.length === 0) {
+                noResultsMessage.style.display = 'block';
+                return;
+            }
+
+            data.forEach(arriendo => {
+                const card = document.createElement('article');
+                card.className = 'arriendo-card';
+                card.setAttribute('data-aos', 'fade-up');
+                const isFavorite = favorites.includes(arriendo.id);
+                card.innerHTML = `
+                    <div class="arriendo-card-img-container">
+                        ${generateTags(arriendo.tags)}
+                        <img src="${arriendo.imagenPrincipal}" alt="${arriendo.nombre}" class="arriendo-card-img" loading="lazy">
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${arriendo.id}" title="Añadir a favoritos">
+                           <svg viewBox="0 0 24 24"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                        </button>
+                    </div>
+                    <div class="arriendo-card-content">
+                        <h3>${arriendo.nombre}</h3>
+                        <p>${arriendo.cuartos} cuartos • ${arriendo.banos} baños • ${arriendo.area} m²</p>
+                        <p><strong>${formatPrice(arriendo.precio)}</strong></p>
+                        <p class="arriendo-card-price-per-sqm">${formatPrice(arriendo.precio / arriendo.area)} / m²</p>
+                    </div>
+                    <div class="arriendo-card-actions">
+                        <button class="btn btn-primary btn-ver-detalles" data-id="${arriendo.id}">Ver Detalles</button>
+                    </div>`;
+                arriendosGrid.appendChild(card);
+            });
+            setTimeout(() => AOS.refresh(), 100);
+        };
+
+        const applyFilters = () => {
+            loadingSpinner.classList.add('visible');
+            arriendosGrid.classList.add('loading');
+            
+            setTimeout(() => {
+                const keyword = keywordInput.value.toLowerCase().trim();
+                const sortBy = sortBySelect.value;
+                const minPrice = parseInt(minPriceSlider.value), maxPrice = parseInt(maxPriceSlider.value);
+                const rooms = roomsFilter.querySelector('.active').dataset.value;
+                const baths = bathsFilter.querySelector('.active').dataset.value;
+                const requiredServices = [...servicesFilter.querySelectorAll('input:checked')].map(cb => cb.value);
+
+                let baseData = showingOnlyFavorites ? arriendosData.filter(a => favorites.includes(a.id)) : arriendosData;
+
+                let filteredData = baseData.filter(arriendo => {
+                    const keywordMatch = keyword === '' || arriendo.nombre.toLowerCase().includes(keyword) || arriendo.descripcion.toLowerCase().includes(keyword) || arriendo.tags.join(' ').toLowerCase().includes(keyword);
+                    const priceMatch = arriendo.precio >= minPrice && arriendo.precio <= maxPrice;
+                    const roomsMatch = rooms === 'all' || (rooms === '4+' ? arriendo.cuartos >= 4 : arriendo.cuartos == rooms);
+                    const bathsMatch = baths === 'all' || (baths === '3+' ? arriendo.banos >= 3 : arriendo.banos == baths);
+                    const servicesMatch = requiredServices.every(service => arriendo.servicios.includes(service));
+                    return keywordMatch && priceMatch && roomsMatch && bathsMatch && servicesMatch;
+                });
+
+                switch (sortBy) {
+                    case 'price-asc': filteredData.sort((a, b) => a.precio - b.precio); break;
+                    case 'price-desc': filteredData.sort((a, b) => b.precio - a.precio); break;
+                    case 'newest': filteredData.sort((a, b) => new Date(b.fechaPublicacion) - new Date(a.fechaPublicacion)); break;
+                }
+
+                renderArriendos(filteredData);
+                loadingSpinner.classList.remove('visible');
+                arriendosGrid.classList.remove('loading');
+            }, 300);
+        };
+
+        const resetFilters = () => {
+            keywordInput.value = ''; sortBySelect.value = 'default';
+            minPriceSlider.value = minPriceSlider.min; maxPriceSlider.value = maxPriceSlider.max;
+            updatePriceSlider();
+            roomsFilter.querySelector('.active').classList.remove('active');
+            roomsFilter.querySelector('[data-value="all"]').classList.add('active');
+            bathsFilter.querySelector('.active').classList.remove('active');
+            bathsFilter.querySelector('[data-value="all"]').classList.add('active');
+            servicesFilter.querySelectorAll('input:checked').forEach(cb => cb.checked = false);
+            if (showingOnlyFavorites) showFavoritesFilterBtn.click(); else applyFilters();
+        };
+
+        showFavoritesFilterBtn.addEventListener('click', () => {
+            showingOnlyFavorites = !showingOnlyFavorites;
+            showFavoritesFilterBtn.classList.toggle('active', showingOnlyFavorites);
+            showFavoritesFilterBtn.innerHTML = showingOnlyFavorites ? '❤️ Mostrando Favoritos' : '❤️ Mostrar Favoritos';
+            applyFilters();
+        });
+
+        applyFiltersBtn.addEventListener('click', applyFilters);
+        resetFiltersBtn.addEventListener('click', resetFilters);
+        sortBySelect.addEventListener('change', applyFilters);
+
+        const arriendoModal = document.getElementById('modal-arriendo');
+        const mapModal = document.getElementById('modal-map');
+        const mapIframe = document.getElementById('map-iframe');
+        let currentModalSlide = 0;
+
+        function showModalSlide(index) {
+            const slides = arriendoModal.querySelectorAll('.slide');
+            slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        }
+        window.nextModalSlide = () => { const slides = arriendoModal.querySelectorAll('.slide'); currentModalSlide = (currentModalSlide + 1) % slides.length; showModalSlide(currentModalSlide); };
+        window.prevModalSlide = () => { const slides = arriendoModal.querySelectorAll('.slide'); currentModalSlide = (currentModalSlide - 1 + slides.length) % slides.length; showModalSlide(currentModalSlide); };
+        
+        function renderArriendoModal(data) {
+            currentModalSlide = 0;
+            const modalContent = arriendoModal.querySelector('.modal-content');
+            const tagsHTML = data.tags && data.tags.length > 0 ? `<div class="modal-tags"><h4>Características</h4>${generateTags(data.tags)}</div>` : '';
+
+            modalContent.innerHTML = `
+                <button class="modal-close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                <div class="modal-arriendo-slider">${data.imagenes.map((img, index) => `<img src="${img}" class="slide ${index === 0 ? 'active' : ''}" alt="Foto ${index+1}">`).join('')}<div class="slider-nav"><button onclick="prevModalSlide()">❮</button><button onclick="nextModalSlide()">❯</button></div></div>
+                <h3>${data.nombre}</h3>
+                <ul class="modal-arriendo-details">
+                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0-10c-4.2 0-8 3.22-8 8.2 0 3.32 2.67 7.27 8 11.8 5.33-4.53 8-8.48 8-11.8C20 5.22 16.2 2 12 2z"></path></svg> ${data.direccion}</li>
+                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"></path></svg> ${data.cuartos} Cuartos</li>
+                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8h-1V6c0-2.76-2.24-5-5-5S8 3.24 8 6v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6-4c1.65 0 3 1.35 3 3v2H9V6c0-1.65 1.35-3 3-3zm7 14H8V10h12v8z"></path></svg> ${data.banos} Baños</li>
+                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M21 6H3V4h18v2zm0 4H3v2h18v-2zm0 4H3v2h18v-2z"></path></svg> ${data.area} m²</li>
+                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"></path></svg> <strong>Precio:</strong> ${formatPrice(data.precio)} COP/mes</li>
+                </ul>
+                ${tagsHTML}
+                <h4>Servicios Incluidos</h4>
+                <p class="modal-arriendo-description">${data.servicios.join(', ')}</p>
+                <h4>Descripción Completa</h4>
+                <p class="modal-arriendo-description">${data.descripcion}</p>
+                <div class="modal-action-buttons">
+                    <a href="https://wa.me/${data.whatsapp}?text=Hola,%20estoy%20interesado%20en%20el%20arriendo%20'${encodeURIComponent(data.nombre)}'%20publicado%20en%20BarrioSanLuisArriendo." target="_blank" class="btn btn-whatsapp">Contactar por WhatsApp</a>
+                    <button class="btn btn-outline btn-view-map" data-lat="${data.lat}" data-lng="${data.lng}">Ver en Mapa</button>
+                    <button class="btn btn-outline btn-share" data-id="${data.id}">Compartir</button>
+                </div>`;
+            modalContent.querySelector('.modal-close').addEventListener('click', () => closeModal(arriendoModal));
+            openModal(arriendoModal);
+        }
+
+        arriendosGrid.addEventListener('click', (e) => {
+            const favoriteButton = e.target.closest('.favorite-btn');
+            if (favoriteButton) {
+                toggleFavorite(favoriteButton.dataset.id);
+                favoriteButton.classList.toggle('active');
+                return;
+            }
+            const detailsButton = e.target.closest('.btn-ver-detalles');
+            if (detailsButton) {
+                const id = detailsButton.getAttribute('data-id');
+                const data = arriendosData.find(item => item.id == id);
+                if (data) renderArriendoModal(data);
+            }
+        });
+
+        arriendoModal.addEventListener('click', e => {
+            const mapButton = e.target.closest('.btn-view-map');
+            if (mapButton) {
+                const lat = mapButton.dataset.lat, lng = mapButton.dataset.lng;
+                mapIframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(lng)-0.005},${parseFloat(lat)-0.005},${parseFloat(lng)+0.005},${parseFloat(lat)+0.005}&layer=mapnik&marker=${lat},${lng}`;
+                openModal(mapModal);
+            }
+
+            const shareButton = e.target.closest('.btn-share');
+            if (shareButton) {
+                const propertyId = shareButton.dataset.id;
+                const urlToShare = `${window.location.href.split(/[?#]/)[0]}?property=${propertyId}`;
+                navigator.clipboard.writeText(urlToShare).then(() => {
+                    shareButton.textContent = '¡Enlace Copiado!';
+                    setTimeout(() => { shareButton.textContent = 'Compartir'; }, 2000);
+                }).catch(err => console.error('Error al copiar enlace: ', err));
+            }
+        });
+        
+        const checkUrlParams = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const propertyId = urlParams.get('property');
+            if (propertyId) {
+                const data = arriendosData.find(item => item.id == propertyId);
+                if (data) setTimeout(() => renderArriendoModal(data), 500);
+            }
+        };
+
+        updatePriceSlider();
+        updateFavoritesCounter();
+        applyFilters();
+        checkUrlParams();
     });
-  });
-
-  // Cerrar dropdown al hacer clic fuera
-  window.addEventListener('click', function () {
-    document.querySelectorAll('.dropdown').forEach(drop => {
-      drop.classList.remove('open');
-    });
-  });
-
-  // Mostrar / Ocultar políticas
-  window.togglePolicies = function () {
-    const policyBox = document.getElementById('policyBox');
-    const button = document.querySelector('.policy-button');
-
-    if (policyBox.style.display === "none" || policyBox.style.display === "") {
-      policyBox.style.display = "block";
-      button.innerHTML = "📜 Ver Menos";
-    } else {
-      policyBox.style.display = "none";
-      button.innerHTML = "📜 Ver Más";
-    }
-  };
-
-  // Variables para el saldo y la animación
-const startAmount = 0.00003936;  // Saldo inicial
-const endAmount = 7.5;  // Límite de 7.5 USD para retiro
-const duration = 30 * 24 * 60 * 60; // 30 días en segundos
-const incrementPerSecond = (endAmount - startAmount) / duration;
-
-const dollarAmountElement = document.getElementById("dollarAmount");
-const withdrawButton = document.getElementById("withdrawButton");
-const withdrawMessage = document.getElementById("withdrawMessage");
-const accessButton = document.getElementById("accessButton");
-const accessCodeInput = document.getElementById("accessCode");
-const accessMessage = document.getElementById("accessMessage");
-
-// Código de acceso exclusivo
-const accessCode = "16389";  // Código exclusivo para activar el retiro
-
-// Guardar el tiempo de inicio si no existe
-if (!localStorage.getItem('startTime')) {
-  localStorage.setItem('startTime', Date.now());
-}
-
-// Función para actualizar el saldo cada segundo
-function updateBalance() {
-  const startTime = parseInt(localStorage.getItem('startTime'));
-  const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-
-  let currentAmount = startAmount + (incrementPerSecond * elapsedSeconds);
-
-  // Limitar a 7.5 USD
-  if (currentAmount >= endAmount) {
-    currentAmount = endAmount;
-    withdrawButton.disabled = false; // Habilitar el botón de "Retirar"
-    withdrawMessage.style.display = "none"; // Ocultar el mensaje de error
-  }
-
-  dollarAmountElement.textContent = `$${currentAmount.toFixed(8)} USD`;
-}
-
-// Función de verificación del código de acceso exclusivo
-function verifyAccessCode() {
-  let inputCode = accessCodeInput.value;
-
-  if (inputCode === accessCode) {
-    accessMessage.style.display = "none"; // Ocultar mensaje de error
-    accessButton.disabled = true; // Deshabilitar el botón después de verificar
-    localStorage.setItem('accessVerified', 'true'); // Guardar que el código fue verificado
-    startCounting(); // Comenzar el conteo del saldo
-  } else {
-    accessMessage.style.display = "block"; // Mostrar mensaje de error
-  }
-}
-
-// Guardar el ID del intervalo
-let updateInterval;
-
-// Iniciar el conteo cuando el código es correcto
-function startCounting() {
-  // Limpiar el intervalo si ya existe
-  if (updateInterval) {
-    clearInterval(updateInterval);
-  }
-
-  // Guardar el tiempo de inicio
-  localStorage.setItem('startTime', Date.now());
-  updateBalance(); // Iniciar el conteo inmediatamente
-  updateInterval = setInterval(updateBalance, 1000); // Actualizar cada segundo
-}
-
-// Verificar si el saldo es suficiente para retirar
-function checkWithdrawal() {
-  const currentAmount = parseFloat(dollarAmountElement.textContent.replace('$', '').replace(' USD', ''));
-
-  if (currentAmount < 7.5) {
-    withdrawMessage.style.display = "block"; // Mostrar el mensaje si el saldo es menor a 7.5 USD
-    return; // Evitar que el usuario retire si no tiene 7.5 USD
-  }
-
-  // Si el saldo es 7.5 USD o más, redirigir al usuario
-  if (confirm("Antes de retirar, por favor lee y acepta nuestra cultura y políticas. ¿Deseas continuar?")) {
-    window.location.href = 'https://wa.me/573008556516'; // Redirigir al WhatsApp
-  }
-}
-
-// Establecer el evento para verificar el código
-accessButton.addEventListener("click", verifyAccessCode);
-
-// Al hacer clic en el botón "Retirar", reiniciar el saldo
-withdrawButton.addEventListener("click", function () {
-  // Reiniciar el tiempo de inicio y el saldo
-  localStorage.setItem('startTime', Date.now());
-  withdrawButton.disabled = true; // Deshabilitar el botón de "Retirar"
-  updateBalance(); // Actualizar el saldo inmediatamente
-});
-
-// Revisar si el código ya fue verificado
-if (localStorage.getItem('accessVerified') === 'true') {
-  startCounting();  // Si el código fue verificado, iniciar el conteo
-}
-
-// Establecer el evento para verificar el código
-accessButton.addEventListener("click", verifyAccessCode);
-
-// Al hacer clic en el botón "Retirar", reiniciar el saldo
-withdrawButton.addEventListener("click", function () {
-  localStorage.setItem('startTime', Date.now());
-  withdrawButton.disabled = true;
-  updateBalance();
-});
-
-// Revisar si el código ya fue verificado
-if (localStorage.getItem('accessVerified') === 'true') {
-  startCounting();
-}
-
-// ADVERTENCIA DEL NEGOCIO (Sin mostrar link ni nombre externo, solo "FeminaLab dice")
-document.querySelector('.dropdown-btn').addEventListener('click', function(e) {
-  e.preventDefault();
-
-  const confirmacion = confirm(
-    "📢 FeminaLab dice 📢\n\n" +
-    "Antes de ver los productos, recuerda cómo funciona el negocio:\n\n" +
-    "✅ Tú solo promocionas los productos en redes sociales, familia o amigos\n" +
-    "✅ Puedes buscar cualquier producto en AliExpress (peluches, maquillaje, belleza, ropa, accesorios... lo que quieras que sea para chicas FeminaLab Girls)\n" +
-    "✅ El cliente paga directamente a FeminaLab (NO a ti)\n" +
-    "✅ FeminaLab se encarga de comprar, enviar el producto y gestionar todo el proceso\n" +
-    "✅ Tú recibes una gran comisión por cada venta\n\n" +
-    "❌ No puedes comprar los productos directo tú\n" +
-    "❌ No puedes recibir el dinero tú\n\n" +
-    "🚨 ¿Por qué? 🚨\n" +
-    "Por tu seguridad y tranquilidad:\n" +
-    "- Evitamos estafas y confusiones\n" +
-    "- Aseguramos que el producto llegue correctamente a tu cliente\n" +
-    "- Protegemos el inventario y garantizamos una entrega segura\n\n" +
-    "👩 FeminaLab fue creado especialmente para chicas de 14 a 17 años que todavía no saben manejar compras, pagos ni envíos. Si tienes 18 años o más, recuerda que igualmente nosotros nos hacemos responsables de todo para facilitarte el negocio.\n\n" +
-    "✨ Tú solo atrae al cliente y gana dinero fácil con FeminaLab ✨\n\n" +
-    "Si estás de acuerdo, toca 'Aceptar' para ver los productos"
-  );
-
-  if (confirmacion) {
-    document.querySelector('.dropdown-content').style.display = 'block';
-  } else {
-    document.querySelector('.dropdown-content').style.display = 'none';
-  }
-});
-
-}); // Cierre necesario para el código
-</script>
-
-
-
-<!-- Botón de WhatsApp abajo del todo, centrado -->
-<div style="text-align: center; margin-top: 60px;">
-  <a href="https://chat.whatsapp.com/ILmv1ork9L1ESr7qAAl7ZT" target="_blank">
-    <button class="btn-whatsapp">💬 Grupo de WhatsApp</button>
-  </a>
-</div>
-
-<!-- Derechos reservados -->
-<footer style="text-align: center; margin-top: 30px; padding-bottom: 20px; font-size: 14px; font-family: 'Segoe UI', sans-serif; color: #b8005c;">
-  © 2025 Todos los derechos reservados · <strong style="color: #e60073; font-weight: 600;">FeminaLab</strong>
-</footer>
+    </script>
+</body>
+</html>
