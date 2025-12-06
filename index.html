@@ -21,7 +21,6 @@
             --history-color: #00bcd4;
             --font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
             --toggle-color: #6c757d;
-            --sticky-nav-color: #34495e; /* Color oscuro para la barra de navegación rápida */
         }
 
         /* --- ESTILOS GENERALES Y LAYOUT --- */
@@ -32,7 +31,6 @@
             background-color: var(--background-light);
             color: #333;
             line-height: 1.6;
-            scroll-behavior: smooth; /* Desplazamiento suave para la navegación */
         }
 
         .container {
@@ -108,48 +106,6 @@
             overflow: hidden;
         }
 
-        /* --- STICKY NAVIGATION --- */
-        .sticky-nav {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            z-index: 990;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .sticky-nav-button {
-            background-color: var(--sticky-nav-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            text-align: left;
-            font-size: 0.9em;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: background-color 0.2s, transform 0.1s;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-        }
-        
-        .sticky-nav-button:hover {
-            background-color: #2c3e50;
-            transform: scale(1.03);
-        }
-        
-        .sticky-nav-button i {
-            font-size: 1.1em;
-        }
-
-
         /* --- ITEMS DE COPIA Y BOTONES --- */
         .info-item {
             display: flex;
@@ -200,17 +156,36 @@
             border-radius: 6px;
             transition: background-color 0.2s, transform 0.1s;
             min-width: 100px;
-            flex-shrink: 0; 
+            flex-shrink: 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .copy-button:hover {
+            background-color: #005f9c;
+            transform: translateY(-1px);
         }
 
         /* --- GENERADOR DE TABLA --- */
+        #dataInput {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-family: 'Consolas', monospace;
+            resize: vertical;
+            background-color: #fff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Botones de control en fila */
         .control-buttons {
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
         }
-        
+
         #generateButton {
             background-color: var(--success-color);
             color: white;
@@ -220,13 +195,23 @@
             cursor: pointer;
             font-weight: 600;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
         }
         
+        #generateButton:hover {
+            background-color: #15734e;
+        }
+
         #showHistoryButton {
             background-color: var(--history-color);
+            flex-grow: 1;
         }
         
-        /* --- ESTILOS DE TABLAS --- */
+        #showHistoryButton:hover {
+             background-color: #0097a7;
+        }
+
+        /* --- ESTILOS DE TABLAS (Responsive) --- */
         .excel-table-container {
              margin-top: 20px;
              overflow-x: auto; 
@@ -235,9 +220,10 @@
         
         .excel-table {
             width: 100%;
-            min-width: 900px; 
+            min-width: 1000px; /* Asegura que la tabla sea legible */
             border-collapse: collapse;
             font-size: 0.85em;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .excel-table th, .excel-table td {
@@ -250,8 +236,14 @@
         .excel-table th {
             background-color: var(--excel-header-color);
             font-weight: 600;
+            color: var(--secondary-color);
+            text-transform: uppercase;
         }
         
+        .excel-table tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+
         .excel-table .cell-copy {
             cursor: copy;
             font-weight: bold;
@@ -260,38 +252,154 @@
             transition: background-color 0.1s;
         }
         
-        .history-table .cell-copy {
-             background-color: #fff; /* Resetear fondo para el historial */
-             color: #333;
-             cursor: default;
+        .excel-table .cell-copy:hover {
+            background-color: #cceeff;
         }
         
-        /* Estilos específicos para las celdas de Comentario y Suministro en el historial */
-        .history-table td.comment-cell {
-            min-width: 300px;
-            word-wrap: break-word;
-            white-space: normal;
+        /* GESTIÓN DE COMENTARIOS (ARCHIVAR) */
+        .complete-row-button {
+            background-color: var(--complete-button-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+            width: 100%; /* Ocupa todo el espacio para ser claro */
+            margin-bottom: 5px;
         }
         
-        .history-table td.suministro-cell {
-            font-weight: bold;
-            color: var(--danger-color);
-        }
-        
-        /* Botones de acción dentro de las celdas del historial */
-        .history-actions-cell {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-        
-        .history-actions-cell button {
-            padding: 6px 10px;
-            font-size: 0.8em;
-            white-space: nowrap;
+        .complete-row-button:hover {
+             background-color: #e68a00;
         }
 
-        /* --- RESPONSIVE MOBILE --- */
+        .comment-container {
+            padding: 15px;
+            margin-top: 10px;
+            border: 2px solid var(--complete-button-color);
+            border-radius: 8px;
+            background-color: #fff8e1;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .comment-counter {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        
+        .comment-container textarea {
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #f9d8a3;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+
+        .save-comment-button {
+            background-color: var(--success-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        
+        /* HISTORIAL STYLING */
+        .history-table th:nth-child(5) {
+            min-width: 200px; /* Comentario más estrecho en Historial */
+        }
+        
+        .history-table .action-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 5px 8px;
+        }
+        
+        .history-table .action-cell button {
+             font-size: 0.8em;
+             padding: 5px;
+        }
+        
+        .copy-history-button {
+            background-color: #3f51b5; /* Morado/Índigo para copiar */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .copy-history-button:hover {
+            background-color: #303f9f;
+        }
+
+
+        /* --- NOTIFICACIÓN DE AUTO-GUARDADO --- */
+        #saveNotification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 1000;
+            font-size: 0.9em;
+        }
+        
+        #saveNotification.show {
+            opacity: 1;
+        }
+
+        /* --- MENÚ DE NAVEGACIÓN RÁPIDA (STICKY) --- */
+        #sticky-nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 999;
+        }
+        
+        .nav-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+            text-align: left;
+            white-space: nowrap;
+        }
+        
+        .nav-button:hover {
+            background-color: #005f9c;
+            transform: scale(1.05);
+        }
+
+        /* --- RESPONSIVE MOBILE (Máximo 768px de ancho) --- */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -300,20 +408,53 @@
                 padding: 15px;
                 box-shadow: none; 
             }
+            
+            /* El menú de navegación se coloca en la parte inferior para no interferir con el contenido */
+            #sticky-nav {
+                top: auto;
+                bottom: 10px;
+                right: 10px;
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+                background-color: rgba(255, 255, 255, 0.95);
+                padding: 10px 0;
+                border-radius: 10px 10px 0 0;
+                box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-button {
+                font-size: 0.75em;
+                padding: 8px 10px;
+                flex-grow: 1;
+                min-width: 45%; 
+                text-align: center;
+            }
+
+            /* Los info-item se apilan verticalmente */
             .info-item {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 5px;
+                border-bottom: 1px solid var(--border-color); 
                 padding-bottom: 10px;
             }
+            
+            .info-item strong {
+                min-width: 100%;
+            }
+            
             .info-item .copy-target, 
             .info-item .editable-input,
             .info-item .copy-button {
+                flex-grow: 1;
                 width: 100%;
                 min-width: 100%; 
             }
-            
-            /* Botones principales de la lista se apilan */
+
+            /* Botones principales de la lista (Construir y Historial) se apilan */
             .control-buttons {
                 flex-direction: column;
                 gap: 10px;
@@ -324,40 +465,28 @@
                 margin: 0 !important;
             }
             
-            /* Sticky Nav se mueve a la parte inferior en móvil */
-            .sticky-nav {
-                top: auto; 
-                bottom: 10px; 
-                right: 50%;
-                transform: translateX(50%);
-                flex-direction: row; /* Se pone horizontal */
-                overflow-x: auto; /* Permite scroll si hay muchos botones */
-                width: 95%;
-                padding: 8px;
-                gap: 5px;
-                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+            /* En el historial, los botones de acción se vuelven de ancho completo */
+            .history-table .action-cell {
+                 flex-direction: row;
+                 flex-wrap: wrap;
             }
             
-            .sticky-nav-button {
-                padding: 8px 10px;
-                font-size: 0.8em;
-                flex-shrink: 0;
-            }
-            
-            .sticky-nav-button span {
-                 display: none; /* Ocultar el texto para ahorrar espacio */
+            .history-table .action-cell button {
+                 flex-grow: 1;
+                 min-width: 100px;
             }
         }
     </style>
 </head>
 <body>
-    
-    <div class="sticky-nav">
-        <a href="#tarea-activa-section" class="sticky-nav-button"><i class="fas fa-clipboard-list"></i> <span>Activa</span></a>
-        <a href="#tareas-pendientes-section" class="sticky-nav-button"><i class="fas fa-list-alt"></i> <span>Pendientes</span></a>
-        <a href="#historySection" class="sticky-nav-button"><i class="fas fa-archive"></i> <span>Historial</span></a>
-        <a href="#accesos-credenciales-section" class="sticky-nav-button"><i class="fas fa-key"></i> <span>Accesos</span></a>
-        <a href="#buscador-medicamentos-section" class="sticky-nav-button"><i class="fas fa-prescription-bottle-alt"></i> <span>Medicamentos</span></a>
+
+    <div id="sticky-nav">
+        <a class="nav-button" href="#designacion-tarea-section"><i class="fas fa-user-tag"></i> Designación</a>
+        <a class="nav-button" href="#tarea-activa-section"><i class="fas fa-clipboard-list"></i> Tarea Activa</a>
+        <a class="nav-button" href="#tareas-pendientes-section"><i class="fas fa-list-alt"></i> Tareas Pendientes</a>
+        <a class="nav-button" href="#historySection"><i class="fas fa-archive"></i> Historial</a>
+        <a class="nav-button" href="#accesos-credenciales-section"><i class="fas fa-key"></i> Accesos</a>
+        <a class="nav-button" href="#buscador-medicamentos-section"><i class="fas fa-prescription-bottle-alt"></i> Buscador</a>
     </div>
 
     <div class="container">
@@ -367,7 +496,7 @@
             <i class="fas fa-save"></i> Datos guardados automáticamente.
         </div>
 
-        <div class="section">
+        <div class="section" id="designacion-tarea-section">
              <div class="section-header">
                 <h2><i class="fas fa-user-tag"></i> Designación de Tarea</h2>
             </div>
@@ -516,7 +645,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             </div>
             <div class="section-content">
                 <p style="color: var(--secondary-color);">Escribe el nombre del medicamento para encontrar su código rápidamente. **Ahora se activa con solo 1 letra.**</p>
-                <input type="text" id="searchInput" placeholder="Ej: AMLODIPINO, LOSARTAN..." onkeyup="buscarMedicamento()" class="copy-target">
+                <input type="text" id="searchInput" placeholder="Ej: AMOXICILINA, LISINOPRIL..." onkeyup="buscarMedicamento()" class="copy-target">
                 <div id="searchResult"></div>
             </div>
         </div>
@@ -593,26 +722,26 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
              copiarYNotificar(cellElement, textToCopy, true);
         }
         
-        // Función específica para copiar contenido del historial
-        function copiarHistorialItem(index, type) {
-            let textToCopy;
-            let elementToNotify;
-            
+        // Versión especial para copiar el código o comentario del historial
+        function copiarHistorialDato(index, dataType) {
             const tarea = listaDeHistorial[index];
+            let textToCopy;
+            let targetElementId;
             
-            if (type === 'suministro') {
+            if (dataType === 'codSuministro') {
                 textToCopy = tarea.codSuministro;
-                elementToNotify = document.getElementById(`suministro-copy-${index}`);
-            } else if (type === 'comentario') {
+                targetElementId = `copy-suministro-btn-${index}`;
+            } else if (dataType === 'comentario') {
                 textToCopy = tarea.comentario;
-                elementToNotify = document.getElementById(`comment-copy-${index}`);
+                targetElementId = `copy-comment-btn-${index}`;
             } else {
                 return;
             }
             
-            // Usamos la función de copia y notificación principal
-            copiarYNotificar(elementToNotify, textToCopy, false); 
+            const targetElement = document.getElementById(targetElementId);
+            copiarYNotificar(targetElement, textToCopy);
         }
+
 
         function copiarYNotificar(targetElement, textToCopy, isTableCell = false) {
              if (navigator.clipboard && window.isSecureContext) {
@@ -648,35 +777,36 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
         function mostrarNotificacion(targetElement, message, isTableCell) {
             let button = targetElement;
             let originalText = button.textContent;
-            let restoreColor = getComputedStyle(button).backgroundColor;
-            
-            // Si no es una celda de tabla (copiarTextoTabla), el elemento notificador es el botón siguiente
-            if (!isTableCell) {
-                // Si es un botón del sticky nav o historial, el target ya es el botón
-                if (targetElement.classList.contains('copy-button') || targetElement.classList.contains('sticky-nav-button') || targetElement.id.startsWith('suministro-copy') || targetElement.id.startsWith('comment-copy')) {
-                    // Mantener targetElement como button
-                } else {
-                    // Si viene de copiarTexto, el botón es el siguiente elemento
-                    button = targetElement.nextElementSibling;
-                    if (!button || !button.classList.contains('copy-button')) {
-                        // Manejo de casos especiales (buscador, IDs masivos)
-                        if (targetElement.id.startsWith('codigo-med-result')) {
-                           button = targetElement.closest('.info-item').querySelector('.copy-button');
-                        } else if (targetElement.id === 'generated-ids-copia-manual') {
-                           button = document.getElementById('copyAllIdsButton');
-                        } else {
-                            return;
-                        }
+            let originalBg = getComputedStyle(button).backgroundColor;
+            let restoreColor = originalBg; 
+
+            // Si es un botón del historial, necesitamos el color original correcto
+            if (button.classList.contains('copy-history-button')) {
+                restoreColor = '#3f51b5'; // Color Indigo para restauración
+            } else if (button.classList.contains('copy-button') && button.id.includes('copyAllIdsButton')) {
+                 restoreColor = var_success_color;
+            } else if (!isTableCell) {
+                // Si no es celda ni botón de historial, busca el botón asociado si es un target.
+                button = targetElement.nextElementSibling;
+                if (!button || !button.classList.contains('copy-button')) {
+                    if (targetElement.id.startsWith('codigo-med-result')) {
+                       button = targetElement.closest('.info-item').querySelector('.copy-button');
+                    } else if (targetElement.id === 'generated-ids-copia-manual') {
+                       button = document.getElementById('copyAllIdsButton');
+                    } else {
+                        return;
                     }
-                    restoreColor = getComputedStyle(button).backgroundColor;
                 }
-            } else {
-                 // Si es una celda de tabla (copiarTextoTabla), la notificación es temporal en la celda
-                 originalText = button.textContent;
-                 restoreColor = getComputedStyle(button).backgroundColor;
+                originalText = button.textContent;
+                // Ajustar el color de restauración para los botones principales
+                if (targetElement.id === 'accion') {
+                    restoreColor = var_danger_color;
+                } else {
+                    restoreColor = var_primary_color; 
+                }
             }
 
-            // Aplicar la notificación
+
             button.textContent = message;
             button.style.backgroundColor = var_success_color;
             
@@ -758,7 +888,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                                 <th>Ahorro</th>
                                 <th>EPS</th>
                                 <th>Num</th>
-                                <th>Acción</th>
+                                <th style="min-width: 150px;">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -766,6 +896,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             
             let allIds = [];
             
+            // Usamos un loop simple porque el index es solo relevante para los botones.
             listaDeTareas.forEach((tarea, index) => {
                 allIds.push(tarea.id); 
                 
@@ -780,7 +911,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                         <td>${tarea.eps}</td>
                         <td>${tarea.num}</td>
                         <td style="text-align: center;">
-                            <button class="complete-row-button" onclick="mostrarComentario(${index})"><i class="fas fa-archive"></i> Archivar</button>
+                            <button class="complete-row-button" onclick="mostrarComentario(${index})"><i class="fas fa-archive"></i> Archivar Tarea</button>
                             <div id="comment-box-${index}" class="comment-container">
                                 <span class="comment-counter">Tareas: 1</span>
                                 <textarea id="comment-text-${index}" placeholder="Escribe tu comentario..."></textarea>
@@ -819,6 +950,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
 
         function marcarCompletado(index) {
             
+            // Forzamos que solo se pueda archivar la primera tarea (index 0) para mantener la lista ordenada
             if (index !== 0) {
                  alert("¡Atención! Solo se puede archivar la primera tarea de la lista.");
                  return;
@@ -832,33 +964,40 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             }
             
             try {
+                // 1. Obtener comentario
                 const commentTextElement = document.getElementById(`comment-text-${index}`);
                 const commentText = commentTextElement ? commentTextElement.value.trim() : 'Sin comentario';
                 
-                // Mover la tarea al historial (Guardado)
+                // 2. Mover la tarea al historial (Guardado)
                 tareaCompletada.comentario = commentText;
                 tareaCompletada.fecha = new Date().toLocaleString();
+                
+                // Añadimos un ID único al historial para facilitar la copia
+                tareaCompletada.historialIndex = listaDeHistorial.length; 
                 listaDeHistorial.push(tareaCompletada);
                 
-                // Eliminación visual INMEDIATA para feedback
+                // --- INICIO DE ACCIÓN CRÍTICA: Elimina la primera tarea ---
+                
+                // 3. Eliminación visual INMEDIATA para feedback
                 const rowToRemove = document.getElementById(`tarea-row-${index}`);
                 if (rowToRemove) {
                     rowToRemove.style.transition = 'all 0.4s ease-in-out';
                     rowToRemove.style.opacity = '0';
                 }
 
-                // Eliminar la tarea de la lista pendiente (index 0)
-                listaDeTareas.splice(0, 1); 
+                // 4. Eliminar la tarea de la lista pendiente (index 0)
+                listaDeTareas.splice(0, 1); // Siempre elimina la primera fila
                 
-                // Actualizar el textarea con la lista restante
+                // 5. Actualizar el textarea con la lista restante
                 actualizarTextareaConLista();
                 
+                // Damos un pequeño respiro para que la transición visual de opacidad se vea
                 setTimeout(() => {
-                    // Volver a dibujar la tabla, moviendo la segunda a la primera posición
+                    // 6. Volver a dibujar la tabla, moviendo la segunda a la primera posición
                     renderizarTabla(); 
-                    // Renderizar el historial para mostrar la tarea archivada
+                    // 7. Renderizar el historial para mostrar la tarea archivada
                     renderizarHistorial(); 
-                    // Guardar en LocalStorage
+                    // 8. Guardar en LocalStorage
                     guardarDatos(); 
 
                     alert(`Tarea ${tareaCompletada.id} archivada con éxito.
@@ -867,6 +1006,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 }, 400); // 400ms para la animación
 
             } catch (e) {
+                // Si hay un error, el navegador mostrará el mensaje aquí
                 alert("¡ERROR CRÍTICO! Fallo durante el proceso de archivado. Mensaje de Error: " + e.message);
                 console.error("Fallo durante el proceso de archivado:", e);
             }
@@ -904,10 +1044,10 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                             <tr>
                                 <th><i class="fas fa-calendar-alt"></i> Fecha/Hora</th>
                                 <th>ID Liquidación</th>
-                                <th>Cód. Suministro</th>
                                 <th>EPS</th>
                                 <th>Valor</th>
-                                <th style="min-width: 350px;"><i class="fas fa-comment"></i> Comentario</th>
+                                <th>Cód. Suministro</th>
+                                <th style="min-width: 200px;"><i class="fas fa-comment"></i> Comentario</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
@@ -921,14 +1061,14 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 tableHTML += `
                     <tr>
                         <td>${tarea.fecha}</td>
-                        <td class="cell-copy">${tarea.id}</td>
-                        <td id="suministro-display-${originalIndex}" class="suministro-cell">${tarea.codSuministro}</td>
+                        <td class="cell-copy" onclick="copiarTextoTabla(this)">${tarea.id}</td>
                         <td>${tarea.eps}</td>
                         <td>${tarea.valor}</td>
-                        <td id="comment-display-${originalIndex}" class="comment-cell">${tarea.comentario}</td>
-                        <td class="history-actions-cell">
-                            <button id="suministro-copy-${originalIndex}" class="copy-button" onclick="copiarHistorialItem(${originalIndex}, 'suministro')"><i class="fas fa-copy"></i> C.Sumin.</button>
-                            <button id="comment-copy-${originalIndex}" class="copy-button" onclick="copiarHistorialItem(${originalIndex}, 'comentario')" style="background-color: var(--secondary-color);"><i class="fas fa-copy"></i> C.Coment.</button>
+                        <td id="cod-suministro-display-${originalIndex}" class="cell-copy">${tarea.codSuministro}</td>
+                        <td id="comment-display-${originalIndex}" style="white-space: normal;">${tarea.comentario}</td>
+                        <td class="action-cell">
+                            <button id="copy-suministro-btn-${originalIndex}" class="copy-history-button" onclick="copiarHistorialDato(${originalIndex}, 'codSuministro')"><i class="fas fa-copy"></i> Copiar Cód.</button>
+                            <button id="copy-comment-btn-${originalIndex}" class="copy-history-button" onclick="copiarHistorialDato(${originalIndex}, 'comentario')"><i class="fas fa-copy"></i> Copiar Comentario</button>
                             <button class="edit-comment-button" onclick="iniciarEdicionComentario(${originalIndex}, this)"><i class="fas fa-edit"></i> Editar</button>
                         </td>
                     </tr>
@@ -975,22 +1115,13 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             
             commentCell.innerHTML = `
                 <textarea id="edit-text-${index}" style="width: 100%; height: 60px; margin-bottom: 5px; box-sizing: border-box;">${originalComment}</textarea>
-                <div style="display: flex; gap: 5px;">
-                    <button class="save-comment-button" onclick="guardarComentarioEditado(${index})"><i class="fas fa-save"></i> Guardar</button>
-                    <button class="copy-button" style="background-color: #f0ad4e; margin-left: 0;" onclick="cancelarEdicionComentario(${index}, \`${originalComment.replace(/`/g, '\\`')}\`)"><i class="fas fa-times"></i> Cancelar</button>
-                </div>
+                <button class="save-comment-button" onclick="guardarComentarioEditado(${index})"><i class="fas fa-save"></i> Guardar</button>
+                <button class="copy-button" style="background-color: #f0ad4e; margin-left: 5px;" onclick="cancelarEdicionComentario(${index}, \`${originalComment.replace(/`/g, '\\`')}\`)"><i class="fas fa-times"></i> Cancelar</button>
             `;
             
-            // Deshabilitar o cambiar estilo de los botones de la misma fila
-            const rowButtons = buttonElement.closest('td').querySelectorAll('button');
-            rowButtons.forEach(btn => {
-                 if (btn !== buttonElement) {
-                    btn.disabled = true;
-                    btn.style.opacity = 0.5;
-                }
-            });
-
-            buttonElement.style.display = 'none';
+            // Ocultar la celda de acciones mientras se edita
+            const actionCell = buttonElement.closest('td');
+            actionCell.style.display = 'none'; 
         }
 
         function guardarComentarioEditado(index) {
@@ -1006,16 +1137,14 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             const commentCell = document.getElementById(`comment-display-${index}`);
             commentCell.innerHTML = originalComment;
             
-            const editButton = commentCell.closest('tr').querySelector('.edit-comment-button');
-             // Habilitar de nuevo todos los botones de la fila
-            const rowButtons = editButton.closest('td').querySelectorAll('button');
-            rowButtons.forEach(btn => {
-                btn.disabled = false;
-                btn.style.opacity = 1;
-            });
-            editButton.style.display = 'inline-block';
+            // Mostrar la celda de acciones
+            const actionCell = commentCell.closest('tr').querySelector('.action-cell');
+            if (actionCell) {
+                actionCell.style.display = 'flex';
+            }
             
-            renderizarHistorial(); // Para asegurar que los botones de copia se restablezcan
+            // Forzar renderizado para restaurar el HTML original
+            renderizarHistorial();
         }
         
         // ----------------------------------------------------
@@ -1094,9 +1223,11 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
         window.onload = function() {
             cargarDatos();
             
+            // Si la lista está vacía al cargar, limpiar el radicado
             if (listaDeTareas.length === 0) {
                  document.getElementById('radicado').value = '';
             } else {
+                 // Si hay tareas pendientes, inicializamos la tabla y el radicado.
                  renderizarTabla();
             }
 
