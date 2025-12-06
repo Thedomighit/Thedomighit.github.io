@@ -456,11 +456,11 @@
                 <h2><i class="fas fa-clipboard-list"></i> Tarea Activa (Datos Principales)</h2>
             </div>
              <div class="section-content">
-                <p style="color: var(--secondary-color); font-size: 0.9em;">*El Radicado se actualiza automáticamente con el ID de la primera tarea pendiente.</p>
+                <p style="color: var(--secondary-color); font-size: 0.9em;">**NOTA IMPORTANTE:** El **Radicado** se actualiza automáticamente con el ID de la **primera tarea pendiente**.</p>
                 
                 <div class="info-item">
                     <strong>RADICADO / ID ACTUAL:</strong>
-                    <input type="text" id="radicado" class="copy-target editable-input" value="3670450">
+                    <input type="text" id="radicado" class="copy-target editable-input" value="">
                     <button class="copy-button" onclick="copiarTexto('radicado')"><i class="fas fa-copy"></i> Copiar Radicado</button>
                 </div>
                 <div class="info-item">
@@ -707,7 +707,7 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
             } else {
                 button = targetElement.nextElementSibling;
                 if (!button || !button.classList.contains('copy-button')) {
-                    if (targetElement.id === 'codigo-med-result') {
+                    if (targetElement.id.startsWith('codigo-med-result')) {
                        // Si es el resultado del medicamento, el botón es el siguiente hermano.
                        button = targetElement.closest('.info-item').querySelector('.copy-button');
                     } else if (targetElement.id === 'generated-ids-copia-manual') {
@@ -724,8 +724,10 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
                     restoreColor = var_danger_color;
                 } else if (targetElement.id === 'generated-ids-copia-manual') {
                     restoreColor = var_success_color;
-                } else if (targetElement.id === 'codigo-med-result') {
+                } else if (targetElement.id.startsWith('codigo-med-result')) {
                     restoreColor = var_danger_color;
+                } else if (targetElement.id === 'radicado') {
+                     restoreColor = var_primary_color; // Color base para el botón de radicado
                 }
 
                 button.textContent = message;
@@ -783,11 +785,16 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
             
             outputDiv.innerHTML = '';
             copyAllIdsContainer.style.display = 'none';
+            radicadoInput.value = ''; // Limpiar radicado por defecto
 
             if (listaDeTareas.length === 0) {
                 outputDiv.innerHTML = '<p style="text-align: center; color: var(--secondary-color); padding: 10px; border: 1px dashed #ccc; border-radius: 5px;"><i class="fas fa-check-circle"></i> Todas las tareas han sido completadas o no hay datos cargados.</p>';
-                radicadoInput.value = '';
                 return;
+            }
+
+            // **ACTUALIZACIÓN DE RADICADO:** Toma el ID de la primera tarea
+            if (listaDeTareas.length > 0) {
+                radicadoInput.value = listaDeTareas[0].id; 
             }
 
             let tableHTML = `
@@ -845,7 +852,6 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
             
             outputDiv.innerHTML = tableHTML;
             
-            radicadoInput.value = listaDeTareas[0].id; 
             copyAllIdsSpan.textContent = allIds.join(', ');
             copyAllIdsContainer.style.display = 'flex';
         }
@@ -873,7 +879,7 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
             listaDeTareas.splice(index, 1);
             
             actualizarTextareaConLista();
-            renderizarTabla();
+            renderizarTabla(); // Vuelve a renderizar la tabla, actualizando automáticamente el Radicado
             renderizarHistorial(false); 
             guardarDatos(); 
 
@@ -1016,7 +1022,7 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
         }
 
 
-        // --- Base de Datos de Medicamentos y Buscador CORREGIDO ---
+        // --- Base de Datos de Medicamentos y Buscador ---
         const medicamentos = { 
             "AMLODIPINO TABLETAS 5MG": "MD000150",
             "ACIDO ACETILSALICILICO 100 MG": "MD004978",
@@ -1040,7 +1046,6 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
             const resultDiv = document.getElementById('searchResult');
             resultDiv.innerHTML = ''; 
             
-            // Límite CORREGIDO: Se activa con solo 1 letra
             if (filter.length < 1) { 
                 resultDiv.innerHTML = '<span style="color: var(--secondary-color);">Escriba al menos 1 letra para iniciar la búsqueda.</span>';
                 return;
@@ -1049,11 +1054,10 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
             let found = false;
             let resultsHTML = '';
             
-            // Recorrer todos los medicamentos y buscar coincidencias
             for (const nombre in medicamentos) {
                 if (nombre.toUpperCase().includes(filter)) {
                     const codigo = medicamentos[nombre];
-                    const codigoId = `codigo-med-result-${codigo}`; // ID único para cada resultado
+                    const codigoId = `codigo-med-result-${codigo}`; 
                     
                     resultsHTML += `
                         <div class="info-item" style="border-bottom: none;">
@@ -1076,6 +1080,14 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
         // --- Inicialización al cargar la página ---
         window.onload = function() {
             cargarDatos();
+            
+            // Si la lista está vacía al cargar, limpiar el radicado
+            if (listaDeTareas.length === 0) {
+                 document.getElementById('radicado').value = '';
+            } else {
+                 document.getElementById('radicado').value = listaDeTareas[0].id;
+            }
+
             document.getElementById('historyOutput').style.display = 'none';
             document.getElementById('accesos-credenciales-content').style.display = 'none';
             
