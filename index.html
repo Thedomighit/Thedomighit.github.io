@@ -107,28 +107,30 @@
         }
 
         /* --- ITEMS DE COPIA Y BOTONES --- */
+        /* Estilo Flexbox para que los items se ajusten automáticamente */
         .info-item {
             display: flex;
             align-items: center;
             margin-bottom: 12px;
             gap: 15px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Mantiene fuerte el layout de PC */
             border-bottom: 1px dashed #eee;
             padding-bottom: 8px;
         }
 
         .info-item strong {
             min-width: 150px; 
+            flex-shrink: 0; /* Evita que el strong se encoja */
             font-weight: 600;
             color: #333;
         }
 
-        .copy-target {
+        .copy-target, .editable-input {
             background-color: #f7f7f7;
             padding: 8px 12px;
             border-radius: 6px;
             border: 1px solid #dcdcdc;
-            flex-grow: 1;
+            flex-grow: 1; /* Permite que el contenido tome el espacio disponible */
             min-width: 150px;
             font-family: 'Consolas', monospace;
             overflow-x: auto;
@@ -137,11 +139,6 @@
             transition: background-color 0.2s;
         }
         
-        .copy-target:focus {
-            background-color: #fff;
-            box-shadow: 0 0 0 2px var(--primary-color);
-        }
-
         .editable-input {
             width: auto;
             color: var(--danger-color);
@@ -160,105 +157,60 @@
             border-radius: 6px;
             transition: background-color 0.2s, transform 0.1s;
             min-width: 100px;
+            flex-shrink: 0; /* Evita que el botón se encoja */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .copy-button:hover {
-            background-color: #005f9c;
-            transform: translateY(-1px);
         }
 
         /* --- GENERADOR DE TABLA --- */
         #dataInput {
             width: 100%;
             min-height: 120px;
-            padding: 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+        }
+        
+        /* Botones de control en fila */
+        .control-buttons {
+            display: flex;
+            gap: 10px;
             margin-bottom: 15px;
-            font-family: 'Consolas', monospace;
-            resize: vertical;
-            background-color: #fff;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-        
-        #generateButton, #copyAllIdsButton, #showHistoryButton {
-            transition: background-color 0.2s, box-shadow 0.2s;
         }
 
-        #generateButton {
-            background-color: var(--success-color);
-            color: white;
-            padding: 10px 25px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        #generateButton:hover {
-            background-color: #15734e;
-        }
-
-        /* Botones de Historial */
-        #showHistoryButton {
-            background-color: var(--history-color);
-            margin-left: 10px;
-        }
-        
-        #showHistoryButton:hover {
-             background-color: #0097a7;
-        }
-
-        /* --- ESTILOS DE TABLAS (Responsive) --- */
+        /* --- ESTILOS DE TABLAS (Responsive: Scroll horizontal) --- */
         .excel-table-container {
              margin-top: 20px;
-             /* Permite el scroll horizontal en pantallas pequeñas */
+             /* Clave para el responsive en tablas: permite el scroll horizontal en móviles */
              overflow-x: auto; 
              -webkit-overflow-scrolling: touch;
         }
         
         .excel-table {
             width: 100%;
-            min-width: 900px; /* Asegura que la tabla no se colapse demasiado */
+            min-width: 900px; /* Asegura que la tabla sea legible en pantallas pequeñas */
             border-collapse: collapse;
             font-size: 0.85em;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .excel-table th, .excel-table td {
-            border: 1px solid var(--excel-border-color);
-            padding: 10px 8px;
-            text-align: left;
-            white-space: nowrap; /* Evita que el texto de las celdas se rompa */
-        }
-
-        .excel-table th {
-            background-color: var(--excel-header-color);
-            font-weight: 600;
-            color: var(--secondary-color);
-            text-transform: uppercase;
-            position: sticky; 
-            top: 0; /* Sticky header para mejor UX */
+        /* --- NOTIFICACIÓN DE AUTO-GUARDADO --- */
+        #saveNotification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 1000;
+            font-size: 0.9em;
         }
         
-        .excel-table tr:nth-child(even) {
-            background-color: #fcfcfc;
+        #saveNotification.show {
+            opacity: 1;
         }
 
-        .excel-table .cell-copy {
-            cursor: copy;
-            font-weight: bold;
-            color: var(--primary-color);
-            background-color: #e6f7ff; 
-            transition: background-color 0.1s;
-        }
-        
-        .excel-table .cell-copy:hover {
-            background-color: #cceeff;
-        }
+        /* Aquí se incluyen los estilos de comentarios, historial, etc. para no sobrecargar el CSS principal */
         
         /* Gestión de Comentarios */
         .complete-row-button {
@@ -267,6 +219,8 @@
             padding: 6px 12px;
             border-radius: 4px;
             transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
         }
         
         .comment-container {
@@ -277,19 +231,6 @@
             background-color: #fff8e1;
             display: none;
             position: relative;
-        }
-        
-        .comment-counter {
-            position: absolute;
-            top: -10px; /* Posicionado fuera */
-            right: 10px;
-            background-color: var(--danger-color);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 8px;
-            font-size: 0.8em;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .comment-container textarea {
@@ -313,20 +254,14 @@
             font-weight: 600;
             transition: background-color 0.2s;
         }
-        
+
         /* Historial Styling */
-        .history-table td:last-child {
-             max-width: 300px;
-             word-wrap: break-word;
-             font-size: 0.8em;
-             background-color: #e6f7ff;
-             color: #333;
-        }
-        
         .history-actions {
             display: flex;
             gap: 10px;
             align-items: center;
+            flex-wrap: wrap; /* Añadido para responsive */
+            margin-bottom: 15px;
         }
 
         #deleteAllHistoryButton {
@@ -340,10 +275,6 @@
             transition: background-color 0.2s;
         }
         
-        #deleteAllHistoryButton:hover {
-             background-color: #b33936;
-        }
-        
         .edit-comment-button {
             background-color: var(--history-color);
             color: white;
@@ -354,72 +285,59 @@
             font-size: 0.8em;
             transition: background-color 0.2s;
         }
-        
-        /* --- NOTIFICACIÓN DE AUTO-GUARDADO --- */
-        #saveNotification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            z-index: 1000;
-            font-size: 0.9em;
-        }
-        
-        #saveNotification.show {
-            opacity: 1;
-        }
-        
-        /* Estilo para el resultado de la búsqueda de medicamentos */
-        .search-container .info-item {
-            border: none;
-            padding-bottom: 0;
-            margin-top: 15px;
-            background-color: #f0f8ff; /* Fondo suave para destacar */
-            padding: 10px;
-            border-radius: 6px;
-        }
 
-        /* --- RESPONSIVE MOBILE --- */
+        /* --- RESPONSIVE MOBILE (Máximo 768px de ancho) --- */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
             .container {
                 padding: 15px;
-                box-shadow: none;
+                box-shadow: none; /* Eliminar sombra en móvil para un look limpio */
             }
             h1 {
                 font-size: 1.8em;
                 margin-bottom: 20px;
             }
-            .section-header h2 {
-                font-size: 1.3em;
+            .section {
+                 padding: 15px; /* Reducir padding de secciones */
             }
+
+            /* Los info-item se apilan verticalmente */
             .info-item {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 5px;
+                border-bottom: 1px solid var(--border-color); /* Separación más clara */
+                padding-bottom: 10px;
             }
+            
             .info-item strong {
                 min-width: 100%;
                 margin-bottom: 0;
             }
-            .info-item .copy-target, .info-item .copy-button {
+            
+            /* Todos los campos de texto/input y botones toman el ancho completo */
+            .info-item .copy-target, 
+            .info-item .editable-input,
+            .info-item .copy-button {
                 flex-grow: 1;
                 width: 100%;
+                min-width: 100%; /* Asegura el ancho completo */
             }
+
+            /* Botones principales de la lista (Construir y Historial) se apilan */
+            .control-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
             #generateButton, #showHistoryButton {
                 width: 100%;
-                margin-left: 0 !important;
-                margin-bottom: 10px;
+                margin: 0 !important;
             }
+            
+            /* La tabla mantiene el scroll horizontal (ya está manejado por .excel-table-container) */
         }
     </style>
 </head>
@@ -491,8 +409,10 @@ Ejemplo:
 Asignado Liquidacion 242385169 900190045 $ 28.700 $ 0 Nueva EPS 1
 Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 
-                <button id="generateButton" onclick="generarTablaPersonalizada()"><i class="fas fa-cogs"></i> Construir Lista de Tareas</button>
-                <button id="showHistoryButton" class="copy-button" onclick="mostrarHistorial()"><i class="fas fa-history"></i> Ver Historial</button>
+                <div class="control-buttons">
+                    <button id="generateButton" onclick="generarTablaPersonalizada()"><i class="fas fa-cogs"></i> Construir Lista de Tareas</button>
+                    <button id="showHistoryButton" class="copy-button" onclick="mostrarHistorial()"><i class="fas fa-history"></i> Ver Historial</button>
+                </div>
 
                 <div id="dynamicTableOutput">
                     <p style="text-align: center; color: var(--secondary-color); padding: 10px; border: 1px dashed #ccc; border-radius: 5px;">*La lista de tareas pendientes aparecerá aquí.*</p>
@@ -514,10 +434,10 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             <div class="section-content" id="historyOutput" style="display:none;">
                 <div class="history-actions">
                     <button id="deleteAllHistoryButton" onclick="eliminarHistorialCompleto()"><i class="fas fa-trash-alt"></i> Eliminar Historial Completo</button>
-                    <p style="color: var(--secondary-color);">*El historial se carga automáticamente al iniciar la web si hay datos guardados.</p>
+                    <p style="color: var(--secondary-color);">*El historial se guarda automáticamente en tu navegador.</p>
                 </div>
                  <div id="historyTableContainer">
-                    <p style="color: var(--secondary-color); text-align: center; padding: 10px; border: 1px dashed #ccc; border-radius: 5px;">No hay tareas archivadas. Utilice el botón "Ver Historial" en la sección superior.</p>
+                    <p style="color: var(--secondary-color); text-align: center; padding: 10px; border: 1px dashed #ccc; border-radius: 5px;">No hay tareas archivadas.</p>
                  </div>
             </div>
         </div>
@@ -619,11 +539,10 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 if (tareasGuardadas) {
                     listaDeTareas = JSON.parse(tareasGuardadas);
                     actualizarTextareaConLista();
-                    renderizarTabla();
                 }
                 if (historialGuardado) {
                     listaDeHistorial = JSON.parse(historialGuardado);
-                    renderizarHistorial(false); 
+                    renderizarHistorial(); 
                 }
             } catch (e) {
                 console.error("Error al cargar datos de LocalStorage:", e);
@@ -786,16 +705,15 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             
             outputDiv.innerHTML = '';
             copyAllIdsContainer.style.display = 'none';
-            radicadoInput.value = ''; // Limpiar radicado por defecto
+            radicadoInput.value = ''; // Limpiar radicado por defecto si no hay tareas
 
             if (listaDeTareas.length === 0) {
                 outputDiv.innerHTML = '<p style="text-align: center; color: var(--secondary-color); padding: 10px; border: 1px dashed #ccc; border-radius: 5px;"><i class="fas fa-check-circle"></i> Todas las tareas han sido completadas o no hay datos cargados.</p>';
                 return;
             }
 
-            // **ACTUALIZACIÓN DE RADICADO:** Toma el Cód. Suministro de la primera tarea
+            // **PUNTO CLAVE DE ACTUALIZACIÓN:** Toma el Cód. Suministro de la primera tarea
             if (listaDeTareas.length > 0) {
-                // MODIFICADO: Tomar el valor del Cód. Suministro
                 radicadoInput.value = listaDeTareas[0].codSuministro; 
             }
 
@@ -819,10 +737,9 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             `;
             
             let allIds = [];
-            const tareasRestantes = listaDeTareas.length;
             
+            // Usamos un loop simple porque el index es solo relevante para los botones.
             listaDeTareas.forEach((tarea, index) => {
-                // Para el copiar todos, mantenemos el ID Liquidación, que es el id original
                 allIds.push(tarea.id); 
                 
                 tableHTML += `
@@ -869,25 +786,72 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             commentBox.style.display = commentBox.style.display === 'block' ? 'none' : 'block';
         }
 
+        // ----------------------------------------------------
+        // --- FUNCIÓN CRÍTICA DE ARCHIVADO ---
+        // ----------------------------------------------------
+
         function marcarCompletado(index) {
-            const commentText = document.getElementById(`comment-text-${index}`).value.trim();
             
+            // Forzamos que solo se pueda archivar la primera tarea (index 0) para mantener la lista ordenada
+            if (index !== 0) {
+                 alert("¡Atención! Solo se puede archivar la primera tarea de la lista.");
+                 return;
+            }
+
             const tareaCompletada = listaDeTareas[index];
-            tareaCompletada.comentario = commentText || 'Sin comentario';
-            tareaCompletada.fecha = new Date().toLocaleString();
-            tareaCompletada.historialIndex = listaDeHistorial.length; 
 
-            listaDeHistorial.push(tareaCompletada);
+            if (!tareaCompletada) {
+                alert("Error crítico: No se encontró la tarea en el índice especificado. Intente recargar.");
+                return;
+            }
             
-            listaDeTareas.splice(index, 1);
-            
-            actualizarTextareaConLista();
-            renderizarTabla(); // Vuelve a renderizar la tabla, actualizando automáticamente el Radicado
-            renderizarHistorial(false); 
-            guardarDatos(); 
+            try {
+                // 1. Obtener comentario
+                const commentTextElement = document.getElementById(`comment-text-${index}`);
+                const commentText = commentTextElement ? commentTextElement.value.trim() : 'Sin comentario';
+                
+                // 2. Mover la tarea al historial (Guardado)
+                tareaCompletada.comentario = commentText;
+                tareaCompletada.fecha = new Date().toLocaleString();
+                listaDeHistorial.push(tareaCompletada);
+                
+                // --- INICIO DE ACCIÓN CRÍTICA: Elimina la primera tarea ---
+                
+                // 3. Eliminación visual INMEDIATA para feedback
+                const rowToRemove = document.getElementById(`tarea-row-${index}`);
+                if (rowToRemove) {
+                    rowToRemove.style.transition = 'all 0.4s ease-in-out';
+                    rowToRemove.style.opacity = '0';
+                }
 
-            alert(`Tarea ${tareaCompletada.id} archivada con éxito. Total en historial: ${listaDeHistorial.length}`);
+                // 4. Eliminar la tarea de la lista pendiente (index 0)
+                listaDeTareas.splice(0, 1); // Siempre elimina la primera fila
+                
+                // 5. Actualizar el textarea con la lista restante
+                actualizarTextareaConLista();
+                
+                // Damos un pequeño respiro para que la transición visual de opacidad se vea
+                setTimeout(() => {
+                    // 6. Volver a dibujar la tabla, moviendo la segunda a la primera posición
+                    renderizarTabla(); 
+                    // 7. Renderizar el historial para mostrar la tarea archivada
+                    renderizarHistorial(); 
+                    // 8. Guardar en LocalStorage
+                    guardarDatos(); 
+
+                    alert(`Tarea ${tareaCompletada.id} archivada con éxito.
+                    La siguiente tarea (${listaDeTareas.length > 0 ? listaDeTareas[0].codSuministro : 'N/A'}) se ha cargado automáticamente en el Radicado.
+                    Total en historial: ${listaDeHistorial.length}`);
+                }, 400); // 400ms para la animación
+
+            } catch (e) {
+                // Si hay un error, el navegador mostrará el mensaje aquí
+                alert("¡ERROR CRÍTICO! Fallo durante el proceso de archivado. Mensaje de Error: " + e.message);
+                console.error("Fallo durante el proceso de archivado:", e);
+            }
         }
+        // ----------------------------------------------------
+
 
         function actualizarTextareaConLista() {
             const inputElement = document.getElementById('dataInput');
@@ -904,9 +868,8 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
         // --- Gestión de Historial (Archivado) ---
         // ----------------------------------------------------
         
-        function renderizarHistorial(forceShow) {
+        function renderizarHistorial() {
             const historyOutput = document.getElementById('historyTableContainer');
-            const historyContent = document.getElementById('historyOutput');
             
             if (listaDeHistorial.length === 0) {
                  historyOutput.innerHTML = '<p style="color: var(--secondary-color); text-align: center; padding: 10px; border: 1px dashed #ccc; border-radius: 5px;"><i class="fas fa-info-circle"></i> El historial está vacío.</p>';
@@ -929,7 +892,9 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                         <tbody>
             `;
             
+            // Mostrar del más reciente al más antiguo
             listaDeHistorial.slice().reverse().forEach((tarea, indexReversed) => { 
+                // indexReversed es 0 para el último elemento añadido
                 const originalIndex = listaDeHistorial.length - 1 - indexReversed;
 
                 tableHTML += `
@@ -953,21 +918,30 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             `;
             
             historyOutput.innerHTML = tableHTML;
-            
-            if (forceShow) {
-                historyContent.style.display = 'block';
-                document.getElementById('historySection').querySelector('.section-header button').innerHTML = '<i class="fas fa-angle-up"></i> Ver Menos';
-            }
         }
 
         function mostrarHistorial() {
-            renderizarHistorial(true); 
+            // Usa el control de la sección principal para mostrar/ocultar
+            const buttonElement = document.getElementById('showHistoryButton');
+            const content = document.getElementById('historyOutput');
+            const headerButton = document.getElementById('historySection').querySelector('.section-header button');
+
+            // Lógica para mostrar/ocultar y actualizar el texto de los botones
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                headerButton.innerHTML = '<i class="fas fa-angle-up"></i> Ver Menos';
+                renderizarHistorial(); 
+            } else {
+                content.style.display = 'none';
+                headerButton.innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
+            }
         }
+
 
         function eliminarHistorialCompleto() {
             if (confirm("¿Estás seguro de que quieres ELIMINAR TODO el historial de tareas completadas? Esta acción es irreversible.")) {
                 listaDeHistorial = [];
-                renderizarHistorial(false);
+                renderizarHistorial();
                 guardarDatos();
                 alert("Historial eliminado con éxito.");
             }
@@ -981,7 +955,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             commentCell.innerHTML = `
                 <textarea id="edit-text-${index}" style="width: 100%; height: 60px; margin-bottom: 5px;">${originalComment}</textarea>
                 <button class="save-comment-button" onclick="guardarComentarioEditado(${index})"><i class="fas fa-save"></i> Guardar</button>
-                <button class="copy-button" style="background-color: #f0ad4e; margin-left: 5px;" onclick="cancelarEdicionComentario(${index}, '${originalComment}')"><i class="fas fa-times"></i> Cancelar</button>
+                <button class="copy-button" style="background-color: #f0ad4e; margin-left: 5px;" onclick="cancelarEdicionComentario(${index}, \`${originalComment.replace(/`/g, '\\`')}\`)"><i class="fas fa-times"></i> Cancelar</button>
             `;
             
             buttonElement.disabled = true;
@@ -993,7 +967,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             
             listaDeHistorial[index].comentario = newComment;
             
-            renderizarHistorial(true);
+            renderizarHistorial();
             guardarDatos();
         }
 
@@ -1088,13 +1062,15 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             if (listaDeTareas.length === 0) {
                  document.getElementById('radicado').value = '';
             } else {
-                 // **IMPORTANTE**: Al cargar, asegurar que el radicado es el Cód. Suministro de la primera tarea
-                 document.getElementById('radicado').value = listaDeTareas[0].codSuministro;
+                 // Si hay tareas pendientes, inicializamos la tabla y el radicado.
+                 renderizarTabla();
             }
 
+            // Asegurar que las secciones estén en su estado inicial (colapsado)
             document.getElementById('historyOutput').style.display = 'none';
             document.getElementById('accesos-credenciales-content').style.display = 'none';
             
+            // Establecer el texto de los botones de Ver Más/Menos
             document.getElementById('historySection').querySelector('.section-header button').innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
             document.getElementById('accesos-credenciales-section').querySelector('.section-header button').innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
         };
