@@ -3,772 +3,1085 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BarrioSanLuisArriendo - Tu Hogar Ideal</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
+    <title>Gestor de Tareas de Reasignación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* --- RESET Y VARIABLES GLOBALES --- */
+        /* --- VARIABLES DE ESTILO --- */
         :root {
-            --primary-color: #1a2a3a;
-            --secondary-color: #c5a47e;
-            --background-color: #f8f9fa;
-            --text-color: #333;
-            --white-color: #ffffff;
-            --success-color: #28a745;
-            --danger-color: #e53935;
-            --tag-pet-color: #3d8c40;
-            --tag-new-color: #007bff;
-            --tag-furnished-color: #6f42c1;
-            --font-family: 'Poppins', sans-serif;
-            --card-background: var(--white-color);
-            --card-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            --card-shadow-hover: 0 10px 25px rgba(0,0,0,0.12);
-            --border-color: #ddd;
-            --modal-bg: rgba(0, 0, 0, 0.7);
+            --primary-color: #0077c2;
+            --secondary-color: #555e6a;
+            --background-light: #f4f6f9;
+            --card-background: #ffffff;
+            --border-color: #e0e0e0;
+            --success-color: #1a995e;
+            --danger-color: #d9534f;
+            --excel-header-color: #e6f7ff;
+            --excel-border-color: #c9c9c9;
+            --complete-button-color: #ff9800;
+            --history-color: #00bcd4;
+            --font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+            --toggle-color: #6c757d;
         }
 
-        /* --- MODO OSCURO --- */
-        body[data-theme="dark"] {
-            --primary-color: #c5a47e;
-            --secondary-color: #1a2a3a;
-            --background-color: #121212;
-            --text-color: #e0e0e0;
-            --card-background: #1e1e1e;
-            --card-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            --card-shadow-hover: 0 10px 25px rgba(0,0,0,0.3);
-            --border-color: #444;
-            --modal-bg: rgba(0, 0, 0, 0.85);
+        /* --- ESTILOS GENERALES Y LAYOUT --- */
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-light);
+            color: #333;
+            line-height: 1.6;
         }
-        body[data-theme="dark"] .navbar.scrolled { background-color: rgba(30, 30, 30, 0.95); }
-        body[data-theme="dark"] .mobile-menu { background-color: #1e1e1e; }
-        body[data-theme="dark"] .section-title { color: var(--text-color); }
-        body[data-theme="dark"] .section-title::after { background-color: var(--primary-color); }
-        body[data-theme="dark"] .filter-section { background-color: rgba(30, 30, 30, 0.7); border-color: rgba(255, 255, 255, 0.1); }
-        body[data-theme="dark"] .filter-group label { color: var(--text-color); }
-        body[data-theme="dark"] .arriendo-card-content h3 { color: var(--primary-color); }
-        body[data-theme="dark"] .filter-input, body[data-theme="dark"] .filter-select { background-color: #333; color: var(--text-color); border-color: #555; }
-        body[data-theme="dark"] .btn-group button { background-color: #333; color: var(--text-color); border-color: #555; }
-        body[data-theme="dark"] .btn-group button.active { background-color: var(--primary-color); color: var(--secondary-color); border-color: var(--primary-color); }
-        body[data-theme="dark"] .service-group label { background-color: #333; color: var(--text-color); border-color: #555; }
-        body[data-theme="dark"] .service-group input[type="checkbox"]:checked + label { background-color: var(--primary-color); color: var(--secondary-color); border-color: var(--primary-color); }
-        body[data-theme="dark"] #slider-track { background: #555; }
-        body[data-theme="dark"] #slider-range-fill { background: var(--primary-color); }
-        body[data-theme="dark"] .price-slider-container input[type="range"]::-webkit-slider-thumb { background: var(--primary-color); }
-        body[data-theme="dark"] .arriendo-card-content p { color: #aaa; }
-        body[data-theme="dark"] #no-results { border-color: var(--border-color); color: #888; }
-        body[data-theme="dark"] .footer { background-color: #1e1e1e; color: var(--text-color); }
-        body[data-theme="dark"] .btn-primary { background-color: var(--primary-color); color: var(--secondary-color); }
-        body[data-theme="dark"] .btn-primary:hover { background-color: #d4b591; }
-        body[data-theme="dark"] #back-to-top-btn { background-color: var(--primary-color); color: var(--secondary-color); }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-family); background-color: var(--background-color); color: var(--text-color); overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
-        .icon { width: 1.2em; height: 1.2em; vertical-align: middle; margin-right: 8px; }
-
-        /* --- HEADER Y SLIDER PRINCIPAL --- */
-        .hero-section { height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white-color); overflow: hidden; }
-        .hero-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
-        .hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease-in-out; }
-        .hero-slide.active { opacity: 1; }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: -1; }
-        
-        /* ✅ MEJORA: Título adaptable con clamp() para evitar que se corte en móviles */
-        .hero-content h1 {
-            font-size: clamp(2.5rem, 8vw, 4rem); /* Mínimo, Preferido (fluido), Máximo */
-            font-weight: 700;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-            animation: slideInText 1s 0.5s ease-out forwards;
-            opacity: 0;
-            transform: translateY(30px);
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px;
+            background: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
-        .hero-content p {
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            margin-top: 10px;
+
+        /* Títulos */
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
             font-weight: 300;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-            animation: slideInText 1s 0.8s ease-out forwards;
+            font-size: 2.2em;
+        }
+
+        /* Secciones */
+        .section {
+            margin-bottom: 35px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: #ffffff;
+            transition: box-shadow 0.3s;
+        }
+        
+        .section:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Encabezados de Sección con Toggle */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header h2 {
+            color: var(--secondary-color);
+            margin: 0;
+            font-size: 1.6em;
+            font-weight: 500;
+        }
+        
+        .section-header button {
+            background: none;
+            border: 1px solid var(--toggle-color);
+            color: var(--toggle-color);
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .section-header button:hover {
+            background-color: var(--toggle-color);
+            color: white;
+        }
+        
+        .section-content {
+            padding-top: 10px;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s;
+            overflow: hidden;
+        }
+
+        /* --- ITEMS DE COPIA Y BOTONES --- */
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 15px;
+            flex-wrap: wrap;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 8px;
+        }
+
+        .info-item strong {
+            min-width: 150px; 
+            font-weight: 600;
+            color: #333;
+        }
+
+        .copy-target {
+            background-color: #f7f7f7;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            flex-grow: 1;
+            min-width: 150px;
+            font-family: 'Consolas', monospace;
+            overflow-x: auto;
+            white-space: nowrap;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+        
+        .copy-target:focus {
+            background-color: #fff;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .editable-input {
+            width: auto;
+            color: var(--danger-color);
+            font-weight: bold;
+            border: 1px solid var(--danger-color);
+        }
+
+        .copy-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            text-align: center;
+            font-size: 0.9em;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.2s, transform 0.1s;
+            min-width: 100px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .copy-button:hover {
+            background-color: #005f9c;
+            transform: translateY(-1px);
+        }
+
+        /* --- GENERADOR DE TABLA --- */
+        #dataInput {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-family: 'Consolas', monospace;
+            resize: vertical;
+            background-color: #fff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        #generateButton, #copyAllIdsButton, #showHistoryButton {
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        #generateButton {
+            background-color: var(--success-color);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        #generateButton:hover {
+            background-color: #15734e;
+        }
+
+        /* Botones de Historial */
+        #showHistoryButton {
+            background-color: var(--history-color);
+            margin-left: 10px;
+        }
+        
+        #showHistoryButton:hover {
+             background-color: #0097a7;
+        }
+
+        /* --- ESTILOS DE TABLAS (Responsive) --- */
+        .excel-table-container {
+             margin-top: 20px;
+             /* Permite el scroll horizontal en pantallas pequeñas */
+             overflow-x: auto; 
+             -webkit-overflow-scrolling: touch;
+        }
+        
+        .excel-table {
+            width: 100%;
+            min-width: 900px; /* Asegura que la tabla no se colapse demasiado */
+            border-collapse: collapse;
+            font-size: 0.85em;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .excel-table th, .excel-table td {
+            border: 1px solid var(--excel-border-color);
+            padding: 10px 8px;
+            text-align: left;
+            white-space: nowrap; /* Evita que el texto de las celdas se rompa */
+        }
+
+        .excel-table th {
+            background-color: var(--excel-header-color);
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            position: sticky; 
+            top: 0; /* Sticky header para mejor UX */
+        }
+        
+        .excel-table tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+
+        .excel-table .cell-copy {
+            cursor: copy;
+            font-weight: bold;
+            color: var(--primary-color);
+            background-color: #e6f7ff; 
+            transition: background-color 0.1s;
+        }
+        
+        .excel-table .cell-copy:hover {
+            background-color: #cceeff;
+        }
+        
+        /* Gestión de Comentarios */
+        .complete-row-button {
+            background-color: var(--complete-button-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .comment-container {
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid var(--complete-button-color);
+            border-radius: 5px;
+            background-color: #fff8e1;
+            display: none;
+            position: relative;
+        }
+        
+        .comment-counter {
+            position: absolute;
+            top: -10px; /* Posicionado fuera */
+            right: 10px;
+            background-color: var(--danger-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .comment-container textarea {
+            width: 100%;
+            height: 60px;
+            padding: 8px;
+            margin-top: 5px;
+            resize: vertical;
+            border: 1px solid #f9d8a3;
+            border-radius: 3px;
+        }
+
+        .save-comment-button {
+            background-color: var(--success-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        
+        /* Historial Styling */
+        .history-table td:last-child {
+             max-width: 300px;
+             word-wrap: break-word;
+             font-size: 0.8em;
+             background-color: #e6f7ff;
+             color: #333;
+        }
+        
+        .history-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        #deleteAllHistoryButton {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        
+        #deleteAllHistoryButton:hover {
+             background-color: #b33936;
+        }
+        
+        .edit-comment-button {
+            background-color: var(--history-color);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: background-color 0.2s;
+        }
+        
+        /* --- NOTIFICACIÓN DE AUTO-GUARDADO --- */
+        #saveNotification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             opacity: 0;
-            transform: translateY(30px);
+            transition: opacity 0.5s ease-in-out;
+            z-index: 1000;
+            font-size: 0.9em;
         }
-        @keyframes slideInText { to { opacity: 1; transform: translateY(0); } }
         
-        /* --- NAVEGACIÓN --- */
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: background-color 0.3s ease, box-shadow 0.3s ease; }
-        .navbar.scrolled { background-color: rgba(26, 42, 58, 0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .nav-logo { color: var(--white-color); font-weight: 600; font-size: 1.5rem; text-decoration: none; }
-        .nav-items { display: flex; align-items: center; gap: 20px; }
-        .hamburger-menu { width: 30px; height: 22px; cursor: pointer; display: none; flex-direction: column; justify-content: space-between; z-index: 1001; }
-        .hamburger-menu .bar { width: 100%; height: 3px; background-color: var(--white-color); transition: all 0.4s ease-in-out; border-radius: 2px; }
-        .hamburger-menu.active .bar1 { transform: translateY(9.5px) rotate(45deg); }
-        .hamburger-menu.active .bar2 { opacity: 0; }
-        .hamburger-menu.active .bar3 { transform: translateY(-9.5px) rotate(-45deg); }
-        .mobile-menu { position: fixed; top: 0; right: 0; width: 100%; max-width: 350px; height: 100vh; background-color: var(--primary-color); display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1); z-index: 999; }
-        .mobile-menu.active { transform: translateX(0); }
-        .mobile-menu a { color: var(--white-color); text-decoration: none; font-size: 1.8rem; margin: 20px 0; font-weight: 600; opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; }
-        .mobile-menu.active a { opacity: 1; transform: translateY(0); }
-        .mobile-menu.active a:nth-child(1) { transition-delay: 0.2s; } .mobile-menu.active a:nth-child(2) { transition-delay: 0.3s; } .mobile-menu.active a:nth-child(3) { transition-delay: 0.4s; }
-        .mobile-menu-controls { display: flex; align-items: center; gap: 25px; margin-top: 40px; opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; }
-        .mobile-menu.active .mobile-menu-controls { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
-
-        /* --- ICONOS DE NAV: FAVORITOS Y MODO OSCURO --- */
-        .nav-icon { background: none; border: none; color: var(--white-color); cursor: pointer; position: relative; padding: 5px; }
-        .nav-icon svg { width: 24px; height: 24px; }
-        .favorites-counter { position: absolute; top: 0; right: 0; background-color: var(--danger-color); color: var(--white-color); border-radius: 50%; width: 16px; height: 16px; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; transform: translate(50%, -25%) scale(0); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .favorites-counter.visible { transform: translate(50%, -25%) scale(1); }
-        .theme-switch-wrapper { display: flex; align-items: center; }
-        .theme-switch { display: inline-block; height: 24px; position: relative; width: 48px; }
-        .theme-switch input { display: none; }
-        .slider { background-color: #555; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
-        .slider:before { background-color: #fff; bottom: 2px; content: ""; height: 20px; left: 2px; position: absolute; transition: .4s; width: 20px; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--primary-color); }
-        input:checked + .slider:before { transform: translateX(24px); }
+        #saveNotification.show {
+            opacity: 1;
+        }
         
-        /* --- SECCIONES Y FILTROS --- */
-        .arriendos-section { padding: 80px 40px; text-align: center; }
-        .section-title { font-size: 2.5rem; margin-bottom: 20px; position: relative; display: inline-block; }
-        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--secondary-color); }
-        .filter-section { max-width: 1200px; margin: 0 auto 50px auto; padding: 25px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 12px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1); border: 1px solid rgba(255, 255, 255, 0.18); display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; text-align: left; }
-        .filter-group { flex: 1 1 200px; }
-        .filter-group label { display: block; font-weight: 600; margin-bottom: 10px; color: var(--primary-color); }
-        .filter-input, .filter-select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-family); background-color: var(--white-color); color: var(--text-color); font-size: 1rem; }
-        .btn-group button { padding: 10px 15px; border: 1px solid #ccc; background-color: var(--white-color); cursor: pointer; transition: all 0.2s ease; }
-        .btn-group button:first-child { border-radius: 5px 0 0 5px; } .btn-group button:last-child { border-radius: 0 5px 5px 0; }
-        .btn-group button:not(:last-child) { border-right: none; }
-        .btn-group button.active { background-color: var(--primary-color); color: var(--white-color); border-color: var(--primary-color); }
-        .service-group { display: flex; gap: 15px; flex-wrap: wrap; }
-        .service-group label { display: flex; align-items: center; padding: 8px 12px; border: 1px solid #ccc; border-radius: 20px; cursor: pointer; transition: all 0.2s ease; font-weight: 400; }
-        .service-group input[type="checkbox"] { display: none; }
-        .service-group input[type="checkbox"]:checked + label { background-color: var(--secondary-color); color: var(--white-color); border-color: var(--secondary-color); }
-        .price-range-group { flex-basis: 300px; }
-        .price-slider-container { position: relative; height: 20px; width: 100%; }
-        .price-slider-container input[type="range"] { position: absolute; width: 100%; pointer-events: none; -webkit-appearance: none; background: transparent; }
-        .price-slider-container input[type="range"]::-webkit-slider-thumb { pointer-events: all; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-color); cursor: pointer; -webkit-appearance: none; }
-        #slider-track { position: absolute; width: 100%; height: 5px; background: #ddd; top: 7.5px; border-radius: 3px; }
-        #slider-range-fill { position: absolute; height: 5px; background: var(--secondary-color); top: 7.5px; border-radius: 3px; }
-        .price-values { display: flex; justify-content: space-between; margin-top: 10px; }
-        .filter-actions { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; margin-top: 10px; }
+        /* Estilo para el resultado de la búsqueda de medicamentos */
+        .search-container .info-item {
+            border: none;
+            padding-bottom: 0;
+            margin-top: 15px;
+            background-color: #f0f8ff; /* Fondo suave para destacar */
+            padding: 10px;
+            border-radius: 6px;
+        }
 
-        /* --- LISTA DE ARRIENDOS Y TARJETAS --- */
-        .arriendos-grid-container { position: relative; min-height: 200px; }
-        .arriendos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; transition: opacity 0.3s; }
-        #no-results { grid-column: 1 / -1; padding: 60px 20px; font-size: 1.5rem; color: #777; font-weight: 300; border: 2px dashed var(--border-color); border-radius: 10px; margin-top: 20px; }
-        #no-results::before { content: '🏠'; font-size: 3rem; display: block; margin-bottom: 15px; }
-        .loading-spinner { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; border: 5px solid var(--background-color); border-top-color: var(--secondary-color); border-radius: 50%; animation: spin 1s linear infinite; z-index: 10; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
-        .loading-spinner.visible { opacity: 1; visibility: visible; }
-        .arriendos-grid.loading { opacity: 0.3; pointer-events: none; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .arriendo-card { background-color: var(--card-background); border-radius: 10px; overflow: hidden; box-shadow: var(--card-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: left; display: flex; flex-direction: column; }
-        .arriendo-card:hover { transform: translateY(-10px); box-shadow: var(--card-shadow-hover); }
-        .arriendo-card-img-container { position: relative; }
-        .arriendo-card-img { width: 100%; height: 220px; object-fit: cover; display: block; }
-        .arriendo-card-content { padding: 25px; flex-grow: 1; }
-        .arriendo-card-content h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--primary-color); }
-        .arriendo-card-content p { margin-bottom: 5px; color: #666; font-size: 0.9rem; }
-        .arriendo-card-price-per-sqm { font-size: 0.8rem; color: #888; font-style: italic; margin-top: 5px; }
-        .arriendo-card-actions { padding: 0 25px 25px 25px; }
-        .card-tags { position: absolute; top: 15px; left: 15px; display: flex; gap: 8px; flex-wrap: wrap; }
-        .card-tag { color: var(--white-color); padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .tag-pet { background-color: var(--tag-pet-color); } .tag-new { background-color: var(--tag-new-color); } .tag-furnished { background-color: var(--tag-furnished-color); }
-        .favorite-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; }
-        .favorite-btn:hover { transform: scale(1.1); }
-        .favorite-btn svg { width: 22px; height: 22px; fill: #aaa; stroke: #888; stroke-width: 1.5; transition: fill 0.2s, stroke 0.2s; }
-        .favorite-btn.active svg { fill: var(--danger-color); stroke: var(--danger-color); }
-
-        /* --- BOTONES --- */
-        .btn { display: inline-block; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; cursor: pointer; border: none; text-align: center; }
-        .btn-primary { background-color: var(--secondary-color); color: var(--white-color); }
-        .btn-primary:hover { background-color: #b38e67; transform: translateY(-2px); }
-        .btn-secondary { background-color: #6c757d; color: var(--white-color); }
-        .btn-secondary:hover { background-color: #5a6268; }
-        .btn-whatsapp { background-color: var(--success-color); color: var(--white-color); }
-        .btn-whatsapp:hover { background-color: #218838; transform: translateY(-2px); }
-        .btn-outline { background: transparent; border: 2px solid var(--border-color); color: var(--text-color); }
-        .btn-outline:hover { background: var(--border-color); }
-        .btn-outline.active { border-color: var(--primary-color); background-color: var(--primary-color); color: var(--secondary-color); }
-
-        /* --- MODALES --- */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--modal-bg); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0s 0.4s; }
-        .modal.active { opacity: 1; visibility: visible; transition: opacity 0.4s ease; }
-        .modal-content { background-color: var(--card-background); padding: 30px; border-radius: 10px; max-width: 90%; width: 700px; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.9); transition: transform 0.4s ease; }
-        .modal.active .modal-content { transform: scale(1); }
-        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; cursor: pointer; padding: 5px; z-index: 10; color: var(--text-color); }
-        .modal-close svg { width: 24px; height: 24px; stroke: currentColor; } .modal-close:hover { color: var(--secondary-color); }
-        .modal-arriendo-slider { width: 100%; height: 350px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 25px; }
-        .modal-arriendo-slider .slide { width: 100%; height: 100%; object-fit: cover; position: absolute; opacity: 0; transition: opacity 0.8s ease; } .modal-arriendo-slider .slide.active { opacity: 1; }
-        .slider-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); }
-        .slider-nav button { background-color: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; border-radius: 50%; margin: 0 10px; }
-        .slider-nav button:hover { background-color: rgba(0,0,0,0.8); }
-        .modal-arriendo-details { list-style: none; margin: 20px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .modal-arriendo-details li { display: flex; align-items: center; font-size: 1rem; }
-        .modal-arriendo-description { line-height: 1.6; margin: 20px 0; }
-        .modal-publicar-content, .modal-contacto-content { text-align: center; }
-        .modal-publicar-content h3, .modal-contacto-content h3 { font-size: 1.8rem; margin-bottom: 20px; color: var(--primary-color); }
-        .modal-publicar-content p, .modal-contacto-content p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; }
-        .modal-action-buttons { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 30px; justify-content: center; }
-        #modal-map .modal-content { padding: 0; overflow: hidden; height: 80vh; width: 80vw; }
-        #map-iframe { width: 100%; height: 100%; border: none; }
-
-        /* --- FOOTER Y BOTÓN "VOLVER ARRIBA" --- */
-        .footer { background-color: var(--primary-color); color: var(--white-color); padding: 60px 40px; text-align: center; }
-        .footer-content h3 { font-size: 2rem; margin-bottom: 20px; }
-        .footer-content p { margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
-        #back-to-top-btn { position: fixed; bottom: 20px; right: 20px; background-color: var(--secondary-color); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(20px); transition: opacity 0.3s, visibility 0.3s, transform 0.3s; }
-        #back-to-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
-        #back-to-top-btn:hover { background-color: #b38e67; }
-        #back-to-top-btn svg { width: 24px; height: 24px; }
-
-        /* --- RESPONSIVIDAD --- */
-        @media (max-width: 992px) { .filter-group { flex-basis: calc(50% - 10px); } .price-range-group, .filter-actions { flex-basis: 100%; } }
-        
+        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 768px) {
-            .navbar { padding: 15px 20px; }
-            .nav-logo { font-size: 1.2rem; }
-            .hamburger-menu { display: flex; }
-            .navbar .nav-items > .nav-icon, .navbar .nav-items > .theme-switch-wrapper { display: none; }
-            .arriendos-section { padding: 60px 20px; }
-            .section-title { font-size: 2rem; }
-            .filter-group { flex-basis: 100%; }
-            .filter-actions .btn { width: 100%; }
-            .modal-content { width: 95%; padding: 20px; }
-            .modal-arriendo-slider { height: 250px; }
-            .modal-action-buttons { flex-direction: column; }
-        }
-
-        @media (max-width: 480px) {
-            /* No es necesario tocar .hero-content h1 gracias a clamp() */
-            .arriendos-grid { grid-template-columns: 1fr; }
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+                box-shadow: none;
+            }
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            .section-header h2 {
+                font-size: 1.3em;
+            }
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .info-item strong {
+                min-width: 100%;
+                margin-bottom: 0;
+            }
+            .info-item .copy-target, .info-item .copy-button {
+                flex-grow: 1;
+                width: 100%;
+            }
+            #generateButton, #showHistoryButton {
+                width: 100%;
+                margin-left: 0 !important;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
-<body data-theme="light">
+<body>
 
-    <!-- ======== NAVEGACIÓN ======== -->
-    <nav class="navbar">
-        <a href="#" class="nav-logo">BarrioSanLuisArriendo</a>
-        <div class="nav-items">
-            <!-- Controles para versión PC -->
-            <button class="nav-icon" id="favorites-btn-desktop" title="Ver Favoritos">
-                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
-                <span class="favorites-counter">0</span>
-            </button>
-            <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="theme-checkbox-desktop" title="Cambiar tema">
-                    <input type="checkbox" id="theme-checkbox-desktop" />
-                    <div class="slider"></div>
-                </label>
-            </div>
-            <!-- Menú hamburguesa (se activa en CSS para móvil) -->
-            <div class="hamburger-menu">
-                <div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div>
-            </div>
+    <div class="container">
+        <h1><i class="fas fa-tasks"></i> Gestor de Tareas de Reasignación</h1>
+
+        <div id="saveNotification">
+            <i class="fas fa-save"></i> Datos guardados automáticamente.
         </div>
-    </nav>
-    <div class="mobile-menu">
-        <a href="#arriendos" class="menu-link">Arriendos</a>
-        <a href="#" class="menu-link" id="publicar-link">Publicar</a>
-        <a href="#" class="menu-link" id="contacto-link">Contacto</a>
 
-        <div class="mobile-menu-controls">
-             <button class="nav-icon" id="favorites-btn-mobile" title="Ver Favoritos">
-                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
-                <span class="favorites-counter">0</span>
-            </button>
-            <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="theme-checkbox-mobile" title="Cambiar tema">
-                    <input type="checkbox" id="theme-checkbox-mobile" />
-                    <div class="slider"></div>
-                </label>
+        <div class="section">
+             <div class="section-header">
+                <h2><i class="fas fa-user-tag"></i> Designación de Tarea</h2>
+            </div>
+            <div class="section-content">
+                <div class="info-item">
+                    <strong>ACCIÓN:</strong>
+                    <span id="accion" class="copy-target" style="color: var(--danger-color);">Reasignar</span>
+                    <button class="copy-button" onclick="copiarTexto('accion')" style="background-color: var(--danger-color);"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
+                 <div class="info-item">
+                    <strong>NOMBRE DE DESTINO:</strong>
+                    <span id="reasignar" class="copy-target">BRAYAN CORONADO CUELLAR</span>
+                    <button class="copy-button" onclick="copiarTexto('reasignar')"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <!-- ======== HERO SECTION / PORTADA ======== -->
-    <header class="hero-section">
-        <div class="hero-slider">
-            <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop');"></div>
-            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop');"></div>
-            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop');"></div>
-        </div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>BarrioSanLuisArriendo</h1>
-            <p>Tu próximo hogar te está esperando</p>
-        </div>
-    </header>
 
-    <!-- ======== SECCIÓN DE ARRIENDOS Y FILTROS ======== -->
-    <main id="arriendos">
-        <section class="arriendos-section">
-            <h2 class="section-title" data-aos="fade-up">Arriendos Disponibles</h2>
+
+        <div class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-clipboard-list"></i> Tarea Activa (Datos Principales)</h2>
+            </div>
+             <div class="section-content">
+                <p style="color: var(--secondary-color); font-size: 0.9em;">*El Radicado se actualiza automáticamente con el ID de la primera tarea pendiente.</p>
+                
+                <div class="info-item">
+                    <strong>RADICADO / ID ACTUAL:</strong>
+                    <input type="text" id="radicado" class="copy-target editable-input" value="3670450">
+                    <button class="copy-button" onclick="copiarTexto('radicado')"><i class="fas fa-copy"></i> Copiar Radicado</button>
+                </div>
+                <div class="info-item">
+                    <strong>INICIO MOVILIDAD (MV):</strong>
+                    <span id="mv" class="copy-target">Colombia2033*</span>
+                    <button class="copy-button" onclick="copiarTexto('mv')"><i class="fas fa-copy"></i> Copiar Clave MV</button>
+                </div>
+                <div class="info-item">
+                    <strong>CÓDIGO SUMINISTRO:</strong>
+                    <span id="suministro" class="copy-target">91010101</span>
+                    <button class="copy-button" onclick="copiarTexto('suministro')"><i class="fas fa-copy"></i> Copiar Código</button>
+                </div>
+             </div>
+        </div>
+        
+        
+        <div class="section" id="tareas-pendientes-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list-alt"></i> Tareas Pendientes y Gestión</h2>
+                <button onclick="toggleSection('tareas-pendientes-content', this)"><i class="fas fa-angle-up"></i> Ver Menos</button>
+            </div>
             
-            <div class="filter-section" data-aos="fade-up" data-aos-delay="100">
-                <div class="filter-group">
-                    <label for="keyword-search">Palabra Clave</label>
-                    <input type="text" id="keyword-search" class="filter-input" placeholder="Ej: balcón, amoblado...">
+            <div class="section-content" id="tareas-pendientes-content">
+                <p style="color: var(--secondary-color);">**Instrucción:** Pega el listado de liquidaciones aquí y haz clic en Construir Lista.</p>
+                
+                <textarea id="dataInput" placeholder="Pega aquí los datos de Excel (cada liquidación en una línea nueva)...
+Ejemplo:
+Asignado Liquidacion 242385169 900190045 $ 28.700 $ 0 Nueva EPS 1
+Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
+                
+                <button id="generateButton" onclick="generarTablaPersonalizada()"><i class="fas fa-cogs"></i> Construir Lista de Tareas</button>
+                <button id="showHistoryButton" class="copy-button" onclick="mostrarHistorial()"><i class="fas fa-history"></i> Ver Historial</button>
+
+                <div id="dynamicTableOutput">
+                    <p style="text-align: center; color: var(--secondary-color); padding: 10px; border: 1px dashed #ccc; border-radius: 5px;">*La lista de tareas pendientes aparecerá aquí.*</p>
                 </div>
-                <div class="filter-group">
-                    <label for="sort-by">Ordenar por</label>
-                    <select id="sort-by" class="filter-select">
-                        <option value="default">Recomendados</option>
-                        <option value="price-asc">Precio (Menor a Mayor)</option>
-                        <option value="price-desc">Precio (Mayor a Menor)</option>
-                        <option value="newest">Más Nuevos</option>
-                    </select>
-                </div>
-                <div class="filter-group price-range-group">
-                    <label>Rango de Precio</label>
-                    <div class="price-slider-container">
-                        <div id="slider-track"></div>
-                        <div id="slider-range-fill"></div>
-                        <input type="range" id="min-price-slider" min="500000" max="5000000" value="500000" step="100000">
-                        <input type="range" id="max-price-slider" min="500000" max="5000000" value="5000000" step="100000">
-                    </div>
-                    <div class="price-values">
-                        <span id="min-price-value">$500.000</span>
-                        <span id="max-price-value">$5.000.000</span>
-                    </div>
-                </div>
-                <div class="filter-group">
-                    <label>Cuartos</label>
-                    <div class="btn-group" id="rooms-filter">
-                        <button class="active" data-value="all">Todos</button>
-                        <button data-value="1">1</button><button data-value="2">2</button>
-                        <button data-value="3">3</button><button data-value="4">4+</button>
-                    </div>
-                </div>
-                <div class="filter-group">
-                    <label>Baños</label>
-                    <div class="btn-group" id="baths-filter">
-                        <button class="active" data-value="all">Todos</button>
-                        <button data-value="1">1</button><button data-value="2">2</button>
-                        <button data-value="3">3+</button>
-                    </div>
-                </div>
-                <div class="filter-group" style="flex-basis: 100%;">
-                    <label>Servicios Incluidos</label>
-                    <div class="service-group" id="services-filter">
-                        <input type="checkbox" id="service-agua" value="Agua"><label for="service-agua"><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2a10,10 0 0,0 -10,10c0,5.52 4.48,10 10,10s10,-4.48 10,-10a10,10 0 0,0 -10,-10zM12,18a6,6 0 0,1 -6,-6c0,-2.64 1.71,-4.9 4,-5.65v1.15c-1.6.66 -2.8,2.16 -2.8,4.5c0,2.65 2.15,4.8 4.8,4.8s4.8,-2.15 4.8,-4.8c0,-2.34 -1.2,-4.34 -2.8,-4.65v-1.15c2.29,0.75 4,3.01 4,5.65a6,6 0 0,1 -6,6z"></path></svg>Agua</label>
-                        <input type="checkbox" id="service-luz" value="Luz"><label for="service-luz"><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2A7,7 0 0,0 5,9c0,2.38 1.19,4.47 3,5.74V17a1,1 0 0,0 1,1h6a1,1 0 0,0 1,-1v-2.26c1.81,-1.27 3,-3.36 3,-5.74A7,7 0 0,0 12,2z"></path></svg>Luz</label>
-                        <input type="checkbox" id="service-internet" value="Internet"><label for="service-internet"><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5s5,2.24 5,5s-2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3s3,-1.34 3,-3s-1.34,-3 -3,-3z"></path></svg>Internet</label>
-                        <input type="checkbox" id="service-gas" value="Gas"><label for="service-gas"><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M16.5,8c-1.5,0 -3,0.5 -4.5,1.5c-1.5,-1 -3,-1.5 -4.5,-1.5c-1.66,0 -3,1.34 -3,3c0,1.31 0.84,2.42 2,2.82v5.68h2v-4.5c0.59,-0.34 1.27,-0.5 2,-0.5s1.41,0.16 2,0.5v4.5h2v-5.68c1.16,-0.4 2,-1.51 2,-2.82c0,-1.66 -1.34,-3 -3,-3z"></path></svg>Gas</label>
-                    </div>
-                </div>
-                <div class="filter-actions">
-                    <button id="show-favorites-filter" class="btn btn-outline">❤️ Mostrar Favoritos</button>
-                    <button id="reset-filters" class="btn btn-secondary">Limpiar</button>
-                    <button id="apply-filters" class="btn btn-primary">Aplicar Filtros</button>
+                
+                <div id="copyAllIdsContainer" class="info-item" style="display:none; margin-top: 20px; border: none; padding-bottom: 0;">
+                    <span id="generated-ids-copia-manual" class="copy-target" style="display: none;"></span>
+                    <button id="copyAllIdsButton" class="copy-button" onclick="copiarTexto('generated-ids-copia-manual')" style="background-color: var(--success-color); flex-grow: 1;"><i class="fas fa-paste"></i> Copiar TODOS los IDs restantes</button>
                 </div>
             </div>
+        </div>
 
-            <!-- GALERÍA DE ARRIENDOS -->
-            <div class="arriendos-grid-container">
-                <div class="loading-spinner"></div>
-                <div class="arriendos-grid">
-                    <p id="no-results" style="display: none;">Lo sentimos, no se encontraron arriendos con esos criterios.</p>
+        
+        <div class="section" id="historySection">
+            <div class="section-header">
+                <h2><i class="fas fa-archive"></i> Historial de Tareas Completadas</h2>
+                <button onclick="toggleSection('historyOutput', this)"><i class="fas fa-angle-down"></i> Ver Más</button>
+            </div>
+            <div class="section-content" id="historyOutput" style="display:none;">
+                <div class="history-actions">
+                    <button id="deleteAllHistoryButton" onclick="eliminarHistorialCompleto()"><i class="fas fa-trash-alt"></i> Eliminar Historial Completo</button>
+                    <p style="color: var(--secondary-color);">*El historial se carga automáticamente al iniciar la web si hay datos guardados.</p>
+                </div>
+                 <div id="historyTableContainer">
+                    <p style="color: var(--secondary-color); text-align: center; padding: 10px; border: 1px dashed #ccc; border-radius: 5px;">No hay tareas archivadas. Utilice el botón "Ver Historial" en la sección superior.</p>
+                 </div>
+            </div>
+        </div>
+        
+
+        <div class="section" id="accesos-credenciales-section">
+            <div class="section-header">
+                <h2><i class="fas fa-key"></i> Accesos y Credenciales</h2>
+                <button onclick="toggleSection('accesos-credenciales-content', this)"><i class="fas fa-angle-down"></i> Ver Más</button>
+            </div>
+            
+            <div class="section-content" id="accesos-credenciales-content" style="display:none;">
+                
+                <h3><i class="fas fa-user-lock"></i> ONBASE</h3>
+                <div class="info-item">
+                    <strong>URL:</strong>
+                    <a id="onbaseURL" class="copy-target" href="https://ecm.nuevaeps.com.co/OnBase/Login.aspx" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">https://ecm.nuevaeps.com.co/OnBase/Login.aspx</a>
+                    <button class="copy-button" onclick="copiarTexto('onbaseURL')"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
+                <div class="info-item">
+                    <strong>USUARIO:</strong>
+                    <span id="onbaseUser" class="copy-target">mgamas</span>
+                    <button class="copy-button" onclick="copiarTexto('onbaseUser')"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
+                <div class="info-item">
+                    <strong>CLAVE:</strong>
+                    <span id="onbasePass" class="copy-target">Colombia2029*</span>
+                    <button class="copy-button" onclick="copiarTexto('onbasePass')"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
+
+                <br>
+                
+                <h3><i class="fas fa-desktop"></i> AUP</h3>
+                <div class="info-item">
+                    <strong>URL:</strong>
+                    <a id="aupURL" class="copy-target" href="https://aup.procesosyservicios.net.co/Login.aspx" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">https://aup.procesosyservicios.net.co/Login.aspx</a>
+                    <button class="copy-button" onclick="copiarTexto('aupURL')"><i class="fas fa-copy"></i> Copiar URL</button>
+                </div>
+                
+                <br>
+
+                <h3><i class="fas fa-hospital"></i> NUEVA EPS</h3>
+                <div class="info-item">
+                    <strong>USUARIO:</strong>
+                    <span id="nuevaepsUser" class="copy-target">Bcoronadoccmp</span>
+                    <button class="copy-button" onclick="copiarTexto('nuevaepsUser')"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
+                <div class="info-item">
+                    <strong>CLAVE:</strong>
+                    <span id="nuevaepsPass" class="copy-target">Pys2034*</span>
+                    <button class="copy-button" onclick="copiarTexto('nuevaepsPass')"><i class="fas fa-copy"></i> Copiar</button>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <!-- ======== FOOTER ======== -->
-    <footer class="footer" data-aos="fade-up">
-        <div class="footer-content">
-            <h3>¿Tienes alguna pregunta?</h3>
-            <p>Estamos aquí para ayudarte. Si tienes dudas sobre alguna propiedad o sobre el proceso para publicar, no dudes en escribirnos.</p>
-            <button class="btn btn-whatsapp" id="footer-contacto-btn">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19.04 18.22c-1.34.02-2.65-.34-3.84-.99a13.36 13.36 0 0 1-5.83-5.83c-.65-1.19-1.01-2.5-1-3.84V4.96h3.48l.81 3.22-1.46 1.46c.44.89 1.04 1.73 1.79 2.48.75.75 1.59 1.35 2.48 1.79l1.46-1.46 3.22.81v3.48h-.02zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>
-                Contáctanos por WhatsApp
-            </button>
         </div>
-    </footer>
 
-    <!-- ======== MODALES ======== -->
-    <div id="modal-arriendo" class="modal"><div class="modal-content"></div></div>
-    <div id="modal-publicar" class="modal">
-        <div class="modal-content modal-publicar-content">
-            <button class="modal-close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-            <h3>Publica tu Arriendo</h3><p>¿Deseas publicar tu arriendo? Envíanos los datos e imágenes por WhatsApp y nosotros nos encargamos.</p>
-            <a href="https://wa.me/5738556516?text=Hola,%20quiero%20publicar%20mi%20arriendo%20en%20BarrioSanLuisArriendo." target="_blank" class="btn btn-whatsapp">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19.04 18.22c-1.34.02-2.65-.34-3.84-.99a13.36 13.36 0 0 1-5.83-5.83c-.65-1.19-1.01-2.5-1-3.84V4.96h3.48l.81 3.22-1.46 1.46c.44.89 1.04 1.73 1.79 2.48.75.75 1.59 1.35 2.48 1.79l1.46-1.46 3.22.81v3.48h-.02zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>
-                Enviar por WhatsApp</a>
+        <div class="section search-container">
+             <div class="section-header">
+                <h2><i class="fas fa-prescription-bottle-alt"></i> Buscador de Códigos de Medicamentos</h2>
+            </div>
+            <div class="section-content">
+                <p style="color: var(--secondary-color);">Escribe el nombre del medicamento para encontrar su código rápidamente. **Ahora se activa con solo 1 letra.**</p>
+                <input type="text" id="searchInput" placeholder="Ej: AMOXICILINA, LISINOPRIL..." onkeyup="buscarMedicamento()" class="copy-target">
+                <div id="searchResult"></div>
+            </div>
         </div>
+
     </div>
-    <div id="modal-contacto" class="modal">
-        <div class="modal-content modal-contacto-content">
-            <button class="modal-close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-            <h3>Contáctanos</h3><p>Para consultas generales, soporte o información sobre nuestro servicio, puedes escribirnos directamente a nuestro WhatsApp.</p>
-            <a href="https://wa.me/5738556516?text=Hola,%20necesito%20información%20sobre%20el%20servicio%20de%20BarrioSanLuisArriendo." target="_blank" class="btn btn-whatsapp">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19.04 18.22c-1.34.02-2.65-.34-3.84-.99a13.36 13.36 0 0 1-5.83-5.83c-.65-1.19-1.01-2.5-1-3.84V4.96h3.48l.81 3.22-1.46 1.46c.44.89 1.04 1.73 1.79 2.48.75.75 1.59 1.35 2.48 1.79l1.46-1.46 3.22.81v3.48h-.02zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>
-                Contactar por WhatsApp</a>
-        </div>
-    </div>
-    <div id="modal-map" class="modal">
-        <div class="modal-content">
-            <button class="modal-close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-            <iframe id="map-iframe" src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-    </div>
-    
-    <button id="back-to-top-btn" title="Volver arriba">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
-    </button>
 
-
-    <!-- ======== SCRIPTS ======== -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        // --- VARIABLES GLOBALES Y ALMACENAMIENTO ---
+        let listaDeTareas = [];
+        let listaDeHistorial = [];
 
-        // ✅ MEJORA: Base de datos expandida a 10 propiedades con datos variados.
-        const arriendosData = [
-            { id: 1, nombre: 'Apartamento Moderno con Balcón', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1613553423758-d8425552399c?q=80&w=1974&auto=format&fit=crop', 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1505691938895-1758d7FEB511?q=80&w=2070&auto=format&fit=crop'], direccion: 'Calle 123 #45-67, Apto 501', cuartos: 3, banos: 2, area: 95, precio: 2500000, servicios: ['Agua', 'Luz', 'Internet'], tags: ['Acepta Mascotas', 'Nuevo'], descripcion: 'Espectacular apartamento con acabados de lujo, excelente iluminación natural y un amplio balcón con vista al parque. Ubicado en una zona tranquila y segura, cerca de centros comerciales y transporte público.', whatsapp: '5738556516', fechaPublicacion: '2024-05-15', lat: 4.6986, lng: -74.0321 },
-            { id: 2, nombre: 'Casa Familiar Amplia y Acogedora', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&w=2070&auto=format&fit=crop'], direccion: 'Carrera 10 # 80-20', cuartos: 4, banos: 3, area: 180, precio: 4200000, servicios: ['Agua', 'Luz', 'Gas'], tags: ['Acepta Mascotas'], descripcion: 'Casa de dos pisos ideal para familias. Cuenta con un patio trasero, estudio, parqueadero y cocina integral remodelada. El conjunto residencial ofrece vigilancia 24/7, piscina y salón social.', whatsapp: '5738556516', fechaPublicacion: '2024-05-10', lat: 4.7001, lng: -74.0345 },
-            { id: 3, nombre: 'Apartaestudio Amoblado Cerca al Parque', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1594904533828-78a709998e3c?q=80&w=2070&auto=format&fit=crop'], direccion: 'Calle 100 # 15-30', cuartos: 1, banos: 1, area: 45, precio: 1600000, servicios: ['Agua', 'Luz', 'Internet', 'Gas'], tags: ['Amoblado', 'Nuevo'], descripcion: 'Perfecto para una persona o pareja. Totalmente amoblado con estilo moderno, incluye todos los servicios y está a pasos del parque principal, ideal para hacer ejercicio y relajarse.', whatsapp: '5738556516', fechaPublicacion: '2024-05-20', lat: 4.6955, lng: -74.0310 },
-            { id: 4, nombre: 'Penthouse Dúplex con Terraza Privada', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070&auto=format&fit=crop', 'https://images.unsplash.com/photo-1600607686527-6fb886290705?q=80&w=1974&auto=format&fit=crop'], direccion: 'Av. Circunvalar # 50-10, Apto 1201', cuartos: 3, banos: 4, area: 220, precio: 4800000, servicios: ['Agua', 'Luz', 'Gas'], tags: ['Acepta Mascotas'], descripcion: 'Lujoso penthouse de dos niveles con una impresionante terraza con vista a la ciudad. Cuenta con jacuzzi, BBQ, y acabados de primera calidad. Exclusividad y confort en un solo lugar.', whatsapp: '5738556516', fechaPublicacion: '2024-04-28', lat: 4.7020, lng: -74.0300 },
-            { id: 5, nombre: 'Apartamento Económico y Bien Ubicado', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop'], direccion: 'Carrera 7 # 95-55', cuartos: 2, banos: 1, area: 60, precio: 1350000, servicios: ['Agua', 'Luz'], tags: [], descripcion: 'Apartamento funcional en un edificio tradicional. Ideal para estudiantes o parejas que buscan una opción económica sin sacrificar una buena ubicación. Cerca a vías principales.', whatsapp: '5738556516', fechaPublicacion: '2024-05-18', lat: 4.6978, lng: -74.0355 },
-            { id: 6, nombre: 'Casa con Jardín y Parqueadero Doble', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop'], direccion: 'Calle 116 # 20-40', cuartos: 4, banos: 3, area: 200, precio: 3900000, servicios: ['Agua', 'Luz', 'Gas'], tags: ['Acepta Mascotas'], descripcion: 'Amplia casa con un hermoso jardín interior, perfecta para familias con niños o mascotas. Cuenta con parqueadero para dos vehículos y un cuarto de servicio.', whatsapp: '5738556516', fechaPublicacion: '2024-05-05', lat: 4.6999, lng: -74.0333 },
-            { id: 7, nombre: 'Loft Industrial para Artistas', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop'], direccion: 'Transversal 5 # 78-12', cuartos: 1, banos: 2, area: 110, precio: 2800000, servicios: ['Agua', 'Luz', 'Internet'], tags: ['Nuevo'], descripcion: 'Espacio abierto tipo loft con techos altos y grandes ventanales. Ideal para creativos, artistas o profesionales que trabajan desde casa y necesitan un espacio inspirador.', whatsapp: '5738556516', fechaPublicacion: '2024-05-21', lat: 4.6963, lng: -74.0328 },
-            { id: 8, nombre: 'Apartamento Remodelado con Cocina Abierta', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=2070&auto=format&fit=crop'], direccion: 'Calle 92 # 11-80', cuartos: 2, banos: 2, area: 80, precio: 2200000, servicios: ['Agua', 'Luz', 'Gas'], tags: ['Amoblado', 'Acepta Mascotas'], descripcion: 'Recién remodelado con un diseño moderno. La cocina abierta se integra perfectamente con el área social. Se entrega amoblado y listo para habitar.', whatsapp: '5738556516', fechaPublicacion: '2024-05-12', lat: 4.6981, lng: -74.0340 },
-            { id: 9, nombre: 'Apartamento de 1 Habitación con Estudio', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=2074&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=2074&auto=format&fit=crop'], direccion: 'Carrera 13 # 105-21', cuartos: 1, banos: 2, area: 70, precio: 1950000, servicios: ['Agua', 'Luz', 'Internet'], tags: [], descripcion: 'Acogedor apartamento que además de su habitación principal, cuenta con un espacio independiente ideal para oficina en casa. Edificio con gimnasio y salón comunal.', whatsapp: '5738556516', fechaPublicacion: '2024-05-01', lat: 4.7015, lng: -74.0315 },
-            { id: 10, nombre: 'Casa Esquinera Comercial y Residencial', ubicacion: 'Barrio San Luis', imagenPrincipal: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=2070&auto=format&fit=crop', imagenes: ['https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=2070&auto=format&fit=crop'], direccion: 'Esquina Calle 85 con Carrera 15', cuartos: 5, banos: 4, area: 250, precio: 5000000, servicios: ['Agua', 'Luz'], tags: [], descripcion: 'Propiedad de uso mixto. Ideal para una familia grande o para quien desee tener su negocio en el primer piso y la vivienda en el segundo. Ubicación estratégica de alta visibilidad.', whatsapp: '5738556516', fechaPublicacion: '2024-04-25', lat: 4.6990, lng: -74.0360 }
-        ];
+        // Colores y utilidades
+        const var_success_color = getComputedStyle(document.documentElement).getPropertyValue('--success-color').trim();
+        const var_primary_color = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+        const var_danger_color = getComputedStyle(document.documentElement).getPropertyValue('--danger-color').trim();
+        const var_toggle_color = getComputedStyle(document.documentElement).getPropertyValue('--toggle-color').trim();
 
-        AOS.init({ duration: 800, once: true, offset: 50 });
+        // ----------------------------------------------------
+        // --- GESTIÓN DE LOCALSTORAGE (AUTO-GUARDADO) ---
+        // ----------------------------------------------------
 
-        // --- MANEJO DE SCRIPTS BÁSICOS (NAV, HERO, MODALES) ---
-        const hamburgerMenu = document.querySelector('.hamburger-menu');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const menuLinks = document.querySelectorAll('.menu-link');
-        hamburgerMenu.addEventListener('click', () => { hamburgerMenu.classList.toggle('active'); mobileMenu.classList.toggle('active'); });
-        menuLinks.forEach(link => { link.addEventListener('click', () => { hamburgerMenu.classList.remove('active'); mobileMenu.classList.remove('active'); }); });
-        const navbar = document.querySelector('.navbar');
-        window.addEventListener('scroll', () => { window.scrollY > 50 ? navbar.classList.add('scrolled') : navbar.classList.remove('scrolled'); });
-        const heroSlides = document.querySelectorAll('.hero-slide');
-        let currentHeroSlide = 0;
-        setInterval(() => {
-            heroSlides[currentHeroSlide].classList.remove('active');
-            currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
-            heroSlides[currentHeroSlide].classList.add('active');
-        }, 5000);
-
-        const allModals = document.querySelectorAll('.modal');
-        const openModal = (modal) => modal.classList.add('active');
-        const closeModal = (modal) => modal.classList.remove('active');
-        document.getElementById('publicar-link').addEventListener('click', (e) => { e.preventDefault(); openModal(document.getElementById('modal-publicar')); });
-        document.getElementById('contacto-link').addEventListener('click', (e) => { e.preventDefault(); openModal(document.getElementById('modal-contacto')); });
-        document.getElementById('footer-contacto-btn').addEventListener('click', () => openModal(document.getElementById('modal-contacto')));
-        allModals.forEach(modal => {
-            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal); });
-            const closeBtn = modal.querySelector('.modal-close');
-            if(closeBtn) closeBtn.addEventListener('click', () => closeModal(modal));
-        });
-
-        // --- LÓGICA MODO OSCURO ---
-        const themeSwitches = [
-            document.getElementById('theme-checkbox-desktop'),
-            document.getElementById('theme-checkbox-mobile')
-        ];
-        const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.body.setAttribute('data-theme', currentTheme);
-        
-        const applyTheme = (theme) => {
-            document.body.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            const isDark = theme === 'dark';
-            themeSwitches.forEach(sw => sw.checked = isDark);
-        };
-
-        themeSwitches.forEach(sw => {
-            sw.addEventListener('change', e => {
-                applyTheme(e.target.checked ? 'dark' : 'light');
-            });
-        });
-        applyTheme(currentTheme);
-
-
-        // --- LÓGICA DE FAVORITOS ---
-        const favoritesBtns = [
-            document.getElementById('favorites-btn-desktop'),
-            document.getElementById('favorites-btn-mobile')
-        ];
-        const favoritesCounters = document.querySelectorAll('.favorites-counter');
-        const showFavoritesFilterBtn = document.getElementById('show-favorites-filter');
-        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        let showingOnlyFavorites = false;
-
-        const updateFavoritesCounter = () => {
-            favoritesCounters.forEach(counter => {
-                counter.textContent = favorites.length;
-                counter.classList.toggle('visible', favorites.length > 0);
-            });
-        };
-        
-        const toggleFavorite = (id) => {
-            const idAsNumber = parseInt(id, 10);
-            const index = favorites.indexOf(idAsNumber);
-            if (index > -1) favorites.splice(index, 1); else favorites.push(idAsNumber);
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            updateFavoritesCounter();
-            if (showingOnlyFavorites) applyFilters();
-        };
-
-        favoritesBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                hamburgerMenu.classList.remove('active'); 
-                mobileMenu.classList.remove('active');
-                document.getElementById('arriendos').scrollIntoView({ behavior: 'smooth' });
-                if (!showingOnlyFavorites) showFavoritesFilterBtn.click();
-            });
-        });
-        
-        // --- BOTÓN "VOLVER ARRIBA" ---
-        const backToTopBtn = document.getElementById('back-to-top-btn');
-        window.addEventListener('scroll', () => backToTopBtn.classList.toggle('visible', window.scrollY > 300));
-        backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-        
-        // --- LÓGICA DE FILTROS Y RENDERIZADO ---
-        const arriendosGrid = document.querySelector('.arriendos-grid');
-        const loadingSpinner = document.querySelector('.loading-spinner');
-        const noResultsMessage = document.getElementById('no-results');
-        const keywordInput = document.getElementById('keyword-search');
-        const sortBySelect = document.getElementById('sort-by');
-        const minPriceSlider = document.getElementById('min-price-slider');
-        const maxPriceSlider = document.getElementById('max-price-slider');
-        const minPriceValue = document.getElementById('min-price-value');
-        const maxPriceValue = document.getElementById('max-price-value');
-        const rangeFill = document.getElementById('slider-range-fill');
-        const roomsFilter = document.getElementById('rooms-filter');
-        const bathsFilter = document.getElementById('baths-filter');
-        const servicesFilter = document.getElementById('services-filter');
-        const applyFiltersBtn = document.getElementById('apply-filters');
-        const resetFiltersBtn = document.getElementById('reset-filters');
-        
-        function formatPrice(value) {
-            return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
-        }
-
-        function updatePriceSlider() {
-            let min = parseInt(minPriceSlider.value), max = parseInt(maxPriceSlider.value);
-            if (min >= max) {
-                if (this.id === 'min-price-slider') {
-                    min = max - parseInt(minPriceSlider.step);
-                    minPriceSlider.value = min;
-                } else {
-                    max = min + parseInt(maxPriceSlider.step);
-                    maxPriceSlider.value = max;
-                }
+        function guardarDatos() {
+            try {
+                localStorage.setItem('reasignacion_tareas', JSON.stringify(listaDeTareas));
+                localStorage.setItem('reasignacion_historial', JSON.stringify(listaDeHistorial));
+                mostrarNotificacionGuardado();
+            } catch (e) {
+                console.error("Error al guardar en LocalStorage:", e);
             }
-            minPriceValue.textContent = formatPrice(min); maxPriceValue.textContent = formatPrice(max);
-            const minPercent = ((min - minPriceSlider.min) / (minPriceSlider.max - minPriceSlider.min)) * 100;
-            const maxPercent = ((max - minPriceSlider.min) / (minPriceSlider.max - minPriceSlider.min)) * 100;
-            rangeFill.style.left = `${minPercent}%`; rangeFill.style.width = `${maxPercent - minPercent}%`;
         }
-        [minPriceSlider, maxPriceSlider].forEach(slider => slider.addEventListener('input', updatePriceSlider));
 
-        [roomsFilter, bathsFilter].forEach(filterGroup => {
-            filterGroup.addEventListener('click', e => {
-                if (e.target.tagName === 'BUTTON') {
-                    filterGroup.querySelector('.active').classList.remove('active');
-                    e.target.classList.add('active');
+        function cargarDatos() {
+            try {
+                const tareasGuardadas = localStorage.getItem('reasignacion_tareas');
+                const historialGuardado = localStorage.getItem('reasignacion_historial');
+
+                if (tareasGuardadas) {
+                    listaDeTareas = JSON.parse(tareasGuardadas);
+                    actualizarTextareaConLista();
+                    renderizarTabla();
                 }
-            });
-        });
-
-        function generateTags(tags) {
-            if (!tags || tags.length === 0) return '';
-            const tagMap = { 'Acepta Mascotas': 'tag-pet', 'Nuevo': 'tag-new', 'Amoblado': 'tag-furnished' };
-            return `<div class="card-tags">${tags.map(tag => `<span class="card-tag ${tagMap[tag] || ''}">${tag}</span>`).join('')}</div>`;
+                if (historialGuardado) {
+                    listaDeHistorial = JSON.parse(historialGuardado);
+                    renderizarHistorial(false); 
+                }
+            } catch (e) {
+                console.error("Error al cargar datos de LocalStorage:", e);
+            }
         }
 
-        const renderArriendos = (data) => {
-            arriendosGrid.innerHTML = '';
-            noResultsMessage.style.display = 'none';
-            if (data.length === 0) {
-                noResultsMessage.style.display = 'block';
-                return;
-            }
-
-            data.forEach(arriendo => {
-                const card = document.createElement('article');
-                card.className = 'arriendo-card';
-                card.setAttribute('data-aos', 'fade-up');
-                const isFavorite = favorites.includes(arriendo.id);
-                card.innerHTML = `
-                    <div class="arriendo-card-img-container">
-                        ${generateTags(arriendo.tags)}
-                        <img src="${arriendo.imagenPrincipal}" alt="${arriendo.nombre}" class="arriendo-card-img" loading="lazy">
-                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${arriendo.id}" title="Añadir a favoritos">
-                           <svg viewBox="0 0 24 24"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="arriendo-card-content">
-                        <h3>${arriendo.nombre}</h3>
-                        <p>${arriendo.cuartos} cuartos • ${arriendo.banos} baños • ${arriendo.area} m²</p>
-                        <p><strong>${formatPrice(arriendo.precio)}</strong></p>
-                        <p class="arriendo-card-price-per-sqm">${formatPrice(arriendo.precio / arriendo.area)} / m²</p>
-                    </div>
-                    <div class="arriendo-card-actions">
-                        <button class="btn btn-primary btn-ver-detalles" data-id="${arriendo.id}">Ver Detalles</button>
-                    </div>`;
-                arriendosGrid.appendChild(card);
-            });
-            setTimeout(() => AOS.refresh(), 100);
-        };
-
-        const applyFilters = () => {
-            loadingSpinner.classList.add('visible');
-            arriendosGrid.classList.add('loading');
-            
+        function mostrarNotificacionGuardado() {
+            const notif = document.getElementById('saveNotification');
+            notif.classList.add('show');
             setTimeout(() => {
-                const keyword = keywordInput.value.toLowerCase().trim();
-                const sortBy = sortBySelect.value;
-                const minPrice = parseInt(minPriceSlider.value), maxPrice = parseInt(maxPriceSlider.value);
-                const rooms = roomsFilter.querySelector('.active').dataset.value;
-                const baths = bathsFilter.querySelector('.active').dataset.value;
-                const requiredServices = [...servicesFilter.querySelectorAll('input:checked')].map(cb => cb.value);
+                notif.classList.remove('show');
+            }, 2000);
+        }
 
-                let baseData = showingOnlyFavorites ? arriendosData.filter(a => favorites.includes(a.id)) : arriendosData;
+        // ----------------------------------------------------
+        // --- Funciones de Copia y Notificación ---
+        // ----------------------------------------------------
 
-                let filteredData = baseData.filter(arriendo => {
-                    const keywordMatch = keyword === '' || arriendo.nombre.toLowerCase().includes(keyword) || arriendo.descripcion.toLowerCase().includes(keyword) || arriendo.tags.join(' ').toLowerCase().includes(keyword);
-                    const priceMatch = arriendo.precio >= minPrice && arriendo.precio <= maxPrice;
-                    const roomsMatch = rooms === 'all' || (rooms === '4+' ? arriendo.cuartos >= 4 : arriendo.cuartos == rooms);
-                    const bathsMatch = baths === 'all' || (baths === '3+' ? arriendo.banos >= 3 : arriendo.banos == baths);
-                    const servicesMatch = requiredServices.every(service => arriendo.servicios.includes(service));
-                    return keywordMatch && priceMatch && roomsMatch && bathsMatch && servicesMatch;
-                });
+        function copiarTexto(elementId) {
+             const targetElement = document.getElementById(elementId);
+             let textToCopy;
+             if (targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA') {
+                 textToCopy = targetElement.value;
+             } else {
+                 textToCopy = targetElement.textContent || targetElement.innerText;
+             }
+             copiarYNotificar(targetElement, textToCopy);
+        }
+        function copiarTextoTabla(cellElement) {
+             const textToCopy = cellElement.textContent || cellElement.innerText;
+             copiarYNotificar(cellElement, textToCopy, true);
+        }
 
-                switch (sortBy) {
-                    case 'price-asc': filteredData.sort((a, b) => a.precio - b.precio); break;
-                    case 'price-desc': filteredData.sort((a, b) => b.precio - a.precio); break;
-                    case 'newest': filteredData.sort((a, b) => new Date(b.fechaPublicacion) - new Date(a.fechaPublicacion)); break;
+        function copiarYNotificar(targetElement, textToCopy, isTableCell = false) {
+             if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        mostrarNotificacion(targetElement, '✅ Copiado!', isTableCell);
+                    })
+                    .catch(err => {
+                        copiarTextoFallback(targetElement, textToCopy, isTableCell);
+                    });
+            } else {
+                copiarTextoFallback(targetElement, textToCopy, isTableCell);
+            }
+        }
+        
+        function copiarTextoFallback(targetElement, textToCopy, isTableCell) {
+             const textArea = document.createElement("textarea");
+             textArea.value = textToCopy;
+             textArea.style.position = "fixed"; 
+             textArea.style.opacity = "0"; 
+             document.body.appendChild(textArea);
+             textArea.focus();
+             textArea.select();
+             try {
+                 document.execCommand('copy');
+                 mostrarNotificacion(targetElement, '✅ Copiado!', isTableCell);
+             } catch (err) {
+                 alert('Error al copiar. Por favor, copie manualmente: ' + textToCopy);
+             }
+             document.body.removeChild(textArea);
+        }
+
+        function mostrarNotificacion(targetElement, message, isTableCell) {
+            let button;
+            let originalText;
+
+            if (isTableCell) {
+                button = targetElement;
+                originalText = button.textContent;
+                originalBg = getComputedStyle(button).backgroundColor;
+                
+                button.textContent = message;
+                button.style.backgroundColor = var_success_color;
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.backgroundColor = originalBg; 
+                }, 1500);
+            } else {
+                button = targetElement.nextElementSibling;
+                if (!button || !button.classList.contains('copy-button')) {
+                    if (targetElement.id === 'codigo-med-result') {
+                       // Si es el resultado del medicamento, el botón es el siguiente hermano.
+                       button = targetElement.closest('.info-item').querySelector('.copy-button');
+                    } else if (targetElement.id === 'generated-ids-copia-manual') {
+                       button = document.getElementById('copyAllIdsButton');
+                    } else {
+                        return;
+                    }
+                }
+                
+                originalText = button.textContent;
+                
+                let restoreColor = var_primary_color;
+                if (targetElement.id === 'accion') {
+                    restoreColor = var_danger_color;
+                } else if (targetElement.id === 'generated-ids-copia-manual') {
+                    restoreColor = var_success_color;
+                } else if (targetElement.id === 'codigo-med-result') {
+                    restoreColor = var_danger_color;
                 }
 
-                renderArriendos(filteredData);
-                loadingSpinner.classList.remove('visible');
-                arriendosGrid.classList.remove('loading');
-            }, 300);
-        };
-
-        const resetFilters = () => {
-            keywordInput.value = ''; sortBySelect.value = 'default';
-            minPriceSlider.value = minPriceSlider.min; maxPriceSlider.value = maxPriceSlider.max;
-            updatePriceSlider();
-            roomsFilter.querySelector('.active').classList.remove('active');
-            roomsFilter.querySelector('[data-value="all"]').classList.add('active');
-            bathsFilter.querySelector('.active').classList.remove('active');
-            bathsFilter.querySelector('[data-value="all"]').classList.add('active');
-            servicesFilter.querySelectorAll('input:checked').forEach(cb => cb.checked = false);
-            if (showingOnlyFavorites) showFavoritesFilterBtn.click(); else applyFilters();
-        };
-
-        showFavoritesFilterBtn.addEventListener('click', () => {
-            showingOnlyFavorites = !showingOnlyFavorites;
-            showFavoritesFilterBtn.classList.toggle('active', showingOnlyFavorites);
-            showFavoritesFilterBtn.innerHTML = showingOnlyFavorites ? '❤️ Mostrando Favoritos' : '❤️ Mostrar Favoritos';
-            applyFilters();
-        });
-
-        applyFiltersBtn.addEventListener('click', applyFilters);
-        resetFiltersBtn.addEventListener('click', resetFilters);
-        sortBySelect.addEventListener('change', applyFilters);
-
-        const arriendoModal = document.getElementById('modal-arriendo');
-        const mapModal = document.getElementById('modal-map');
-        const mapIframe = document.getElementById('map-iframe');
-        let currentModalSlide = 0;
-
-        function showModalSlide(index) {
-            const slides = arriendoModal.querySelectorAll('.slide');
-            slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
-        }
-        window.nextModalSlide = () => { const slides = arriendoModal.querySelectorAll('.slide'); currentModalSlide = (currentModalSlide + 1) % slides.length; showModalSlide(currentModalSlide); };
-        window.prevModalSlide = () => { const slides = arriendoModal.querySelectorAll('.slide'); currentModalSlide = (currentModalSlide - 1 + slides.length) % slides.length; showModalSlide(currentModalSlide); };
-        
-        function renderArriendoModal(data) {
-            currentModalSlide = 0;
-            const modalContent = arriendoModal.querySelector('.modal-content');
-            const tagsHTML = data.tags && data.tags.length > 0 ? `<div class="modal-tags"><h4>Características</h4>${generateTags(data.tags)}</div>` : '';
-
-            modalContent.innerHTML = `
-                <button class="modal-close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-                <div class="modal-arriendo-slider">${data.imagenes.map((img, index) => `<img src="${img}" class="slide ${index === 0 ? 'active' : ''}" alt="Foto ${index+1}">`).join('')}<div class="slider-nav"><button onclick="prevModalSlide()">❮</button><button onclick="nextModalSlide()">❯</button></div></div>
-                <h3>${data.nombre}</h3>
-                <ul class="modal-arriendo-details">
-                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0-10c-4.2 0-8 3.22-8 8.2 0 3.32 2.67 7.27 8 11.8 5.33-4.53 8-8.48 8-11.8C20 5.22 16.2 2 12 2z"></path></svg> ${data.direccion}</li>
-                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"></path></svg> ${data.cuartos} Cuartos</li>
-                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8h-1V6c0-2.76-2.24-5-5-5S8 3.24 8 6v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6-4c1.65 0 3 1.35 3 3v2H9V6c0-1.65 1.35-3 3-3zm7 14H8V10h12v8z"></path></svg> ${data.banos} Baños</li>
-                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M21 6H3V4h18v2zm0 4H3v2h18v-2zm0 4H3v2h18v-2z"></path></svg> ${data.area} m²</li>
-                    <li><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"></path></svg> <strong>Precio:</strong> ${formatPrice(data.precio)} COP/mes</li>
-                </ul>
-                ${tagsHTML}
-                <h4>Servicios Incluidos</h4>
-                <p class="modal-arriendo-description">${data.servicios.join(', ')}</p>
-                <h4>Descripción Completa</h4>
-                <p class="modal-arriendo-description">${data.descripcion}</p>
-                <div class="modal-action-buttons">
-                    <a href="https://wa.me/${data.whatsapp}?text=Hola,%20estoy%20interesado%20en%20el%20arriendo%20'${encodeURIComponent(data.nombre)}'%20publicado%20en%20BarrioSanLuisArriendo." target="_blank" class="btn btn-whatsapp">Contactar por WhatsApp</a>
-                    <button class="btn btn-outline btn-view-map" data-lat="${data.lat}" data-lng="${data.lng}">Ver en Mapa</button>
-                    <button class="btn btn-outline btn-share" data-id="${data.id}">Compartir</button>
-                </div>`;
-            modalContent.querySelector('.modal-close').addEventListener('click', () => closeModal(arriendoModal));
-            openModal(arriendoModal);
+                button.textContent = message;
+                button.style.backgroundColor = var_success_color;
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.backgroundColor = restoreColor;
+                }, 1500);
+            }
         }
 
-        arriendosGrid.addEventListener('click', (e) => {
-            const favoriteButton = e.target.closest('.favorite-btn');
-            if (favoriteButton) {
-                toggleFavorite(favoriteButton.dataset.id);
-                favoriteButton.classList.toggle('active');
+        // ----------------------------------------------------
+        // --- Generador de Tabla y Gestión de Tareas ---
+        // ----------------------------------------------------
+
+        function generarTablaPersonalizada() {
+            const inputElement = document.getElementById('dataInput');
+            const rawText = inputElement.value.trim();
+            listaDeTareas = [];
+
+            if (!rawText) {
+                renderizarTabla();
                 return;
             }
-            const detailsButton = e.target.closest('.btn-ver-detalles');
-            if (detailsButton) {
-                const id = detailsButton.getAttribute('data-id');
-                const data = arriendosData.find(item => item.id == id);
-                if (data) renderArriendoModal(data);
-            }
-        });
 
-        arriendoModal.addEventListener('click', e => {
-            const mapButton = e.target.closest('.btn-view-map');
-            if (mapButton) {
-                const lat = mapButton.dataset.lat, lng = mapButton.dataset.lng;
-                mapIframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(lng)-0.005},${parseFloat(lat)-0.005},${parseFloat(lng)+0.005},${parseFloat(lat)+0.005}&layer=mapnik&marker=${lat},${lng}`;
-                openModal(mapModal);
+            const lines = rawText.split('\n').filter(line => line.trim() !== '');
+            
+            lines.forEach(line => {
+                const cells = line.trim().split(/\s{1,}/);
+                
+                if (cells.length >= 8) {
+                    listaDeTareas.push({
+                        estatus: cells[0],
+                        tipo: cells[1],
+                        id: cells[2],
+                        codSuministro: cells[3],
+                        valor: cells[4],
+                        ahorro: cells[5],
+                        eps: cells[6],
+                        num: cells[7]
+                    });
+                }
+            });
+
+            renderizarTabla();
+            guardarDatos(); 
+        }
+
+        function renderizarTabla() {
+            const outputDiv = document.getElementById('dynamicTableOutput');
+            const radicadoInput = document.getElementById('radicado');
+            const copyAllIdsContainer = document.getElementById('copyAllIdsContainer');
+            const copyAllIdsSpan = document.getElementById('generated-ids-copia-manual');
+            
+            outputDiv.innerHTML = '';
+            copyAllIdsContainer.style.display = 'none';
+
+            if (listaDeTareas.length === 0) {
+                outputDiv.innerHTML = '<p style="text-align: center; color: var(--secondary-color); padding: 10px; border: 1px dashed #ccc; border-radius: 5px;"><i class="fas fa-check-circle"></i> Todas las tareas han sido completadas o no hay datos cargados.</p>';
+                radicadoInput.value = '';
+                return;
             }
 
-            const shareButton = e.target.closest('.btn-share');
-            if (shareButton) {
-                const propertyId = shareButton.dataset.id;
-                const urlToShare = `${window.location.href.split(/[?#]/)[0]}?property=${propertyId}`;
-                navigator.clipboard.writeText(urlToShare).then(() => {
-                    shareButton.textContent = '¡Enlace Copiado!';
-                    setTimeout(() => { shareButton.textContent = 'Compartir'; }, 2000);
-                }).catch(err => console.error('Error al copiar enlace: ', err));
-            }
-        });
+            let tableHTML = `
+                <div class="excel-table-container">
+                    <table class="excel-table">
+                        <thead>
+                            <tr>
+                                <th>Estatus</th>
+                                <th>Tipo</th>
+                                <th>ID Liquidación</th>
+                                <th>Cód. Suministro</th>
+                                <th>Valor</th>
+                                <th>Ahorro</th>
+                                <th>EPS</th>
+                                <th>Num</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            let allIds = [];
+            const tareasRestantes = listaDeTareas.length;
+            
+            listaDeTareas.forEach((tarea, index) => {
+                allIds.push(tarea.id);
+                
+                tableHTML += `
+                    <tr id="tarea-row-${index}">
+                        <td>${tarea.estatus}</td>
+                        <td>${tarea.tipo}</td>
+                        <td class="cell-copy" onclick="copiarTextoTabla(this)">${tarea.id}</td>
+                        <td>${tarea.codSuministro}</td>
+                        <td>${tarea.valor}</td>
+                        <td>${tarea.ahorro}</td>
+                        <td>${tarea.eps}</td>
+                        <td>${tarea.num}</td>
+                        <td style="text-align: center;">
+                            <button class="complete-row-button" onclick="mostrarComentario(${index})"><i class="fas fa-archive"></i> Archivar</button>
+                            <div id="comment-box-${index}" class="comment-container">
+                                <span class="comment-counter">Tareas: 1</span>
+                                <textarea id="comment-text-${index}" placeholder="Escribe tu comentario..."></textarea>
+                                <button class="save-comment-button" onclick="marcarCompletado(${index})"><i class="fas fa-save"></i> Guardar Comentario</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            outputDiv.innerHTML = tableHTML;
+            
+            radicadoInput.value = listaDeTareas[0].id; 
+            copyAllIdsSpan.textContent = allIds.join(', ');
+            copyAllIdsContainer.style.display = 'flex';
+        }
+
+        function mostrarComentario(index) {
+            const commentBox = document.getElementById(`comment-box-${index}`);
+            document.querySelectorAll('.comment-container').forEach(box => {
+                if (box.id !== `comment-box-${index}`) {
+                    box.style.display = 'none';
+                }
+            });
+            commentBox.style.display = commentBox.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function marcarCompletado(index) {
+            const commentText = document.getElementById(`comment-text-${index}`).value.trim();
+            
+            const tareaCompletada = listaDeTareas[index];
+            tareaCompletada.comentario = commentText || 'Sin comentario';
+            tareaCompletada.fecha = new Date().toLocaleString();
+            tareaCompletada.historialIndex = listaDeHistorial.length; 
+
+            listaDeHistorial.push(tareaCompletada);
+            
+            listaDeTareas.splice(index, 1);
+            
+            actualizarTextareaConLista();
+            renderizarTabla();
+            renderizarHistorial(false); 
+            guardarDatos(); 
+
+            alert(`Tarea ${tareaCompletada.id} archivada con éxito. Total en historial: ${listaDeHistorial.length}`);
+        }
+
+        function actualizarTextareaConLista() {
+            const inputElement = document.getElementById('dataInput');
+            let newText = '';
+            
+            listaDeTareas.forEach(tarea => {
+                newText += `${tarea.estatus} ${tarea.tipo} ${tarea.id} ${tarea.codSuministro} ${tarea.valor} ${tarea.ahorro} ${tarea.eps} ${tarea.num}\n`;
+            });
+            
+            inputElement.value = newText.trim();
+        }
         
-        const checkUrlParams = () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const propertyId = urlParams.get('property');
-            if (propertyId) {
-                const data = arriendosData.find(item => item.id == propertyId);
-                if (data) setTimeout(() => renderArriendoModal(data), 500);
+        // ----------------------------------------------------
+        // --- Gestión de Historial (Archivado) ---
+        // ----------------------------------------------------
+        
+        function renderizarHistorial(forceShow) {
+            const historyOutput = document.getElementById('historyTableContainer');
+            const historyContent = document.getElementById('historyOutput');
+            
+            if (listaDeHistorial.length === 0) {
+                 historyOutput.innerHTML = '<p style="color: var(--secondary-color); text-align: center; padding: 10px; border: 1px dashed #ccc; border-radius: 5px;"><i class="fas fa-info-circle"></i> El historial está vacío.</p>';
+                 return;
             }
-        };
 
-        updatePriceSlider();
-        updateFavoritesCounter();
-        applyFilters();
-        checkUrlParams();
-    });
+            let tableHTML = `
+                <div class="excel-table-container">
+                    <table class="excel-table history-table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-calendar-alt"></i> Fecha/Hora</th>
+                                <th>ID Liquidación</th>
+                                <th>EPS</th>
+                                <th>Valor</th>
+                                <th style="min-width: 350px;"><i class="fas fa-comment"></i> Comentario</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            listaDeHistorial.slice().reverse().forEach((tarea, indexReversed) => { 
+                const originalIndex = listaDeHistorial.length - 1 - indexReversed;
+
+                tableHTML += `
+                    <tr>
+                        <td>${tarea.fecha}</td>
+                        <td class="cell-copy" onclick="copiarTextoTabla(this)">${tarea.id}</td>
+                        <td>${tarea.eps}</td>
+                        <td>${tarea.valor}</td>
+                        <td id="comment-display-${originalIndex}">${tarea.comentario}</td>
+                        <td>
+                            <button class="edit-comment-button" onclick="iniciarEdicionComentario(${originalIndex}, this)"><i class="fas fa-edit"></i> Editar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            historyOutput.innerHTML = tableHTML;
+            
+            if (forceShow) {
+                historyContent.style.display = 'block';
+                document.getElementById('historySection').querySelector('.section-header button').innerHTML = '<i class="fas fa-angle-up"></i> Ver Menos';
+            }
+        }
+
+        function mostrarHistorial() {
+            renderizarHistorial(true); 
+        }
+
+        function eliminarHistorialCompleto() {
+            if (confirm("¿Estás seguro de que quieres ELIMINAR TODO el historial de tareas completadas? Esta acción es irreversible.")) {
+                listaDeHistorial = [];
+                renderizarHistorial(false);
+                guardarDatos();
+                alert("Historial eliminado con éxito.");
+            }
+        }
+        
+        function iniciarEdicionComentario(index, buttonElement) {
+            const commentCell = document.getElementById(`comment-display-${index}`);
+            const tarea = listaDeHistorial[index];
+            const originalComment = tarea.comentario;
+            
+            commentCell.innerHTML = `
+                <textarea id="edit-text-${index}" style="width: 100%; height: 60px; margin-bottom: 5px;">${originalComment}</textarea>
+                <button class="save-comment-button" onclick="guardarComentarioEditado(${index})"><i class="fas fa-save"></i> Guardar</button>
+                <button class="copy-button" style="background-color: #f0ad4e; margin-left: 5px;" onclick="cancelarEdicionComentario(${index}, '${originalComment}')"><i class="fas fa-times"></i> Cancelar</button>
+            `;
+            
+            buttonElement.disabled = true;
+            buttonElement.style.opacity = 0.5;
+        }
+
+        function guardarComentarioEditado(index) {
+            const newComment = document.getElementById(`edit-text-${index}`).value.trim();
+            
+            listaDeHistorial[index].comentario = newComment;
+            
+            renderizarHistorial(true);
+            guardarDatos();
+        }
+
+        function cancelarEdicionComentario(index, originalComment) {
+            const commentCell = document.getElementById(`comment-display-${index}`);
+            commentCell.innerHTML = originalComment;
+            
+            const editButton = commentCell.closest('tr').querySelector('.edit-comment-button');
+            if (editButton) {
+                editButton.disabled = false;
+                editButton.style.opacity = 1;
+            }
+        }
+        
+        // ----------------------------------------------------
+        // --- Utilidades de Interfaz ---
+        // ----------------------------------------------------
+
+        function toggleSection(contentId, buttonElement) {
+            const content = document.getElementById(contentId);
+            
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                buttonElement.innerHTML = '<i class="fas fa-angle-up"></i> Ver Menos';
+            } else {
+                content.style.display = 'none';
+                buttonElement.innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
+            }
+        }
+
+
+        // --- Base de Datos de Medicamentos y Buscador CORREGIDO ---
+        const medicamentos = { 
+            "AMLODIPINO TABLETAS 5MG": "MD000150",
+            "ACIDO ACETILSALICILICO 100 MG": "MD004978",
+            "LOSARTAN TABLETA 50MG": "MD000161",
+            "HIDROCLOROTIAZIDA TABLETA 25 MG": "MD000134",
+            "METOPROLOL TABLETA 50 MG": "MD000145",
+            "ATORVASTATINA TABLETA 40MG": "MD001258",
+            "PRAZOSIN TABLETA 1 MG": "MD000132",
+            "METFORMINA TABLETA 850 MG": "MD000032",
+            "NAPROXENO TABLETA 250 MG": "MD000402",
+            "PROPRANOLOL TABLETA 40 MG": "MD000148",
+            "IBUPROFENO TABLETA 400 MG": "MD000300",
+            "OMEPRAZOL CAPSULA 20 MG": "MD000200",
+            "CLOPIDOGREL TABLETA 75 MG": "MD000555",
+            "SIMVASTATINA TABLETA 20 MG": "MD000188"
+        };
+        
+        function buscarMedicamento() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase().trim();
+            const resultDiv = document.getElementById('searchResult');
+            resultDiv.innerHTML = ''; 
+            
+            // Límite CORREGIDO: Se activa con solo 1 letra
+            if (filter.length < 1) { 
+                resultDiv.innerHTML = '<span style="color: var(--secondary-color);">Escriba al menos 1 letra para iniciar la búsqueda.</span>';
+                return;
+            }
+
+            let found = false;
+            let resultsHTML = '';
+            
+            // Recorrer todos los medicamentos y buscar coincidencias
+            for (const nombre in medicamentos) {
+                if (nombre.toUpperCase().includes(filter)) {
+                    const codigo = medicamentos[nombre];
+                    const codigoId = `codigo-med-result-${codigo}`; // ID único para cada resultado
+                    
+                    resultsHTML += `
+                        <div class="info-item" style="border-bottom: none;">
+                            <strong style="color: #000; min-width: auto; flex-basis: 50%;">${nombre}</strong>
+                            <span id="${codigoId}" class="copy-target" style="flex-grow: 0; background-color: #ffe0e0;">${codigo}</span>
+                            <button class="copy-button" onclick="copiarTexto('${codigoId}')" style="background-color: var(--danger-color);"><i class="fas fa-copy"></i> Copiar Código</button>
+                        </div>
+                    `;
+                    found = true;
+                }
+            }
+
+            if (found) {
+                 resultDiv.innerHTML = resultsHTML;
+            } else {
+                resultDiv.innerHTML = '<span style="color: var(--secondary-color);">❌ No se encontró el medicamento.</span>';
+            }
+        }
+
+        // --- Inicialización al cargar la página ---
+        window.onload = function() {
+            cargarDatos();
+            document.getElementById('historyOutput').style.display = 'none';
+            document.getElementById('accesos-credenciales-content').style.display = 'none';
+            
+            document.getElementById('historySection').querySelector('.section-header button').innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
+            document.getElementById('accesos-credenciales-section').querySelector('.section-header button').innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
+        };
     </script>
 </body>
 </html>
