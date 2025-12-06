@@ -456,7 +456,7 @@
                 <h2><i class="fas fa-clipboard-list"></i> Tarea Activa (Datos Principales)</h2>
             </div>
              <div class="section-content">
-                <p style="color: var(--secondary-color); font-size: 0.9em;">**NOTA IMPORTANTE:** El **Radicado** se actualiza automáticamente con el ID de la **primera tarea pendiente**.</p>
+                <p style="color: var(--secondary-color); font-size: 0.9em;">**NOTA IMPORTANTE:** El **Radicado / ID Actual** se actualiza automáticamente con el **Cód. Suministro** de la primera tarea pendiente.</p>
                 
                 <div class="info-item">
                     <strong>RADICADO / ID ACTUAL:</strong>
@@ -489,7 +489,7 @@
                 <textarea id="dataInput" placeholder="Pega aquí los datos de Excel (cada liquidación en una línea nueva)...
 Ejemplo:
 Asignado Liquidacion 242385169 900190045 $ 28.700 $ 0 Nueva EPS 1
-Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
+Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 
                 <button id="generateButton" onclick="generarTablaPersonalizada()"><i class="fas fa-cogs"></i> Construir Lista de Tareas</button>
                 <button id="showHistoryButton" class="copy-button" onclick="mostrarHistorial()"><i class="fas fa-history"></i> Ver Historial</button>
@@ -757,14 +757,15 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
             const lines = rawText.split('\n').filter(line => line.trim() !== '');
             
             lines.forEach(line => {
+                // EXPRESION REGULAR: Separa por uno o más espacios en blanco.
                 const cells = line.trim().split(/\s{1,}/);
                 
                 if (cells.length >= 8) {
                     listaDeTareas.push({
                         estatus: cells[0],
                         tipo: cells[1],
-                        id: cells[2],
-                        codSuministro: cells[3],
+                        id: cells[2], // ID LIQUIDACIÓN (POSICIÓN 3)
+                        codSuministro: cells[3], // CÓD. SUMINISTRO (POSICIÓN 4) <-- ¡ESTE ES EL QUE BUSCAMOS!
                         valor: cells[4],
                         ahorro: cells[5],
                         eps: cells[6],
@@ -792,9 +793,10 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
                 return;
             }
 
-            // **ACTUALIZACIÓN DE RADICADO:** Toma el ID de la primera tarea
+            // **ACTUALIZACIÓN DE RADICADO:** Toma el Cód. Suministro de la primera tarea
             if (listaDeTareas.length > 0) {
-                radicadoInput.value = listaDeTareas[0].id; 
+                // MODIFICADO: Tomar el valor del Cód. Suministro
+                radicadoInput.value = listaDeTareas[0].codSuministro; 
             }
 
             let tableHTML = `
@@ -820,14 +822,15 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
             const tareasRestantes = listaDeTareas.length;
             
             listaDeTareas.forEach((tarea, index) => {
-                allIds.push(tarea.id);
+                // Para el copiar todos, mantenemos el ID Liquidación, que es el id original
+                allIds.push(tarea.id); 
                 
                 tableHTML += `
                     <tr id="tarea-row-${index}">
                         <td>${tarea.estatus}</td>
                         <td>${tarea.tipo}</td>
                         <td class="cell-copy" onclick="copiarTextoTabla(this)">${tarea.id}</td>
-                        <td>${tarea.codSuministro}</td>
+                        <td class="cell-copy" onclick="copiarTextoTabla(this)">${tarea.codSuministro}</td>
                         <td>${tarea.valor}</td>
                         <td>${tarea.ahorro}</td>
                         <td>${tarea.eps}</td>
@@ -1085,7 +1088,8 @@ Asignado Liquidacion 242385633 900190045 $ 28.700 $ 0 Nueva EPS 1"></textarea>
             if (listaDeTareas.length === 0) {
                  document.getElementById('radicado').value = '';
             } else {
-                 document.getElementById('radicado').value = listaDeTareas[0].id;
+                 // **IMPORTANTE**: Al cargar, asegurar que el radicado es el Cód. Suministro de la primera tarea
+                 document.getElementById('radicado').value = listaDeTareas[0].codSuministro;
             }
 
             document.getElementById('historyOutput').style.display = 'none';
