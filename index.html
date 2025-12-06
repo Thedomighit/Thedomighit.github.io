@@ -21,6 +21,7 @@
             --history-color: #00bcd4;
             --font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
             --toggle-color: #6c757d;
+            --sticky-nav-color: #34495e; /* Color oscuro para la barra de navegación rápida */
         }
 
         /* --- ESTILOS GENERALES Y LAYOUT --- */
@@ -31,6 +32,7 @@
             background-color: var(--background-light);
             color: #333;
             line-height: 1.6;
+            scroll-behavior: smooth; /* Desplazamiento suave para la navegación */
         }
 
         .container {
@@ -106,21 +108,62 @@
             overflow: hidden;
         }
 
+        /* --- STICKY NAVIGATION --- */
+        .sticky-nav {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 990;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .sticky-nav-button {
+            background-color: var(--sticky-nav-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: left;
+            font-size: 0.9em;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.2s, transform 0.1s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        .sticky-nav-button:hover {
+            background-color: #2c3e50;
+            transform: scale(1.03);
+        }
+        
+        .sticky-nav-button i {
+            font-size: 1.1em;
+        }
+
+
         /* --- ITEMS DE COPIA Y BOTONES --- */
-        /* Estilo Flexbox para que los items se ajusten automáticamente */
         .info-item {
             display: flex;
             align-items: center;
             margin-bottom: 12px;
             gap: 15px;
-            flex-wrap: nowrap; /* Mantiene fuerte el layout de PC */
+            flex-wrap: nowrap; 
             border-bottom: 1px dashed #eee;
             padding-bottom: 8px;
         }
 
         .info-item strong {
             min-width: 150px; 
-            flex-shrink: 0; /* Evita que el strong se encoja */
+            flex-shrink: 0; 
             font-weight: 600;
             color: #333;
         }
@@ -130,7 +173,7 @@
             padding: 8px 12px;
             border-radius: 6px;
             border: 1px solid #dcdcdc;
-            flex-grow: 1; /* Permite que el contenido tome el espacio disponible */
+            flex-grow: 1; 
             min-width: 150px;
             font-family: 'Consolas', monospace;
             overflow-x: auto;
@@ -157,176 +200,120 @@
             border-radius: 6px;
             transition: background-color 0.2s, transform 0.1s;
             min-width: 100px;
-            flex-shrink: 0; /* Evita que el botón se encoja */
+            flex-shrink: 0; 
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         /* --- GENERADOR DE TABLA --- */
-        #dataInput {
-            width: 100%;
-            min-height: 120px;
-        }
-        
-        /* Botones de control en fila */
         .control-buttons {
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
         }
-
-        /* --- ESTILOS DE TABLAS (Responsive: Scroll horizontal) --- */
+        
+        #generateButton {
+            background-color: var(--success-color);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        #showHistoryButton {
+            background-color: var(--history-color);
+        }
+        
+        /* --- ESTILOS DE TABLAS --- */
         .excel-table-container {
              margin-top: 20px;
-             /* Clave para el responsive en tablas: permite el scroll horizontal en móviles */
              overflow-x: auto; 
              -webkit-overflow-scrolling: touch;
         }
         
         .excel-table {
             width: 100%;
-            min-width: 900px; /* Asegura que la tabla sea legible en pantallas pequeñas */
+            min-width: 900px; 
             border-collapse: collapse;
             font-size: 0.85em;
         }
 
-        /* --- NOTIFICACIÓN DE AUTO-GUARDADO --- */
-        #saveNotification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            z-index: 1000;
-            font-size: 0.9em;
-        }
-        
-        #saveNotification.show {
-            opacity: 1;
+        .excel-table th, .excel-table td {
+            border: 1px solid var(--excel-border-color);
+            padding: 10px 8px;
+            text-align: left;
+            white-space: nowrap; 
         }
 
-        /* Aquí se incluyen los estilos de comentarios, historial, etc. para no sobrecargar el CSS principal */
-        
-        /* Gestión de Comentarios */
-        .complete-row-button {
-            background-color: var(--complete-button-color);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .comment-container {
-            padding: 12px;
-            margin-top: 10px;
-            border: 1px solid var(--complete-button-color);
-            border-radius: 5px;
-            background-color: #fff8e1;
-            display: none;
-            position: relative;
-        }
-        
-        .comment-container textarea {
-            width: 100%;
-            height: 60px;
-            padding: 8px;
-            margin-top: 5px;
-            resize: vertical;
-            border: 1px solid #f9d8a3;
-            border-radius: 3px;
-        }
-
-        .save-comment-button {
-            background-color: var(--success-color);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            margin-top: 5px;
-            border: none;
-            cursor: pointer;
+        .excel-table th {
+            background-color: var(--excel-header-color);
             font-weight: 600;
-            transition: background-color 0.2s;
         }
-
-        /* Historial Styling */
-        .history-actions {
+        
+        .excel-table .cell-copy {
+            cursor: copy;
+            font-weight: bold;
+            color: var(--primary-color);
+            background-color: #e6f7ff; 
+            transition: background-color 0.1s;
+        }
+        
+        .history-table .cell-copy {
+             background-color: #fff; /* Resetear fondo para el historial */
+             color: #333;
+             cursor: default;
+        }
+        
+        /* Estilos específicos para las celdas de Comentario y Suministro en el historial */
+        .history-table td.comment-cell {
+            min-width: 300px;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        
+        .history-table td.suministro-cell {
+            font-weight: bold;
+            color: var(--danger-color);
+        }
+        
+        /* Botones de acción dentro de las celdas del historial */
+        .history-actions-cell {
             display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap; /* Añadido para responsive */
-            margin-bottom: 15px;
-        }
-
-        #deleteAllHistoryButton {
-            background-color: var(--danger-color);
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.2s;
+            gap: 5px;
+            flex-wrap: wrap;
         }
         
-        .edit-comment-button {
-            background-color: var(--history-color);
-            color: white;
-            border: none;
+        .history-actions-cell button {
             padding: 6px 10px;
-            border-radius: 4px;
-            cursor: pointer;
             font-size: 0.8em;
-            transition: background-color 0.2s;
+            white-space: nowrap;
         }
 
-        /* --- RESPONSIVE MOBILE (Máximo 768px de ancho) --- */
+        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
             .container {
                 padding: 15px;
-                box-shadow: none; /* Eliminar sombra en móvil para un look limpio */
+                box-shadow: none; 
             }
-            h1 {
-                font-size: 1.8em;
-                margin-bottom: 20px;
-            }
-            .section {
-                 padding: 15px; /* Reducir padding de secciones */
-            }
-
-            /* Los info-item se apilan verticalmente */
             .info-item {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 5px;
-                border-bottom: 1px solid var(--border-color); /* Separación más clara */
                 padding-bottom: 10px;
             }
-            
-            .info-item strong {
-                min-width: 100%;
-                margin-bottom: 0;
-            }
-            
-            /* Todos los campos de texto/input y botones toman el ancho completo */
             .info-item .copy-target, 
             .info-item .editable-input,
             .info-item .copy-button {
-                flex-grow: 1;
                 width: 100%;
-                min-width: 100%; /* Asegura el ancho completo */
+                min-width: 100%; 
             }
-
-            /* Botones principales de la lista (Construir y Historial) se apilan */
+            
+            /* Botones principales de la lista se apilan */
             .control-buttons {
                 flex-direction: column;
                 gap: 10px;
@@ -337,11 +324,41 @@
                 margin: 0 !important;
             }
             
-            /* La tabla mantiene el scroll horizontal (ya está manejado por .excel-table-container) */
+            /* Sticky Nav se mueve a la parte inferior en móvil */
+            .sticky-nav {
+                top: auto; 
+                bottom: 10px; 
+                right: 50%;
+                transform: translateX(50%);
+                flex-direction: row; /* Se pone horizontal */
+                overflow-x: auto; /* Permite scroll si hay muchos botones */
+                width: 95%;
+                padding: 8px;
+                gap: 5px;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+            }
+            
+            .sticky-nav-button {
+                padding: 8px 10px;
+                font-size: 0.8em;
+                flex-shrink: 0;
+            }
+            
+            .sticky-nav-button span {
+                 display: none; /* Ocultar el texto para ahorrar espacio */
+            }
         }
     </style>
 </head>
 <body>
+    
+    <div class="sticky-nav">
+        <a href="#tarea-activa-section" class="sticky-nav-button"><i class="fas fa-clipboard-list"></i> <span>Activa</span></a>
+        <a href="#tareas-pendientes-section" class="sticky-nav-button"><i class="fas fa-list-alt"></i> <span>Pendientes</span></a>
+        <a href="#historySection" class="sticky-nav-button"><i class="fas fa-archive"></i> <span>Historial</span></a>
+        <a href="#accesos-credenciales-section" class="sticky-nav-button"><i class="fas fa-key"></i> <span>Accesos</span></a>
+        <a href="#buscador-medicamentos-section" class="sticky-nav-button"><i class="fas fa-prescription-bottle-alt"></i> <span>Medicamentos</span></a>
+    </div>
 
     <div class="container">
         <h1><i class="fas fa-tasks"></i> Gestor de Tareas de Reasignación</h1>
@@ -369,7 +386,7 @@
         </div>
 
 
-        <div class="section">
+        <div class="section" id="tarea-activa-section">
             <div class="section-header">
                 <h2><i class="fas fa-clipboard-list"></i> Tarea Activa (Datos Principales)</h2>
             </div>
@@ -493,13 +510,13 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             </div>
         </div>
 
-        <div class="section search-container">
+        <div class="section search-container" id="buscador-medicamentos-section">
              <div class="section-header">
                 <h2><i class="fas fa-prescription-bottle-alt"></i> Buscador de Códigos de Medicamentos</h2>
             </div>
             <div class="section-content">
                 <p style="color: var(--secondary-color);">Escribe el nombre del medicamento para encontrar su código rápidamente. **Ahora se activa con solo 1 letra.**</p>
-                <input type="text" id="searchInput" placeholder="Ej: AMOXICILINA, LISINOPRIL..." onkeyup="buscarMedicamento()" class="copy-target">
+                <input type="text" id="searchInput" placeholder="Ej: AMLODIPINO, LOSARTAN..." onkeyup="buscarMedicamento()" class="copy-target">
                 <div id="searchResult"></div>
             </div>
         </div>
@@ -575,6 +592,27 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
              const textToCopy = cellElement.textContent || cellElement.innerText;
              copiarYNotificar(cellElement, textToCopy, true);
         }
+        
+        // Función específica para copiar contenido del historial
+        function copiarHistorialItem(index, type) {
+            let textToCopy;
+            let elementToNotify;
+            
+            const tarea = listaDeHistorial[index];
+            
+            if (type === 'suministro') {
+                textToCopy = tarea.codSuministro;
+                elementToNotify = document.getElementById(`suministro-copy-${index}`);
+            } else if (type === 'comentario') {
+                textToCopy = tarea.comentario;
+                elementToNotify = document.getElementById(`comment-copy-${index}`);
+            } else {
+                return;
+            }
+            
+            // Usamos la función de copia y notificación principal
+            copiarYNotificar(elementToNotify, textToCopy, false); 
+        }
 
         function copiarYNotificar(targetElement, textToCopy, isTableCell = false) {
              if (navigator.clipboard && window.isSecureContext) {
@@ -608,56 +646,46 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
         }
 
         function mostrarNotificacion(targetElement, message, isTableCell) {
-            let button;
-            let originalText;
-
-            if (isTableCell) {
-                button = targetElement;
-                originalText = button.textContent;
-                originalBg = getComputedStyle(button).backgroundColor;
-                
-                button.textContent = message;
-                button.style.backgroundColor = var_success_color;
-
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.backgroundColor = originalBg; 
-                }, 1500);
-            } else {
-                button = targetElement.nextElementSibling;
-                if (!button || !button.classList.contains('copy-button')) {
-                    if (targetElement.id.startsWith('codigo-med-result')) {
-                       // Si es el resultado del medicamento, el botón es el siguiente hermano.
-                       button = targetElement.closest('.info-item').querySelector('.copy-button');
-                    } else if (targetElement.id === 'generated-ids-copia-manual') {
-                       button = document.getElementById('copyAllIdsButton');
-                    } else {
-                        return;
+            let button = targetElement;
+            let originalText = button.textContent;
+            let restoreColor = getComputedStyle(button).backgroundColor;
+            
+            // Si no es una celda de tabla (copiarTextoTabla), el elemento notificador es el botón siguiente
+            if (!isTableCell) {
+                // Si es un botón del sticky nav o historial, el target ya es el botón
+                if (targetElement.classList.contains('copy-button') || targetElement.classList.contains('sticky-nav-button') || targetElement.id.startsWith('suministro-copy') || targetElement.id.startsWith('comment-copy')) {
+                    // Mantener targetElement como button
+                } else {
+                    // Si viene de copiarTexto, el botón es el siguiente elemento
+                    button = targetElement.nextElementSibling;
+                    if (!button || !button.classList.contains('copy-button')) {
+                        // Manejo de casos especiales (buscador, IDs masivos)
+                        if (targetElement.id.startsWith('codigo-med-result')) {
+                           button = targetElement.closest('.info-item').querySelector('.copy-button');
+                        } else if (targetElement.id === 'generated-ids-copia-manual') {
+                           button = document.getElementById('copyAllIdsButton');
+                        } else {
+                            return;
+                        }
                     }
+                    restoreColor = getComputedStyle(button).backgroundColor;
                 }
-                
-                originalText = button.textContent;
-                
-                let restoreColor = var_primary_color;
-                if (targetElement.id === 'accion') {
-                    restoreColor = var_danger_color;
-                } else if (targetElement.id === 'generated-ids-copia-manual') {
-                    restoreColor = var_success_color;
-                } else if (targetElement.id.startsWith('codigo-med-result')) {
-                    restoreColor = var_danger_color;
-                } else if (targetElement.id === 'radicado') {
-                     restoreColor = var_primary_color; // Color base para el botón de radicado
-                }
-
-                button.textContent = message;
-                button.style.backgroundColor = var_success_color;
-                
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.backgroundColor = restoreColor;
-                }, 1500);
+            } else {
+                 // Si es una celda de tabla (copiarTextoTabla), la notificación es temporal en la celda
+                 originalText = button.textContent;
+                 restoreColor = getComputedStyle(button).backgroundColor;
             }
+
+            // Aplicar la notificación
+            button.textContent = message;
+            button.style.backgroundColor = var_success_color;
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = restoreColor;
+            }, 1500);
         }
+
 
         // ----------------------------------------------------
         // --- Generador de Tabla y Gestión de Tareas ---
@@ -738,7 +766,6 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             
             let allIds = [];
             
-            // Usamos un loop simple porque el index es solo relevante para los botones.
             listaDeTareas.forEach((tarea, index) => {
                 allIds.push(tarea.id); 
                 
@@ -792,7 +819,6 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
 
         function marcarCompletado(index) {
             
-            // Forzamos que solo se pueda archivar la primera tarea (index 0) para mantener la lista ordenada
             if (index !== 0) {
                  alert("¡Atención! Solo se puede archivar la primera tarea de la lista.");
                  return;
@@ -806,37 +832,33 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             }
             
             try {
-                // 1. Obtener comentario
                 const commentTextElement = document.getElementById(`comment-text-${index}`);
                 const commentText = commentTextElement ? commentTextElement.value.trim() : 'Sin comentario';
                 
-                // 2. Mover la tarea al historial (Guardado)
+                // Mover la tarea al historial (Guardado)
                 tareaCompletada.comentario = commentText;
                 tareaCompletada.fecha = new Date().toLocaleString();
                 listaDeHistorial.push(tareaCompletada);
                 
-                // --- INICIO DE ACCIÓN CRÍTICA: Elimina la primera tarea ---
-                
-                // 3. Eliminación visual INMEDIATA para feedback
+                // Eliminación visual INMEDIATA para feedback
                 const rowToRemove = document.getElementById(`tarea-row-${index}`);
                 if (rowToRemove) {
                     rowToRemove.style.transition = 'all 0.4s ease-in-out';
                     rowToRemove.style.opacity = '0';
                 }
 
-                // 4. Eliminar la tarea de la lista pendiente (index 0)
-                listaDeTareas.splice(0, 1); // Siempre elimina la primera fila
+                // Eliminar la tarea de la lista pendiente (index 0)
+                listaDeTareas.splice(0, 1); 
                 
-                // 5. Actualizar el textarea con la lista restante
+                // Actualizar el textarea con la lista restante
                 actualizarTextareaConLista();
                 
-                // Damos un pequeño respiro para que la transición visual de opacidad se vea
                 setTimeout(() => {
-                    // 6. Volver a dibujar la tabla, moviendo la segunda a la primera posición
+                    // Volver a dibujar la tabla, moviendo la segunda a la primera posición
                     renderizarTabla(); 
-                    // 7. Renderizar el historial para mostrar la tarea archivada
+                    // Renderizar el historial para mostrar la tarea archivada
                     renderizarHistorial(); 
-                    // 8. Guardar en LocalStorage
+                    // Guardar en LocalStorage
                     guardarDatos(); 
 
                     alert(`Tarea ${tareaCompletada.id} archivada con éxito.
@@ -845,7 +867,6 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 }, 400); // 400ms para la animación
 
             } catch (e) {
-                // Si hay un error, el navegador mostrará el mensaje aquí
                 alert("¡ERROR CRÍTICO! Fallo durante el proceso de archivado. Mensaje de Error: " + e.message);
                 console.error("Fallo durante el proceso de archivado:", e);
             }
@@ -883,6 +904,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                             <tr>
                                 <th><i class="fas fa-calendar-alt"></i> Fecha/Hora</th>
                                 <th>ID Liquidación</th>
+                                <th>Cód. Suministro</th>
                                 <th>EPS</th>
                                 <th>Valor</th>
                                 <th style="min-width: 350px;"><i class="fas fa-comment"></i> Comentario</th>
@@ -894,17 +916,19 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             
             // Mostrar del más reciente al más antiguo
             listaDeHistorial.slice().reverse().forEach((tarea, indexReversed) => { 
-                // indexReversed es 0 para el último elemento añadido
                 const originalIndex = listaDeHistorial.length - 1 - indexReversed;
 
                 tableHTML += `
                     <tr>
                         <td>${tarea.fecha}</td>
-                        <td class="cell-copy" onclick="copiarTextoTabla(this)">${tarea.id}</td>
+                        <td class="cell-copy">${tarea.id}</td>
+                        <td id="suministro-display-${originalIndex}" class="suministro-cell">${tarea.codSuministro}</td>
                         <td>${tarea.eps}</td>
                         <td>${tarea.valor}</td>
-                        <td id="comment-display-${originalIndex}">${tarea.comentario}</td>
-                        <td>
+                        <td id="comment-display-${originalIndex}" class="comment-cell">${tarea.comentario}</td>
+                        <td class="history-actions-cell">
+                            <button id="suministro-copy-${originalIndex}" class="copy-button" onclick="copiarHistorialItem(${originalIndex}, 'suministro')"><i class="fas fa-copy"></i> C.Sumin.</button>
+                            <button id="comment-copy-${originalIndex}" class="copy-button" onclick="copiarHistorialItem(${originalIndex}, 'comentario')" style="background-color: var(--secondary-color);"><i class="fas fa-copy"></i> C.Coment.</button>
                             <button class="edit-comment-button" onclick="iniciarEdicionComentario(${originalIndex}, this)"><i class="fas fa-edit"></i> Editar</button>
                         </td>
                     </tr>
@@ -921,12 +945,9 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
         }
 
         function mostrarHistorial() {
-            // Usa el control de la sección principal para mostrar/ocultar
-            const buttonElement = document.getElementById('showHistoryButton');
             const content = document.getElementById('historyOutput');
             const headerButton = document.getElementById('historySection').querySelector('.section-header button');
 
-            // Lógica para mostrar/ocultar y actualizar el texto de los botones
             if (content.style.display === 'none' || content.style.display === '') {
                 content.style.display = 'block';
                 headerButton.innerHTML = '<i class="fas fa-angle-up"></i> Ver Menos';
@@ -953,13 +974,23 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             const originalComment = tarea.comentario;
             
             commentCell.innerHTML = `
-                <textarea id="edit-text-${index}" style="width: 100%; height: 60px; margin-bottom: 5px;">${originalComment}</textarea>
-                <button class="save-comment-button" onclick="guardarComentarioEditado(${index})"><i class="fas fa-save"></i> Guardar</button>
-                <button class="copy-button" style="background-color: #f0ad4e; margin-left: 5px;" onclick="cancelarEdicionComentario(${index}, \`${originalComment.replace(/`/g, '\\`')}\`)"><i class="fas fa-times"></i> Cancelar</button>
+                <textarea id="edit-text-${index}" style="width: 100%; height: 60px; margin-bottom: 5px; box-sizing: border-box;">${originalComment}</textarea>
+                <div style="display: flex; gap: 5px;">
+                    <button class="save-comment-button" onclick="guardarComentarioEditado(${index})"><i class="fas fa-save"></i> Guardar</button>
+                    <button class="copy-button" style="background-color: #f0ad4e; margin-left: 0;" onclick="cancelarEdicionComentario(${index}, \`${originalComment.replace(/`/g, '\\`')}\`)"><i class="fas fa-times"></i> Cancelar</button>
+                </div>
             `;
             
-            buttonElement.disabled = true;
-            buttonElement.style.opacity = 0.5;
+            // Deshabilitar o cambiar estilo de los botones de la misma fila
+            const rowButtons = buttonElement.closest('td').querySelectorAll('button');
+            rowButtons.forEach(btn => {
+                 if (btn !== buttonElement) {
+                    btn.disabled = true;
+                    btn.style.opacity = 0.5;
+                }
+            });
+
+            buttonElement.style.display = 'none';
         }
 
         function guardarComentarioEditado(index) {
@@ -976,10 +1007,15 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             commentCell.innerHTML = originalComment;
             
             const editButton = commentCell.closest('tr').querySelector('.edit-comment-button');
-            if (editButton) {
-                editButton.disabled = false;
-                editButton.style.opacity = 1;
-            }
+             // Habilitar de nuevo todos los botones de la fila
+            const rowButtons = editButton.closest('td').querySelectorAll('button');
+            rowButtons.forEach(btn => {
+                btn.disabled = false;
+                btn.style.opacity = 1;
+            });
+            editButton.style.display = 'inline-block';
+            
+            renderizarHistorial(); // Para asegurar que los botones de copia se restablezcan
         }
         
         // ----------------------------------------------------
@@ -1058,11 +1094,9 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
         window.onload = function() {
             cargarDatos();
             
-            // Si la lista está vacía al cargar, limpiar el radicado
             if (listaDeTareas.length === 0) {
                  document.getElementById('radicado').value = '';
             } else {
-                 // Si hay tareas pendientes, inicializamos la tabla y el radicado.
                  renderizarTabla();
             }
 
