@@ -8,17 +8,17 @@
     <style>
         /* --- VARIABLES DE ESTILO --- */
         :root {
-            --primary-color: #0077c2;
-            --secondary-color: #555e6a;
-            --background-light: #f4f6f9;
+            --primary-color: #0077c2; /* Azul Corporativo */
+            --secondary-color: #555e6a; /* Gris Oscuro */
+            --background-light: #f4f6f9; /* Fondo muy claro */
             --card-background: #ffffff;
             --border-color: #e0e0e0;
-            --success-color: #1a995e;
-            --danger-color: #d9534f;
-            --excel-header-color: #e6f7ff;
+            --success-color: #1a995e; /* Verde */
+            --danger-color: #d9534f; /* Rojo */
+            --excel-header-color: #e6f7ff; /* Azul claro para encabezados de tabla */
             --excel-border-color: #c9c9c9;
-            --complete-button-color: #ff9800;
-            --history-color: #00bcd4;
+            --complete-button-color: #ff9800; /* Naranja para Archivar */
+            --history-color: #00bcd4; /* Cian para Historial */
             --font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
             --toggle-color: #6c757d;
         }
@@ -27,7 +27,8 @@
         body {
             font-family: var(--font-family);
             margin: 0;
-            padding: 20px;
+            padding-top: 60px; /* Espacio para la Navbar fija */
+            padding-bottom: 20px;
             background-color: var(--background-light);
             color: #333;
             line-height: 1.6;
@@ -66,47 +67,55 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
         }
 
-        /* Encabezados de Sección con Toggle */
-        .section-header {
+        /* --- NAVBAR FIJA PROFESIONAL --- */
+        #main-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
+            height: 55px;
+            overflow-x: auto; /* Permite scroll horizontal en móvil si hay muchos botones */
+            -webkit-overflow-scrolling: touch;
         }
 
-        .section-header h2 {
-            color: var(--secondary-color);
-            margin: 0;
-            font-size: 1.6em;
-            font-weight: 500;
+        #main-navbar .nav-links {
+            display: flex;
+            gap: 5px;
+            padding: 0 10px;
+            align-items: center;
         }
         
-        .section-header button {
+        .nav-button {
             background: none;
-            border: 1px solid var(--toggle-color);
-            color: var(--toggle-color);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
             cursor: pointer;
             font-size: 0.9em;
             font-weight: 600;
-            padding: 5px 12px;
-            border-radius: 6px;
-            transition: all 0.2s;
+            border-radius: 4px;
+            transition: background-color 0.2s, transform 0.1s;
+            white-space: nowrap; /* Evita que el texto se rompa */
         }
         
-        .section-header button:hover {
-            background-color: var(--toggle-color);
-            color: white;
+        .nav-button:hover {
+            background-color: #005f9c;
         }
         
-        .section-content {
-            padding-top: 10px;
-            transition: max-height 0.5s ease-in-out, opacity 0.5s;
-            overflow: hidden;
+        /* Ajuste de scroll-margin-top para anclajes */
+        .section {
+            scroll-margin-top: 80px; /* Deja espacio debajo de la navbar */
         }
 
-        /* --- ITEMS DE COPIA Y BOTONES --- */
+        /* --- ITEMS DE COPIA Y BOTONES (Se mantienen igual) --- */
         .info-item {
             display: flex;
             align-items: center;
@@ -164,8 +173,8 @@
             background-color: #005f9c;
             transform: translateY(-1px);
         }
-
-        /* --- GENERADOR DE TABLA --- */
+        
+        /* --- ESTILOS DE TABLAS Y GESTIÓN DE TAREAS (Se mantienen igual) --- */
         #dataInput {
             width: 100%;
             min-height: 120px;
@@ -179,7 +188,6 @@
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
         }
         
-        /* Botones de control en fila */
         .control-buttons {
             display: flex;
             gap: 10px;
@@ -210,8 +218,7 @@
         #showHistoryButton:hover {
              background-color: #0097a7;
         }
-
-        /* --- ESTILOS DE TABLAS (Responsive) --- */
+        
         .excel-table-container {
              margin-top: 20px;
              overflow-x: auto; 
@@ -220,7 +227,7 @@
         
         .excel-table {
             width: 100%;
-            min-width: 1000px; /* Asegura que la tabla sea legible */
+            min-width: 1000px;
             border-collapse: collapse;
             font-size: 0.85em;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -265,7 +272,7 @@
             transition: background-color 0.2s;
             border: none;
             cursor: pointer;
-            width: 100%; /* Ocupa todo el espacio para ser claro */
+            width: 100%;
             margin-bottom: 5px;
         }
         
@@ -317,10 +324,6 @@
         }
         
         /* HISTORIAL STYLING */
-        .history-table th:nth-child(5) {
-            min-width: 200px; /* Comentario más estrecho en Historial */
-        }
-        
         .history-table .action-cell {
             display: flex;
             flex-direction: column;
@@ -334,7 +337,7 @@
         }
         
         .copy-history-button {
-            background-color: #3f51b5; /* Morado/Índigo para copiar */
+            background-color: #3f51b5; 
             color: white;
             border: none;
             border-radius: 4px;
@@ -347,7 +350,7 @@
         }
 
 
-        /* --- NOTIFICACIÓN DE AUTO-GUARDADO --- */
+        /* --- NOTIFICACIÓN DE AUTO-GUARDADO (Se mantiene igual) --- */
         #saveNotification {
             position: fixed;
             bottom: 20px;
@@ -368,69 +371,35 @@
             opacity: 1;
         }
 
-        /* --- MENÚ DE NAVEGACIÓN RÁPIDA (STICKY) --- */
-        #sticky-nav {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            z-index: 999;
-        }
-        
-        .nav-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            font-size: 0.9em;
-            font-weight: 600;
-            transition: background-color 0.2s, transform 0.1s;
-            text-align: left;
-            white-space: nowrap;
-        }
-        
-        .nav-button:hover {
-            background-color: #005f9c;
-            transform: scale(1.05);
-        }
 
         /* --- RESPONSIVE MOBILE (Máximo 768px de ancho) --- */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
+                padding-top: 55px; /* Ajustar padding para la Navbar en móvil */
             }
             .container {
                 padding: 15px;
                 box-shadow: none; 
             }
             
-            /* El menú de navegación se coloca en la parte inferior para no interferir con el contenido */
-            #sticky-nav {
-                top: auto;
-                bottom: 10px;
-                right: 10px;
-                width: 100%;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 5px;
-                background-color: rgba(255, 255, 255, 0.95);
-                padding: 10px 0;
-                border-radius: 10px 10px 0 0;
-                box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+            /* Navbar se asegura de centrarse y permitir scroll horizontal */
+            #main-navbar {
+                 justify-content: flex-start; 
+            }
+            
+            #main-navbar .nav-links {
+                padding: 0 5px;
+            }
+            
+            .nav-button {
+                font-size: 0.7em;
+                padding: 5px 8px;
             }
 
-            .nav-button {
-                font-size: 0.75em;
-                padding: 8px 10px;
-                flex-grow: 1;
-                min-width: 45%; 
-                text-align: center;
+            /* El scroll-margin-top se ajusta */
+            .section {
+                 scroll-margin-top: 70px; 
             }
 
             /* Los info-item se apilan verticalmente */
@@ -480,13 +449,15 @@
 </head>
 <body>
 
-    <div id="sticky-nav">
-        <a class="nav-button" href="#designacion-tarea-section"><i class="fas fa-user-tag"></i> Designación</a>
-        <a class="nav-button" href="#tarea-activa-section"><i class="fas fa-clipboard-list"></i> Tarea Activa</a>
-        <a class="nav-button" href="#tareas-pendientes-section"><i class="fas fa-list-alt"></i> Tareas Pendientes</a>
-        <a class="nav-button" href="#historySection"><i class="fas fa-archive"></i> Historial</a>
-        <a class="nav-button" href="#accesos-credenciales-section"><i class="fas fa-key"></i> Accesos</a>
-        <a class="nav-button" href="#buscador-medicamentos-section"><i class="fas fa-prescription-bottle-alt"></i> Buscador</a>
+    <div id="main-navbar">
+        <div class="nav-links">
+            <a class="nav-button" href="#designacion-tarea-section"><i class="fas fa-user-tag"></i> Designación</a>
+            <a class="nav-button" href="#tarea-activa-section"><i class="fas fa-clipboard-list"></i> Tarea Activa</a>
+            <a class="nav-button" href="#tareas-pendientes-section"><i class="fas fa-list-alt"></i> Tareas Pendientes</a>
+            <a class="nav-button" href="#historySection"><i class="fas fa-archive"></i> Historial</a>
+            <a class="nav-button" href="#accesos-credenciales-section"><i class="fas fa-key"></i> Accesos</a>
+            <a class="nav-button" href="#buscador-medicamentos-section"><i class="fas fa-prescription-bottle-alt"></i> Buscador</a>
+        </div>
     </div>
 
     <div class="container">
@@ -781,8 +752,12 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             let restoreColor = originalBg; 
 
             // Si es un botón del historial, necesitamos el color original correcto
-            if (button.classList.contains('copy-history-button')) {
-                restoreColor = '#3f51b5'; // Color Indigo para restauración
+            if (button.classList.contains('copy-history-button') || button.classList.contains('edit-comment-button')) {
+                 if (button.id.includes('copy-suministro-btn') || button.id.includes('copy-comment-btn')) {
+                     restoreColor = '#3f51b5'; // Color Indigo para restauración
+                 } else if (button.classList.contains('edit-comment-button')) {
+                     restoreColor = var_history_color; // Color cian para edición
+                 }
             } else if (button.classList.contains('copy-button') && button.id.includes('copyAllIdsButton')) {
                  restoreColor = var_success_color;
             } else if (!isTableCell) {
@@ -863,14 +838,13 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             
             outputDiv.innerHTML = '';
             copyAllIdsContainer.style.display = 'none';
-            radicadoInput.value = ''; // Limpiar radicado por defecto si no hay tareas
+            radicadoInput.value = ''; 
 
             if (listaDeTareas.length === 0) {
                 outputDiv.innerHTML = '<p style="text-align: center; color: var(--secondary-color); padding: 10px; border: 1px dashed #ccc; border-radius: 5px;"><i class="fas fa-check-circle"></i> Todas las tareas han sido completadas o no hay datos cargados.</p>';
                 return;
             }
 
-            // **PUNTO CLAVE DE ACTUALIZACIÓN:** Toma el Cód. Suministro de la primera tarea
             if (listaDeTareas.length > 0) {
                 radicadoInput.value = listaDeTareas[0].codSuministro; 
             }
@@ -896,7 +870,6 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             
             let allIds = [];
             
-            // Usamos un loop simple porque el index es solo relevante para los botones.
             listaDeTareas.forEach((tarea, index) => {
                 allIds.push(tarea.id); 
                 
@@ -950,7 +923,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
 
         function marcarCompletado(index) {
             
-            // Forzamos que solo se pueda archivar la primera tarea (index 0) para mantener la lista ordenada
+            // Forzamos que solo se pueda archivar la primera tarea (index 0) 
             if (index !== 0) {
                  alert("¡Atención! Solo se puede archivar la primera tarea de la lista.");
                  return;
@@ -972,11 +945,8 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 tareaCompletada.comentario = commentText;
                 tareaCompletada.fecha = new Date().toLocaleString();
                 
-                // Añadimos un ID único al historial para facilitar la copia
                 tareaCompletada.historialIndex = listaDeHistorial.length; 
                 listaDeHistorial.push(tareaCompletada);
-                
-                // --- INICIO DE ACCIÓN CRÍTICA: Elimina la primera tarea ---
                 
                 // 3. Eliminación visual INMEDIATA para feedback
                 const rowToRemove = document.getElementById(`tarea-row-${index}`);
@@ -986,27 +956,24 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 }
 
                 // 4. Eliminar la tarea de la lista pendiente (index 0)
-                listaDeTareas.splice(0, 1); // Siempre elimina la primera fila
+                listaDeTareas.splice(0, 1); 
                 
                 // 5. Actualizar el textarea con la lista restante
                 actualizarTextareaConLista();
                 
-                // Damos un pequeño respiro para que la transición visual de opacidad se vea
                 setTimeout(() => {
-                    // 6. Volver a dibujar la tabla, moviendo la segunda a la primera posición
+                    // 6. Volver a dibujar la tabla
                     renderizarTabla(); 
-                    // 7. Renderizar el historial para mostrar la tarea archivada
+                    // 7. Renderizar el historial 
                     renderizarHistorial(); 
                     // 8. Guardar en LocalStorage
                     guardarDatos(); 
 
                     alert(`Tarea ${tareaCompletada.id} archivada con éxito.
-                    La siguiente tarea (${listaDeTareas.length > 0 ? listaDeTareas[0].codSuministro : 'N/A'}) se ha cargado automáticamente en el Radicado.
-                    Total en historial: ${listaDeHistorial.length}`);
-                }, 400); // 400ms para la animación
+                    La siguiente tarea (${listaDeTareas.length > 0 ? listaDeTareas[0].codSuministro : 'N/A'}) se ha cargado automáticamente en el Radicado.`);
+                }, 400); 
 
             } catch (e) {
-                // Si hay un error, el navegador mostrará el mensaje aquí
                 alert("¡ERROR CRÍTICO! Fallo durante el proceso de archivado. Mensaje de Error: " + e.message);
                 console.error("Fallo durante el proceso de archivado:", e);
             }
@@ -1047,7 +1014,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                                 <th>EPS</th>
                                 <th>Valor</th>
                                 <th>Cód. Suministro</th>
-                                <th style="min-width: 200px;"><i class="fas fa-comment"></i> Comentario</th>
+                                <th style="min-width: 250px;"><i class="fas fa-comment"></i> Comentario</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
@@ -1067,9 +1034,9 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                         <td id="cod-suministro-display-${originalIndex}" class="cell-copy">${tarea.codSuministro}</td>
                         <td id="comment-display-${originalIndex}" style="white-space: normal;">${tarea.comentario}</td>
                         <td class="action-cell">
-                            <button id="copy-suministro-btn-${originalIndex}" class="copy-history-button" onclick="copiarHistorialDato(${originalIndex}, 'codSuministro')"><i class="fas fa-copy"></i> Copiar Cód.</button>
-                            <button id="copy-comment-btn-${originalIndex}" class="copy-history-button" onclick="copiarHistorialDato(${originalIndex}, 'comentario')"><i class="fas fa-copy"></i> Copiar Comentario</button>
-                            <button class="edit-comment-button" onclick="iniciarEdicionComentario(${originalIndex}, this)"><i class="fas fa-edit"></i> Editar</button>
+                            <button id="copy-suministro-btn-${originalIndex}" class="copy-history-button" onclick="copiarHistorialDato(${originalIndex}, 'codSuministro')"><i class="fas fa-copy"></i> Cód. Suministro</button>
+                            <button id="copy-comment-btn-${originalIndex}" class="copy-history-button" onclick="copiarHistorialDato(${originalIndex}, 'comentario')"><i class="fas fa-copy"></i> Comentario</button>
+                            <button class="edit-comment-button" style="background-color: var(--history-color);" onclick="iniciarEdicionComentario(${originalIndex}, this)"><i class="fas fa-edit"></i> Editar</button>
                         </td>
                     </tr>
                 `;
@@ -1129,6 +1096,12 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             
             listaDeHistorial[index].comentario = newComment;
             
+            // Mostrar la celda de acciones
+            const actionCell = document.getElementById(`comment-display-${index}`).closest('tr').querySelector('.action-cell');
+            if (actionCell) {
+                 actionCell.style.display = 'flex';
+            }
+
             renderizarHistorial();
             guardarDatos();
         }
@@ -1220,14 +1193,14 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
         }
 
         // --- Inicialización al cargar la página ---
+        const var_history_color = getComputedStyle(document.documentElement).getPropertyValue('--history-color').trim();
+
         window.onload = function() {
             cargarDatos();
             
-            // Si la lista está vacía al cargar, limpiar el radicado
             if (listaDeTareas.length === 0) {
                  document.getElementById('radicado').value = '';
             } else {
-                 // Si hay tareas pendientes, inicializamos la tabla y el radicado.
                  renderizarTabla();
             }
 
