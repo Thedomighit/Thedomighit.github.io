@@ -477,7 +477,7 @@
                 <h2><i class="fas fa-clipboard-list"></i> Tarea Activa (Datos Principales)</h2>
             </div>
              <div class="section-content">
-                <p style="color: var(--secondary-color); font-size: 0.9em;">**NOTA IMPORTANTE:** El **Radicado / ID Actual** se actualiza automáticamente con el **Cód. Suministro** de la primera tarea pendiente.</p>
+                <p style="color: var(--secondary-color); font-size: 0.9em;">**NOTA IMPORTANTE:** El **Radicado / ID Actual** se actualiza automáticamente con el **ID Liquidación** de la primera tarea pendiente.</p>
                 
                 <div class="info-item">
                     <strong>RADICADO / ID ACTUAL:</strong>
@@ -812,15 +812,13 @@ Vencido Liquidacion 265954046 811021843 $ 27.000 $ 0 Nueva EPS 5"></textarea>
                 
                 // 1. Reemplazar patrón '$ X.XXX $ Y' o '$ X.X $' por un token temporal 'VALOR_TOK_X_Y'
                 // Esto maneja la doble columna de Valor y Ahorro, que tienen un formato complejo.
-                // Usamos una expresión regular para encontrar el patrón del dinero: $ seguido de números/puntos/comas y espacios, y otro $ seguido de números/puntos/comas.
                 const regexValue = /\$\s*([\d\.\,]+)\s*\$\s*([\d\.\,]+)/;
                 let processedLine = lineCleaned.replace(regexValue, (match, p1, p2) => `VALOR_TOK_${p1}_${p2}`);
                 
                 // 2. Dividir por cualquier espacio (uno o más), ahora solo quedan las columnas limpias
                 const cells = processedLine.split(/\s{1,}/).filter(c => c.length > 0);
                 
-                if (cells.length >= 6) { // Mínimo de columnas esperadas: Estatus, Tipo, ID, Cód.Suministro, EPS, Num (+ 1 VALOR_TOK) -> 7.
-                                         // Tras eliminar el token de valor, el mínimo debe ser 6.
+                if (cells.length >= 6) { 
                     
                     let valor = '';
                     let ahorro = '';
@@ -828,7 +826,7 @@ Vencido Liquidacion 265954046 811021843 $ 27.000 $ 0 Nueva EPS 5"></textarea>
                     const valorTokenIndex = cells.findIndex(c => c.startsWith('VALOR_TOK_'));
                     if (valorTokenIndex !== -1) {
                         const token = cells[valorTokenIndex];
-                        const parts = token.split('_'); // [VALOR, TOK, 27.000, 0]
+                        const parts = token.split('_'); 
                         valor = `$ ${parts[2]}`;
                         ahorro = `$ ${parts[3]}`;
                         
@@ -841,16 +839,15 @@ Vencido Liquidacion 265954046 811021843 $ 27.000 $ 0 Nueva EPS 5"></textarea>
                     listaDeTareas.push({
                         estatus: cells[0],
                         tipo: cells[1],
-                        id: cells[2], 
+                        id: cells[2], // ID Liquidación (Ahora es el Radicado Principal)
                         codSuministro: cells[3], 
-                        valor: valor, // Usamos el valor parseado
-                        ahorro: ahorro, // Usamos el ahorro parseado
+                        valor: valor, 
+                        ahorro: ahorro, 
                         eps: cells[4],
                         num: cells[5]
                     });
                 } else {
                     console.warn("Línea omitida por formato incorrecto:", lineCleaned);
-                    // Opcional: alert(`Línea con formato incorrecto. Debe tener al menos 6 columnas: ${lineCleaned}`);
                 }
             });
 
@@ -874,8 +871,9 @@ Vencido Liquidacion 265954046 811021843 $ 27.000 $ 0 Nueva EPS 5"></textarea>
             }
 
             if (listaDeTareas.length > 0) {
-                // Configurar el Radicado / ID Actual con el Cód. Suministro de la primera tarea
-                radicadoInput.value = listaDeTareas[0].codSuministro; 
+                // *** AJUSTE SOLICITADO ***
+                // Configurar el Radicado / ID Actual con el ID Liquidación de la primera tarea
+                radicadoInput.value = listaDeTareas[0].id; 
             }
 
             let tableHTML = `
@@ -989,8 +987,9 @@ Vencido Liquidacion 265954046 811021843 $ 27.000 $ 0 Nueva EPS 5"></textarea>
                     renderizarHistorial(); 
                     guardarDatos(); 
 
+                    const nuevoRadicado = listaDeTareas.length > 0 ? listaDeTareas[0].id : 'N/A';
                     alert(`Tarea ${tareaCompletada.id} archivada con éxito.
-                    La siguiente tarea (${listaDeTareas.length > 0 ? listaDeTareas[0].codSuministro : 'N/A'}) se ha cargado automáticamente en el Radicado.`);
+                    El siguiente ID Liquidación (${nuevoRadicado}) se ha cargado automáticamente en el Radicado Actual.`);
                 }, 400); 
 
             } catch (e) {
