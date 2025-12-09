@@ -510,7 +510,8 @@
                 <textarea id="dataInput" placeholder="Pega aquí los datos de Excel (cada liquidación en una línea nueva)...
 Ejemplo:
 Asignado Liquidacion 242385169 900190045 $ 28.700 $ 0 Nueva EPS 1
-Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
+Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1
+Vencido Liquidacion 265954046 811021843 $ 27.000 $ 0 Nueva EPS 5"></textarea>
                 
                 <div class="control-buttons">
                     <button id="generateButton" onclick="generarTablaPersonalizada()"><i class="fas fa-cogs"></i> Construir Lista de Tareas</button>
@@ -562,7 +563,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 </div>
                 <div class="info-item">
                     <strong>USUARIO:</strong>
-                    <span id="onbaseUser" class="copy-target">VARIASC</span>
+                    <span id="onbaseUser" class="copy-target">mgamas</span>
                     <button class="copy-button" onclick="copiarTexto('onbaseUser')"><i class="fas fa-copy"></i> Copiar</button>
                 </div>
                 <div class="info-item">
@@ -807,19 +808,49 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             const lines = rawText.split('\n').filter(line => line.trim() !== '');
             
             lines.forEach(line => {
-                const cells = line.trim().split(/\s{1,}/);
+                const lineCleaned = line.trim();
                 
-                if (cells.length >= 8) {
+                // 1. Reemplazar patrón '$ X.XXX $ Y' o '$ X.X $' por un token temporal 'VALOR_TOK_X_Y'
+                // Esto maneja la doble columna de Valor y Ahorro, que tienen un formato complejo.
+                // Usamos una expresión regular para encontrar el patrón del dinero: $ seguido de números/puntos/comas y espacios, y otro $ seguido de números/puntos/comas.
+                const regexValue = /\$\s*([\d\.\,]+)\s*\$\s*([\d\.\,]+)/;
+                let processedLine = lineCleaned.replace(regexValue, (match, p1, p2) => `VALOR_TOK_${p1}_${p2}`);
+                
+                // 2. Dividir por cualquier espacio (uno o más), ahora solo quedan las columnas limpias
+                const cells = processedLine.split(/\s{1,}/).filter(c => c.length > 0);
+                
+                if (cells.length >= 6) { // Mínimo de columnas esperadas: Estatus, Tipo, ID, Cód.Suministro, EPS, Num (+ 1 VALOR_TOK) -> 7.
+                                         // Tras eliminar el token de valor, el mínimo debe ser 6.
+                    
+                    let valor = '';
+                    let ahorro = '';
+
+                    const valorTokenIndex = cells.findIndex(c => c.startsWith('VALOR_TOK_'));
+                    if (valorTokenIndex !== -1) {
+                        const token = cells[valorTokenIndex];
+                        const parts = token.split('_'); // [VALOR, TOK, 27.000, 0]
+                        valor = `$ ${parts[2]}`;
+                        ahorro = `$ ${parts[3]}`;
+                        
+                        // Eliminar el token de la lista de celdas
+                        cells.splice(valorTokenIndex, 1); 
+                    }
+                    
+                    // Ahora las celdas se indexan correctamente:
+                    // 0: Estatus, 1: Tipo, 2: ID, 3: Cód.Suministro, 4: EPS, 5: Num
                     listaDeTareas.push({
                         estatus: cells[0],
                         tipo: cells[1],
                         id: cells[2], 
                         codSuministro: cells[3], 
-                        valor: cells[4],
-                        ahorro: cells[5],
-                        eps: cells[6],
-                        num: cells[7]
+                        valor: valor, // Usamos el valor parseado
+                        ahorro: ahorro, // Usamos el ahorro parseado
+                        eps: cells[4],
+                        num: cells[5]
                     });
+                } else {
+                    console.warn("Línea omitida por formato incorrecto:", lineCleaned);
+                    // Opcional: alert(`Línea con formato incorrecto. Debe tener al menos 6 columnas: ${lineCleaned}`);
                 }
             });
 
@@ -843,6 +874,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             }
 
             if (listaDeTareas.length > 0) {
+                // Configurar el Radicado / ID Actual con el Cód. Suministro de la primera tarea
                 radicadoInput.value = listaDeTareas[0].codSuministro; 
             }
 
@@ -937,7 +969,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
                 const commentText = commentTextElement ? commentTextElement.value.trim() : 'Sin comentario';
                 
                 tareaCompletada.comentario = commentText;
-                tareaCompletada.fecha = new Date().toLocaleString();
+                tareaCompletada.fecha = new Date().toLocaleString('es-CO'); // Formato de fecha y hora
                 
                 tareaCompletada.historialIndex = listaDeHistorial.length; 
                 listaDeHistorial.push(tareaCompletada);
@@ -974,6 +1006,7 @@ Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1"></textarea>
             let newText = '';
             
             listaDeTareas.forEach(tarea => {
+                // Reconstruye la línea para el textarea en el formato original
                 newText += `${tarea.estatus} ${tarea.tipo} ${tarea.id} ${tarea.codSuministro} ${tarea.valor} ${tarea.ahorro} ${tarea.eps} ${tarea.num}\n`;
             });
             
