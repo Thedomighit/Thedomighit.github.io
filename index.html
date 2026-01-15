@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Menú Digital Ultra Premium | Edward González</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;600;700&family=Alex+Brush&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
             --primary: #d4af37; /* DORADO REAL */
-            --primary-glow: rgba(212, 175, 55, 0.5);
-            --bg-main: #0a0a0a; /* Negro profundo */
-            --bg-card: #141414;
-            --bg-input: #1f1f1f;
+            --primary-light: #f3d472;
+            --primary-glow: rgba(212, 175, 55, 0.4);
+            --bg-main: #050505; /* Negro casi absoluto */
+            --bg-card: #121212;
+            --bg-input: #1a1a1a;
             --text-white: #ffffff;
             --text-gold: #f5e0a3;
             --text-gray: #b3b3b3;
             --success: #25D366;
-            color-scheme: dark; /* Para que los calendarios sean oscuros */
+            --danger: #ff4444;
         }
 
         * {
@@ -30,259 +31,251 @@
         }
 
         html { scroll-behavior: smooth; }
-        body { background-color: var(--bg-main); color: var(--text-white); padding-bottom: 120px; overflow-x: hidden; }
+        body { 
+            background-color: var(--bg-main); 
+            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 70%);
+            color: var(--text-white); 
+            padding-bottom: 120px; 
+            overflow-x: hidden; 
+        }
 
-        /* --- INTRO / SPLASH SCREEN --- */
+        /* --- INTRO --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease-out;
+            transition: opacity 1s ease-out;
         }
-        
         .intro-logo {
-            font-family: 'Cinzel', serif; color: var(--primary); font-size: 3rem;
-            text-align: center; margin-bottom: 20px;
-            animation: textGlow 2s infinite alternate;
+            font-family: 'Cinzel', serif; color: var(--primary); font-size: 3.5rem;
+            text-align: center; margin-bottom: 5px; animation: textGlow 3s infinite alternate;
         }
-        
+        .intro-author {
+            font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 0.9rem;
+            color: #888; letter-spacing: 4px; text-transform: uppercase;
+            margin-bottom: 30px; opacity: 0; animation: fadeInAuthor 1s ease-out forwards 0.5s;
+        }
         .loader-line {
-            width: 0; height: 2px; background: var(--primary);
-            animation: loadLine 2s ease-in-out forwards;
+            width: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: loadLine 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
+        @keyframes loadLine { 0% { width: 0; opacity:0; } 50% { opacity:1; } 100% { width: 250px; opacity:0; } }
+        @keyframes textGlow { from { text-shadow: 0 0 10px rgba(212,175,55,0.2); } to { text-shadow: 0 0 30px rgba(212,175,55,0.6); } }
+        @keyframes fadeInAuthor { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes loadLine { 0% { width: 0; } 100% { width: 200px; } }
-        @keyframes textGlow { from { text-shadow: 0 0 10px rgba(212,175,55,0.2); } to { text-shadow: 0 0 25px rgba(212,175,55,0.8); } }
 
-
-        /* --- ESTILOS GENERALES --- */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes goldenPulse { 
-            0% { box-shadow: 0 0 0 0 var(--primary-glow); } 
-            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 
-            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } 
-        }
-        @keyframes selectionPop { 0% { transform: scale(1); } 50% { transform: scale(0.97); } 100% { transform: scale(1); } }
-
-        /* --- HEADER --- */
+        /* --- HEADER DINÁMICO --- */
         header {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.6), var(--bg-main)), url('https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-            height: 300px; /* Un poco más alto para el botón de reserva */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 30px 20px;
-            border-bottom: 2px solid var(--primary);
+            height: 350px; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 30px 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
         }
-
+        .header-bg {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            background-size: cover; background-position: center;
+            transition: opacity 2s ease-in-out; opacity: 0; z-index: 0;
+            filter: brightness(0.4);
+        }
+        .header-bg.active { opacity: 1; }
+        .header-overlay {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), var(--bg-main)); z-index: 1;
+        }
+        .header-content { z-index: 2; position: relative; }
+        
         h1 {
-            font-family: 'Cinzel', serif; color: var(--primary); font-size: 2.8rem;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.8); letter-spacing: 1px; margin-bottom: 5px;
+            font-family: 'Cinzel', serif; color: var(--primary); font-size: 3.2rem;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 3px; margin-bottom: 10px;
         }
-        .subtitle { color: var(--text-gray); font-size: 1rem; letter-spacing: 2px; margin-bottom: 25px; text-transform: uppercase; }
+        .subtitle { 
+            color: #ddd; font-size: 0.9rem; letter-spacing: 5px; margin-bottom: 30px; 
+            text-transform: uppercase; font-weight: 600; text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
 
         .btn-reserve-header {
-            background: transparent; border: 1px solid var(--primary); color: var(--primary);
-            padding: 12px 30px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.9rem;
-            cursor: pointer; transition: 0.3s; letter-spacing: 1px;
+            background: rgba(0,0,0,0.5); border: 1px solid var(--primary); color: var(--primary);
+            padding: 15px 40px; font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; transition: 0.3s; letter-spacing: 3px; backdrop-filter: blur(10px);
+            border-radius: 2px;
         }
-        .btn-reserve-header:hover { background: var(--primary); color: black; box-shadow: 0 0 20px var(--primary-glow); }
+        .btn-reserve-header:hover { background: var(--primary); color: black; box-shadow: 0 0 30px var(--primary-glow); }
+
 
         /* --- NAVEGACIÓN --- */
         .categories-container {
             position: sticky; top: 0; z-index: 100;
-            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);
-            padding: 15px 0; border-bottom: 1px solid #333;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(15px);
+            padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .categories { display: flex; overflow-x: auto; padding: 0 20px; gap: 15px; scrollbar-width: none; }
+        .categories { display: flex; overflow-x: auto; padding: 0 20px; gap: 12px; scrollbar-width: none; }
         .categories::-webkit-scrollbar { display: none; }
 
         .cat-btn {
-            background: transparent; border: 1px solid #444; color: var(--text-gray);
-            padding: 10px 20px; border-radius: 50px; white-space: nowrap;
-            transition: 0.4s; font-size: 0.9rem; font-weight: 600;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa;
+            padding: 12px 24px; border-radius: 50px; white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            font-size: 0.85rem; font-weight: 600; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px;
         }
         .cat-btn.active {
             background: var(--primary); color: #000; border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow); transform: scale(1.05);
+            box-shadow: 0 0 20px var(--primary-glow); transform: scale(1.05);
         }
-        /* Botón especial de reservas en el nav */
         .cat-btn.reserve-nav { border-color: var(--primary); color: var(--primary); }
+
 
         /* --- GRID --- */
         .menu-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px; padding: 25px 20px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 30px; padding: 40px 25px;
         }
 
         .product-card {
-            background: var(--bg-card); border-radius: 15px; overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid #222;
-            transition: all 0.3s ease; position: relative; animation: fadeIn 0.6s ease backwards;
+            background: var(--bg-card); border-radius: 18px; overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s; position: relative; animation: fadeInUp 0.6s ease backwards; cursor: pointer;
         }
-        .product-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .product-card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--primary); box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
+        .product-img-container { height: 180px; overflow: hidden; position: relative; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
+        .product-card:hover .product-img { transform: scale(1.15); filter: brightness(1.1); }
 
-        .product-img-container { height: 140px; overflow: hidden; position: relative; }
-        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .product-card:hover .product-img { transform: scale(1.1); }
+        .badge {
+            position: absolute; top: 12px; left: 12px;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            padding: 5px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            border: 1px solid rgba(255,255,255,0.2); z-index: 2; display: flex; align-items: center; gap: 5px;
+        }
+        .badge.gold { border-color: var(--primary); color: var(--primary); }
+        .badge.red { border-color: var(--danger); color: var(--danger); }
+        .badge.chef { border-color: #fff; color: #fff; }
 
-        .product-info { padding: 15px; }
-        .product-title { color: var(--text-white); font-weight: 700; margin-bottom: 5px; font-size: 1rem; }
-        .product-desc { color: #888; font-size: 0.75rem; height: 35px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 10px; }
-        
+        .product-info { padding: 20px; position: relative; }
+        .product-title { color: var(--text-white); font-weight: 700; margin-bottom: 8px; font-size: 1.1rem; line-height: 1.3; }
+        .product-desc { color: #999; font-size: 0.8rem; height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 15px; line-height: 1.6; }
         .price-row { display: flex; justify-content: space-between; align-items: center; }
-        .product-price { color: var(--primary); font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.1rem; }
-        
-        .add-icon { 
-            background: linear-gradient(45deg, var(--primary), #b8860b);
-            color: black; width: 32px; height: 32px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
-        }
+        .product-price { color: var(--primary); font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.25rem; }
+        .add-icon { background: var(--bg-input); border: 1px solid #333; color: var(--text-white); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .product-card:hover .add-icon { background: var(--primary); color: black; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
 
         /* --- MODALES --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 2000; align-items: flex-end;
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.92); z-index: 2000; align-items: flex-end; backdrop-filter: blur(10px);
         }
         .modal.active { display: flex; }
-        
         .modal-content {
-            background: var(--bg-card); width: 100%; max-width: 600px;
-            height: 92vh; border-radius: 30px 30px 0 0;
-            display: flex; flex-direction: column; overflow: hidden;
-            border-top: 1px solid var(--primary);
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
-            animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            margin: 0 auto;
+            background: #0a0a0a; width: 100%; max-width: 650px; height: 96vh; border-radius: 35px 35px 0 0;
+            display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid var(--primary);
+            box-shadow: 0 -25px 80px rgba(0,0,0,1); animation: slideUp 0.4s cubic-bezier(0.19, 1, 0.22, 1); margin: 0 auto;
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @media(min-width: 768px) { .modal { align-items: center; justify-content: center; } .modal-content { height: auto; max-height: 90vh; border-radius: 35px; border: 1px solid #333; } }
 
-        @media(min-width: 768px) {
-            .modal { align-items: center; justify-content: center; }
-            .modal-content { height: auto; max-height: 85vh; border-radius: 30px; border: 1px solid #333; }
-        }
-
-        .modal-header-img {
-            min-height: 200px; background-size: cover; background-position: center; position: relative;
-        }
+        .modal-header-img { min-height: 250px; background-size: cover; background-position: center; position: relative; }
+        .modal-header-img::after { content:''; position: absolute; bottom:0; left:0; width:100%; height:120px; background: linear-gradient(to top, #0a0a0a, transparent); }
         .close-btn {
-            position: absolute; top: 20px; right: 20px;
-            background: rgba(0,0,0,0.6); color: white; border: none;
-            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
-            font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
-            transition: 0.3s; z-index: 5;
+            position: absolute; top: 25px; right: 25px; background: rgba(0,0,0,0.6); color: white; border: 1px solid rgba(255,255,255,0.3);
+            width: 48px; height: 48px; border-radius: 50%; cursor: pointer; font-size: 1.4rem; display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; z-index: 5; backdrop-filter: blur(8px);
         }
-        .close-btn:hover { background: #ff4444; transform: rotate(90deg); }
+        .close-btn:hover { background: var(--danger); border-color: var(--danger); transform: rotate(90deg); }
 
-        .modal-body { padding: 25px; overflow-y: auto; flex: 1; }
-        .modal-title { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--primary); margin-bottom: 8px; line-height: 1.2; }
-        .modal-desc { color: #aaa; font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; }
+        .modal-body { padding: 30px; overflow-y: auto; flex: 1; }
+        .modal-title { font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 12px; line-height: 1.1; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .modal-desc { color: #ccc; font-size: 1rem; line-height: 1.7; margin-bottom: 35px; font-weight: 300; }
 
-        /* --- DETALLES --- */
-        .option-group { margin-bottom: 30px; }
+        .option-group { margin-bottom: 40px; }
         .group-title { 
-            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-gray); 
-            margin-bottom: 12px; border-left: 3px solid var(--primary); padding-left: 10px; font-weight: 700;
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; color: #777; margin-bottom: 18px; 
+            border-left: 3px solid var(--primary); padding-left: 15px; font-weight: 800;
         }
-
         .option-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px; background: var(--bg-input); border: 1px solid #333;
-            border-radius: 12px; margin-bottom: 10px; cursor: pointer;
-            transition: all 0.2s ease; position: relative; overflow: hidden;
+            display: flex; justify-content: space-between; align-items: center; padding: 18px; background: rgba(255,255,255,0.02);
+            border: 1px solid #2a2a2a; border-radius: 14px; margin-bottom: 14px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;
         }
-        .option-item.selected {
-            border-color: var(--primary);
-            background: linear-gradient(to right, rgba(212, 175, 55, 0.15), rgba(0,0,0,0));
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-            animation: selectionPop 0.3s ease;
-        }
-        .option-text { font-weight: 500; font-size: 0.95rem; color: #eee; }
-        .option-price { color: var(--primary); font-size: 0.85rem; font-weight: 600; }
+        .option-item:active { transform: scale(0.98); background: rgba(212, 175, 55, 0.05); }
+        .option-item.selected { border-color: var(--primary); background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), transparent); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
+        .option-text { font-weight: 600; font-size: 1.05rem; color: #eee; letter-spacing: 0.5px; }
+        .option-price { color: var(--primary); font-size: 0.95rem; font-weight: 700; }
         .check-circle {
-            width: 24px; height: 24px; border-radius: 50%; border: 2px solid #555;
-            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+            width: 28px; height: 28px; border-radius: 50%; border: 2px solid #444; display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
-        .option-item.selected .check-circle {
-            background: var(--primary); border-color: var(--primary); box-shadow: 0 0 8px var(--primary);
-        }
-        .check-circle i { font-size: 12px; color: black; opacity: 0; transform: scale(0); transition: 0.3s; }
+        .option-item.selected .check-circle { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        .check-circle i { font-size: 14px; color: black; opacity: 0; transform: scale(0); transition: 0.3s; }
         .option-item.selected .check-circle i { opacity: 1; transform: scale(1); }
 
         .qty-control {
-            display: flex; align-items: center; background: #222; border-radius: 50px; padding: 5px; width: fit-content; margin-bottom: 25px; border: 1px solid #333;
+            display: flex; align-items: center; background: #151515; border-radius: 50px; padding: 6px; width: fit-content; margin-bottom: 35px; border: 1px solid #333;
         }
         .qty-btn { 
-            width: 40px; height: 40px; border-radius: 50%; background: #333; color: white; border: none; font-size: 1.2rem; cursor: pointer; transition: 0.2s;
+            width: 44px; height: 44px; border-radius: 50%; background: #2a2a2a; color: white; border: none; font-size: 1.4rem; cursor: pointer; transition: 0.2s;
         }
-        .qty-val { margin: 0 20px; font-weight: bold; font-size: 1.2rem; min-width: 20px; text-align: center; }
+        .qty-btn:active { background: var(--primary); color: black; transform: scale(0.9); }
+        .qty-val { margin: 0 30px; font-weight: 800; font-size: 1.5rem; min-width: 30px; text-align: center; }
 
         textarea, input, select {
-            width: 100%; background: var(--bg-input); border: 1px solid #333; color: white;
-            padding: 15px; border-radius: 12px; margin-bottom: 10px; outline: none; transition: 0.3s; font-size: 1rem;
+            width: 100%; background: #1a1a1a; border: 1px solid #333; color: white; padding: 18px; border-radius: 14px; margin-bottom: 15px; outline: none; transition: 0.3s; font-size: 1.05rem;
         }
-        textarea:focus, input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(212,175,55,0.1); }
+        textarea:focus, input:focus, select:focus { border-color: var(--primary); background: #222; box-shadow: 0 0 15px rgba(212,175,55,0.1); }
+        ::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
-        /* Estilo para inputs de fecha en oscuro */
-        input[type="date"]::-webkit-calendar-picker-indicator,
-        input[type="time"]::-webkit-calendar-picker-indicator {
-            filter: invert(1); cursor: pointer;
+        /* --- FOOTER DELGADO CORREGIDO --- */
+        .modal-footer { 
+            padding: 15px 25px; /* Menos relleno vertical */
+            background: #111; border-top: 1px solid #222; 
         }
-
-        .modal-footer {
-            padding: 20px; background: var(--bg-card); border-top: 1px solid #222;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
-        }
-
         .action-btn {
-            width: 100%; padding: 18px; border: none; border-radius: 15px;
-            font-weight: 800; font-size: 1.1rem; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
-            text-transform: uppercase; letter-spacing: 1px;
+            width: 100%; 
+            padding: 14px; /* Botón más delgado */
+            border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 2px;
         }
         .btn-gold { 
-            background: linear-gradient(45deg, #d4af37, #f3d472); color: #000;
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3); animation: goldenPulse 2s infinite;
+            background: linear-gradient(135deg, #d4af37, #f3d472); color: #000; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2); position: relative; overflow: hidden;
         }
-        .btn-whatsapp { background: #25D366; color: white; justify-content: center; gap: 10px; }
+        .btn-gold::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); animation: shine 3.5s infinite; }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
+        .btn-whatsapp { background: #25D366; color: white; justify-content: center; gap: 12px; }
+        .btn-whatsapp:hover { background: #20bd5a; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); }
 
-        .float-cart {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 450px; z-index: 1500;
-        }
+        .float-cart { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; z-index: 1500; }
     </style>
 </head>
 <body>
 
     <div id="splash-screen">
         <h1 class="intro-logo">Gourmet & Grill</h1>
+        <p class="intro-author">By Edward González</p>
         <div class="loader-line"></div>
     </div>
 
-    <header>
+    <header id="dynamic-header">
+        <div class="header-bg active" style="background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');"></div>
+        <div class="header-bg" style="background-image: url('https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');"></div>
+        <div class="header-bg" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16549766b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');"></div>
+        <div class="header-bg" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');"></div>
+        
+        <div class="header-overlay"></div>
         <div class="header-content animated fadeIn">
             <h1>Gourmet & Grill</h1>
-            <p class="subtitle">EXPERIENCIA CULINARIA PREMIUM</p>
+            <p class="subtitle">Alta Cocina & Experiencias</p>
             <button class="btn-reserve-header" onclick="openReservationModal()">RESERVAR MESA</button>
         </div>
     </header>
 
     <div class="categories-container" id="nav-container">
         <div class="categories">
-            <button class="cat-btn active" onclick="renderMenu('all', this)">TODOS</button>
-            <button class="cat-btn" onclick="renderMenu('Hamburguesas', this)">HAMBURGUESAS</button>
-            <button class="cat-btn" onclick="renderMenu('Carnes', this)">CARNES</button>
-            <button class="cat-btn" onclick="renderMenu('Pizzas', this)">PIZZAS</button>
-            <button class="cat-btn" onclick="renderMenu('Bebidas', this)">BEBIDAS</button>
-            <button class="cat-btn reserve-nav" onclick="openReservationModal()"><i class="fas fa-calendar-alt"></i> RESERVAS</button>
+            <button class="cat-btn active" onclick="renderMenu('all', this)"><i class="fas fa-th-large"></i> TODO</button>
+            <button class="cat-btn" onclick="renderMenu('Hamburguesas', this)"><i class="fas fa-burger"></i> BURGERS</button>
+            <button class="cat-btn" onclick="renderMenu('Carnes', this)"><i class="fas fa-drumstick-bite"></i> CARNES</button>
+            <button class="cat-btn" onclick="renderMenu('Sushi', this)"><i class="fas fa-fish"></i> SUSHI & MAR</button>
+            <button class="cat-btn" onclick="renderMenu('Pizzas', this)"><i class="fas fa-pizza-slice"></i> PIZZAS</button>
+            <button class="cat-btn" onclick="renderMenu('Postres', this)"><i class="fas fa-ice-cream"></i> POSTRES</button>
+            <button class="cat-btn" onclick="renderMenu('Bebidas', this)"><i class="fas fa-wine-glass"></i> BEBIDAS</button>
+            <button class="cat-btn reserve-nav" onclick="openReservationModal()"><i class="far fa-calendar-alt"></i></button>
         </div>
     </div>
 
@@ -303,13 +296,13 @@
                 </div>
                 <div id="p-options"></div>
                 <div class="option-group">
-                    <div class="group-title">Notas de Cocina</div>
+                    <div class="group-title"><i class="fas fa-pen"></i> NOTAS DE COCINA</div>
                     <textarea id="p-notes" rows="2" placeholder="Ej: Sin sal, salsa aparte..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="action-btn btn-gold" onclick="addToCart()">
-                    <span>AGREGAR</span>
+                    <span>AGREGAR AL PEDIDO</span>
                     <span id="p-total-btn">$0</span>
                 </button>
             </div>
@@ -318,14 +311,14 @@
 
     <div id="checkout-modal" class="modal">
         <div class="modal-content">
-            <div style="padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
-                <h2 style="color: var(--primary); margin:0; font-family: 'Cinzel', serif;">TU PEDIDO</h2>
-                <button class="close-btn" style="position:static; transform:none;" onclick="closeModal('checkout-modal')">&times;</button>
+            <div style="padding: 25px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="color: var(--primary); margin:0; font-family: 'Cinzel', serif;">TU CUENTA</h2>
+                <button class="close-btn" style="position:static; transform:none; width:36px; height:36px;" onclick="closeModal('checkout-modal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div id="cart-list"></div>
                 <div class="option-group" style="margin-top: 30px;">
-                    <div class="group-title">Datos de Entrega</div>
+                    <div class="group-title">DATOS DE ENTREGA</div>
                     <input type="text" id="c-name" placeholder="Tu Nombre Completo">
                     <select id="c-type" onchange="toggleDelivery()">
                         <option value="mesa">Comer en la Mesa</option>
@@ -336,7 +329,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:1.2rem; font-weight:bold;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:1.3rem; font-weight:bold;">
                     <span>TOTAL:</span>
                     <span id="cart-final-total" style="color:var(--primary);">$0</span>
                 </div>
@@ -349,39 +342,31 @@
 
     <div id="reservation-modal" class="modal">
         <div class="modal-content">
-            <div style="padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
-                <h2 style="color: var(--primary); margin:0; font-family: 'Cinzel', serif;">RESERVAR MESA</h2>
-                <button class="close-btn" style="position:static; transform:none;" onclick="closeModal('reservation-modal')">&times;</button>
+            <div style="padding: 25px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="color: var(--primary); margin:0; font-family: 'Cinzel', serif;">RESERVAR</h2>
+                <button class="close-btn" style="position:static; transform:none; width:36px; height:36px;" onclick="closeModal('reservation-modal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p style="color:#aaa; font-size:0.9rem; margin-bottom:20px;">Completa los datos para confirmar tu mesa.</p>
-                
                 <div class="option-group">
-                    <div class="group-title"><i class="fas fa-user"></i> Datos del Cliente</div>
+                    <div class="group-title">CLIENTE</div>
                     <input type="text" id="r-name" placeholder="Nombre Completo">
                 </div>
-
                 <div class="option-group">
-                    <div class="group-title"><i class="fas fa-clock"></i> Fecha y Hora</div>
-                    <input type="date" id="r-date">
-                    <input type="time" id="r-time">
-                </div>
-
-                <div class="option-group">
-                    <div class="group-title"><i class="fas fa-users"></i> Número de Personas</div>
-                    <select id="r-people">
+                    <div class="group-title">DETALLES</div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <input type="date" id="r-date">
+                        <input type="time" id="r-time">
+                    </div>
+                    <select id="r-people" style="margin-top:10px;">
                         <option value="2">2 Personas</option>
                         <option value="3">3 Personas</option>
                         <option value="4">4 Personas</option>
-                        <option value="5">5 Personas</option>
-                        <option value="6">6 Personas</option>
-                        <option value="Mas de 6">+ de 6 (Grupo Grande)</option>
+                        <option value="5+">Grupo (+5)</option>
                     </select>
                 </div>
-
                 <div class="option-group">
-                    <div class="group-title"><i class="fas fa-comment"></i> Peticiones Especiales</div>
-                    <textarea id="r-notes" rows="2" placeholder="Ej: Cumpleaños, Aniversario, Mesa tranquila..."></textarea>
+                    <div class="group-title">OCASIÓN ESPECIAL</div>
+                    <textarea id="r-notes" rows="2" placeholder="Ej: Aniversario, Mesa tranquila..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -402,62 +387,119 @@
     <script>
         const PHONE = "573008556516";
 
-        // --- LÓGICA INTRO ---
+        // INTRO + HEADER SLIDESHOW
         window.onload = function() {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
-                setTimeout(() => { splash.style.display = 'none'; }, 800);
-            }, 2000); // 2 segundos
+                setTimeout(() => { splash.style.display = 'none'; }, 1000);
+            }, 2500); 
+
+            const bgs = document.querySelectorAll('.header-bg');
+            let currentBg = 0;
+            setInterval(() => {
+                bgs[currentBg].classList.remove('active');
+                currentBg = (currentBg + 1) % bgs.length;
+                bgs[currentBg].classList.add('active');
+            }, 8000);
         };
 
+        // --- BASE DE DATOS ---
         const data = [
+            // --- CARNES ---
             {
-                id: 201, name: "Ribeye Steak Premium (400g)", price: 65000, category: "Carnes",
-                desc: "Corte importado de la mejor calidad, jugoso y con marmoleo perfecto. Asado a la parrilla.",
+                id: 201, name: "Ribeye Steak Premium", price: 65000, category: "Carnes",
+                desc: "400g de corte importado, marmoleo grado 5. Una experiencia de sabor intenso.",
                 img: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&w=800&q=80",
+                badge: {text: "🔥 Top Seller", type: "gold"},
                 groups: [
-                    { title: "1. Término de la Carne (Obligatorio)", type: "radio", opts: [ {n:"Azul", p:0}, {n:"Medio", p:0}, {n:"Tres Cuartos", p:0}, {n:"Bien Asado", p:0} ] },
-                    { title: "2. Elige tu Salsa", type: "radio", opts: [ {n:"Salsa de la Casa (BBQ)", p:0}, {n:"Salsa Pimienta", p:0}, {n:"Champiñones (+3k)", p:3000}, {n:"Sin Salsa", p:0} ] },
-                    { title: "3. Acompañamiento", type: "radio", opts: [ {n:"Papas Francesa", p:0}, {n:"Puré de Papa", p:0}, {n:"Ensalada", p:0}, {n:"Arroz", p:0}, {n:"Papas Criollas", p:0} ] },
-                    { title: "4. ¿Deseas Bebida?", type: "radio", opts: [ {n:"No, gracias", p:0}, {n:"Coca Cola (+5k)", p:5000}, {n:"Limonada (+8k)", p:8000}, {n:"Corona (+10k)", p:10000} ] }
+                    { title: "Término", type: "radio", opts: [{n:"Azul",p:0}, {n:"Medio",p:0}, {n:"3/4",p:0}, {n:"Bien Asado",p:0}] },
+                    { title: "Salsas", type: "radio", opts: [{n:"BBQ de la Casa",p:0}, {n:"Pimienta Negra",p:0}, {n:"Champiñones al Vino (+3k)",p:3000}, {n:"Chimichurri Artesanal",p:0}] },
+                    { title: "Guarnición", type: "radio", opts: [{n:"Papas Francesa Trufadas",p:0}, {n:"Puré Rústico",p:0}, {n:"Ensalada César",p:0}, {n:"Vegetales al Grill",p:0}] }
                 ]
             },
             {
-                id: 202, name: "Churrasco Argentino", price: 45000, category: "Carnes",
-                desc: "Corte mariposa clásico, bañado en chimichurri artesanal.",
-                img: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80",
-                groups: [ { title: "Término", type: "radio", opts: [{n:"Medio", p:0}, {n:"3/4", p:0}, {n:"Bien Asado", p:0}] }, { title: "Acompañamiento", type: "radio", opts: [{n:"Papas Fritas", p:0}, {n:"Yuca Frita", p:0}, {n:"Patacón", p:0}] } ]
+                id: 202, name: "Tomahawk Gold (1.2kg)", price: 210000, category: "Carnes",
+                desc: "Impresionante corte con hueso largo, madurado 30 días. Ideal para compartir.",
+                img: "https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?auto=format&fit=crop&w=800&q=80",
+                badge: {text: "⭐ Chef's Choice", type: "chef"},
+                groups: [
+                    { title: "Término Recomendado", type: "radio", opts: [{n:"Medio",p:0}, {n:"3/4",p:0}] },
+                    { title: "Guarnición 1", type: "radio", opts: [{n:"Papas Cascos",p:0}, {n:"Mac & Cheese Trufado",p:0}] },
+                    { title: "Guarnición 2", type: "radio", opts: [{n:"Espárragos Parrilla",p:0}, {n:"Ensalada de la Casa",p:0}] }
+                ]
+            },
+
+            // --- SUSHI Y MAR ---
+            {
+                id: 501, name: "Langosta Thermidor", price: 135000, category: "Sushi",
+                desc: "Langosta entera del Caribe gratinada con salsa holandesa, brandy y queso gruyère.",
+                img: "https://images.unsplash.com/photo-1553163147-622ab57be1c7?auto=format&fit=crop&w=800&q=80",
+                groups: [ { title: "Acompañamiento", type: "radio", opts: [{n:"Risotto de Limón",p:0}, {n:"Vegetales Salteados",p:0}] } ]
             },
             {
-                id: 101, name: "Master Burger Double", price: 32000, category: "Hamburguesas",
-                desc: "Doble carne angus certificada, doble cheddar fundido, tocineta ahumada y cebolla caramelizada.",
+                id: 503, name: "Pulpo a la Parrilla", price: 58000, category: "Sushi",
+                desc: "Brazos de pulpo marinados y asados al carbón, sobre cama de papa criolla y alioli de pimentón.",
+                img: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=800&q=80",
+                groups: []
+            },
+
+            // --- HAMBURGUESAS ---
+            {
+                id: 101, name: "The Gold Burger 24k", price: 42000, category: "Hamburguesas",
+                desc: "Carne Angus (200g), láminas de oro comestible 24k, queso brie fundido, cebolla caramelizada al oporto y alioli de trufa negra.",
                 img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
-                groups: [ { title: "Personaliza", type: "check", opts: [ {n:"Sin Cebolla",p:0}, {n:"Sin Tocineta",p:0}, {n:"Sin Salsas",p:0} ] }, { title: "Adiciones", type: "check", opts: [ {n:"Extra Queso (+4k)",p:4000}, {n:"Huevo Frito (+3k)",p:3000}, {n:"Pepinillos (+2k)",p:2000} ] }, { title: "Tipo de Papas", type: "radio", opts: [ {n:"Papas Francesa",p:0}, {n:"Papas Rústicas",p:2000}, {n:"Sin Papas",p:0} ] } ]
+                badge: {text: "✨ Signature", type: "gold"},
+                groups: [
+                    { title: "Término de la Carne", type: "radio", opts: [{n:"Medio",p:0}, {n:"3/4",p:0}, {n:"Bien Asada",p:0}] },
+                    { title: "Selección de Pan", type: "radio", opts: [{n:"Brioche con Oro",p:0}, {n:"Pan Negro (Carbón Activado)",p:0}, {n:"Pan Artesanal Rustico",p:0}] },
+                    { title: "Nivel de Lujo (Adiciones)", type: "check", opts: [{n:"Extra Oro 24k (+10k)",p:10000}, {n:"Foie Gras (+15k)",p:15000}, {n:"Doble Carne (+12k)",p:12000}] }
+                ]
             },
+
+            // --- PIZZAS ---
             {
-                id: 301, name: "Pizza Burrata & Pesto", price: 35000, category: "Pizzas",
-                desc: "Tomate San Marzano, Burrata fresca entera (125g) y Pesto genovés.",
-                img: "https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?auto=format&fit=crop&w=800&q=80",
-                groups: [ { title: "Borde", type: "radio", opts: [ {n:"Tradicional",p:0}, {n:"Borde Queso (+6k)",p:6000}, {n:"Borde Bocadillo (+5k)",p:5000} ] }, { title: "Adiciones", type: "check", opts: [ {n:"Extra Jamón (+8k)",p:8000}, {n:"Extra Burrata (+12k)",p:12000} ] } ]
+                id: 301, name: "Pizza Trufa & Prosciutto", price: 45000, category: "Pizzas",
+                desc: "Base blanca, mozzarella fior di latte, láminas de trufa negra fresca, prosciutto di Parma y rúcula.",
+                img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
+                groups: [
+                    { title: "Tipo de Masa", type: "radio", opts: [{n:"Masa Madre (Napolitana)",p:0}, {n:"Delgada y Crocante (Romana)",p:0}] },
+                    { title: "Bordes", type: "radio", opts: [{n:"Tradicional",p:0}, {n:"Relleno de Queso (+6k)",p:6000}, {n:"Relleno Bocadillo (+5k)",p:5000}] },
+                    { title: "Extra Lujo", type: "check", opts: [{n:"Extra Trufa Negra (+15k)",p:15000}, {n:"Burrata Fresca al Centro (+12k)",p:12000}] }
+                ]
             },
+
+            // --- POSTRES ---
             {
-                id: 401, name: "Limonada de Coco", price: 12000, category: "Bebidas",
-                desc: "Cremosa y refrescante con coco natural. Granizada.",
+                id: 601, name: "Volcán de Chocolate Belga", price: 22000, category: "Postres",
+                desc: "Bizcocho tibio de chocolate 70% cacao con centro líquido fundido.",
+                img: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=800&q=80",
+                groups: [
+                    { title: "Helado Acompañante", type: "radio", opts: [{n:"Vainilla de Madagascar",p:0}, {n:"Pistacho Bronte (+3k)",p:3000}, {n:"Frutos Rojos",p:0}] },
+                    { title: "Salsa Extra", type: "radio", opts: [{n:"Salsa de Frutos Rojos",p:0}, {n:"Caramelo Salado",p:0}, {n:"Sin Salsa Extra",p:0}] }
+                ]
+            },
+
+            // --- BEBIDAS ---
+            {
+                id: 401, name: "Limonada de Coco Premium", price: 14000, category: "Bebidas",
+                desc: "Exótica y cremosa, preparada al momento con crema de coco natural y limón fresco.",
                 img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
-                groups: [ { title: "Preferencia", type: "radio", opts: [{n:"Con Azúcar", p:0}, {n:"Sin Azúcar", p:0}, {n:"Poca Azúcar", p:0}] } ]
+                groups: [
+                    { title: "Base Líquida", type: "radio", opts: [{n:"Agua",p:0}, {n:"Leche Entera",p:0}, {n:"Leche de Almendras (+3k)",p:3000}] },
+                    { title: "Temperatura / Textura", type: "radio", opts: [{n:"Frappé (Granizada)",p:0}, {n:"En las Rocas (Hielo)",p:0}] },
+                    { title: "Dulzor", type: "radio", opts: [{n:"Normal (Azúcar)",p:0}, {n:"Bajo Azúcar",p:0}, {n:"Stevia (Sin Calorías)",p:0}] }
+                ]
             },
             {
-                id: 402, name: "Agua Manantial Sin Gas", price: 5000, category: "Bebidas",
-                desc: "Botella de agua pura cristalina 500ml.",
-                img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                groups: [ { title: "Temperatura", type: "radio", opts: [{n:"Al Clima", p:0}, {n:"Fría", p:0}, {n:"Vaso con Hielo", p:0}] } ]
-            },
-             {
-                id: 403, name: "Coca Cola Zero", price: 5000, category: "Bebidas",
-                desc: "Lata 330ml fría.",
-                img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80",
-                groups: [ { title: "Servicio", type: "radio", opts: [{n:"Vaso con Hielo", p:0}, {n:"Sin Vaso", p:0}] } ]
+                id: 405, name: "Dom Pérignon Vintage Brut", price: 1500000, category: "Bebidas",
+                desc: "Champagne Icónico. Notas de almendra, cacao en polvo y frutas blancas secas. La máxima expresión del lujo.",
+                // IMAGEN NUEVA Y CORRECTA (Botella elegante)
+                img: "https://cdn.sanity.io/images/1p5qvg3x/ww/f884be6c6719c540f23275e37fedcff653361592-11097x13184.jpg?rect=2159,6458,6813,4005&w=2400&h=1411&q=75&fit=crop&auto=format",
+                badge: {text: "🍾 VIP Bottle", type: "gold"},
+                groups: [
+                    { title: "Servicio", type: "radio", opts: [{n:"En Hielera con Copas",p:0}, {n:"Para Llevar (Estuche)",p:0}] }
+                ]
             }
         ];
 
@@ -465,6 +507,7 @@
         let currItem = null;
         let currQty = 1;
 
+        // RENDER GRID
         function renderMenu(filter, btn) {
             if(btn) {
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -472,12 +515,22 @@
             }
             const grid = document.getElementById('grid');
             grid.innerHTML = '';
+            
             const list = filter === 'all' ? data : data.filter(i => i.category === filter);
-            list.forEach(item => {
+            
+            list.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                card.style.animationDelay = `${index * 0.05}s`;
                 card.onclick = () => openModal(item);
+                
+                let badgeHTML = '';
+                if(item.badge) {
+                    badgeHTML = `<div class="badge ${item.badge.type}">${item.badge.text}</div>`;
+                }
+
                 card.innerHTML = `
+                    ${badgeHTML}
                     <div class="product-img-container"><img src="${item.img}" class="product-img"></div>
                     <div class="product-info">
                         <div class="product-title">${item.name}</div>
@@ -489,6 +542,7 @@
                     </div>`;
                 grid.appendChild(card);
             });
+
             if(btn) {
                 const offset = document.getElementById('nav-container').offsetHeight;
                 const top = grid.getBoundingClientRect().top + window.pageYOffset - offset - 20;
@@ -496,6 +550,7 @@
             }
         }
 
+        // MODAL LOGIC
         function openModal(item) {
             currItem = item;
             currQty = 1;
@@ -504,8 +559,10 @@
             document.getElementById('p-desc').innerText = item.desc;
             document.getElementById('p-qty').innerText = 1;
             document.getElementById('p-notes').value = '';
+
             const optsDiv = document.getElementById('p-options');
             optsDiv.innerHTML = '';
+
             if(item.groups) {
                 item.groups.forEach((g, i) => {
                     let html = `<div class="option-group"><div class="group-title">${g.title}</div>`;
@@ -513,7 +570,10 @@
                         const uid = `opt-${i}-${j}`;
                         html += `
                         <div class="option-item" onclick="toggleOpt(this, '${g.type}', '${i}')" id="${uid}" data-price="${opt.p}" data-name="${opt.n}">
-                            <div><div class="option-text">${opt.n}</div>${opt.p > 0 ? `<div class="option-price">+$${opt.p.toLocaleString()}</div>` : ''}</div>
+                            <div>
+                                <span class="option-text">${opt.n}</span>
+                                ${opt.p > 0 ? `<div class="option-price">+$${opt.p.toLocaleString()}</div>` : ''}
+                            </div>
                             <div class="check-circle"><i class="fas fa-check"></i></div>
                         </div>`;
                     });
@@ -530,7 +590,10 @@
                 const siblings = el.parentElement.querySelectorAll('.option-item');
                 siblings.forEach(sib => sib.classList.remove('selected'));
                 el.classList.add('selected');
-            } else { el.classList.toggle('selected'); }
+            } else {
+                el.classList.toggle('selected');
+            }
+            if (navigator.vibrate) navigator.vibrate(15);
             calcTotal();
         }
 
@@ -543,7 +606,9 @@
 
         function calcTotal() {
             let total = currItem.price;
-            document.querySelectorAll('.option-item.selected').forEach(el => total += parseFloat(el.dataset.price));
+            document.querySelectorAll('.option-item.selected').forEach(el => {
+                total += parseFloat(el.dataset.price);
+            });
             total *= currQty;
             document.getElementById('p-total-btn').innerText = `$${total.toLocaleString()}`;
             return total;
@@ -551,12 +616,21 @@
 
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
+        // CART LOGIC
         function addToCart() {
             const opts = [];
             document.querySelectorAll('.option-item.selected').forEach(el => opts.push(el.dataset.name));
-            cart.push({ item: currItem, qty: currQty, opts: opts, notes: document.getElementById('p-notes').value, total: calcTotal() });
+            
+            cart.push({
+                item: currItem,
+                qty: currQty,
+                opts: opts,
+                notes: document.getElementById('p-notes').value,
+                total: calcTotal()
+            });
             updateCartUI();
             closeModal('product-modal');
+            if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
         }
 
         function updateCartUI() {
@@ -565,6 +639,7 @@
             document.getElementById('cart-count').innerText = count;
             document.getElementById('cart-sum').innerText = `$${sum.toLocaleString()}`;
             document.getElementById('cart-final-total').innerText = `$${sum.toLocaleString()}`;
+            
             document.getElementById('float-btn').style.display = count > 0 ? 'block' : 'none';
             if(count === 0) closeModal('checkout-modal');
         }
@@ -574,14 +649,16 @@
             list.innerHTML = '';
             cart.forEach((c, i) => {
                 list.innerHTML += `
-                <div style="background:#1f1f1f; padding:15px; border-radius:10px; margin-bottom:10px; border:1px solid #333;">
-                    <div style="display:flex; justify-content:space-between; font-weight:bold;">
+                <div style="background:#1a1a1a; padding:18px; border-radius:14px; margin-bottom:15px; border:1px solid #333; position:relative;">
+                    <div style="display:flex; justify-content:space-between; font-weight:800; margin-bottom:8px; font-size:1.05rem;">
                         <span><span style="color:var(--primary)">${c.qty}x</span> ${c.item.name}</span>
                         <span>$${c.total.toLocaleString()}</span>
                     </div>
-                    <div style="font-size:0.85rem; color:#888; margin-top:5px;">${c.opts.join(', ')}</div>
-                    ${c.notes ? `<div style="font-size:0.8rem; color:#aaa; font-style:italic;">"${c.notes}"</div>` : ''}
-                    <div style="text-align:right; margin-top:5px; color:#ff4444; font-size:0.8rem; cursor:pointer;" onclick="remItem(${i})">Eliminar</div>
+                    ${c.opts.length ? `<div style="font-size:0.9rem; color:#bbb; margin-bottom:5px;"><i class="fas fa-check" style="color:var(--primary);font-size:0.8rem;"></i> ${c.opts.join(', ')}</div>` : ''}
+                    ${c.notes ? `<div style="font-size:0.85rem; color:#d4af37; font-style:italic; margin-top:6px; padding-left:10px; border-left:2px solid var(--primary);">"${c.notes}"</div>` : ''}
+                    <div style="position:absolute; top:18px; right:18px;">
+                        <span onclick="remItem(${i})" style="color:#ff4444; font-size:1.1rem; cursor:pointer;"><i class="fas fa-times"></i></span>
+                    </div>
                 </div>`;
             });
             toggleDelivery();
@@ -596,27 +673,32 @@
             document.getElementById('field-addr').style.display = type === 'llevar' ? 'block' : 'none';
         }
 
+        // WHATSAPP SENDERS
         function sendWhatsapp() {
             const name = document.getElementById('c-name').value;
-            if(!name) return alert("Por favor escribe tu nombre");
-            let msg = `*NUEVO PEDIDO DE ${name.toUpperCase()}*%0A%0A`;
+            if(!name) return alert("Por favor escribe tu nombre para el pedido.");
+
+            let msg = `*👑 NUEVO PEDIDO PREMIUM - ${name.toUpperCase()}*%0A%0A`;
+            msg += `--------------------------------%0A`;
             cart.forEach(c => {
-                msg += `👉 *${c.qty}x ${c.item.name}* ($${c.total.toLocaleString()})%0A`;
-                if(c.opts.length) msg += `   [${c.opts.join(', ')}]%0A`;
-                if(c.notes) msg += `   _${c.notes}_%0A`;
+                msg += `🔸 *${c.qty}x ${c.item.name.toUpperCase()}* | $${c.total.toLocaleString()}%0A`;
+                if(c.opts.length) msg += `   ➤ _${c.opts.join(', ')}_%0A`;
+                if(c.notes) msg += `   📝 Nota: ${c.notes}%0A`;
                 msg += `%0A`;
             });
+            msg += `--------------------------------%0A`;
+            
             const type = document.getElementById('c-type').value;
-            const loc = type === 'mesa' ? `Mesa ${document.getElementById('c-table').value}` : `Dirección: ${document.getElementById('c-addr').value}`;
-            msg += `💰 *TOTAL: ${document.getElementById('cart-final-total').innerText}*%0A`;
-            msg += `📍 *ENTREGA:* ${loc}`;
+            const loc = type === 'mesa' ? `📍 MESA ${document.getElementById('c-table').value}` : `🛵 DOMICILIO A: ${document.getElementById('c-addr').value}`;
+            
+            msg += `💰 *TOTAL A PAGAR: ${document.getElementById('cart-final-total').innerText}*%0A`;
+            msg += `${loc}%0A`;
+            msg += `✅ *Solicito confirmación.*`;
+
             window.open(`https://wa.me/${PHONE}?text=${msg}`, '_blank');
         }
 
-        // --- FUNCIONES DE RESERVA ---
-        function openReservationModal() {
-            document.getElementById('reservation-modal').classList.add('active');
-        }
+        function openReservationModal() { document.getElementById('reservation-modal').classList.add('active'); }
 
         function sendReservation() {
             const name = document.getElementById('r-name').value;
@@ -625,18 +707,19 @@
             const people = document.getElementById('r-people').value;
             const notes = document.getElementById('r-notes').value;
 
-            if(!name || !date || !time) return alert("Por favor completa nombre, fecha y hora.");
+            if(!name || !date || !time) return alert("Completa los datos principales de la reserva.");
 
-            let msg = `📅 *NUEVA RESERVA DE MESA*%0A%0A`;
-            msg += `👤 *Nombre:* ${name}%0A`;
+            let msg = `📅 *SOLICITUD DE RESERVA VIP*%0A%0A`;
+            msg += `👤 *Cliente:* ${name}%0A`;
             msg += `📆 *Fecha:* ${date}%0A`;
             msg += `⏰ *Hora:* ${time}%0A`;
-            msg += `👥 *Personas:* ${people}%0A`;
-            if(notes) msg += `📝 *Nota:* ${notes}%0A`;
+            msg += `👥 *Pax:* ${people}%0A`;
+            if(notes) msg += `✨ *Ocasión/Nota:* ${notes}%0A`;
 
             window.open(`https://wa.me/${PHONE}?text=${msg}`, '_blank');
         }
 
+        // INIT
         renderMenu('all');
     </script>
 </body>
