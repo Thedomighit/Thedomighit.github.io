@@ -2,1230 +2,927 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor de Tareas de Reasignación</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Menú Digital Premium | Edward González</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* --- VARIABLES DE ESTILO --- */
         :root {
-            --primary-color: #0077c2; /* Azul Corporativo */
-            --secondary-color: #555e6a; /* Gris Oscuro */
-            --background-light: #f4f6f9; /* Fondo muy claro */
-            --card-background: #ffffff;
-            --border-color: #e0e0e0;
-            --success-color: #1a995e; /* Verde */
-            --danger-color: #d9534f; /* Rojo */
-            --excel-header-color: #e6f7ff; /* Azul claro para encabezados de tabla */
-            --excel-border-color: #c9c9c9;
-            --complete-button-color: #ff9800; /* Naranja para Archivar */
-            --history-color: #00bcd4; /* Cian para Historial */
-            --font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
-            --toggle-color: #6c757d;
+            --primary: #FFC107; /* Amarillo Oro vibrante */
+            --primary-dark: #e0a800;
+            --bg-main: #121212; /* Fondo súper oscuro */
+            --bg-card: #1E1E1E; /* Fondo tarjetas */
+            --text-white: #ffffff;
+            --text-gray: #B0B0B0;
+            --whatsapp: #25D366;
+            --danger: #ff4444;
         }
 
-        /* --- ESTILOS GENERALES Y LAYOUT --- */
-        body {
-            font-family: var(--font-family);
+        * {
             margin: 0;
-            padding-top: 60px; /* Espacio para la Navbar fija */
-            padding-bottom: 20px;
-            background-color: var(--background-light);
-            color: #333;
-            line-height: 1.6;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 30px;
-            background: var(--card-background);
-            border-radius: 12px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            padding-bottom: 100px; /* Espacio para el carrito flotante */
+            overflow-x: hidden;
         }
 
-        /* Títulos */
+        /* --- ANIMACIONES --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 30px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 193, 7, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        /* --- HEADER --- */
+        header {
+            /* Foto de fondo de alta calidad */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), var(--bg-main)), url('https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            text-align: left;
+        }
+
         h1 {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-            font-weight: 300;
-            font-size: 2.2em;
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 5px;
         }
 
-        /* Secciones */
-        .section {
-            margin-bottom: 35px;
-            padding: 25px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            background-color: #ffffff;
-            transition: box-shadow 0.3s;
-        }
-        
-        .section:hover {
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        .subtitle {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            color: var(--text-gray);
         }
 
-        /* --- SCROLLBARS DECORADAS (Para Chrome, Edge, Safari) --- */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+        /* --- NAVEGACIÓN (Categorías Sticky) --- */
+        .categories-container {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-main);
+            padding: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 0 20px;
+            gap: 12px;
+            scrollbar-width: none; /* Ocultar scrollbar Firefox */
+        }
+        .categories::-webkit-scrollbar { display: none; /* Ocultar scrollbar Chrome/Safari */ }
+
+        .cat-btn {
+            background: var(--bg-card);
+            border: 1px solid #333;
+            color: var(--text-gray);
+            padding: 10px 24px;
+            border-radius: 50px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 10px;
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            transform: scale(1.05);
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #005f9c;
+        /* --- GRID DE PRODUCTOS --- */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 20px;
+            padding: 25px 20px;
         }
 
-        /* --- NAVBAR FIJA PROFESIONAL --- */
-        #main-navbar {
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            position: relative;
+            animation: fadeInUp 0.6s ease backwards; /* Animación de entrada */
+        }
+
+        /* Retraso de animación escalonado para los items */
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+
+
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(255, 193, 7, 0.15);
+        }
+
+        .product-img-container {
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 15px;
+            position: relative;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-white);
+        }
+
+        .product-desc {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            line-height: 1.4;
+            height: 45px; /* Altura fija para alinear */
+            overflow: hidden;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .add-btn-floating {
+            background: var(--primary);
+            color: black;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+        }
+
+
+        /* --- MODALES (Estilo App Móvil) --- */
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: var(--primary-color);
-            color: white;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
             z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 55px;
-            overflow-x: auto; 
-            -webkit-overflow-scrolling: touch;
+            align-items: flex-end; /* En móvil, sale de abajo */
         }
 
-        #main-navbar .nav-links {
-            display: flex;
-            gap: 5px;
-            padding: 0 10px;
-            align-items: center;
-        }
-        
-        .nav-button {
-            background: none;
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            text-decoration: none;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 600;
-            border-radius: 4px;
-            transition: background-color 0.2s, transform 0.1s;
-            white-space: nowrap; 
-        }
-        
-        .nav-button:hover {
-            background-color: #005f9c;
-        }
-        
-        /* Ajuste de scroll-margin-top para anclajes */
-        .section {
-            scroll-margin-top: 80px; 
-        }
+        .modal.active { display: flex; }
 
-        /* --- ITEMS DE COPIA Y BOTONES --- */
-        .info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            gap: 15px;
-            flex-wrap: nowrap; 
-            border-bottom: 1px dashed #eee;
-            padding-bottom: 8px;
-        }
-
-        .info-item strong {
-            min-width: 150px; 
-            flex-shrink: 0; 
-            font-weight: 600;
-            color: #333;
-        }
-
-        .copy-target, .editable-input {
-            background-color: #f7f7f7;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #dcdcdc;
-            flex-grow: 1; 
-            min-width: 150px;
-            font-family: 'Consolas', monospace;
-            overflow-x: auto;
-            white-space: nowrap;
-            font-size: 0.9em;
-            transition: background-color 0.2s;
-        }
-        
-        .editable-input {
-            width: auto;
-            color: var(--danger-color);
-            font-weight: bold;
-            border: 1px solid var(--danger-color);
-        }
-
-        .copy-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            text-align: center;
-            font-size: 0.9em;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: background-color 0.2s, transform 0.1s;
-            min-width: 100px;
-            flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .copy-button:hover {
-            background-color: #005f9c;
-            transform: translateY(-1px);
-        }
-        
-        /* --- ESTILOS DE TABLAS Y GESTIÓN DE TAREAS (Scrollable) --- */
-        
-        /* Contenedor de Scroll de Tablas (Principal) */
-        .scrollable-table-wrapper {
-            max-height: 450px; /* Altura máxima para mostrar el scroll */
-            overflow-y: auto; /* Scroll vertical */
-            border: 1px solid var(--excel-border-color);
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .excel-table-container {
-             overflow-x: auto; /* Scroll horizontal si la tabla es más ancha */
-             -webkit-overflow-scrolling: touch;
-        }
-        
-        .excel-table {
+        .modal-content {
+            background: var(--bg-card);
             width: 100%;
-            min-width: 1000px;
-            border-collapse: collapse;
-            font-size: 0.85em;
-        }
-
-        .excel-table th, .excel-table td {
-            border: 1px solid var(--excel-border-color);
-            padding: 10px 8px;
-            text-align: left;
-            white-space: nowrap; 
-        }
-
-        .excel-table th {
-            background-color: var(--excel-header-color);
-            font-weight: 600;
-            color: var(--secondary-color);
-            text-transform: uppercase;
-            position: sticky; /* Fija los encabezados al hacer scroll vertical */
-            top: 0;
-            z-index: 10;
-        }
-        
-        .excel-table tr:nth-child(even) {
-            background-color: #fcfcfc;
-        }
-
-        .excel-table .cell-copy {
-            cursor: copy;
-            font-weight: bold;
-            color: var(--primary-color);
-            background-color: #e6f7ff; 
-            transition: background-color 0.1s;
-        }
-        
-        .excel-table .cell-copy:hover {
-            background-color: #cceeff;
-        }
-        
-        /* HISTORIAL STYLING */
-        .history-table .action-cell {
+            max-width: 550px; /* Límite en desktop */
+            height: 90vh; /* Casi toda la pantalla en móvil */
+            max-height: 90vh;
+            border-radius: 25px 25px 0 0;
+            padding: 0;
+            position: relative;
+            animation: slideInUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            padding: 5px 8px;
+            overflow: hidden;
         }
-        
-        .history-table .action-cell button {
-             font-size: 0.8em;
-             padding: 5px;
+
+        @media(min-width: 768px) {
+            .modal { align-items: center; justify-content: center; }
+            .modal-content { height: auto; max-height: 85vh; border-radius: 25px; }
         }
-        
-        .copy-history-button {
-            background-color: #3f51b5; 
+
+        /* Estructura Interna del Modal de Producto */
+        .modal-header-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.5);
             color: white;
-            border: none;
-            border-radius: 4px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            transition: background-color 0.2s;
+            border: none;
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+
+        .modal-body-scroll {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1; /* Ocupa el espacio restante */
+        }
+
+        .modal-title-main { font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; }
+        .modal-desc-main { color: var(--text-gray); margin-bottom: 25px; font-family: 'Open Sans', sans-serif; }
+
+        /* Selector de Cantidad */
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            background: #2a2a2a;
+            border-radius: 50px;
+            padding: 5px;
+            width: fit-content;
+            margin-bottom: 25px;
+        }
+        .qty-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: none; background: #3d3d3d; color: white; font-size: 1.2rem; cursor: pointer;
+        }
+        .qty-number { padding: 0 20px; font-size: 1.2rem; font-weight: bold; }
+
+        /* Grupos de Opciones */
+        .option-group-container { margin-bottom: 25px; }
+        .option-group-title {
+            font-size: 1rem; font-weight: 700; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 10px;
+            color: var(--text-white);
+            background: #252525; padding: 10px; border-radius: 8px;
+        }
+        .option-group-title i { color: var(--primary); }
+
+        .option-item-label {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 15px;
+            background: #2a2a2a;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
         }
         
-        .copy-history-button:hover {
-            background-color: #303f9f;
-        }
+        /* Checkbox/Radio ocultos pero funcionales */
+        .option-item-label input { display: none; }
 
-        /* --- RESPONSIVE MOBILE (Máximo 768px de ancho) --- */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-                padding-top: 55px; 
-            }
-            .container {
-                padding: 15px;
-                box-shadow: none; 
-            }
-            
-            #main-navbar {
-                 justify-content: flex-start; 
-            }
-            
-            #main-navbar .nav-links {
-                padding: 0 5px;
-            }
-            
-            .nav-button {
-                font-size: 0.7em;
-                padding: 5px 8px;
-            }
-
-            .section {
-                 scroll-margin-top: 70px; 
-            }
-
-            .info-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
-                border-bottom: 1px solid var(--border-color); 
-                padding-bottom: 10px;
-            }
-            
-            .info-item strong {
-                min-width: 100%;
-            }
-            
-            .info-item .copy-target, 
-            .info-item .editable-input,
-            .info-item .copy-button {
-                flex-grow: 1;
-                width: 100%;
-                min-width: 100%; 
-            }
-
-            .control-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            #generateButton, #showHistoryButton {
-                width: 100%;
-                margin: 0 !important;
-            }
-            
-            .history-table .action-cell {
-                 flex-direction: row;
-                 flex-wrap: wrap;
-            }
-            
-            .history-table .action-cell button {
-                 flex-grow: 1;
-                 min-width: 100px;
-            }
-
-            /* Reducir altura del scroll en móvil para mejor uso de pantalla */
-            .scrollable-table-wrapper {
-                max-height: 300px; 
-            }
+        /* Estilo cuando está seleccionado */
+        .option-item-label.selected {
+            border-color: var(--primary);
+            background: #332b14; /* Un tono amarillo muy oscuro */
         }
         
-        /* --- ESTILOS DE GESTIÓN DE COMENTARIOS (ARCHIVAR) (Se mantienen) --- */
-        .complete-row-button {
-            background-color: var(--complete-button-color);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-            border: none;
-            cursor: pointer;
+        .check-mark-icon {
+            width: 24px; height: 24px; border-radius: 50%; border: 2px solid #555;
+            display: flex; align-items: center; justify-content: center; margin-left: 15px;
+            transition: 0.2s;
+        }
+        .option-item-label.selected .check-mark-icon {
+            background: var(--primary); border-color: var(--primary); color: black;
+        }
+
+
+        /* Footer del Modal (Sticky Botón Agregar) */
+        .modal-footer-sticky {
+            padding: 20px;
+            background: var(--bg-card);
+            border-top: 1px solid #333;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+        }
+
+        .main-action-btn {
             width: 100%;
-            margin-bottom: 5px;
-        }
-        
-        .complete-row-button:hover {
-             background-color: #e68a00;
-        }
-
-        .comment-container {
-            padding: 15px;
-            margin-top: 10px;
-            border: 2px solid var(--complete-button-color);
-            border-radius: 8px;
-            background-color: #fff8e1;
-            display: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-        }
-        
-        .comment-counter {
-            background-color: var(--danger-color);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 8px;
-            font-size: 0.8em;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-        
-        .comment-container textarea {
-            min-height: 80px;
-            padding: 10px;
-            border: 1px solid #f9d8a3;
-            border-radius: 5px;
-            font-size: 0.95em;
-        }
-
-        .save-comment-button {
-            background-color: var(--success-color);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 6px;
-            margin-top: 10px;
+            padding: 16px;
             border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 800;
             cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
         }
 
-        /* --- NOTIFICACIÓN DE AUTO-GUARDADO (Se mantiene) --- */
-        #saveNotification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            z-index: 1000;
-            font-size: 0.9em;
+        .btn-add {
+            background: var(--primary); color: black;
+            animation: pulseBtn 2s infinite;
         }
-        
-        #saveNotification.show {
-            opacity: 1;
+        .btn-add:active { transform: scale(0.98); }
+
+        .btn-whatsapp { background: var(--whatsapp); color: white; justify-content: center; gap: 10px; }
+
+
+        /* --- INPUTS --- */
+        textarea, input[type="text"], select {
+            width: 100%; padding: 15px; background: #2a2a2a;
+            border: 2px solid #333; color: white; border-radius: 12px;
+            font-family: 'Open Sans', sans-serif; resize: none; outline: none;
+        }
+        textarea:focus, input:focus, select:focus { border-color: var(--primary); }
+
+        /* --- CARRITO FLOTANTE --- */
+        .float-cart-container {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            z-index: 90; width: 90%; max-width: 450px;
+        }
+        .float-cart-btn {
+            background: var(--primary); color: black;
+            padding: 15px 25px; border-radius: 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-weight: 800; font-size: 1.1rem;
+            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.5);
+            cursor: pointer; transition: 0.3s;
+            animation: slideInUp 0.5s ease backwards, pulseBtn 3s infinite;
+        }
+        .cart-badge {
+            background: black; color: var(--primary);
+            padding: 5px 12px; border-radius: 20px; font-size: 0.9rem; margin-right: 10px;
         }
 
     </style>
 </head>
 <body>
 
-    <div id="main-navbar">
-        <div class="nav-links">
-            <a class="nav-button" href="#designacion-tarea-section"><i class="fas fa-user-tag"></i> Designación</a>
-            <a class="nav-button" href="#tarea-activa-section"><i class="fas fa-clipboard-list"></i> Tarea Activa</a>
-            <a class="nav-button" href="#tareas-pendientes-section"><i class="fas fa-list-alt"></i> Tareas Pendientes</a>
-            <a class="nav-button" href="#historySection"><i class="fas fa-archive"></i> Historial</a>
-            <a class="nav-button" href="#accesos-credenciales-section"><i class="fas fa-key"></i> Accesos</a>
-            <a class="nav-button" href="#buscador-medicamentos-section"><i class="fas fa-prescription-bottle-alt"></i> Buscador</a>
+    <header>
+        <div class="header-content animated fadeInUp">
+            <h1>Gourmet Burger & Grill</h1>
+            <p class="subtitle">La mejor experiencia, directo a tu paladar.</p>
+        </div>
+    </header>
+
+    <div class="categories-container">
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterMenu('all', this)"><i class="fas fa-utensils"></i> Todos</button>
+            <button class="cat-btn" onclick="filterMenu('Hamburguesas', this)"><i class="fas fa-burger"></i> Hamburguesas</button>
+            <button class="cat-btn" onclick="filterMenu('Carnes', this)"><i class="fas fa-drumstick-bite"></i> Carnes & Grill</button>
+            <button class="cat-btn" onclick="filterMenu('Pizzas', this)"><i class="fas fa-pizza-slice"></i> Pizzas</button>
+            <button class="cat-btn" onclick="filterMenu('Bebidas', this)"><i class="fas fa-wine-glass"></i> Bebidas</button>
         </div>
     </div>
 
-    <div class="container">
-        <h1><i class="fas fa-tasks"></i> Gestor de Tareas de Reasignación</h1>
-
-        <div id="saveNotification">
-            <i class="fas fa-save"></i> Datos guardados automáticamente.
-        </div>
-
-        <div class="section" id="designacion-tarea-section">
-             <div class="section-header">
-                <h2><i class="fas fa-user-tag"></i> Designación de Tarea</h2>
-            </div>
-            <div class="section-content">
-                <div class="info-item">
-                    <strong>ACCIÓN:</strong>
-                    <span id="accion" class="copy-target" style="color: var(--danger-color);">Reasignar</span>
-                    <button class="copy-button" onclick="copiarTexto('accion')" style="background-color: var(--danger-color);"><i class="fas fa-copy"></i> Copiar</button>
-                </div>
-                 <div class="info-item">
-                    <strong>NOMBRE DE DESTINO:</strong>
-                    <span id="reasignar" class="copy-target">BRAYAN CORONADO CUELLAR</span>
-                    <button class="copy-button" onclick="copiarTexto('reasignar')"><i class="fas fa-copy"></i> Copiar</button>
-                </div>
-            </div>
+    <div class="menu-grid" id="menu-container">
         </div>
 
 
-        <div class="section" id="tarea-activa-section">
-            <div class="section-header">
-                <h2><i class="fas fa-clipboard-list"></i> Tarea Activa (Datos Principales)</h2>
-            </div>
-             <div class="section-content">
-                <p style="color: var(--secondary-color); font-size: 0.9em;">**NOTA IMPORTANTE:** El **Radicado / ID Actual** se actualiza automáticamente con el **ID Liquidación** de la primera tarea pendiente.</p>
-                
-                <div class="info-item">
-                    <strong>RADICADO / ID ACTUAL:</strong>
-                    <input type="text" id="radicado" class="copy-target editable-input" value="">
-                    <button class="copy-button" onclick="copiarTexto('radicado')"><i class="fas fa-copy"></i> Copiar Radicado</button>
-                </div>
-                <div class="info-item">
-                    <strong>INICIO MOVILIDAD (MV):</strong>
-                    <span id="mv" class="copy-target">Colombia2033*</span>
-                    <button class="copy-button" onclick="copiarTexto('mv')"><i class="fas fa-copy"></i> Copiar Clave MV</button>
-                </div>
-                <div class="info-item">
-                    <strong>CÓDIGO SUMINISTRO:</strong>
-                    <span id="suministro" class="copy-target">91010101</span>
-                    <button class="copy-button" onclick="copiarTexto('suministro')"><i class="fas fa-copy"></i> Copiar Código</button>
-                </div>
-             </div>
-        </div>
-        
-        
-        <div class="section" id="tareas-pendientes-section">
-            <div class="section-header">
-                <h2><i class="fas fa-list-alt"></i> Tareas Pendientes y Gestión</h2>
-                <button onclick="toggleSection('tareas-pendientes-content', this)"><i class="fas fa-angle-up"></i> Ver Menos</button>
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header-img" id="modal-img-bg">
+                 <button class="close-modal-btn" onclick="closeModal('product-modal')"><i class="fas fa-times"></i></button>
             </div>
             
-            <div class="section-content" id="tareas-pendientes-content">
-                <p style="color: var(--secondary-color);">**Instrucción:** Pega el listado de liquidaciones aquí y haz clic en Construir Lista.</p>
-                
-                <textarea id="dataInput" placeholder="Pega aquí los datos de Excel (cada liquidación en una línea nueva)...
-Ejemplo:
-Asignado Liquidacion 242385169 900190045 $ 28.700 $ 0 Nueva EPS 1
-Por Vencer 251789321 811021843 $ 39.500 $ 0 Nueva EPS 1
-Vencido Liquidacion 265954046 811021843 $ 27.000 $ 0 Nueva EPS 5"></textarea>
-                
-                <div class="control-buttons">
-                    <button id="generateButton" onclick="generarTablaPersonalizada()"><i class="fas fa-cogs"></i> Construir Lista de Tareas</button>
-                    <button id="showHistoryButton" class="copy-button" onclick="mostrarHistorial()"><i class="fas fa-history"></i> Ver Historial</button>
+            <div class="modal-body-scroll">
+                <h2 id="modal-title" class="modal-title-main">Nombre Producto</h2>
+                <p id="modal-desc" class="modal-desc-main">Descripción detallada...</p>
+
+                <div class="option-group-container">
+                    <div class="option-group-title"><i class="fas fa-calculator"></i> Cantidad</div>
+                    <div class="qty-selector">
+                        <button class="qty-btn" onclick="changeQty(-1)"><i class="fas fa-minus"></i></button>
+                        <span class="qty-number" id="modal-qty">1</span>
+                        <button class="qty-btn" onclick="changeQty(1)"><i class="fas fa-plus"></i></button>
+                    </div>
                 </div>
 
-                <div id="dynamicTableOutput" class="scrollable-table-wrapper">
-                    <p style="text-align: center; color: var(--secondary-color); padding: 10px; border: 1px dashed #ccc; border-radius: 5px;">*La lista de tareas pendientes aparecerá aquí.*</p>
+                <div id="modal-options-dynamic"></div>
+
+                <div class="option-group-container">
+                    <div class="option-group-title"><i class="fas fa-pen"></i> Notas de Cocina</div>
+                    <textarea id="item-notes" rows="3" placeholder="Ej: Poner la salsa aparte, soy alérgico a..."></textarea>
                 </div>
-                
-                <div id="copyAllIdsContainer" class="info-item" style="display:none; margin-top: 20px; border: none; padding-bottom: 0;">
-                    <span id="generated-ids-copia-manual" class="copy-target" style="display: none;"></span>
-                    <button id="copyAllIdsButton" class="copy-button" onclick="copiarTexto('generated-ids-copia-manual')" style="background-color: var(--success-color); flex-grow: 1;"><i class="fas fa-paste"></i> Copiar TODOS los IDs restantes</button>
-                </div>
+            </div>
+
+            <div class="modal-footer-sticky">
+                <button type="button" class="main-action-btn btn-add" onclick="addToCart()">
+                    <span>AGREGAR AL PEDIDO</span>
+                    <span id="modal-live-total">$0</span>
+                </button>
             </div>
         </div>
-
-        
-        <div class="section" id="historySection">
-            <div class="section-header">
-                <h2><i class="fas fa-archive"></i> Historial de Tareas Completadas</h2>
-                <button onclick="toggleSection('historyContent', this)"><i class="fas fa-angle-down"></i> Ver Más</button>
-            </div>
-            <div class="section-content" id="historyContent" style="display:none;">
-                <div class="history-actions">
-                    <button id="deleteAllHistoryButton" onclick="eliminarHistorialCompleto()"><i class="fas fa-trash-alt"></i> Eliminar Historial Completo</button>
-                    <p style="color: var(--secondary-color);">*El historial se guarda automáticamente en tu navegador.</p>
-                </div>
-                 <div id="historyTableContainer" class="scrollable-table-wrapper">
-                    <p style="color: var(--secondary-color); text-align: center; padding: 10px; border: 1px dashed #ccc; border-radius: 5px;">No hay tareas archivadas.</p>
-                 </div>
-            </div>
-        </div>
-        
-
-        <div class="section" id="accesos-credenciales-section">
-            <div class="section-header">
-                <h2><i class="fas fa-key"></i> Accesos y Credenciales</h2>
-                <button onclick="toggleSection('accesos-credenciales-content', this)"><i class="fas fa-angle-down"></i> Ver Más</button>
-            </div>
-            
-            <div class="section-content" id="accesos-credenciales-content" style="display:none;">
-                
-                <h3><i class="fas fa-user-lock"></i> ONBASE</h3>
-                <div class="info-item">
-                    <strong>URL:</strong>
-                    <a id="onbaseURL" class="copy-target" href="https://ecm.nuevaeps.com.co/OnBase/Login.aspx" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">https://ecm.nuevaeps.com.co/OnBase/Login.aspx</a>
-                    <button class="copy-button" onclick="copiarTexto('onbaseURL')"><i class="fas fa-copy"></i> Copiar</button>
-                </div>
-                <div class="info-item">
-                    <strong>USUARIO:</strong>
-                    <span id="onbaseUser" class="copy-target">mgamas</span>
-                    <button class="copy-button" onclick="copiarTexto('onbaseUser')"><i class="fas fa-copy"></i> Copiar</button>
-                </div>
-                <div class="info-item">
-                    <strong>CLAVE:</strong>
-                    <span id="onbasePass" class="copy-target">Colombia2029*</span>
-                    <button class="copy-button" onclick="copiarTexto('onbasePass')"><i class="fas fa-copy"></i> Copiar</button>
-                </div>
-
-                <br>
-                
-                <h3><i class="fas fa-desktop"></i> AUP</h3>
-                <div class="info-item">
-                    <strong>URL:</strong>
-                    <a id="aupURL" class="copy-target" href="https://aup.procesosyservicios.net.co/Login.aspx" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">https://aup.procesosyservicios.net.co/Login.aspx</a>
-                    <button class="copy-button" onclick="copiarTexto('aupURL')"><i class="fas fa-copy"></i> Copiar URL</button>
-                </div>
-                
-                <br>
-
-                <h3><i class="fas fa-hospital"></i> NUEVA EPS</h3>
-                <div class="info-item">
-                    <strong>USUARIO:</strong>
-                    <span id="nuevaepsUser" class="copy-target">Bcoronadoccmp</span>
-                    <button class="copy-button" onclick="copiarTexto('nuevaepsUser')"><i class="fas fa-copy"></i> Copiar</button>
-                </div>
-                <div class="info-item">
-                    <strong>CLAVE:</strong>
-                    <span id="nuevaepsPass" class="copy-target">Pys2034*</span>
-                    <button class="copy-button" onclick="copiarTexto('nuevaepsPass')"><i class="fas fa-copy"></i> Copiar</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="section search-container" id="buscador-medicamentos-section">
-             <div class="section-header">
-                <h2><i class="fas fa-prescription-bottle-alt"></i> Buscador de Códigos de Medicamentos</h2>
-            </div>
-            <div class="section-content">
-                <p style="color: var(--secondary-color);">Escribe el nombre del medicamento para encontrar su código rápidamente. **Ahora se activa con solo 1 letra.**</p>
-                <input type="text" id="searchInput" placeholder="Ej: AMOXICILINA, LISINOPRIL..." onkeyup="buscarMedicamento()" class="copy-target">
-                <div id="searchResult"></div>
-            </div>
-        </div>
-
     </div>
+
+
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content" style="max-height: 95vh;">
+             <div style="padding: 20px; background: #252525; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="color: var(--primary); margin:0;">Tu Pedido</h2>
+                <button class="close-modal-btn" style="position:static;" onclick="closeModal('checkout-modal')"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="modal-body-scroll" style="background: var(--bg-main);">
+                <div id="cart-items-list"></div>
+                
+                <div class="option-group-container" style="margin-top: 30px;">
+                    <div class="option-group-title"><i class="fas fa-map-marker-alt"></i> Datos de Entrega</div>
+                    <input type="text" id="customer-name" placeholder="Tu Nombre Completo" style="margin-bottom: 15px;">
+                    
+                    <select id="delivery-type" onchange="toggleDeliveryFields()" style="margin-bottom: 15px;">
+                        <option value="mesa">Comer en la Mesa</option>
+                        <option value="llevar">Para Llevar / Domicilio</option>
+                    </select>
+                    
+                    <div id="mesa-field">
+                        <select id="table-number">
+                            <option value="" selected>Selecciona tu N° de Mesa</option>
+                            <option value="1">Mesa 1</option>
+                            <option value="2">Mesa 2</option>
+                            <option value="3">Mesa 3</option>
+                             <option value="4">Mesa 4</option>
+                        </select>
+                    </div>
+                     <div id="address-field" style="display: none;">
+                         <textarea id="customer-address" rows="2" placeholder="Dirección exacta y barrio (Para domicilios)"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer-sticky">
+                <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: 800; margin-bottom: 20px;">
+                    <span>Total Final:</span>
+                    <span id="checkout-total-final" style="color: var(--primary);">$0</span>
+                </div>
+                <button class="main-action-btn btn-whatsapp" onclick="sendOrderToWhatsapp()">
+                    <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i> ENVIAR PEDIDO AHORA
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="float-cart-container" id="float-cart-container" style="display: none;">
+        <div class="float-cart-btn" onclick="openCheckoutModal()">
+            <div><span class="cart-badge" id="cart-count">0</span> Ver mi Pedido</div>
+            <span id="cart-total-float">$0</span>
+        </div>
+    </div>
+
 
     <script>
-        // --- VARIABLES GLOBALES Y ALMACENAMIENTO ---
-        let listaDeTareas = [];
-        let listaDeHistorial = [];
+        // ================= CONFIGURACIÓN Y DATOS =================
+        const PHONE_NUMBER = "573008556516"; // Tu número de WhatsApp
 
-        // Colores y utilidades
-        const var_success_color = getComputedStyle(document.documentElement).getPropertyValue('--success-color').trim();
-        const var_primary_color = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
-        const var_danger_color = getComputedStyle(document.documentElement).getPropertyValue('--danger-color').trim();
-        const var_history_color = getComputedStyle(document.documentElement).getPropertyValue('--history-color').trim();
-        const var_complete_button_color = getComputedStyle(document.documentElement).getPropertyValue('--complete-button-color').trim();
-        const var_toggle_color = getComputedStyle(document.documentElement).getPropertyValue('--toggle-color').trim();
-
-        // ----------------------------------------------------
-        // --- GESTIÓN DE LOCALSTORAGE (AUTO-GUARDADO) ---
-        // ----------------------------------------------------
-
-        function guardarDatos() {
-            try {
-                localStorage.setItem('reasignacion_tareas', JSON.stringify(listaDeTareas));
-                localStorage.setItem('reasignacion_historial', JSON.stringify(listaDeHistorial));
-                mostrarNotificacionGuardado();
-            } catch (e) {
-                console.error("Error al guardar en LocalStorage:", e);
-            }
-        }
-
-        function cargarDatos() {
-            try {
-                const tareasGuardadas = localStorage.getItem('reasignacion_tareas');
-                const historialGuardado = localStorage.getItem('reasignacion_historial');
-
-                if (tareasGuardadas) {
-                    listaDeTareas = JSON.parse(tareasGuardadas);
-                    actualizarTextareaConLista();
-                }
-                if (historialGuardado) {
-                    listaDeHistorial = JSON.parse(historialGuardado);
-                    renderizarHistorial(); 
-                }
-            } catch (e) {
-                console.error("Error al cargar datos de LocalStorage:", e);
-            }
-        }
-
-        function mostrarNotificacionGuardado() {
-            const notif = document.getElementById('saveNotification');
-            notif.classList.add('show');
-            setTimeout(() => {
-                notif.classList.remove('show');
-            }, 2000);
-        }
-
-        // ----------------------------------------------------
-        // --- Funciones de Copia y Notificación ---
-        // ----------------------------------------------------
-
-        function copiarTexto(elementId) {
-             const targetElement = document.getElementById(elementId);
-             let textToCopy;
-             if (targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA') {
-                 textToCopy = targetElement.value;
-             } else {
-                 textToCopy = targetElement.textContent || targetElement.innerText;
-             }
-             copiarYNotificar(targetElement, textToCopy);
-        }
-        function copiarTextoTabla(cellElement) {
-             const textToCopy = cellElement.textContent || cellElement.innerText;
-             copiarYNotificar(cellElement, textToCopy, true);
-        }
-        
-        // Versión especial para copiar el código o comentario del historial
-        function copiarHistorialDato(index, dataType) {
-            const tarea = listaDeHistorial[index];
-            let textToCopy;
-            let targetElementId;
-            
-            if (dataType === 'codSuministro') {
-                textToCopy = tarea.codSuministro;
-                targetElementId = `copy-suministro-btn-${index}`;
-            } else if (dataType === 'comentario') {
-                textToCopy = tarea.comentario;
-                targetElementId = `copy-comment-btn-${index}`;
-            } else {
-                return;
-            }
-            
-            const targetElement = document.getElementById(targetElementId);
-            copiarYNotificar(targetElement, textToCopy);
-        }
-
-
-        function copiarYNotificar(targetElement, textToCopy, isTableCell = false) {
-             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => {
-                        mostrarNotificacion(targetElement, '✅ Copiado!', isTableCell);
-                    })
-                    .catch(err => {
-                        copiarTextoFallback(targetElement, textToCopy, isTableCell);
-                    });
-            } else {
-                copiarTextoFallback(targetElement, textToCopy, isTableCell);
-            }
-        }
-        
-        function copiarTextoFallback(targetElement, textToCopy, isTableCell) {
-             const textArea = document.createElement("textarea");
-             textArea.value = textToCopy;
-             textArea.style.position = "fixed"; 
-             textArea.style.opacity = "0"; 
-             document.body.appendChild(textArea);
-             textArea.focus();
-             textArea.select();
-             try {
-                 document.execCommand('copy');
-                 mostrarNotificacion(targetElement, '✅ Copiado!', isTableCell);
-             } catch (err) {
-                 alert('Error al copiar. Por favor, copie manualmente: ' + textToCopy);
-             }
-             document.body.removeChild(textArea);
-        }
-
-        function mostrarNotificacion(targetElement, message, isTableCell) {
-            let button = targetElement;
-            let originalText = button.textContent;
-            let restoreColor = var_primary_color; // Default restore color
-
-            // Determine the actual button element and its restore color
-            if (isTableCell) {
-                // If it's a table cell, we just use the cell itself and change its style temporarily
-                restoreColor = '#e6f7ff';
-                originalText = targetElement.textContent;
-                button.textContent = message;
-                button.style.backgroundColor = var_success_color;
-                button.style.color = 'white'; 
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.backgroundColor = restoreColor;
-                    button.style.color = var_primary_color; 
-                }, 1500);
-                return;
-            }
-            
-            // Handle specific buttons (Historial, Copia Masiva, Main Copy Buttons)
-            if (button.classList.contains('copy-history-button')) {
-                 restoreColor = '#3f51b5';
-            } else if (button.classList.contains('edit-comment-button')) {
-                 restoreColor = var_history_color;
-            } else if (button.id === 'copyAllIdsButton') {
-                 restoreColor = var_success_color;
-            } else if (targetElement.id === 'accion') {
-                 button = targetElement.nextElementSibling;
-                 restoreColor = var_danger_color;
-                 originalText = button.textContent;
-            } else {
-                 // Check if the targetElement is a copy-target without being a table cell
-                 button = targetElement.closest('.info-item').querySelector('.copy-button');
-                 originalText = button.textContent;
-                 // Set restoreColor for main buttons if needed
-                 if (targetElement.id === 'accion') {
-                     restoreColor = var_danger_color;
-                 } else if (targetElement.id.startsWith('codigo-med-result')) {
-                     restoreColor = var_danger_color;
-                 } else {
-                     restoreColor = var_primary_color;
-                 }
-            }
-
-
-            button.textContent = message;
-            button.style.backgroundColor = var_success_color;
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.backgroundColor = restoreColor;
-            }, 1500);
-        }
-
-
-        // ----------------------------------------------------
-        // --- Generador de Tabla y Gestión de Tareas ---
-        // ----------------------------------------------------
-
-        function generarTablaPersonalizada() {
-            const inputElement = document.getElementById('dataInput');
-            const rawText = inputElement.value.trim();
-            listaDeTareas = [];
-
-            if (!rawText) {
-                renderizarTabla();
-                return;
-            }
-
-            const lines = rawText.split('\n').filter(line => line.trim() !== '');
-            
-            lines.forEach(line => {
-                const lineCleaned = line.trim();
-                
-                // 1. Reemplazar patrón '$ X.XXX $ Y' o '$ X.X $' por un token temporal 'VALOR_TOK_X_Y'
-                // Esto maneja la doble columna de Valor y Ahorro, que tienen un formato complejo.
-                const regexValue = /\$\s*([\d\.\,]+)\s*\$\s*([\d\.\,]+)/;
-                let processedLine = lineCleaned.replace(regexValue, (match, p1, p2) => `VALOR_TOK_${p1}_${p2}`);
-                
-                // 2. Dividir por cualquier espacio (uno o más), ahora solo quedan las columnas limpias
-                const cells = processedLine.split(/\s{1,}/).filter(c => c.length > 0);
-                
-                if (cells.length >= 6) { 
-                    
-                    let valor = '';
-                    let ahorro = '';
-
-                    const valorTokenIndex = cells.findIndex(c => c.startsWith('VALOR_TOK_'));
-                    if (valorTokenIndex !== -1) {
-                        const token = cells[valorTokenIndex];
-                        const parts = token.split('_'); 
-                        valor = `$ ${parts[2]}`;
-                        ahorro = `$ ${parts[3]}`;
-                        
-                        // Eliminar el token de la lista de celdas
-                        cells.splice(valorTokenIndex, 1); 
+        // Base de datos de productos "Súper Detallada"
+        const products = [
+            {
+                id: 101,
+                name: "La 'Boss' Burger Doble",
+                price: 32000,
+                category: "Hamburguesas",
+                desc: "Doble carne angus (300g), doble queso cheddar fundido, tocineta crujiente, cebolla caramelizada y nuestra salsa secreta en pan brioche artesanal.",
+                img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                // Estructura de opciones más compleja
+                optionGroups: [
+                    {
+                        title: "Personaliza tu Burger (Sin costo)",
+                        type: "checkbox", // Selección múltiple
+                        options: [
+                            { name: "Sin Cebolla Caramelizada", price: 0 },
+                            { name: "Sin Tocineta", price: 0 },
+                            { name: "Sin Salsa Secreta", price: 0 }
+                        ]
+                    },
+                    {
+                        title: "¿Adiciones Premium?",
+                        type: "checkbox",
+                        options: [
+                            { name: "Extra Queso Cheddar", price: 4000 },
+                            { name: "Extra Tocineta", price: 5000 },
+                            { name: "Huevo Frito", price: 3000 },
+                             { name: "Pepinillos Importados", price: 2500 }
+                        ]
+                    },
+                    {
+                        title: "Elige tu Bebida Acompañante",
+                        type: "radio", // Selección única
+                        options: [
+                             { name: "Sin Bebida", price: 0 },
+                            { name: "Coca-Cola Original", price: 5000 },
+                            { name: "Coca-Cola Zero", price: 5000 },
+                            { name: "Agua Manantial", price: 4000 },
+                            { name: "Cerveza Nacional", price: 8000 }
+                        ]
                     }
-                    
-                    // Ahora las celdas se indexan correctamente:
-                    // 0: Estatus, 1: Tipo, 2: ID, 3: Cód.Suministro, 4: EPS, 5: Num
-                    listaDeTareas.push({
-                        estatus: cells[0],
-                        tipo: cells[1],
-                        id: cells[2], // ID Liquidación (Ahora es el Radicado Principal)
-                        codSuministro: cells[3], 
-                        valor: valor, 
-                        ahorro: ahorro, 
-                        eps: cells[4],
-                        num: cells[5]
-                    });
-                } else {
-                    console.warn("Línea omitida por formato incorrecto:", lineCleaned);
-                }
-            });
+                ]
+            },
+            {
+                id: 201,
+                name: "Ribeye Steak Importado (400g)",
+                price: 65000,
+                category: "Carnes",
+                desc: "Corte premium importado, jugoso y con marmoleo perfecto. A la parrilla.",
+                img: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                optionGroups: [
+                    {
+                        title: "Término de la Carne (Obligatorio)",
+                        type: "radio",
+                        options: [
+                            { name: "Término Azul (Muy Rojo)", price: 0 },
+                            { name: "Término Medio (Jugoso)", price: 0 },
+                            { name: "Tres Cuartos (Punto)", price: 0 },
+                            { name: "Bien Asado", price: 0 }
+                        ]
+                    },
+                    {
+                        title: "Elige 2 Acompañamientos",
+                        type: "checkbox", // Deberíamos validar que solo elija 2, pero por simplicidad lo dejamos abierto
+                        options: [
+                            { name: "Papas a la Francesa", price: 0 },
+                            { name: "Ensalada Fresca", price: 0 },
+                            { name: "Puré de Papa Trufado (+ $5.000)", price: 5000 },
+                            { name: "Vegetales Salteados", price: 0 }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 301,
+                name: "Pizza Margarita Gourmet",
+                price: 28000,
+                category: "Pizzas",
+                desc: "Masa madre de 48h, salsa pomodoro San Marzano, mozzarella di bufala y albahaca fresca.",
+                img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                 optionGroups: [
+                    {
+                        title: "Borde de la Pizza",
+                        type: "radio",
+                        options: [
+                            { name: "Borde Tradicional Crocante", price: 0 },
+                            { name: "Borde Relleno de Queso", price: 6000 },
+                             { name: "Borde Relleno de Bocadillo", price: 5500 }
+                        ]
+                    }
+                ]
+            }
+            // ... Puedes agregar muchísimos más productos siguiendo esta estructura
+        ];
 
-            renderizarTabla();
-            guardarDatos(); 
-        }
+        // Estado Global
+        let cart = [];
+        let currentProductData = null;
+        let currentModalQty = 1;
 
-        function renderizarTabla() {
-            const outputWrapper = document.getElementById('dynamicTableOutput');
-            const radicadoInput = document.getElementById('radicado');
-            const copyAllIdsContainer = document.getElementById('copyAllIdsContainer');
-            const copyAllIdsSpan = document.getElementById('generated-ids-copia-manual');
-            
-            outputWrapper.innerHTML = '';
-            copyAllIdsContainer.style.display = 'none';
-            radicadoInput.value = ''; 
+        // ================= FUNCIONES CORE =================
 
-            if (listaDeTareas.length === 0) {
-                outputWrapper.innerHTML = '<p style="text-align: center; color: var(--secondary-color); padding: 10px; border: 1px dashed #ccc; border-radius: 5px;"><i class="fas fa-check-circle"></i> Todas las tareas han sido completadas o no hay datos cargados.</p>';
-                return;
+        // 1. Renderizar el Menú en el Grid
+        function renderMenu(filter = 'all', btnElement) {
+            // Actualizar botones de categoría
+            if(btnElement) {
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
             }
 
-            if (listaDeTareas.length > 0) {
-                // *** AJUSTE SOLICITADO ***
-                // Configurar el Radicado / ID Actual con el ID Liquidación de la primera tarea
-                radicadoInput.value = listaDeTareas[0].id; 
-            }
+            const container = document.getElementById('menu-container');
+            container.innerHTML = ''; // Limpiar
 
-            let tableHTML = `
-                <div class="excel-table-container">
-                    <table class="excel-table">
-                        <thead>
-                            <tr>
-                                <th>Estatus</th>
-                                <th>Tipo</th>
-                                <th>ID Liquidación</th>
-                                <th>Cód. Suministro</th>
-                                <th>Valor</th>
-                                <th>Ahorro</th>
-                                <th>EPS</th>
-                                <th>Num</th>
-                                <th style="min-width: 150px;">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-            
-            let allIds = [];
-            
-            listaDeTareas.forEach((tarea, index) => {
-                allIds.push(tarea.id); 
+            const filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
+
+            filteredProducts.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.onclick = () => openProductModal(p.id); // Al click, abrir modal detallado
                 
-                tableHTML += `
-                    <tr id="tarea-row-${index}">
-                        <td>${tarea.estatus}</td>
-                        <td>${tarea.tipo}</td>
-                        <td class="cell-copy" onclick="copiarTextoTabla(this)">${tarea.id}</td>
-                        <td class="cell-copy" onclick="copiarTextoTabla(this)">${tarea.codSuministro}</td>
-                        <td>${tarea.valor}</td>
-                        <td>${tarea.ahorro}</td>
-                        <td>${tarea.eps}</td>
-                        <td>${tarea.num}</td>
-                        <td style="text-align: center;">
-                            <button class="complete-row-button" onclick="mostrarComentario(${index})"><i class="fas fa-archive"></i> Archivar Tarea</button>
-                            <div id="comment-box-${index}" class="comment-container">
-                                <span class="comment-counter">Tareas: 1</span>
-                                <textarea id="comment-text-${index}" placeholder="Escribe tu comentario..."></textarea>
-                                <button class="save-comment-button" onclick="marcarCompletado(${index})"><i class="fas fa-save"></i> Guardar Comentario</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            tableHTML += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            outputWrapper.innerHTML = tableHTML;
-            
-            copyAllIdsSpan.textContent = allIds.join(', ');
-            copyAllIdsContainer.style.display = 'flex';
-        }
-
-        function mostrarComentario(index) {
-            const commentBox = document.getElementById(`comment-box-${index}`);
-            document.querySelectorAll('.comment-container').forEach(box => {
-                if (box.id !== `comment-box-${index}`) {
-                    box.style.display = 'none';
-                }
-            });
-            commentBox.style.display = commentBox.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // ----------------------------------------------------
-        // --- FUNCIÓN CRÍTICA DE ARCHIVADO ---
-        // ----------------------------------------------------
-
-        function marcarCompletado(index) {
-            
-            if (index !== 0) {
-                 alert("¡Atención! Solo se puede archivar la primera tarea de la lista.");
-                 return;
-            }
-
-            const tareaCompletada = listaDeTareas[index];
-
-            if (!tareaCompletada) {
-                alert("Error crítico: No se encontró la tarea en el índice especificado. Intente recargar.");
-                return;
-            }
-            
-            try {
-                const commentTextElement = document.getElementById(`comment-text-${index}`);
-                const commentText = commentTextElement ? commentTextElement.value.trim() : 'Sin comentario';
-                
-                tareaCompletada.comentario = commentText;
-                tareaCompletada.fecha = new Date().toLocaleString('es-CO'); // Formato de fecha y hora
-                
-                tareaCompletada.historialIndex = listaDeHistorial.length; 
-                listaDeHistorial.push(tareaCompletada);
-                
-                const rowToRemove = document.getElementById(`tarea-row-${index}`);
-                if (rowToRemove) {
-                    rowToRemove.style.transition = 'all 0.4s ease-in-out';
-                    rowToRemove.style.opacity = '0';
-                }
-
-                listaDeTareas.splice(0, 1); 
-                
-                actualizarTextareaConLista();
-                
-                setTimeout(() => {
-                    renderizarTabla(); 
-                    renderizarHistorial(); 
-                    guardarDatos(); 
-
-                    const nuevoRadicado = listaDeTareas.length > 0 ? listaDeTareas[0].id : 'N/A';
-                    alert(`Tarea ${tareaCompletada.id} archivada con éxito.
-                    El siguiente ID Liquidación (${nuevoRadicado}) se ha cargado automáticamente en el Radicado Actual.`);
-                }, 400); 
-
-            } catch (e) {
-                alert("¡ERROR CRÍTICO! Fallo durante el proceso de archivado. Mensaje de Error: " + e.message);
-                console.error("Fallo durante el proceso de archivado:", e);
-            }
-        }
-        // ----------------------------------------------------
-
-
-        function actualizarTextareaConLista() {
-            const inputElement = document.getElementById('dataInput');
-            let newText = '';
-            
-            listaDeTareas.forEach(tarea => {
-                // Reconstruye la línea para el textarea en el formato original
-                newText += `${tarea.estatus} ${tarea.tipo} ${tarea.id} ${tarea.codSuministro} ${tarea.valor} ${tarea.ahorro} ${tarea.eps} ${tarea.num}\n`;
-            });
-            
-            inputElement.value = newText.trim();
-        }
-        
-        // ----------------------------------------------------
-        // --- Gestión de Historial (Archivado) ---
-        // ----------------------------------------------------
-        
-        function renderizarHistorial() {
-            const historyOutput = document.getElementById('historyTableContainer');
-            
-            if (listaDeHistorial.length === 0) {
-                 historyOutput.innerHTML = '<p style="color: var(--secondary-color); text-align: center; padding: 10px; border: 1px dashed #ccc; border-radius: 5px;"><i class="fas fa-info-circle"></i> El historial está vacío.</p>';
-                 return;
-            }
-
-            let tableHTML = `
-                <div class="excel-table-container">
-                    <table class="excel-table history-table">
-                        <thead>
-                            <tr>
-                                <th><i class="fas fa-calendar-alt"></i> Fecha/Hora</th>
-                                <th>ID Liquidación</th>
-                                <th>EPS</th>
-                                <th>Valor</th>
-                                <th>Cód. Suministro</th>
-                                <th style="min-width: 250px;"><i class="fas fa-comment"></i> Comentario</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-            
-            listaDeHistorial.slice().reverse().forEach((tarea, indexReversed) => { 
-                const originalIndex = listaDeHistorial.length - 1 - indexReversed;
-
-                tableHTML += `
-                    <tr>
-                        <td>${tarea.fecha}</td>
-                        <td class="cell-copy" onclick="copiarTextoTabla(this)">${tarea.id}</td>
-                        <td>${tarea.eps}</td>
-                        <td>${tarea.valor}</td>
-                        <td id="cod-suministro-display-${originalIndex}" class="cell-copy">${tarea.codSuministro}</td>
-                        <td id="comment-display-${originalIndex}" style="white-space: normal;">${tarea.comentario}</td>
-                        <td class="action-cell">
-                            <button id="copy-suministro-btn-${originalIndex}" class="copy-history-button" onclick="copiarHistorialDato(${originalIndex}, 'codSuministro')"><i class="fas fa-copy"></i> Cód. Suministro</button>
-                            <button id="copy-comment-btn-${originalIndex}" class="copy-history-button" onclick="copiarHistorialDato(${originalIndex}, 'comentario')"><i class="fas fa-copy"></i> Comentario</button>
-                            <button class="edit-comment-button" style="background-color: ${var_history_color};" onclick="iniciarEdicionComentario(${originalIndex}, this)"><i class="fas fa-edit"></i> Editar</button>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            tableHTML += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            historyOutput.innerHTML = tableHTML;
-        }
-
-        function mostrarHistorial() {
-            // El contenido del historial está dentro del div .scrollable-table-wrapper que está dentro del div #historyContent
-            const content = document.getElementById('historyContent');
-            const headerButton = document.getElementById('historySection').querySelector('.section-header button');
-
-            if (content.style.display === 'none' || content.style.display === '') {
-                content.style.display = 'block';
-                headerButton.innerHTML = '<i class="fas fa-angle-up"></i> Ver Menos';
-                renderizarHistorial(); 
-            } else {
-                content.style.display = 'none';
-                headerButton.innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
-            }
-        }
-
-
-        function eliminarHistorialCompleto() {
-            if (confirm("¿Estás seguro de que quieres ELIMINAR TODO el historial de tareas completadas? Esta acción es irreversible.")) {
-                listaDeHistorial = [];
-                renderizarHistorial();
-                guardarDatos();
-                alert("Historial eliminado con éxito.");
-            }
-        }
-        
-        function iniciarEdicionComentario(index, buttonElement) {
-            const commentCell = document.getElementById(`comment-display-${index}`);
-            const tarea = listaDeHistorial[index];
-            const originalComment = tarea.comentario;
-            
-            commentCell.innerHTML = `
-                <textarea id="edit-text-${index}" style="width: 100%; height: 60px; margin-bottom: 5px; box-sizing: border-box;">${originalComment}</textarea>
-                <button class="save-comment-button" onclick="guardarComentarioEditado(${index})"><i class="fas fa-save"></i> Guardar</button>
-                <button class="copy-button" style="background-color: #f0ad4e; margin-left: 5px;" onclick="cancelarEdicionComentario(${index}, \`${originalComment.replace(/`/g, '\\`')}\`)"><i class="fas fa-times"></i> Cancelar</button>
-            `;
-            
-            const actionCell = buttonElement.closest('td');
-            actionCell.style.display = 'none'; 
-        }
-
-        function guardarComentarioEditado(index) {
-            const newComment = document.getElementById(`edit-text-${index}`).value.trim();
-            
-            listaDeHistorial[index].comentario = newComment;
-            
-            const actionCell = document.getElementById(`comment-display-${index}`).closest('tr').querySelector('.action-cell');
-            if (actionCell) {
-                 actionCell.style.display = 'flex';
-            }
-
-            renderizarHistorial();
-            guardarDatos();
-        }
-
-        function cancelarEdicionComentario(index, originalComment) {
-            const commentCell = document.getElementById(`comment-display-${index}`);
-            commentCell.innerHTML = originalComment;
-            
-            const actionCell = commentCell.closest('tr').querySelector('.action-cell');
-            if (actionCell) {
-                actionCell.style.display = 'flex';
-            }
-            
-            renderizarHistorial();
-        }
-        
-        // ----------------------------------------------------
-        // --- Utilidades de Interfaz ---
-        // ----------------------------------------------------
-
-        function toggleSection(contentId, buttonElement) {
-            const content = document.getElementById(contentId);
-            
-            if (content.style.display === 'none' || content.style.display === '') {
-                content.style.display = 'block';
-                buttonElement.innerHTML = '<i class="fas fa-angle-up"></i> Ver Menos';
-            } else {
-                content.style.display = 'none';
-                buttonElement.innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
-            }
-        }
-
-
-        // --- Base de Datos de Medicamentos y Buscador ---
-        const medicamentos = { 
-            "AMLODIPINO TABLETAS 5MG": "MD000150",
-            "ACIDO ACETILSALICILICO 100 MG": "MD004978",
-            "LOSARTAN TABLETA 50MG": "MD000161",
-            "HIDROCLOROTIAZIDA TABLETA 25 MG": "MD000134",
-            "METOPROLOL TABLETA 50 MG": "MD000145",
-            "ATORVASTATINA TABLETA 40MG": "MD001258",
-            "PRAZOSIN TABLETA 1 MG": "MD000132",
-            "METFORMINA TABLETA 850 MG": "MD000032",
-            "NAPROXENO TABLETA 250 MG": "MD000402",
-            "PROPRANOLOL TABLETA 40 MG": "MD000148",
-            "IBUPROFENO TABLETA 400 MG": "MD000300",
-            "OMEPRAZOL CAPSULA 20 MG": "MD000200",
-            "CLOPIDOGREL TABLETA 75 MG": "MD000555",
-            "SIMVASTATINA TABLETA 20 MG": "MD000188"
-        };
-        
-        function buscarMedicamento() {
-            const input = document.getElementById('searchInput');
-            const filter = input.value.toUpperCase().trim();
-            const resultDiv = document.getElementById('searchResult');
-            resultDiv.innerHTML = ''; 
-            
-            if (filter.length < 1) { 
-                resultDiv.innerHTML = '<span style="color: var(--secondary-color);">Escriba al menos 1 letra para iniciar la búsqueda.</span>';
-                return;
-            }
-
-            let found = false;
-            let resultsHTML = '';
-            
-            for (const nombre in medicamentos) {
-                if (nombre.toUpperCase().includes(filter)) {
-                    const codigo = medicamentos[nombre];
-                    const codigoId = `codigo-med-result-${codigo}`; 
-                    
-                    resultsHTML += `
-                        <div class="info-item" style="border-bottom: none;">
-                            <strong style="color: #000; min-width: auto; flex-basis: 50%;">${nombre}</strong>
-                            <span id="${codigoId}" class="copy-target" style="flex-grow: 0; background-color: #ffe0e0;">${codigo}</span>
-                            <button class="copy-button" onclick="copiarTexto('${codigoId}')" style="background-color: var(--danger-color);"><i class="fas fa-copy"></i> Copiar Código</button>
+                card.innerHTML = `
+                    <div class="product-img-container">
+                        <img src="${p.img}" class="product-img" alt="${p.name}">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">${p.name}</div>
+                        <div class="product-desc">${p.desc}</div>
+                        <div class="product-footer">
+                            <div class="product-price">$${p.price.toLocaleString('es-CO')}</div>
+                            <div class="add-btn-floating"><i class="fas fa-plus"></i></div>
                         </div>
-                    `;
-                    found = true;
-                }
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ================= LÓGICA DEL MODAL DE PRODUCTO (La parte compleja) =================
+
+        function openProductModal(productId) {
+            currentProductData = products.find(p => p.id === productId);
+            currentModalQty = 1; // Reiniciar cantidad
+
+            // Llenar datos básicos
+            document.getElementById('modal-img-bg').style.backgroundImage = `url('${currentProductData.img}')`;
+            document.getElementById('modal-title').innerText = currentProductData.name;
+            document.getElementById('modal-desc').innerText = currentProductData.desc;
+            document.getElementById('item-notes').value = '';
+            document.getElementById('modal-qty').innerText = currentModalQty;
+
+            // Generar Opciones Dinámicas
+            const optionsContainer = document.getElementById('modal-options-dynamic');
+            optionsContainer.innerHTML = ''; // Limpiar anterior
+
+            if(currentProductData.optionGroups) {
+                currentProductData.optionGroups.forEach((group, gIndex) => {
+                    let groupHTML = `<div class="option-group-container">
+                        <div class="option-group-title">${group.title}</div>`;
+                    
+                    group.options.forEach((opt, oIndex) => {
+                        const inputType = group.type === 'checkbox' ? 'checkbox' : 'radio';
+                        const inputName = `group-${gIndex}`; // Para radios, deben tener el mismo nombre por grupo
+                        const uniqueId = `opt-${gIndex}-${oIndex}`;
+                        const priceText = opt.price > 0 ? `(+$${opt.price.toLocaleString()})` : '';
+
+                        // Aquí usamos etiquetas interactivas para que se vea bonito al seleccionar
+                        groupHTML += `
+                            <label class="option-item-label" for="${uniqueId}" onclick="handleOptionClick(this)">
+                                <div>
+                                    <span style="font-weight:600">${opt.name}</span>
+                                    <span style="color: var(--primary); font-size: 0.9rem;">${priceText}</span>
+                                </div>
+                                <input type="${inputType}" id="${uniqueId}" name="${inputName}" 
+                                       data-name="${opt.name}" data-price="${opt.price}" 
+                                       onchange="calculateModalTotal()">
+                                <div class="check-mark-icon"><i class="fas fa-check"></i></div>
+                            </label>
+                        `;
+                    });
+                    groupHTML += `</div>`;
+                    optionsContainer.innerHTML += groupHTML;
+                });
             }
 
-            if (found) {
-                 resultDiv.innerHTML = resultsHTML;
+            // Calcular precio inicial y mostrar modal
+            calculateModalTotal();
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+
+        // Manejar la UI de selección (hacer que se ilumine el borde)
+        function handleOptionClick(labelElement) {
+            const input = labelElement.querySelector('input');
+            if(input.type === 'radio') {
+                // Si es radio, deseleccionar los otros del mismo grupo visualmente
+                const groupName = input.name;
+                document.querySelectorAll(`input[name="${groupName}"]`).forEach(radio => {
+                    radio.closest('.option-item-label').classList.remove('selected');
+                });
+                labelElement.classList.add('selected');
             } else {
-                resultDiv.innerHTML = '<span style="color: var(--secondary-color);">❌ No se encontró el medicamento.</span>';
+                 // Si es checkbox, alternar
+                labelElement.classList.toggle('selected');
+                 // Sincronizar el input oculto si el click no fue directo al input
+                 /* Nota: el comportamiento nativo del label ya maneja el input, 
+                    pero el estilo visual necesita ayuda */
+                 setTimeout(() => {
+                      if(input.checked) labelElement.classList.add('selected');
+                      else labelElement.classList.remove('selected');
+                     calculateModalTotal();
+                 }, 50);
+            }
+             // Forzar recálculo por si acaso
+             setTimeout(calculateModalTotal, 100);
+        }
+
+
+        // Cambiar Cantidad en el Modal (+ / -)
+        function changeQty(change) {
+            currentModalQty += change;
+            if(currentModalQty < 1) currentModalQty = 1;
+            document.getElementById('modal-qty').innerText = currentModalQty;
+            calculateModalTotal();
+        }
+
+        // CÁLCULO EN VIVO DEL PRECIO TOTAL EN EL MODAL
+        function calculateModalTotal() {
+            let total = currentProductData.price;
+            
+            // Buscar todos los inputs seleccionados dentro del modal
+            const checkedInputs = document.querySelectorAll('#modal-options-dynamic input:checked');
+            checkedInputs.forEach(input => {
+                total += parseFloat(input.dataset.price);
+            });
+
+            // Multiplicar por cantidad
+            total *= currentModalQty;
+
+            // Actualizar el botón
+            document.getElementById('modal-live-total').innerText = `$${total.toLocaleString('es-CO')}`;
+            return total; // Devolvemos el valor para usarlo al agregar al carrito
+        }
+
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+
+        // ================= LÓGICA DEL CARRITO =================
+
+        function addToCart() {
+            const finalPriceSingle = calculateModalTotal() / currentModalQty; // Precio unitario con extras
+            const notes = document.getElementById('item-notes').value;
+            let selectedOptionsList = [];
+
+            // Recopilar nombres de opciones seleccionadas
+            document.querySelectorAll('#modal-options-dynamic input:checked').forEach(input => {
+                selectedOptionsList.push(input.dataset.name);
+            });
+
+            // Crear objeto del item
+            const cartItem = {
+                product: currentProductData,
+                qty: currentModalQty,
+                options: selectedOptionsList,
+                notes: notes,
+                unitPrice: finalPriceSingle,
+                totalPrice: finalPriceSingle * currentModalQty,
+                cartId: Date.now() // ID único
+            };
+
+            cart.push(cartItem);
+            updateCartUI();
+            closeModal('product-modal');
+            
+            // Feedback visual (vibración si es móvil)
+             if (navigator.vibrate) navigator.vibrate(50);
+        }
+
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+
+            document.getElementById('cart-count').innerText = totalItems;
+            document.getElementById('cart-total-float').innerText = `$${totalPrice.toLocaleString('es-CO')}`;
+            document.getElementById('checkout-total-final').innerText = `$${totalPrice.toLocaleString('es-CO')}`;
+
+            // Mostrar/Ocultar botón flotante
+            const floatContainer = document.getElementById('float-cart-container');
+            if(totalItems > 0) {
+                floatContainer.style.display = 'block';
+            } else {
+                floatContainer.style.display = 'none';
+                closeModal('checkout-modal'); // Cerrar checkout si se vacía
             }
         }
 
-        // --- Inicialización al cargar la página ---
-        window.onload = function() {
-            cargarDatos();
+
+        // ================= CHECKOUT Y WHATSAPP =================
+
+        function openCheckoutModal() {
+            const listContainer = document.getElementById('cart-items-list');
+            listContainer.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                listContainer.innerHTML += `
+                    <div style="background: #2a2a2a; padding: 15px; border-radius: 15px; margin-bottom: 15px; position: relative;">
+                        <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem;">
+                            <span><span style="color:var(--primary);">${item.qty}x</span> ${item.product.name}</span>
+                            <span>$${item.totalPrice.toLocaleString()}</span>
+                        </div>
+                        
+                        ${item.options.length > 0 ? `
+                        <div style="margin-top: 8px; font-size: 0.9rem; color: #ccc;">
+                            <i class="fas fa-check-circle" style="color:var(--primary); font-size:0.8rem;"></i> ${item.options.join(', ')}
+                        </div>` : ''}
+
+                        ${item.notes ? `
+                        <div style="margin-top: 8px; font-size: 0.9rem; color: var(--text-gray); font-style: italic;">
+                             Nota: "${item.notes}"
+                        </div>` : ''}
+                        
+                        <button onclick="removeFromCart(${index})" style="position: absolute; bottom: 10px; right: 10px; background: #ff444433; color: #ff4444; border: none; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 0.8rem;">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                `;
+            });
             
-            if (listaDeTareas.length === 0) {
-                 document.getElementById('radicado').value = '';
+            toggleDeliveryFields(); // Asegurar campos correctos
+            document.getElementById('checkout-modal').classList.add('active');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+            openCheckoutModal(); // Refrescar lista
+        }
+
+        function toggleDeliveryFields() {
+            const type = document.getElementById('delivery-type').value;
+            document.getElementById('mesa-field').style.display = type === 'mesa' ? 'block' : 'none';
+            document.getElementById('address-field').style.display = type === 'llevar' ? 'block' : 'none';
+        }
+
+
+        function sendOrderToWhatsapp() {
+            const name = document.getElementById('customer-name').value.trim();
+            if(!name) { alert("Por favor, escribe tu nombre."); return; }
+
+            const deliveryType = document.getElementById('delivery-type').value;
+            let deliveryInfo = "";
+
+            if(deliveryType === 'mesa') {
+                const tableBtn = document.getElementById('table-number');
+                if(!tableBtn.value) { alert("Selecciona tu número de mesa."); return; }
+                deliveryInfo = `📍 *PARA LA MESA ${tableBtn.value}*`;
             } else {
-                 renderizarTabla();
+                const address = document.getElementById('customer-address').value.trim();
+                if(!address) { alert("Por favor escribe la dirección de entrega."); return; }
+                 deliveryInfo = `🛵 *PARA LLEVAR/DOMICILIO*%0A🏠 Dirección: ${address}`;
             }
 
-            // Asegurar que las secciones estén en su estado inicial (colapsado)
-            document.getElementById('historyContent').style.display = 'none';
-            document.getElementById('accesos-credenciales-content').style.display = 'none';
+            // --- Construcción del Mensaje ---
+            let msg = `👋 Hola, soy *${name}*. Quiero hacer el siguiente pedido:%0A%0A`;
+            msg += `========================%0A`;
             
-            // Establecer el texto de los botones de Ver Más/Menos
-            document.getElementById('historySection').querySelector('.section-header button').innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
-            document.getElementById('accesos-credenciales-section').querySelector('.section-header button').innerHTML = '<i class="fas fa-angle-down"></i> Ver Más';
-        };
+            cart.forEach(item => {
+                msg += `🔴 *${item.qty}x ${item.product.name.toUpperCase()}* | $${item.totalPrice.toLocaleString()}%0A`;
+                if(item.options.length > 0) {
+                    item.options.forEach(opt => {
+                         msg += `   + ${opt}%0A`;
+                    });
+                }
+                if(item.notes) msg += `   📝 _Nota: ${item.notes}_%0A`;
+                msg += `%0A`;
+            });
+
+             const finalTotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+
+            msg += `========================%0A`;
+            msg += `💰 *TOTAL A PAGAR: $${finalTotal.toLocaleString('es-CO')}*%0A%0A`;
+            msg += `${deliveryInfo}%0A%0A`;
+            msg += `¡Quedo atento a la confirmación!`;
+
+            // Abrir WhatsApp
+            window.open(`https://wa.me/${PHONE_NUMBER}?text=${msg}`, '_blank');
+        }
+
+
+        // Inicializar
+        renderMenu('all'); // Cargar todos los productos al inicio
+
     </script>
 </body>
 </html>
