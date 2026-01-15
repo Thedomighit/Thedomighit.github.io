@@ -18,6 +18,7 @@
             --text-gold: #f5e0a3;
             --text-gray: #b3b3b3;
             --success: #25D366;
+            color-scheme: dark; /* Para que los calendarios sean oscuros */
         }
 
         * {
@@ -29,9 +30,32 @@
         }
 
         html { scroll-behavior: smooth; }
-        body { background-color: var(--bg-main); color: var(--text-white); padding-bottom: 120px; }
+        body { background-color: var(--bg-main); color: var(--text-white); padding-bottom: 120px; overflow-x: hidden; }
 
-        /* --- ANIMACIONES DE LUJO --- */
+        /* --- INTRO / SPLASH SCREEN --- */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease-out;
+        }
+        
+        .intro-logo {
+            font-family: 'Cinzel', serif; color: var(--primary); font-size: 3rem;
+            text-align: center; margin-bottom: 20px;
+            animation: textGlow 2s infinite alternate;
+        }
+        
+        .loader-line {
+            width: 0; height: 2px; background: var(--primary);
+            animation: loadLine 2s ease-in-out forwards;
+        }
+
+        @keyframes loadLine { 0% { width: 0; } 100% { width: 200px; } }
+        @keyframes textGlow { from { text-shadow: 0 0 10px rgba(212,175,55,0.2); } to { text-shadow: 0 0 25px rgba(212,175,55,0.8); } }
+
+
+        /* --- ESTILOS GENERALES --- */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes goldenPulse { 
             0% { box-shadow: 0 0 0 0 var(--primary-glow); } 
@@ -42,76 +66,65 @@
 
         /* --- HEADER --- */
         header {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.5), var(--bg-main)), url('https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), var(--bg-main)), url('https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
             background-attachment: fixed;
             background-size: cover;
             background-position: center;
-            height: 240px;
+            height: 300px; /* Un poco más alto para el botón de reserva */
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
             padding: 30px 20px;
             border-bottom: 2px solid var(--primary);
         }
 
         h1 {
-            font-family: 'Cinzel', serif;
-            color: var(--primary);
-            font-size: 2.5rem;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            font-family: 'Cinzel', serif; color: var(--primary); font-size: 2.8rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8); letter-spacing: 1px; margin-bottom: 5px;
         }
-        .subtitle { color: var(--text-gray); font-size: 0.95rem; letter-spacing: 0.5px; }
+        .subtitle { color: var(--text-gray); font-size: 1rem; letter-spacing: 2px; margin-bottom: 25px; text-transform: uppercase; }
+
+        .btn-reserve-header {
+            background: transparent; border: 1px solid var(--primary); color: var(--primary);
+            padding: 12px 30px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.9rem;
+            cursor: pointer; transition: 0.3s; letter-spacing: 1px;
+        }
+        .btn-reserve-header:hover { background: var(--primary); color: black; box-shadow: 0 0 20px var(--primary-glow); }
 
         /* --- NAVEGACIÓN --- */
         .categories-container {
             position: sticky; top: 0; z-index: 100;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            border-bottom: 1px solid #333;
+            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);
+            padding: 15px 0; border-bottom: 1px solid #333;
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
         .categories { display: flex; overflow-x: auto; padding: 0 20px; gap: 15px; scrollbar-width: none; }
         .categories::-webkit-scrollbar { display: none; }
 
         .cat-btn {
-            background: transparent;
-            border: 1px solid #444;
-            color: var(--text-gray);
-            padding: 10px 20px;
-            border-radius: 50px;
-            white-space: nowrap;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-size: 0.9rem;
-            font-weight: 600;
+            background: transparent; border: 1px solid #444; color: var(--text-gray);
+            padding: 10px 20px; border-radius: 50px; white-space: nowrap;
+            transition: 0.4s; font-size: 0.9rem; font-weight: 600;
         }
         .cat-btn.active {
-            background: var(--primary);
-            color: #000;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-            transform: scale(1.05);
+            background: var(--primary); color: #000; border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow); transform: scale(1.05);
         }
+        /* Botón especial de reservas en el nav */
+        .cat-btn.reserve-nav { border-color: var(--primary); color: var(--primary); }
 
         /* --- GRID --- */
         .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px;
-            padding: 25px 20px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px; padding: 25px 20px;
         }
 
         .product-card {
-            background: var(--bg-card);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            border: 1px solid #222;
-            transition: all 0.3s ease;
-            position: relative;
-            animation: fadeIn 0.6s ease backwards;
+            background: var(--bg-card); border-radius: 15px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid #222;
+            transition: all 0.3s ease; position: relative; animation: fadeIn 0.6s ease backwards;
         }
         .product-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
@@ -133,7 +146,7 @@
             box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
         }
 
-        /* --- MODAL DE LUJO --- */
+        /* --- MODALES --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 2000; align-items: flex-end;
@@ -160,11 +173,6 @@
         .modal-header-img {
             min-height: 200px; background-size: cover; background-position: center; position: relative;
         }
-        .modal-header-img::after {
-            content:''; position: absolute; bottom:0; left:0; width:100%; height:80px;
-            background: linear-gradient(to top, var(--bg-card), transparent);
-        }
-
         .close-btn {
             position: absolute; top: 20px; right: 20px;
             background: rgba(0,0,0,0.6); color: white; border: none;
@@ -178,7 +186,7 @@
         .modal-title { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--primary); margin-bottom: 8px; line-height: 1.2; }
         .modal-desc { color: #aaa; font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; }
 
-        /* --- DETALLES Y SELECTORES --- */
+        /* --- DETALLES --- */
         .option-group { margin-bottom: 30px; }
         .group-title { 
             font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-gray); 
@@ -187,57 +195,48 @@
 
         .option-item {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 16px;
-            background: var(--bg-input);
-            border: 1px solid #333;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
+            padding: 16px; background: var(--bg-input); border: 1px solid #333;
+            border-radius: 12px; margin-bottom: 10px; cursor: pointer;
+            transition: all 0.2s ease; position: relative; overflow: hidden;
         }
-
-        /* EFECTO SELECCIONADO */
         .option-item.selected {
             border-color: var(--primary);
             background: linear-gradient(to right, rgba(212, 175, 55, 0.15), rgba(0,0,0,0));
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
             animation: selectionPop 0.3s ease;
         }
-
         .option-text { font-weight: 500; font-size: 0.95rem; color: #eee; }
         .option-price { color: var(--primary); font-size: 0.85rem; font-weight: 600; }
-
         .check-circle {
-            width: 24px; height: 24px; border-radius: 50%;
-            border: 2px solid #555; display: flex; align-items: center; justify-content: center;
-            transition: 0.3s;
+            width: 24px; height: 24px; border-radius: 50%; border: 2px solid #555;
+            display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
         .option-item.selected .check-circle {
-            background: var(--primary); border-color: var(--primary);
-            box-shadow: 0 0 8px var(--primary);
+            background: var(--primary); border-color: var(--primary); box-shadow: 0 0 8px var(--primary);
         }
         .check-circle i { font-size: 12px; color: black; opacity: 0; transform: scale(0); transition: 0.3s; }
         .option-item.selected .check-circle i { opacity: 1; transform: scale(1); }
 
-        /* Cantidad */
         .qty-control {
             display: flex; align-items: center; background: #222; border-radius: 50px; padding: 5px; width: fit-content; margin-bottom: 25px; border: 1px solid #333;
         }
         .qty-btn { 
             width: 40px; height: 40px; border-radius: 50%; background: #333; color: white; border: none; font-size: 1.2rem; cursor: pointer; transition: 0.2s;
         }
-        .qty-btn:active { background: var(--primary); color: black; }
         .qty-val { margin: 0 20px; font-weight: bold; font-size: 1.2rem; min-width: 20px; text-align: center; }
 
         textarea, input, select {
             width: 100%; background: var(--bg-input); border: 1px solid #333; color: white;
             padding: 15px; border-radius: 12px; margin-bottom: 10px; outline: none; transition: 0.3s; font-size: 1rem;
         }
-        textarea:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(212,175,55,0.1); }
+        textarea:focus, input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(212,175,55,0.1); }
 
-        /* FOOTER */
+        /* Estilo para inputs de fecha en oscuro */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(1); cursor: pointer;
+        }
+
         .modal-footer {
             padding: 20px; background: var(--bg-card); border-top: 1px solid #222;
             box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
@@ -249,15 +248,12 @@
             display: flex; justify-content: space-between; align-items: center;
             text-transform: uppercase; letter-spacing: 1px;
         }
-        
         .btn-gold { 
             background: linear-gradient(45deg, #d4af37, #f3d472); color: #000;
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
-            animation: goldenPulse 2s infinite;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3); animation: goldenPulse 2s infinite;
         }
         .btn-whatsapp { background: #25D366; color: white; justify-content: center; gap: 10px; }
 
-        /* CARRITO FLOTANTE */
         .float-cart {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 450px; z-index: 1500;
@@ -266,10 +262,16 @@
 </head>
 <body>
 
+    <div id="splash-screen">
+        <h1 class="intro-logo">Gourmet & Grill</h1>
+        <div class="loader-line"></div>
+    </div>
+
     <header>
         <div class="header-content animated fadeIn">
             <h1>Gourmet & Grill</h1>
             <p class="subtitle">EXPERIENCIA CULINARIA PREMIUM</p>
+            <button class="btn-reserve-header" onclick="openReservationModal()">RESERVAR MESA</button>
         </div>
     </header>
 
@@ -280,6 +282,7 @@
             <button class="cat-btn" onclick="renderMenu('Carnes', this)">CARNES</button>
             <button class="cat-btn" onclick="renderMenu('Pizzas', this)">PIZZAS</button>
             <button class="cat-btn" onclick="renderMenu('Bebidas', this)">BEBIDAS</button>
+            <button class="cat-btn reserve-nav" onclick="openReservationModal()"><i class="fas fa-calendar-alt"></i> RESERVAS</button>
         </div>
     </div>
 
@@ -290,25 +293,20 @@
             <div class="modal-header-img" id="p-img">
                 <button class="close-btn" onclick="closeModal('product-modal')">&times;</button>
             </div>
-            
             <div class="modal-body">
                 <h2 id="p-title" class="modal-title"></h2>
                 <p id="p-desc" class="modal-desc"></p>
-
                 <div class="qty-control">
                     <button class="qty-btn" onclick="updateQty(-1)">-</button>
                     <span class="qty-val" id="p-qty">1</span>
                     <button class="qty-btn" onclick="updateQty(1)">+</button>
                 </div>
-
                 <div id="p-options"></div>
-
                 <div class="option-group">
                     <div class="group-title">Notas de Cocina</div>
                     <textarea id="p-notes" rows="2" placeholder="Ej: Sin sal, salsa aparte..."></textarea>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <button class="action-btn btn-gold" onclick="addToCart()">
                     <span>AGREGAR</span>
@@ -324,10 +322,8 @@
                 <h2 style="color: var(--primary); margin:0; font-family: 'Cinzel', serif;">TU PEDIDO</h2>
                 <button class="close-btn" style="position:static; transform:none;" onclick="closeModal('checkout-modal')">&times;</button>
             </div>
-            
             <div class="modal-body">
                 <div id="cart-list"></div>
-                
                 <div class="option-group" style="margin-top: 30px;">
                     <div class="group-title">Datos de Entrega</div>
                     <input type="text" id="c-name" placeholder="Tu Nombre Completo">
@@ -339,7 +335,6 @@
                     <div id="field-addr" style="display:none;"><textarea id="c-addr" rows="2" placeholder="Dirección Exacta"></textarea></div>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:1.2rem; font-weight:bold;">
                     <span>TOTAL:</span>
@@ -347,6 +342,51 @@
                 </div>
                 <button class="action-btn btn-whatsapp" onclick="sendWhatsapp()">
                     <i class="fab fa-whatsapp"></i> ENVIAR PEDIDO
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="reservation-modal" class="modal">
+        <div class="modal-content">
+            <div style="padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="color: var(--primary); margin:0; font-family: 'Cinzel', serif;">RESERVAR MESA</h2>
+                <button class="close-btn" style="position:static; transform:none;" onclick="closeModal('reservation-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color:#aaa; font-size:0.9rem; margin-bottom:20px;">Completa los datos para confirmar tu mesa.</p>
+                
+                <div class="option-group">
+                    <div class="group-title"><i class="fas fa-user"></i> Datos del Cliente</div>
+                    <input type="text" id="r-name" placeholder="Nombre Completo">
+                </div>
+
+                <div class="option-group">
+                    <div class="group-title"><i class="fas fa-clock"></i> Fecha y Hora</div>
+                    <input type="date" id="r-date">
+                    <input type="time" id="r-time">
+                </div>
+
+                <div class="option-group">
+                    <div class="group-title"><i class="fas fa-users"></i> Número de Personas</div>
+                    <select id="r-people">
+                        <option value="2">2 Personas</option>
+                        <option value="3">3 Personas</option>
+                        <option value="4">4 Personas</option>
+                        <option value="5">5 Personas</option>
+                        <option value="6">6 Personas</option>
+                        <option value="Mas de 6">+ de 6 (Grupo Grande)</option>
+                    </select>
+                </div>
+
+                <div class="option-group">
+                    <div class="group-title"><i class="fas fa-comment"></i> Peticiones Especiales</div>
+                    <textarea id="r-notes" rows="2" placeholder="Ej: Cumpleaños, Aniversario, Mesa tranquila..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn btn-whatsapp" onclick="sendReservation()">
+                    <i class="fab fa-whatsapp"></i> CONFIRMAR RESERVA
                 </button>
             </div>
         </div>
@@ -362,155 +402,62 @@
     <script>
         const PHONE = "573008556516";
 
-        // === BASE DE DATOS ULTRA DETALLADA ===
+        // --- LÓGICA INTRO ---
+        window.onload = function() {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.style.display = 'none'; }, 800);
+            }, 2000); // 2 segundos
+        };
+
         const data = [
-            // --- CARNES ---
             {
-                id: 201, 
-                name: "Ribeye Steak Premium (400g)", 
-                price: 65000, 
-                category: "Carnes",
+                id: 201, name: "Ribeye Steak Premium (400g)", price: 65000, category: "Carnes",
                 desc: "Corte importado de la mejor calidad, jugoso y con marmoleo perfecto. Asado a la parrilla.",
                 img: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&w=800&q=80",
                 groups: [
-                    { 
-                        title: "1. Término de la Carne (Obligatorio)", 
-                        type: "radio", 
-                        opts: [ 
-                            {n:"Azul (Vuelta y vuelta)", p:0}, 
-                            {n:"Medio (Centro rojo)", p:0}, 
-                            {n:"Tres Cuartos (Punto)", p:0}, 
-                            {n:"Bien Asado", p:0} 
-                        ] 
-                    },
-                    { 
-                        title: "2. Elige tu Salsa", 
-                        type: "radio", 
-                        opts: [ 
-                            {n:"Salsa de la Casa (BBQ)", p:0}, 
-                            {n:"Salsa de Pimienta", p:0}, 
-                            {n:"Salsa de Champiñones", p:3000},
-                            {n:"Sin Salsa", p:0}
-                        ] 
-                    },
-                    { 
-                        title: "3. Acompañamiento", 
-                        type: "radio", 
-                        opts: [ 
-                            {n:"Papas a la Francesa", p:0}, 
-                            {n:"Puré de Papa", p:0}, 
-                            {n:"Ensalada Fresca", p:0},
-                            {n:"Arroz Blanco", p:0},
-                            {n:"Papas Criollas", p:0}
-                        ] 
-                    },
-                    { 
-                        title: "4. ¿Deseas Bebida?", 
-                        type: "radio", 
-                        opts: [ 
-                            {n:"No, gracias", p:0},
-                            {n:"Coca Cola (+5k)", p:5000}, 
-                            {n:"Limonada (+8k)", p:8000},
-                            {n:"Cerveza Corona (+10k)", p:10000}
-                        ] 
-                    }
+                    { title: "1. Término de la Carne (Obligatorio)", type: "radio", opts: [ {n:"Azul", p:0}, {n:"Medio", p:0}, {n:"Tres Cuartos", p:0}, {n:"Bien Asado", p:0} ] },
+                    { title: "2. Elige tu Salsa", type: "radio", opts: [ {n:"Salsa de la Casa (BBQ)", p:0}, {n:"Salsa Pimienta", p:0}, {n:"Champiñones (+3k)", p:3000}, {n:"Sin Salsa", p:0} ] },
+                    { title: "3. Acompañamiento", type: "radio", opts: [ {n:"Papas Francesa", p:0}, {n:"Puré de Papa", p:0}, {n:"Ensalada", p:0}, {n:"Arroz", p:0}, {n:"Papas Criollas", p:0} ] },
+                    { title: "4. ¿Deseas Bebida?", type: "radio", opts: [ {n:"No, gracias", p:0}, {n:"Coca Cola (+5k)", p:5000}, {n:"Limonada (+8k)", p:8000}, {n:"Corona (+10k)", p:10000} ] }
                 ]
             },
             {
-                id: 202, 
-                name: "Churrasco Argentino", 
-                price: 45000, 
-                category: "Carnes",
+                id: 202, name: "Churrasco Argentino", price: 45000, category: "Carnes",
                 desc: "Corte mariposa clásico, bañado en chimichurri artesanal.",
                 img: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80",
-                groups: [
-                    { title: "Término", type: "radio", opts: [{n:"Medio", p:0}, {n:"3/4", p:0}, {n:"Bien Asado", p:0}] },
-                    { title: "Acompañamiento", type: "radio", opts: [{n:"Papas Fritas", p:0}, {n:"Yuca Frita", p:0}, {n:"Patacón", p:0}] }
-                ]
+                groups: [ { title: "Término", type: "radio", opts: [{n:"Medio", p:0}, {n:"3/4", p:0}, {n:"Bien Asado", p:0}] }, { title: "Acompañamiento", type: "radio", opts: [{n:"Papas Fritas", p:0}, {n:"Yuca Frita", p:0}, {n:"Patacón", p:0}] } ]
             },
-
-            // --- HAMBURGUESAS ---
             {
-                id: 101, 
-                name: "Master Burger Double", 
-                price: 32000, 
-                category: "Hamburguesas",
+                id: 101, name: "Master Burger Double", price: 32000, category: "Hamburguesas",
                 desc: "Doble carne angus certificada, doble cheddar fundido, tocineta ahumada y cebolla caramelizada.",
                 img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
-                groups: [
-                    { 
-                        title: "Personaliza tu Burger", 
-                        type: "check", 
-                        opts: [ {n:"Sin Cebolla",p:0}, {n:"Sin Tocineta",p:0}, {n:"Sin Salsas",p:0} ] 
-                    },
-                    { 
-                        title: "Adiciones Premium", 
-                        type: "check", 
-                        opts: [ {n:"Extra Queso (+4k)",p:4000}, {n:"Huevo Frito (+3k)",p:3000}, {n:"Pepinillos (+2k)",p:2000} ] 
-                    },
-                    { 
-                        title: "Tipo de Papas", 
-                        type: "radio", 
-                        opts: [ {n:"Papas Francesa",p:0}, {n:"Papas Rústicas",p:2000}, {n:"Sin Papas",p:0} ] 
-                    }
-                ]
+                groups: [ { title: "Personaliza", type: "check", opts: [ {n:"Sin Cebolla",p:0}, {n:"Sin Tocineta",p:0}, {n:"Sin Salsas",p:0} ] }, { title: "Adiciones", type: "check", opts: [ {n:"Extra Queso (+4k)",p:4000}, {n:"Huevo Frito (+3k)",p:3000}, {n:"Pepinillos (+2k)",p:2000} ] }, { title: "Tipo de Papas", type: "radio", opts: [ {n:"Papas Francesa",p:0}, {n:"Papas Rústicas",p:2000}, {n:"Sin Papas",p:0} ] } ]
             },
-
-            // --- PIZZAS ---
             {
-                id: 301, 
-                name: "Pizza Burrata & Pesto", 
-                price: 35000, 
-                category: "Pizzas",
+                id: 301, name: "Pizza Burrata & Pesto", price: 35000, category: "Pizzas",
                 desc: "Tomate San Marzano, Burrata fresca entera (125g) y Pesto genovés.",
                 img: "https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?auto=format&fit=crop&w=800&q=80",
-                groups: [
-                    { 
-                        title: "Borde de la Pizza", 
-                        type: "radio", 
-                        opts: [ {n:"Borde Tradicional",p:0}, {n:"Borde Relleno de Queso (+6k)",p:6000}, {n:"Borde Bocadillo (+5k)",p:5000} ] 
-                    },
-                    { 
-                        title: "Adiciones", 
-                        type: "check", 
-                        opts: [ {n:"Extra Jamón Serrano (+8k)",p:8000}, {n:"Extra Burrata (+12k)",p:12000} ] 
-                    }
-                ]
+                groups: [ { title: "Borde", type: "radio", opts: [ {n:"Tradicional",p:0}, {n:"Borde Queso (+6k)",p:6000}, {n:"Borde Bocadillo (+5k)",p:5000} ] }, { title: "Adiciones", type: "check", opts: [ {n:"Extra Jamón (+8k)",p:8000}, {n:"Extra Burrata (+12k)",p:12000} ] } ]
             },
-
-            // --- BEBIDAS ---
             {
-                id: 401, 
-                name: "Limonada de Coco", 
-                price: 12000, 
-                category: "Bebidas",
+                id: 401, name: "Limonada de Coco", price: 12000, category: "Bebidas",
                 desc: "Cremosa y refrescante con coco natural. Granizada.",
                 img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
-                groups: [
-                    { title: "Preferencia", type: "radio", opts: [{n:"Con Azúcar", p:0}, {n:"Sin Azúcar (Stevia)", p:0}, {n:"Poca Azúcar", p:0}] }
-                ]
+                groups: [ { title: "Preferencia", type: "radio", opts: [{n:"Con Azúcar", p:0}, {n:"Sin Azúcar", p:0}, {n:"Poca Azúcar", p:0}] } ]
             },
             {
-                id: 402, 
-                name: "Agua Manantial Sin Gas", 
-                price: 5000, 
-                category: "Bebidas",
+                id: 402, name: "Agua Manantial Sin Gas", price: 5000, category: "Bebidas",
                 desc: "Botella de agua pura cristalina 500ml.",
                 img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                groups: [
-                    { title: "Temperatura", type: "radio", opts: [{n:"Al Clima", p:0}, {n:"Fría", p:0}, {n:"Vaso con Hielo", p:0}] }
-                ]
+                groups: [ { title: "Temperatura", type: "radio", opts: [{n:"Al Clima", p:0}, {n:"Fría", p:0}, {n:"Vaso con Hielo", p:0}] } ]
             },
              {
-                id: 403, 
-                name: "Coca Cola Zero", 
-                price: 5000, 
-                category: "Bebidas",
+                id: 403, name: "Coca Cola Zero", price: 5000, category: "Bebidas",
                 desc: "Lata 330ml fría.",
                 img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80",
-                groups: [
-                     { title: "Servicio", type: "radio", opts: [{n:"Vaso con Hielo", p:0}, {n:"Sin Vaso", p:0}] }
-                ]
+                groups: [ { title: "Servicio", type: "radio", opts: [{n:"Vaso con Hielo", p:0}, {n:"Sin Vaso", p:0}] } ]
             }
         ];
 
@@ -518,7 +465,6 @@
         let currItem = null;
         let currQty = 1;
 
-        // RENDER
         function renderMenu(filter, btn) {
             if(btn) {
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -526,9 +472,7 @@
             }
             const grid = document.getElementById('grid');
             grid.innerHTML = '';
-            
             const list = filter === 'all' ? data : data.filter(i => i.category === filter);
-            
             list.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
@@ -545,7 +489,6 @@
                     </div>`;
                 grid.appendChild(card);
             });
-
             if(btn) {
                 const offset = document.getElementById('nav-container').offsetHeight;
                 const top = grid.getBoundingClientRect().top + window.pageYOffset - offset - 20;
@@ -553,7 +496,6 @@
             }
         }
 
-        // MODAL
         function openModal(item) {
             currItem = item;
             currQty = 1;
@@ -562,10 +504,8 @@
             document.getElementById('p-desc').innerText = item.desc;
             document.getElementById('p-qty').innerText = 1;
             document.getElementById('p-notes').value = '';
-
             const optsDiv = document.getElementById('p-options');
             optsDiv.innerHTML = '';
-
             if(item.groups) {
                 item.groups.forEach((g, i) => {
                     let html = `<div class="option-group"><div class="group-title">${g.title}</div>`;
@@ -573,10 +513,7 @@
                         const uid = `opt-${i}-${j}`;
                         html += `
                         <div class="option-item" onclick="toggleOpt(this, '${g.type}', '${i}')" id="${uid}" data-price="${opt.p}" data-name="${opt.n}">
-                            <div>
-                                <div class="option-text">${opt.n}</div>
-                                ${opt.p > 0 ? `<div class="option-price">+$${opt.p.toLocaleString()}</div>` : ''}
-                            </div>
+                            <div><div class="option-text">${opt.n}</div>${opt.p > 0 ? `<div class="option-price">+$${opt.p.toLocaleString()}</div>` : ''}</div>
                             <div class="check-circle"><i class="fas fa-check"></i></div>
                         </div>`;
                     });
@@ -593,9 +530,7 @@
                 const siblings = el.parentElement.querySelectorAll('.option-item');
                 siblings.forEach(sib => sib.classList.remove('selected'));
                 el.classList.add('selected');
-            } else {
-                el.classList.toggle('selected');
-            }
+            } else { el.classList.toggle('selected'); }
             calcTotal();
         }
 
@@ -608,9 +543,7 @@
 
         function calcTotal() {
             let total = currItem.price;
-            document.querySelectorAll('.option-item.selected').forEach(el => {
-                total += parseFloat(el.dataset.price);
-            });
+            document.querySelectorAll('.option-item.selected').forEach(el => total += parseFloat(el.dataset.price));
             total *= currQty;
             document.getElementById('p-total-btn').innerText = `$${total.toLocaleString()}`;
             return total;
@@ -618,18 +551,10 @@
 
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        // CARRITO
         function addToCart() {
             const opts = [];
             document.querySelectorAll('.option-item.selected').forEach(el => opts.push(el.dataset.name));
-            
-            cart.push({
-                item: currItem,
-                qty: currQty,
-                opts: opts,
-                notes: document.getElementById('p-notes').value,
-                total: calcTotal()
-            });
+            cart.push({ item: currItem, qty: currQty, opts: opts, notes: document.getElementById('p-notes').value, total: calcTotal() });
             updateCartUI();
             closeModal('product-modal');
         }
@@ -640,7 +565,6 @@
             document.getElementById('cart-count').innerText = count;
             document.getElementById('cart-sum').innerText = `$${sum.toLocaleString()}`;
             document.getElementById('cart-final-total').innerText = `$${sum.toLocaleString()}`;
-            
             document.getElementById('float-btn').style.display = count > 0 ? 'block' : 'none';
             if(count === 0) closeModal('checkout-modal');
         }
@@ -675,7 +599,6 @@
         function sendWhatsapp() {
             const name = document.getElementById('c-name').value;
             if(!name) return alert("Por favor escribe tu nombre");
-
             let msg = `*NUEVO PEDIDO DE ${name.toUpperCase()}*%0A%0A`;
             cart.forEach(c => {
                 msg += `👉 *${c.qty}x ${c.item.name}* ($${c.total.toLocaleString()})%0A`;
@@ -683,12 +606,33 @@
                 if(c.notes) msg += `   _${c.notes}_%0A`;
                 msg += `%0A`;
             });
-            
             const type = document.getElementById('c-type').value;
             const loc = type === 'mesa' ? `Mesa ${document.getElementById('c-table').value}` : `Dirección: ${document.getElementById('c-addr').value}`;
-            
             msg += `💰 *TOTAL: ${document.getElementById('cart-final-total').innerText}*%0A`;
             msg += `📍 *ENTREGA:* ${loc}`;
+            window.open(`https://wa.me/${PHONE}?text=${msg}`, '_blank');
+        }
+
+        // --- FUNCIONES DE RESERVA ---
+        function openReservationModal() {
+            document.getElementById('reservation-modal').classList.add('active');
+        }
+
+        function sendReservation() {
+            const name = document.getElementById('r-name').value;
+            const date = document.getElementById('r-date').value;
+            const time = document.getElementById('r-time').value;
+            const people = document.getElementById('r-people').value;
+            const notes = document.getElementById('r-notes').value;
+
+            if(!name || !date || !time) return alert("Por favor completa nombre, fecha y hora.");
+
+            let msg = `📅 *NUEVA RESERVA DE MESA*%0A%0A`;
+            msg += `👤 *Nombre:* ${name}%0A`;
+            msg += `📆 *Fecha:* ${date}%0A`;
+            msg += `⏰ *Hora:* ${time}%0A`;
+            msg += `👥 *Personas:* ${people}%0A`;
+            if(notes) msg += `📝 *Nota:* ${notes}%0A`;
 
             window.open(`https://wa.me/${PHONE}?text=${msg}`, '_blank');
         }
