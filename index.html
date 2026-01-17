@@ -49,7 +49,7 @@
         }
         .intro-logo {
             font-family: 'Cinzel', serif; color: var(--primary); 
-            font-size: 3.5rem; /* Tamaño PC */
+            font-size: 3.5rem; 
             text-align: center; margin-bottom: 5px; animation: textGlow 3s infinite alternate;
         }
         .intro-author {
@@ -64,7 +64,7 @@
 
         /* --- HEADER DINÁMICO RESPONSIVE --- */
         header {
-            height: 350px; /* Altura PC */
+            height: 350px; 
             position: relative; overflow: hidden;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; padding: 30px 20px;
@@ -85,7 +85,7 @@
         
         h1 {
             font-family: 'Cinzel', serif; color: var(--primary); 
-            font-size: 3.2rem; /* Tamaño PC */
+            font-size: 3.2rem; 
             text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 3px; margin-bottom: 10px;
             line-height: 1.1;
         }
@@ -104,17 +104,12 @@
 
         /* ====== AJUSTES PARA CELULARES (RESPONSIVE) ====== */
         @media (max-width: 768px) {
-            /* Intro más pequeña */
             .intro-logo { font-size: 2.2rem; }
             .intro-author { font-size: 0.75rem; letter-spacing: 2px; }
-            
-            /* Header más compacto */
             header { height: 260px; padding: 20px; }
             h1 { font-size: 2rem; letter-spacing: 1px; }
             .subtitle { font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 20px; }
             .btn-reserve-header { padding: 10px 25px; font-size: 0.75rem; letter-spacing: 1px; }
-            
-            /* Grid más ajustado */
             .menu-grid { grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px 15px; }
             .product-card { border-radius: 12px; }
             .product-img-container { height: 120px; }
@@ -125,8 +120,6 @@
             .add-icon { width: 28px; height: 28px; font-size: 0.8rem; }
             .badge { font-size: 0.55rem; padding: 3px 8px; top: 8px; left: 8px; }
         }
-        /* ================================================= */
-
 
         /* --- NAVEGACIÓN --- */
         .categories-container {
@@ -253,6 +246,7 @@
         textarea:focus, input:focus, select:focus { border-color: var(--primary); background: #222; box-shadow: 0 0 15px rgba(212,175,55,0.1); }
         ::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
+        /* --- FOOTER DELGADO --- */
         .modal-footer { padding: 15px 25px; background: #111; border-top: 1px solid #222; }
         .action-btn {
             width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 2px;
@@ -388,6 +382,17 @@
                         <input type="tel" id="c-phone" placeholder="Número de Celular (Obligatorio)">
                     </div>
                 </div>
+
+                <div class="option-group">
+                    <div class="group-title">MÉTODO DE PAGO</div>
+                    <select id="c-payment">
+                        <option value="" selected disabled>Selecciona cómo pagarás</option>
+                        <option value="Efectivo">💵 Efectivo</option>
+                        <option value="Tarjeta">💳 Tarjeta (Datáfono)</option>
+                        <option value="Nequi/Daviplata">📱 Nequi / Daviplata</option>
+                    </select>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:1.3rem; font-weight:bold;">
@@ -544,7 +549,7 @@
             {
                 id: 405, name: "Dom Pérignon Vintage Brut", price: 1500000, category: "Bebidas",
                 desc: "Champagne Icónico. Notas de almendra, cacao en polvo y frutas blancas secas. La máxima expresión del lujo.",
-                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgAqdh364EJ5BcL6_QcNlDuBoLuqtiEAM8edyiLcXyPg&s=10",
+                img: "https://images.unsplash.com/photo-1598155523122-38423bb4d6c1?auto=format&fit=crop&w=800&q=80",
                 badge: {text: "🍾 VIP Bottle", type: "gold"},
                 groups: [
                     { title: "Servicio", type: "radio", opts: [{n:"En Hielera con Copas",p:0}, {n:"Para Llevar (Estuche)",p:0}] }
@@ -731,11 +736,14 @@
             const name = document.getElementById('c-name').value;
             const type = document.getElementById('c-type').value;
             const phone = document.getElementById('c-phone').value;
+            const payment = document.getElementById('c-payment').value;
             
             if(!name) return alert("Por favor escribe tu nombre para el pedido.");
 
             // Validación de celular solo si es domicilio
             if(type === 'llevar' && !phone) return alert("Por favor escribe tu número de celular para el domicilio.");
+
+            if(!payment) return alert("Por favor selecciona un método de pago.");
 
             let msg = `*👑 NUEVO PEDIDO PREMIUM - ${name.toUpperCase()}*%0A%0A`;
             msg += `--------------------------------%0A`;
@@ -755,6 +763,7 @@
             }
             
             msg += `💰 *TOTAL A PAGAR: ${document.getElementById('cart-final-total').innerText}*%0A`;
+            msg += `💳 *PAGO:* ${payment}%0A`;
             msg += `${loc}%0A`;
             msg += `✅ *Solicito confirmación.*`;
 
