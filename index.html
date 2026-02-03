@@ -2,797 +2,493 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OrdenaSoft | Menú Digital Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;600;700&family=Alex+Brush&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Pedro Gámez Hernández | Excelencia en Rehabilitación Oral</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
+        /* --- PALETA DE COLORES PREMIUM & SORPRENDENTE --- */
         :root {
-            --primary: #d4af37; /* DORADO REAL */
-            --primary-light: #f3d472;
-            --primary-glow: rgba(212, 175, 55, 0.4);
-            --bg-main: #050505; /* Negro casi absoluto */
-            --bg-card: #121212;
-            --bg-input: #1a1a1a;
-            --text-white: #ffffff;
-            --text-gold: #f5e0a3;
-            --text-gray: #b3b3b3;
-            --success: #25D366;
-            --danger: #ff4444;
+            --primary-deep: #0A2342; /* Verde Petróleo Profundo (No el típico azul) */
+            --accent-copper: #C89F87;  /* Cobre/Oro Rosado suave (Elegancia moderna) */
+            --bg-cream: #F9F6F2;       /* Fondo crema cálido, no blanco puro */
+            --text-dark: #2A2A2A;
+            --text-light: #F9F6F2;
+            --white: #ffffff;
+            --transition-smooth: cubic-bezier(0.65, 0, 0.35, 1); /* Curva de animación profesional */
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html { scroll-behavior: smooth; }
-        body { 
-            background-color: var(--bg-main); 
-            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 70%);
-            color: var(--text-white); 
-            padding-bottom: 120px; 
-            overflow-x: hidden; 
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
         }
 
-        /* --- INTRO RESPONSIVE --- */
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 1s ease-out;
-            padding: 20px;
-        }
-        .intro-logo {
-            font-family: 'Cinzel', serif; color: var(--primary); 
-            font-size: 3.5rem; 
-            text-align: center; margin-bottom: 5px; animation: textGlow 3s infinite alternate;
-        }
-        .intro-author {
-            font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 0.9rem;
-            color: #888; letter-spacing: 4px; text-transform: uppercase;
-            margin-bottom: 30px; opacity: 0; animation: fadeInAuthor 1s ease-out forwards 0.5s;
-        }
-        .loader-line {
-            width: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            animation: loadLine 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--primary-deep);
         }
 
-        /* --- HEADER DINÁMICO RESPONSIVE --- */
+        /* --- 1️⃣ INTRO ANIMATION (PRELOADER) --- */
+        .preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--primary-deep);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: transform 1.2s var(--transition-smooth) 2.5s; /* Retraso para que se vea la intro */
+        }
+
+        .preloader.finish { transform: translateY(-100%); }
+
+        .preloader-text {
+            text-align: center;
+            color: var(--accent-copper);
+            overflow: hidden; /* Para el efecto de revelar texto */
+        }
+
+        .preloader h1 {
+            font-size: 2.5rem;
+            color: var(--white);
+            transform: translateY(100%);
+            animation: textRevealUp 1s var(--transition-smooth) 0.5s forwards;
+        }
+
+        .preloader p {
+            font-size: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transform: translateY(100%);
+            animation: textRevealUp 1s var(--transition-smooth) 0.8s forwards;
+        }
+
+        @keyframes textRevealUp {
+            to { transform: translateY(0); }
+        }
+
+        /* --- NAVEGACIÓN INTELIGENTE & HAMBURGUESA ANIMADA --- */
         header {
-            height: 350px; 
-            position: relative; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 30px 20px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-        }
-        .header-bg {
-            position: absolute; top:0; left:0; width:100%; height:100%;
-            background-size: cover; background-position: center;
-            transition: opacity 2s ease-in-out; opacity: 0; z-index: 0;
-            filter: brightness(0.4);
-        }
-        .header-bg.active { opacity: 1; }
-        .header-overlay {
-            position: absolute; top:0; left:0; width:100%; height:100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.2), var(--bg-main)); z-index: 1;
-        }
-        .header-content { z-index: 2; position: relative; width: 100%; }
-        
-        h1 {
-            font-family: 'Cinzel', serif; color: var(--primary); 
-            font-size: 3.2rem; 
-            text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 3px; margin-bottom: 10px;
-            line-height: 1.1;
-        }
-        .subtitle { 
-            color: #ddd; font-size: 0.9rem; letter-spacing: 5px; margin-bottom: 30px; 
-            text-transform: uppercase; font-weight: 600; text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(249, 246, 242, 0.95); /* Crema semitransparente */
+            backdrop-filter: blur(10px);
+            transition: transform 0.4s ease-in-out, padding 0.4s ease;
+            border-bottom: 1px solid rgba(200, 159, 135, 0.2);
         }
 
-        .btn-reserve-header {
-            background: rgba(0,0,0,0.5); border: 1px solid var(--primary); color: var(--primary);
-            padding: 15px 40px; font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.9rem;
-            cursor: pointer; transition: 0.3s; letter-spacing: 3px; backdrop-filter: blur(10px);
+        /* Clase para esconder el menú al bajar scroll */
+        header.nav-hidden { transform: translateY(-100%); }
+        header.nav-scrolled { padding: 15px 5%; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-deep);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+        .logo span { color: var(--accent-copper); }
+
+        /* Estilos del botón hamburguesa */
+        .hamburger {
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            z-index: 1100; /* Por encima del overlay */
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: var(--primary-deep);
             border-radius: 2px;
-        }
-        .btn-reserve-header:hover { background: var(--primary); color: black; box-shadow: 0 0 30px var(--primary-glow); }
-
-        /* ====== AJUSTES PARA CELULARES (RESPONSIVE) ====== */
-        @media (max-width: 768px) {
-            .intro-logo { font-size: 2.2rem; }
-            .intro-author { font-size: 0.75rem; letter-spacing: 2px; }
-            header { height: 260px; padding: 20px; }
-            h1 { font-size: 2rem; letter-spacing: 1px; }
-            .subtitle { font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 20px; }
-            .btn-reserve-header { padding: 10px 25px; font-size: 0.75rem; letter-spacing: 1px; }
-            .menu-grid { grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px 15px; }
-            .product-card { border-radius: 12px; }
-            .product-img-container { height: 120px; }
-            .product-info { padding: 12px; }
-            .product-title { font-size: 0.9rem; }
-            .product-desc { font-size: 0.7rem; height: 32px; -webkit-line-clamp: 2; margin-bottom: 8px; }
-            .product-price { font-size: 0.95rem; }
-            .add-icon { width: 28px; height: 28px; font-size: 0.8rem; }
-            .badge { font-size: 0.55rem; padding: 3px 8px; top: 8px; left: 8px; }
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .4s ease-in-out;
         }
 
-        /* --- NAVEGACIÓN --- */
-        .categories-container {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(15px);
-            padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .categories { display: flex; overflow-x: auto; padding: 0 20px; gap: 12px; scrollbar-width: none; }
-        .categories::-webkit-scrollbar { display: none; }
+        .hamburger span:nth-child(1) { top: 0px; }
+        .hamburger span:nth-child(2) { top: 9px; }
+        .hamburger span:nth-child(3) { top: 18px; }
 
-        .cat-btn {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa;
-            padding: 12px 24px; border-radius: 50px; white-space: nowrap;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
-            font-size: 0.85rem; font-weight: 600; letter-spacing: 1px;
-            display: flex; align-items: center; gap: 10px;
+        /* Animación a "X" cuando está activo */
+        .hamburger.active span:nth-child(1) {
+            top: 9px;
+            transform: rotate(135deg);
+            background: var(--white); /* Cambia a blanco sobre el fondo oscuro del menú */
         }
-        .cat-btn.active {
-            background: var(--primary); color: #000; border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow); transform: scale(1.05);
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            left: -60px;
         }
-        .cat-btn.reserve-nav { border-color: var(--primary); color: var(--primary); }
-
-
-        /* --- GRID --- */
-        .menu-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 30px; padding: 40px 25px;
+        .hamburger.active span:nth-child(3) {
+            top: 9px;
+            transform: rotate(-135deg);
+            background: var(--white);
         }
 
-        .product-card {
-            background: var(--bg-card); border-radius: 18px; overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.4s; position: relative; animation: fadeInUp 0.6s ease backwards; cursor: pointer;
+        /* Menú Overlay de Pantalla Completa */
+        .nav-overlay {
+            position: fixed;
+            top: 0; right: 0;
+            width: 100%; height: 100vh;
+            background: var(--primary-deep);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+            transform: translateX(100%); /* Oculto a la derecha */
+            transition: transform 0.6s var(--transition-smooth);
         }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .product-card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--primary); box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
-        .product-img-container { height: 180px; overflow: hidden; position: relative; }
-        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
-        .product-card:hover .product-img { transform: scale(1.15); filter: brightness(1.1); }
 
-        .badge {
-            position: absolute; top: 12px; left: 12px;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-            padding: 5px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-            border: 1px solid rgba(255,255,255,0.2); z-index: 2; display: flex; align-items: center; gap: 5px;
+        .nav-overlay.open { transform: translateX(0); }
+
+        .nav-menu { list-style: none; text-align: center; }
+        .nav-menu li { margin: 25px 0; overflow: hidden; }
+        .nav-menu a {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--white);
+            text-decoration: none;
+            transform: translateY(100%); /* Texto oculto abajo inicialmente */
+            transition: transform 0.5s ease 0.2s, color 0.3s ease;
         }
-        .badge.gold { border-color: var(--primary); color: var(--primary); }
-        .badge.red { border-color: var(--danger); color: var(--danger); }
-        .badge.chef { border-color: #fff; color: #fff; }
 
-        .product-info { padding: 20px; position: relative; }
-        .product-title { color: var(--text-white); font-weight: 700; margin-bottom: 8px; font-size: 1.1rem; line-height: 1.3; }
-        .product-desc { color: #999; font-size: 0.8rem; height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 15px; line-height: 1.6; }
-        .price-row { display: flex; justify-content: space-between; align-items: center; }
-        .product-price { color: var(--primary); font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.25rem; }
-        .add-icon { background: var(--bg-input); border: 1px solid #333; color: var(--text-white); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .product-card:hover .add-icon { background: var(--primary); color: black; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        .nav-overlay.open .nav-menu a { transform: translateY(0); } /* Aparece el texto */
+        .nav-menu a:hover { color: var(--accent-copper); }
 
-        /* --- MODALES --- */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92); z-index: 2000; align-items: flex-end; backdrop-filter: blur(10px);
+        /* --- UTILIDADES DE ANIMACIÓN (SCROLL REVEAL) --- */
+        /* Animación para textos: deslizar hacia arriba */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s var(--transition-smooth), transform 1s var(--transition-smooth);
         }
-        .modal.active { display: flex; }
-        .modal.centered { align-items: center; justify-content: center; }
+        .reveal-up.active { opacity: 1; transform: translateY(0); }
 
-        .modal-content {
-            background: #0a0a0a; width: 100%; max-width: 650px; height: 96vh; border-radius: 35px 35px 0 0;
-            display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid var(--primary);
-            box-shadow: 0 -25px 80px rgba(0,0,0,1); animation: slideUp 0.4s cubic-bezier(0.19, 1, 0.22, 1); margin: 0 auto;
+        /* Animación PREMIUM para fotos: "Curtain Reveal" */
+        .image-reveal-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
         }
-        .modal-content.small { height: auto; border-radius: 25px; max-width: 400px; padding: 20px; text-align: center; }
 
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        @media(min-width: 768px) { .modal { align-items: center; justify-content: center; } .modal-content { height: auto; max-height: 90vh; border-radius: 35px; border: 1px solid #333; } }
+        .image-reveal-container img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transform: scale(1.2); /* Empieza con zoom */
+            transition: transform 1.5s var(--transition-smooth);
+        }
 
-        .modal-header-img { min-height: 250px; background-size: cover; background-position: center; position: relative; }
-        .modal-header-img::after { content:''; position: absolute; bottom:0; left:0; width:100%; height:120px; background: linear-gradient(to top, #0a0a0a, transparent); }
-        .close-btn {
-            position: absolute; top: 25px; right: 25px; background: rgba(0,0,0,0.6); color: white; border: 1px solid rgba(255,255,255,0.3);
-            width: 48px; height: 48px; border-radius: 50%; cursor: pointer; font-size: 1.4rem; display: flex; align-items: center; justify-content: center;
-            transition: 0.3s; z-index: 5; backdrop-filter: blur(8px);
+        /* El "telón" que cubre la imagen */
+        .image-reveal-container::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--accent-copper); /* Color del telón */
+            transform: translateX(0); /* Cubre la imagen inicialmente */
+            transition: transform 1.2s var(--transition-smooth) 0.2s; /* 0.2s de delay */
+            z-index: 2;
         }
-        .close-btn:hover { background: var(--danger); border-color: var(--danger); transform: rotate(90deg); }
 
-        .modal-body { padding: 30px; overflow-y: auto; flex: 1; }
-        .modal-title { font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 12px; line-height: 1.1; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .modal-desc { color: #ccc; font-size: 1rem; line-height: 1.7; margin-bottom: 35px; font-weight: 300; }
+        /* Cuando se activa la animación */
+        .image-reveal-container.active::after { transform: translateX(101%); /* El telón se retira */ }
+        .image-reveal-container.active img { transform: scale(1); /* La imagen vuelve a tamaño normal */ }
 
-        .option-group { margin-bottom: 40px; }
-        .group-title { 
-            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; color: #777; margin-bottom: 18px; 
-            border-left: 3px solid var(--primary); padding-left: 15px; font-weight: 800;
-        }
-        .option-item {
-            display: flex; justify-content: space-between; align-items: center; padding: 18px; background: rgba(255,255,255,0.02);
-            border: 1px solid #2a2a2a; border-radius: 14px; margin-bottom: 14px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;
-        }
-        .option-item:active { transform: scale(0.98); background: rgba(212, 175, 55, 0.05); }
-        .option-item.selected { border-color: var(--primary); background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), transparent); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
-        .option-text { font-weight: 600; font-size: 1.05rem; color: #eee; letter-spacing: 0.5px; }
-        .option-price { color: var(--primary); font-size: 0.95rem; font-weight: 700; }
-        .check-circle {
-            width: 28px; height: 28px; border-radius: 50%; border: 2px solid #444; display: flex; align-items: center; justify-content: center; transition: 0.3s;
-        }
-        .option-item.selected .check-circle { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
-        .check-circle i { font-size: 14px; color: black; opacity: 0; transform: scale(0); transition: 0.3s; }
-        .option-item.selected .check-circle i { opacity: 1; transform: scale(1); }
 
-        .qty-control {
-            display: flex; align-items: center; background: #151515; border-radius: 50px; padding: 6px; width: fit-content; margin-bottom: 35px; border: 1px solid #333;
-        }
-        .qty-btn { 
-            width: 44px; height: 44px; border-radius: 50%; background: #2a2a2a; color: white; border: none; font-size: 1.4rem; cursor: pointer; transition: 0.2s;
-        }
-        .qty-btn:active { background: var(--primary); color: black; transform: scale(0.9); }
-        .qty-val { margin: 0 30px; font-weight: 800; font-size: 1.5rem; min-width: 30px; text-align: center; }
+        /* --- SECCIONES --- */
+        section { padding: 120px 5%; }
 
-        textarea, input, select {
-            width: 100%; background: #1a1a1a; border: 1px solid #333; color: white; padding: 18px; border-radius: 14px; margin-bottom: 15px; outline: none; transition: 0.3s; font-size: 1.05rem;
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(to right, rgba(10, 35, 66, 0.8), rgba(10, 35, 66, 0.4)),
+                        url('https://scontent-bog2-2.xx.fbcdn.net/v/t39.30808-6/464177166_27091603327151927_1371401851651274913_n.jpg?stp=c0.5000x0.5000f_dst-webp_e15_p355x360_q70_tt1_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-2.xx&_nc_cat=110&_nc_ohc=ilTZwcZsKbYQ7kNvwFtbCVZ&_nc_gid=7iBbjpCYfw7OSTv5cRVh3w&ccb=1-7&_nc_sid=127cfc&oh=00_AfsZB9ZHsxCRLnO955pVHnwcD4I6xAJV5XjVZciYICbcyg&oe=6987FAB9') no-repeat center center/cover;
+            color: var(--white);
         }
-        textarea:focus, input:focus, select:focus { border-color: var(--primary); background: #222; box-shadow: 0 0 15px rgba(212,175,55,0.1); }
-        ::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
-        /* --- FOOTER DELGADO --- */
-        .modal-footer { padding: 15px 25px; background: #111; border-top: 1px solid #222; }
-        .action-btn {
-            width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 2px;
+        .hero-content { max-width: 700px; }
+        .hero h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1.1; margin-bottom: 20px; color: var(--white); }
+        .hero p { font-size: 1.2rem; margin-bottom: 40px; opacity: 0.9; }
+
+        .btn-premium {
+            padding: 20px 40px;
+            background: var(--accent-copper);
+            color: var(--primary-deep);
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent-copper);
         }
-        .btn-gold { 
-            background: linear-gradient(135deg, #d4af37, #f3d472); color: #000; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2); position: relative; overflow: hidden;
+        .btn-premium:hover { background: transparent; color: var(--accent-copper); }
+
+        /* SECCION SOBRE MI */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .section-subtitle { color: var(--accent-copper); text-transform: uppercase; letter-spacing: 3px; font-weight: 600; display: block; margin-bottom: 20px; }
+        .about-img { height: 600px; }
+
+        /* ESPECIALIDADES */
+        .specs-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .spec-card {
+            background: var(--white);
+            padding: 50px;
+            border-bottom: 3px solid transparent;
+            transition: 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
-        .btn-gold::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); animation: shine 3.5s infinite; }
-        @keyframes shine { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
-        .btn-whatsapp { background: #25D366; color: white; justify-content: center; gap: 12px; }
-        .btn-whatsapp:hover { background: #20bd5a; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); }
-        .btn-gray { background: #2a2a2a; color: #fff; justify-content: center; border: 1px solid #444; }
+        .spec-card:hover { border-bottom-color: var(--accent-copper); transform: translateY(-10px); }
+        .spec-icon { font-size: 3rem; color: var(--accent-copper); margin-bottom: 20px; display: block; }
 
-        .float-cart { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; z-index: 1500; }
-        
-        .success-checkmark {
-            width: 80px; height: 80px; border-radius: 50%; background: var(--primary); 
-            display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
-            box-shadow: 0 0 30px var(--primary-glow);
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* GALERÍA (Animaciones en hover) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
         }
-        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .gallery-item { height: 300px; cursor: pointer; }
+        .gallery-item img { transition: transform 0.8s var(--transition-smooth) !important; }
+        .gallery-item:hover img { transform: scale(1.15) !important; }
 
-        @keyframes loadLine { 0% { width: 0; opacity:0; } 50% { opacity:1; } 100% { width: 250px; opacity:0; } }
-        @keyframes textGlow { from { text-shadow: 0 0 10px rgba(212,175,55,0.2); } to { text-shadow: 0 0 30px rgba(212,175,55,0.6); } }
-        @keyframes fadeInAuthor { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* CONTACTO */
+        footer { background: var(--primary-deep); color: var(--white); padding: 100px 5%; text-align: center; }
+        .whatsapp-btn-large {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--accent-copper);
+            text-decoration: none;
+            border-bottom: 2px solid rgba(200, 159, 135, 0.3);
+            transition: 0.3s;
+        }
+        .whatsapp-btn-large:hover { border-bottom-color: var(--accent-copper); color: var(--white); }
 
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .about-img { height: 400px; }
+            .nav-menu a { font-size: 2rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="splash-screen">
-        <h1 class="intro-logo">OrdenaSoft</h1>
-        <p class="intro-author">By Edward González</p>
-        <div class="loader-line"></div>
+    <div class="preloader">
+        <div class="preloader-text">
+            <h1>Dr. Pedro Gámez H.</h1>
+            <p>Alta Odontología Estética</p>
+        </div>
     </div>
 
-    <header id="dynamic-header">
-        <div class="header-bg active" style="background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');"></div>
-        <div class="header-bg" style="background-image: url('https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');"></div>
-        <div class="header-bg" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16549766b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');"></div>
-        <div class="header-bg" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');"></div>
+    <header id="main-header">
+        <a href="#" class="logo">Dr. Gámez<span>.</span></a>
         
-        <div class="header-overlay"></div>
-        <div class="header-content animated fadeIn">
-            <h1>OrdenaSoft</h1>
-            <p class="subtitle">Alta Cocina & Experiencias</p>
-            <button class="btn-reserve-header" onclick="openReservationModal()">RESERVAR MESA</button>
+        <div class="hamburger" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
     </header>
 
-    <div class="categories-container" id="nav-container">
-        <div class="categories">
-            <button class="cat-btn active" onclick="renderMenu('all', this)"><i class="fas fa-th-large"></i> TODO</button>
-            <button class="cat-btn" onclick="renderMenu('Hamburguesas', this)"><i class="fas fa-burger"></i> BURGERS</button>
-            <button class="cat-btn" onclick="renderMenu('Carnes', this)"><i class="fas fa-drumstick-bite"></i> CARNES</button>
-            <button class="cat-btn" onclick="renderMenu('Sushi', this)"><i class="fas fa-fish"></i> SUSHI & MAR</button>
-            <button class="cat-btn" onclick="renderMenu('Pizzas', this)"><i class="fas fa-pizza-slice"></i> PIZZAS</button>
-            <button class="cat-btn" onclick="renderMenu('Postres', this)"><i class="fas fa-ice-cream"></i> POSTRES</button>
-            <button class="cat-btn" onclick="renderMenu('Bebidas', this)"><i class="fas fa-wine-glass"></i> BEBIDAS</button>
-            <button class="cat-btn reserve-nav" onclick="openReservationModal()"><i class="far fa-calendar-alt"></i></button>
-        </div>
+    <div class="nav-overlay" id="nav-overlay">
+        <ul class="nav-menu">
+            <li><a href="#inicio" onclick="closeMenu()">Inicio</a></li>
+            <li><a href="#sobre-mi" onclick="closeMenu()">El Doctor</a></li>
+            <li><a href="#especialidades" onclick="closeMenu()">Expertise</a></li>
+            <li><a href="#galeria" onclick="closeMenu()">Clínica</a></li>
+            <li><a href="#contacto" onclick="closeMenu()">Contacto</a></li>
+        </ul>
     </div>
 
-    <div class="menu-grid" id="grid"></div>
+    <section id="inicio" class="hero">
+        <div class="hero-content reveal-up">
+            <h1>Ciencia y Arte <br> en cada Sonrisa.</h1>
+            <p>Rehabilitación Oral de precisión y docencia internacional. Donde la estética se encuentra con la función absoluta.</p>
+            <a href="#sobre-mi" class="btn-premium">Conocer al Especialista</a>
+        </div>
+    </section>
 
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header-img" id="p-img">
-                <button class="close-btn" onclick="closeModal('product-modal')">&times;</button>
+    <section id="sobre-mi">
+        <div class="about-grid">
+            <div class="image-reveal-container about-img">
+                <img src="https://scontent-bog2-2.xx.fbcdn.net/v/t39.30808-6/535875359_1351165630349388_3288631136464600366_n.jpg?stp=dst-webp_e15_q70_s1080x1080_tt1_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-2.xx&_nc_cat=110&_nc_ohc=HcLvv77uMScQ7kNvwFaCtoI&_nc_gid=YcveXTRYkfj_8dvAslNfFw&ccb=1-7&_nc_sid=cc71e4&oh=00_AftxYCY_p6GyJrw5AU6uVOKw5pk6G4-kpQRllXNK-8OzbA&oe=698811A8" alt="Dr. Pedro Gámez">
             </div>
-            <div class="modal-body">
-                <h2 id="p-title" class="modal-title"></h2>
-                <p id="p-desc" class="modal-desc"></p>
-                <div class="qty-control">
-                    <button class="qty-btn" onclick="updateQty(-1)">-</button>
-                    <span class="qty-val" id="p-qty">1</span>
-                    <button class="qty-btn" onclick="updateQty(1)">+</button>
-                </div>
-                <div id="p-options"></div>
-                <div class="option-group">
-                    <div class="group-title"><i class="fas fa-pen"></i> NOTAS DE COCINA</div>
-                    <textarea id="p-notes" rows="2" placeholder="Ej: Sin sal, salsa aparte..."></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="action-btn btn-gold" onclick="addToCart()">
-                    <span>AGREGAR AL PEDIDO</span>
-                    <span id="p-total-btn">$0</span>
-                </button>
+            <div class="about-text">
+                <span class="section-subtitle reveal-up">Trayectoria</span>
+                <h2 class="reveal-up" style="font-size: 3rem; margin-bottom: 30px;">Más que un Odontólogo, un Maestro.</h2>
+                <p class="reveal-up" style="margin-bottom: 20px;">El <strong>Dr. Pedro Gámez Hernández</strong> ha dedicado su vida a perfeccionar el arte de la rehabilitación oral. Como Profesor Universitario Jubilado, ha formado a generaciones de especialistas, manteniendo siempre una práctica clínica privada del más alto nivel.</p>
+                <p class="reveal-up">Su enfoque combina la calidez humana con protocolos clínicos rigurosos, asegurando resultados que no solo se ven naturales, sino que perduran en el tiempo.</p>
+                <br>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/aaa/Signature_placeholder.png" alt="Firma" width="150" style="opacity: 0.5;" class="reveal-up">
             </div>
         </div>
-    </div>
+    </section>
 
-    <div id="success-modal" class="modal centered">
-        <div class="modal-content small">
-            <div style="padding: 10px;">
-                <div class="success-checkmark">
-                    <i class="fas fa-check" style="font-size: 2rem; color: black;"></i>
-                </div>
-                <h2 style="font-family: 'Cinzel'; color: white; margin-bottom: 10px; font-size: 1.5rem;">¡Excelente Elección!</h2>
-                <p style="color: #999; margin-bottom: 25px; font-size: 0.9rem;">Hemos agregado el producto a tu cuenta.</p>
-                
-                <button class="action-btn btn-gold" onclick="closeModal('success-modal'); openCheckout();" style="margin-bottom: 10px; justify-content: center;">
-                    FINALIZAR PEDIDO <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
-                </button>
-                <button class="action-btn btn-gray" onclick="closeModal('success-modal')" style="justify-content: center;">
-                    SEGUIR PIDIENDO
-                </button>
+    <section id="especialidades" style="background: var(--white);">
+        <div class="reveal-up" style="text-align: center; margin-bottom: 60px;">
+            <span class="section-subtitle">Áreas de Dominio</span>
+            <h2>Expertise Clínico</h2>
+        </div>
+        <div class="specs-container">
+            <div class="spec-card reveal-up">
+                <span class="spec-icon">✦</span>
+                <h3>Rehabilitación Oral</h3>
+                <p>Recuperación integral de la función masticatoria y la estética en casos de alta complejidad y desgaste severo.</p>
+            </div>
+            <div class="spec-card reveal-up" style="transition-delay: 0.2s;">
+                <span class="spec-icon">✦</span>
+                <h3>Implantología Premium</h3>
+                <p>Uso de los mejores sistemas de implantes mundiales para soluciones fijas, seguras y biológicamente compatibles.</p>
+            </div>
+            <div class="spec-card reveal-up" style="transition-delay: 0.4s;">
+                <span class="spec-icon">✦</span>
+                <h3>Estética & Prótesis</h3>
+                <p>Diseños de sonrisa mínimamente invasivos utilizando cerámicas de vanguardia como disilicato de litio y zirconio.</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div id="checkout-modal" class="modal">
-        <div class="modal-content">
-            <div style="padding: 25px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
-                <h2 style="color: var(--primary); margin:0; font-family: 'Cinzel', serif;">TU CUENTA</h2>
-                <button class="close-btn" style="position:static; transform:none; width:36px; height:36px;" onclick="closeModal('checkout-modal')">&times;</button>
+    <section id="galeria">
+         <div class="reveal-up" style="margin-bottom: 60px;">
+            <span class="section-subtitle">Nuestro Entorno</span>
+            <h2>Instalaciones & Tecnología</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item image-reveal-container">
+                <img src="https://www.wradio.com.co/resizer/v2/XWEROPHHWREYHO3QYJUNURCA3E.jpg?auth=2142aee4b562351de9858b36dc1fea12de9147c1b11c9761f1c5339c0ab48148&width=650&height=488&quality=70&smart=true" alt="Clínica 1">
             </div>
-            <div class="modal-body">
-                <div id="cart-list"></div>
-                <div class="option-group" style="margin-top: 30px;">
-                    <div class="group-title">DATOS DE ENTREGA</div>
-                    <input type="text" id="c-name" placeholder="Tu Nombre Completo">
-                    <select id="c-type" onchange="toggleDelivery()">
-                        <option value="mesa">Comer en la Mesa</option>
-                        <option value="llevar">Domicilio / Para Llevar</option>
-                    </select>
-                    <div id="field-mesa"><select id="c-table"><option value="">Selecciona Mesa</option><option value="1">Mesa 1</option><option value="2">Mesa 2</option><option value="3">Mesa 3</option><option value="4">Mesa 4</option></select></div>
-                    
-                    <div id="field-addr" style="display:none;">
-                        <textarea id="c-addr" rows="2" placeholder="Dirección Exacta (Barrio, Edificio...)"></textarea>
-                        <input type="tel" id="c-phone" placeholder="Número de Celular (Obligatorio)">
-                    </div>
-                </div>
-
-                <div class="option-group">
-                    <div class="group-title">MÉTODO DE PAGO</div>
-                    <select id="c-payment">
-                        <option value="" selected disabled>Selecciona cómo pagarás</option>
-                        <option value="Efectivo">💵 Efectivo</option>
-                        <option value="Tarjeta">💳 Tarjeta (Datáfono)</option>
-                        <option value="Nequi/Daviplata">📱 Nequi / Daviplata</option>
-                    </select>
-                </div>
-
+            <div class="gallery-item image-reveal-container" style="transition-delay: 0.1s;">
+                <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=500" alt="Clínica 2">
             </div>
-            <div class="modal-footer">
-                <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:1.3rem; font-weight:bold;">
-                    <span>TOTAL:</span>
-                    <span id="cart-final-total" style="color:var(--primary);">$0</span>
-                </div>
-                <button class="action-btn btn-whatsapp" onclick="sendWhatsapp()">
-                    <i class="fab fa-whatsapp"></i> ENVIAR PEDIDO
-                </button>
+            <div class="gallery-item image-reveal-container" style="transition-delay: 0.2s;">
+                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=500" alt="Tecnología">
+            </div>
+            <div class="gallery-item image-reveal-container" style="transition-delay: 0.3s;">
+                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=500" alt="Detalles">
             </div>
         </div>
-    </div>
+    </section>
 
-    <div id="reservation-modal" class="modal">
-        <div class="modal-content">
-            <div style="padding: 25px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
-                <h2 style="color: var(--primary); margin:0; font-family: 'Cinzel', serif;">RESERVAR</h2>
-                <button class="close-btn" style="position:static; transform:none; width:36px; height:36px;" onclick="closeModal('reservation-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="option-group">
-                    <div class="group-title">CLIENTE</div>
-                    <input type="text" id="r-name" placeholder="Nombre Completo">
-                </div>
-                <div class="option-group">
-                    <div class="group-title">DETALLES</div>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <input type="date" id="r-date">
-                        <input type="time" id="r-time">
-                    </div>
-                    <select id="r-people" style="margin-top:10px;">
-                        <option value="2">2 Personas</option>
-                        <option value="3">3 Personas</option>
-                        <option value="4">4 Personas</option>
-                        <option value="5+">Grupo (+5)</option>
-                    </select>
-                </div>
-                <div class="option-group">
-                    <div class="group-title">OCASIÓN ESPECIAL</div>
-                    <textarea id="r-notes" rows="2" placeholder="Ej: Aniversario, Mesa tranquila..."></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="action-btn btn-whatsapp" onclick="sendReservation()">
-                    <i class="fab fa-whatsapp"></i> CONFIRMAR RESERVA
-                </button>
+    <footer id="contacto">
+        <div class="reveal-up">
+            <h2 style="color: var(--white); margin-bottom: 40px;">Inicie su Transformación.</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 30px;">Agenda para pacientes privados y consultas académicas.</p>
+            <a href="#" class="whatsapp-btn-large">
+                Agendar Cita Vía WhatsApp
+            </a>
+            <div style="margin-top: 80px; font-size: 0.9rem; color: rgba(255,255,255,0.4);">
+                © 2026 Dr. Pedro Gámez Hernández. Todos los derechos reservados.<br>Diseño Web de Alta Gama.
             </div>
         </div>
-    </div>
-
-    <div class="float-cart" id="float-btn" style="display: none;">
-        <button class="action-btn btn-gold" onclick="openCheckout()">
-            <span><i class="fas fa-shopping-bag"></i> <span id="cart-count">0</span></span>
-            <span id="cart-sum">$0</span>
-        </button>
-    </div>
+    </footer>
 
     <script>
-        const PHONE = "573008556516";
-
-        // INTRO + HEADER SLIDESHOW
-        window.onload = function() {
+        // 1️⃣ LOGICA DEL PRELOADER
+        window.addEventListener('load', () => {
+            // Esperamos a que termine la animación del texto (aprox 2s) y luego quitamos el preloader
             setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                setTimeout(() => { splash.style.display = 'none'; }, 1000);
-            }, 2500); 
+                document.querySelector('.preloader').classList.add('finish');
+                document.body.style.overflow = 'auto'; // Permitir scroll de nuevo
+            }, 2500);
+        });
 
-            const bgs = document.querySelectorAll('.header-bg');
-            let currentBg = 0;
-            setInterval(() => {
-                bgs[currentBg].classList.remove('active');
-                currentBg = (currentBg + 1) % bgs.length;
-                bgs[currentBg].classList.add('active');
-            }, 8000);
-        };
+        // 2️⃣ LÓGICA DEL MENÚ HAMBURGUESA ANIMADO
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const navOverlay = document.getElementById('nav-overlay');
+        let isMenuOpen = false;
 
-        // --- BASE DE DATOS ---
-        const data = [
-            {
-                id: 201, name: "Ribeye Steak Premium", price: 65000, category: "Carnes",
-                desc: "400g de corte importado, marmoleo grado 5. Una experiencia de sabor intenso.",
-                img: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&w=800&q=80",
-                badge: {text: "🔥 Top Seller", type: "gold"},
-                groups: [
-                    { title: "Término", type: "radio", opts: [{n:"Azul",p:0}, {n:"Medio",p:0}, {n:"3/4",p:0}, {n:"Bien Asado",p:0}] },
-                    { title: "Salsas", type: "radio", opts: [{n:"BBQ de la Casa",p:0}, {n:"Pimienta Negra",p:0}, {n:"Champiñones al Vino (+3k)",p:3000}, {n:"Chimichurri Artesanal",p:0}] },
-                    { title: "Guarnición", type: "radio", opts: [{n:"Papas Francesa Trufadas",p:0}, {n:"Puré Rústico",p:0}, {n:"Ensalada César",p:0}, {n:"Vegetales al Grill",p:0}] }
-                ]
-            },
-            {
-                id: 202, name: "Tomahawk Gold (1.2kg)", price: 210000, category: "Carnes",
-                desc: "Impresionante corte con hueso largo, madurado 30 días. Ideal para compartir.",
-                img: "https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?auto=format&fit=crop&w=800&q=80",
-                badge: {text: "⭐ Chef's Choice", type: "chef"},
-                groups: [
-                    { title: "Término Recomendado", type: "radio", opts: [{n:"Medio",p:0}, {n:"3/4",p:0}] },
-                    { title: "Guarnición 1", type: "radio", opts: [{n:"Papas Cascos",p:0}, {n:"Mac & Cheese Trufado",p:0}] },
-                    { title: "Guarnición 2", type: "radio", opts: [{n:"Espárragos Parrilla",p:0}, {n:"Ensalada de la Casa",p:0}] }
-                ]
-            },
-            {
-                id: 501, name: "Langosta Thermidor", price: 135000, category: "Sushi",
-                desc: "Langosta entera del Caribe gratinada con salsa holandesa, brandy y queso gruyère.",
-                img: "https://images.unsplash.com/photo-1553163147-622ab57be1c7?auto=format&fit=crop&w=800&q=80",
-                groups: [ { title: "Acompañamiento", type: "radio", opts: [{n:"Risotto de Limón",p:0}, {n:"Vegetales Salteados",p:0}] } ]
-            },
-            {
-                id: 503, name: "Pulpo a la Parrilla", price: 58000, category: "Sushi",
-                desc: "Brazos de pulpo marinados y asados al carbón, sobre cama de papa criolla y alioli de pimentón.",
-                img: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=800&q=80",
-                groups: []
-            },
-            {
-                id: 101, name: "The Gold Burger 24k", price: 42000, category: "Hamburguesas",
-                desc: "Carne Angus (200g), láminas de oro comestible 24k, queso brie fundido, cebolla caramelizada al oporto y alioli de trufa negra.",
-                img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
-                badge: {text: "✨ Signature", type: "gold"},
-                groups: [
-                    { title: "Término de la Carne", type: "radio", opts: [{n:"Medio",p:0}, {n:"3/4",p:0}, {n:"Bien Asada",p:0}] },
-                    { title: "Selección de Pan", type: "radio", opts: [{n:"Brioche con Oro",p:0}, {n:"Pan Negro (Carbón Activado)",p:0}, {n:"Pan Artesanal Rustico",p:0}] },
-                    { title: "Nivel de Lujo (Adiciones)", type: "check", opts: [{n:"Extra Oro 24k (+10k)",p:10000}, {n:"Foie Gras (+15k)",p:15000}, {n:"Doble Carne (+12k)",p:12000}] }
-                ]
-            },
-            {
-                id: 301, name: "Pizza Trufa & Prosciutto", price: 45000, category: "Pizzas",
-                desc: "Base blanca, mozzarella fior di latte, láminas de trufa negra fresca, prosciutto di Parma y rúcula.",
-                img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
-                groups: [
-                    { title: "Tipo de Masa", type: "radio", opts: [{n:"Masa Madre (Napolitana)",p:0}, {n:"Delgada y Crocante (Romana)",p:0}] },
-                    { title: "Bordes", type: "radio", opts: [{n:"Tradicional",p:0}, {n:"Relleno de Queso (+6k)",p:6000}, {n:"Relleno Bocadillo (+5k)",p:5000}] },
-                    { title: "Extra Lujo", type: "check", opts: [{n:"Extra Trufa Negra (+15k)",p:15000}, {n:"Burrata Fresca al Centro (+12k)",p:12000}] }
-                ]
-            },
-            {
-                id: 601, name: "Volcán de Chocolate Belga", price: 22000, category: "Postres",
-                desc: "Bizcocho tibio de chocolate 70% cacao con centro líquido fundido.",
-                img: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=800&q=80",
-                groups: [
-                    { title: "Helado Acompañante", type: "radio", opts: [{n:"Vainilla de Madagascar",p:0}, {n:"Pistacho Bronte (+3k)",p:3000}, {n:"Frutos Rojos",p:0}] },
-                    { title: "Salsa Extra", type: "radio", opts: [{n:"Salsa de Frutos Rojos",p:0}, {n:"Caramelo Salado",p:0}, {n:"Sin Salsa Extra",p:0}] }
-                ]
-            },
-            {
-                id: 401, name: "Limonada de Coco Premium", price: 14000, category: "Bebidas",
-                desc: "Exótica y cremosa, preparada al momento con crema de coco natural y limón fresco.",
-                img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
-                groups: [
-                    { title: "Base Líquida", type: "radio", opts: [{n:"Agua",p:0}, {n:"Leche Entera",p:0}, {n:"Leche de Almendras (+3k)",p:3000}] },
-                    { title: "Temperatura / Textura", type: "radio", opts: [{n:"Frappé (Granizada)",p:0}, {n:"En las Rocas (Hielo)",p:0}] },
-                    { title: "Dulzor", type: "radio", opts: [{n:"Normal (Azúcar)",p:0}, {n:"Bajo Azúcar",p:0}, {n:"Stevia (Sin Calorías)",p:0}] }
-                ]
-            },
-            {
-                id: 405, name: "Dom Pérignon Vintage Brut", price: 1500000, category: "Bebidas",
-                desc: "Champagne Icónico. Notas de almendra, cacao en polvo y frutas blancas secas. La máxima expresión del lujo.",
-                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgAqdh364EJ5BcL6_QcNlDuBoLuqtiEAM8edyiLcXyPg&s=10",
-                badge: {text: "🍾 VIP Bottle", type: "gold"},
-                groups: [
-                    { title: "Servicio", type: "radio", opts: [{n:"En Hielera con Copas",p:0}, {n:"Para Llevar (Estuche)",p:0}] }
-                ]
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            // Alternar clase 'active' en el botón para la animación de las rayitas a X
+            hamburgerBtn.classList.toggle('active');
+            // Alternar clase 'open' en el overlay para que se deslice
+            navOverlay.classList.toggle('open');
+            // Bloquear/desbloquear el scroll del cuerpo
+            document.body.style.overflow = isMenuOpen ? 'hidden' : 'auto';
+        }
+
+        function closeMenu() {
+            if (isMenuOpen) toggleMenu();
+        }
+
+        hamburgerBtn.addEventListener('click', toggleMenu);
+
+
+        // 3️⃣ LÓGICA DE NAVEGACIÓN INTELIGENTE (Esconder al bajar, mostrar al subir)
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('main-header');
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            // Si bajamos más de 50px, agregamos fondo y sombra
+            if (currentScrollY > 50) {
+                header.classList.add('nav-scrolled');
+            } else {
+                header.classList.remove('nav-scrolled');
             }
-        ];
 
-        let cart = [];
-        let currItem = null;
-        let currQty = 1;
-
-        // RENDER GRID
-        function renderMenu(filter, btn) {
-            if(btn) {
-                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+            // Lógica de esconder/mostrar
+            if (currentScrollY > lastScrollY && currentScrollY > 200 && !isMenuOpen) {
+                // Bajando: Esconder menú
+                header.classList.add('nav-hidden');
+            } else {
+                // Subiendo: Mostrar menú
+                header.classList.remove('nav-hidden');
             }
-            const grid = document.getElementById('grid');
-            grid.innerHTML = '';
-            
-            const list = filter === 'all' ? data : data.filter(i => i.category === filter);
-            
-            list.forEach((item, index) => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.style.animationDelay = `${index * 0.05}s`;
-                card.onclick = () => openModal(item);
-                
-                let badgeHTML = '';
-                if(item.badge) {
-                    badgeHTML = `<div class="badge ${item.badge.type}">${item.badge.text}</div>`;
+            lastScrollY = currentScrollY;
+        });
+
+
+        // 4️⃣ ANIMACIONES AL HACER SCROLL (Intersection Observer)
+        // Observador para textos que suben
+        const textObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 }
-
-                card.innerHTML = `
-                    ${badgeHTML}
-                    <div class="product-img-container"><img src="${item.img}" class="product-img"></div>
-                    <div class="product-info">
-                        <div class="product-title">${item.name}</div>
-                        <div class="product-desc">${item.desc}</div>
-                        <div class="price-row">
-                            <span class="product-price">$${item.price.toLocaleString()}</span>
-                            <div class="add-icon"><i class="fas fa-plus"></i></div>
-                        </div>
-                    </div>`;
-                grid.appendChild(card);
             });
+        }, { threshold: 0.2 }); // Se activa al 20% visible
 
-            if(btn) {
-                const offset = document.getElementById('nav-container').offsetHeight;
-                const top = grid.getBoundingClientRect().top + window.pageYOffset - offset - 20;
-                window.scrollTo({top: top, behavior: 'smooth'});
-            }
-        }
+        document.querySelectorAll('.reveal-up').forEach(el => textObserver.observe(el));
 
-        // MODAL LOGIC
-        function openModal(item) {
-            currItem = item;
-            currQty = 1;
-            document.getElementById('p-img').style.backgroundImage = `url('${item.img}')`;
-            document.getElementById('p-title').innerText = item.name;
-            document.getElementById('p-desc').innerText = item.desc;
-            document.getElementById('p-qty').innerText = 1;
-            document.getElementById('p-notes').value = '';
-
-            const optsDiv = document.getElementById('p-options');
-            optsDiv.innerHTML = '';
-
-            if(item.groups) {
-                item.groups.forEach((g, i) => {
-                    let html = `<div class="option-group"><div class="group-title">${g.title}</div>`;
-                    g.opts.forEach((opt, j) => {
-                        const uid = `opt-${i}-${j}`;
-                        html += `
-                        <div class="option-item" onclick="toggleOpt(this, '${g.type}', '${i}')" id="${uid}" data-price="${opt.p}" data-name="${opt.n}">
-                            <div>
-                                <span class="option-text">${opt.n}</span>
-                                ${opt.p > 0 ? `<div class="option-price">+$${opt.p.toLocaleString()}</div>` : ''}
-                            </div>
-                            <div class="check-circle"><i class="fas fa-check"></i></div>
-                        </div>`;
-                    });
-                    html += `</div>`;
-                    optsDiv.innerHTML += html;
-                });
-            }
-            calcTotal();
-            document.getElementById('product-modal').classList.add('active');
-        }
-
-        function toggleOpt(el, type, groupId) {
-            if(type === 'radio') {
-                const siblings = el.parentElement.querySelectorAll('.option-item');
-                siblings.forEach(sib => sib.classList.remove('selected'));
-                el.classList.add('selected');
-            } else {
-                el.classList.toggle('selected');
-            }
-            if (navigator.vibrate) navigator.vibrate(15);
-            calcTotal();
-        }
-
-        function updateQty(n) {
-            currQty += n;
-            if(currQty < 1) currQty = 1;
-            document.getElementById('p-qty').innerText = currQty;
-            calcTotal();
-        }
-
-        function calcTotal() {
-            let total = currItem.price;
-            document.querySelectorAll('.option-item.selected').forEach(el => {
-                total += parseFloat(el.dataset.price);
+        // Observador específico para las fotos con efecto "Curtain Reveal"
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                     // Un pequeño delay para que el usuario note la animación
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                    }, 200);
+                }
             });
-            total *= currQty;
-            document.getElementById('p-total-btn').innerText = `$${total.toLocaleString()}`;
-            return total;
-        }
+        }, { threshold: 0.3 }); // Se activa cuando el 30% de la foto es visible
 
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        document.querySelectorAll('.image-reveal-container').forEach(el => imageObserver.observe(el));
 
-        // CART LOGIC
-        function addToCart() {
-            const opts = [];
-            document.querySelectorAll('.option-item.selected').forEach(el => opts.push(el.dataset.name));
-            
-            cart.push({
-                item: currItem,
-                qty: currQty,
-                opts: opts,
-                notes: document.getElementById('p-notes').value,
-                total: calcTotal()
-            });
-            updateCartUI();
-            closeModal('product-modal'); // Cierra modal de producto
-            
-            // ABRE MODAL DE ÉXITO (CONFIRMACIÓN)
-            document.getElementById('success-modal').classList.add('active');
-            
-            if (navigator.vibrate) navigator.vibrate([50, 50]);
-        }
-
-        function updateCartUI() {
-            const count = cart.reduce((a,b)=>a+b.qty,0);
-            const sum = cart.reduce((a,b)=>a+b.total,0);
-            document.getElementById('cart-count').innerText = count;
-            document.getElementById('cart-sum').innerText = `$${sum.toLocaleString()}`;
-            document.getElementById('cart-final-total').innerText = `$${sum.toLocaleString()}`;
-            
-            document.getElementById('float-btn').style.display = count > 0 ? 'block' : 'none';
-            if(count === 0) closeModal('checkout-modal');
-        }
-
-        function openCheckout() {
-            const list = document.getElementById('cart-list');
-            list.innerHTML = '';
-            cart.forEach((c, i) => {
-                list.innerHTML += `
-                <div style="background:#1a1a1a; padding:18px; border-radius:14px; margin-bottom:15px; border:1px solid #333; position:relative;">
-                    <div style="display:flex; justify-content:space-between; font-weight:800; margin-bottom:8px; font-size:1.05rem;">
-                        <span><span style="color:var(--primary)">${c.qty}x</span> ${c.item.name}</span>
-                        <span>$${c.total.toLocaleString()}</span>
-                    </div>
-                    ${c.opts.length ? `<div style="font-size:0.9rem; color:#bbb; margin-bottom:5px;"><i class="fas fa-check" style="color:var(--primary);font-size:0.8rem;"></i> ${c.opts.join(', ')}</div>` : ''}
-                    ${c.notes ? `<div style="font-size:0.85rem; color:#d4af37; font-style:italic; margin-top:6px; padding-left:10px; border-left:2px solid var(--primary);">"${c.notes}"</div>` : ''}
-                    <div style="position:absolute; top:18px; right:18px;">
-                        <span onclick="remItem(${i})" style="color:#ff4444; font-size:1.1rem; cursor:pointer;"><i class="fas fa-times"></i></span>
-                    </div>
-                </div>`;
-            });
-            toggleDelivery();
-            document.getElementById('checkout-modal').classList.add('active');
-        }
-
-        function remItem(i) { cart.splice(i,1); updateCartUI(); openCheckout(); }
-
-        function toggleDelivery() {
-            const type = document.getElementById('c-type').value;
-            document.getElementById('field-mesa').style.display = type === 'mesa' ? 'block' : 'none';
-            document.getElementById('field-addr').style.display = type === 'llevar' ? 'block' : 'none';
-        }
-
-        // WHATSAPP SENDERS
-        function sendWhatsapp() {
-            const name = document.getElementById('c-name').value;
-            const type = document.getElementById('c-type').value;
-            const phone = document.getElementById('c-phone').value;
-            const payment = document.getElementById('c-payment').value;
-            
-            if(!name) return alert("Por favor escribe tu nombre para el pedido.");
-
-            // Validación de celular solo si es domicilio
-            if(type === 'llevar' && !phone) return alert("Por favor escribe tu número de celular para el domicilio.");
-
-            if(!payment) return alert("Por favor selecciona un método de pago.");
-
-            let msg = `*👑 NUEVO PEDIDO PREMIUM - ${name.toUpperCase()}*%0A%0A`;
-            msg += `--------------------------------%0A`;
-            cart.forEach(c => {
-                msg += `🔸 *${c.qty}x ${c.item.name.toUpperCase()}* | $${c.total.toLocaleString()}%0A`;
-                if(c.opts.length) msg += `   ➤ _${c.opts.join(', ')}_%0A`;
-                if(c.notes) msg += `   📝 Nota: ${c.notes}%0A`;
-                msg += `%0A`;
-            });
-            msg += `--------------------------------%0A`;
-            
-            let loc = "";
-            if(type === 'mesa') {
-                loc = `📍 MESA ${document.getElementById('c-table').value}`;
-            } else {
-                loc = `🛵 DOMICILIO A: ${document.getElementById('c-addr').value}%0A📞 CONTACTO: ${phone}`;
-            }
-            
-            msg += `💰 *TOTAL A PAGAR: ${document.getElementById('cart-final-total').innerText}*%0A`;
-            msg += `💳 *PAGO:* ${payment}%0A`;
-            msg += `${loc}%0A`;
-            msg += `✅ *Solicito confirmación.*`;
-
-            window.open(`https://wa.me/${PHONE}?text=${msg}`, '_blank');
-        }
-
-        function openReservationModal() { document.getElementById('reservation-modal').classList.add('active'); }
-
-        function sendReservation() {
-            const name = document.getElementById('r-name').value;
-            const date = document.getElementById('r-date').value;
-            const time = document.getElementById('r-time').value;
-            const people = document.getElementById('r-people').value;
-            const notes = document.getElementById('r-notes').value;
-
-            if(!name || !date || !time) return alert("Completa los datos principales de la reserva.");
-
-            let msg = `📅 *SOLICITUD DE RESERVA VIP*%0A%0A`;
-            msg += `👤 *Cliente:* ${name}%0A`;
-            msg += `📆 *Fecha:* ${date}%0A`;
-            msg += `⏰ *Hora:* ${time}%0A`;
-            msg += `👥 *Pax:* ${people}%0A`;
-            if(notes) msg += `✨ *Ocasión/Nota:* ${notes}%0A`;
-
-            window.open(`https://wa.me/${PHONE}?text=${msg}`, '_blank');
-        }
-
-        // INIT
-        renderMenu('all');
     </script>
 </body>
 </html>
