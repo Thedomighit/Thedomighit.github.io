@@ -73,7 +73,6 @@
       letter-spacing: -0.02em;
     }
 
-    /* Header */
     .header {
       position: sticky;
       top: 0;
@@ -149,7 +148,6 @@
       color: var(--text-primary);
     }
 
-    /* Main Content */
     .main-content {
       padding: 0 16px;
     }
@@ -178,7 +176,6 @@
       to { opacity: 1; transform: translateX(0); }
     }
 
-    /* Cards */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -213,7 +210,6 @@
       color: var(--accent);
     }
 
-    /* Balance Card */
     .balance-card {
       background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
       border: 1px solid var(--border);
@@ -290,7 +286,6 @@
     .balance-item-value.personal { color: var(--pink); }
     .balance-item-value.real { color: var(--cyan); }
 
-    /* Special Cards */
     .real-available-card {
       background: linear-gradient(145deg, #13151a 0%, #0d0e11 100%);
       border: 1px solid var(--border);
@@ -386,15 +381,25 @@
       color: var(--text-secondary);
     }
 
-    /* Personal Money Card */
+    /* Personal Money Card - Enhanced */
     .personal-money-card {
       background: linear-gradient(145deg, #1a1218 0%, #120d10 100%);
-      border: 1px solid var(--pink);
+      border: 1px solid var(--border);
       border-radius: var(--radius-xl);
       padding: 20px;
       margin-bottom: 16px;
       position: relative;
       overflow: hidden;
+    }
+
+    .personal-money-card.has-warning {
+      border-color: var(--warning);
+      box-shadow: 0 0 20px var(--warning-dim);
+    }
+
+    .personal-money-card.has-danger {
+      border-color: var(--danger);
+      box-shadow: 0 0 20px var(--danger-dim);
     }
 
     .personal-money-card::before {
@@ -435,8 +440,9 @@
 
     .personal-money-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
+      margin-bottom: 12px;
     }
 
     .personal-money-stat {
@@ -444,6 +450,21 @@
       padding: 12px 8px;
       background: var(--bg-elevated);
       border-radius: var(--radius-md);
+    }
+
+    .personal-money-stat.highlight {
+      background: var(--pink-dim);
+      border: 1px solid var(--pink);
+    }
+
+    .personal-money-stat.warning-state {
+      background: var(--warning-dim);
+      border: 1px solid var(--warning);
+    }
+
+    .personal-money-stat.danger-state {
+      background: var(--danger-dim);
+      border: 1px solid var(--danger);
     }
 
     .personal-money-stat-label {
@@ -464,6 +485,9 @@
     .personal-money-stat-value.spent { color: var(--danger); }
     .personal-money-stat-value.remaining { color: var(--accent); }
     .personal-money-stat-value.over { color: var(--warning); }
+    .personal-money-stat-value.real-available { color: var(--cyan); }
+    .personal-money-stat-value.limited { color: var(--warning); }
+    .personal-money-stat-value.zero { color: var(--danger); }
 
     .personal-progress-bar {
       margin-top: 16px;
@@ -532,7 +556,36 @@
       border-left: 3px solid var(--danger);
     }
 
-    /* Recommendation Card */
+    .personal-alert.real-info {
+      background: linear-gradient(135deg, var(--cyan-dim) 0%, var(--pink-dim) 100%);
+      color: var(--text-primary);
+      border-left: 3px solid var(--cyan);
+    }
+
+    .comparison-divider {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+      padding: 8px 0;
+      border-top: 1px dashed var(--border);
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .comparison-divider span {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .comparison-divider::before,
+    .comparison-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
     .recommendation-card {
       background: linear-gradient(145deg, #1a1c20 0%, #121316 100%);
       border: 2px solid var(--accent);
@@ -663,7 +716,6 @@
       color: var(--accent);
     }
 
-    /* Status Card */
     .status-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -750,7 +802,6 @@
       flex-shrink: 0;
     }
 
-    /* Chart Container */
     .chart-container {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -794,7 +845,6 @@
       border-radius: 3px;
     }
 
-    /* Quick Stats */
     .quick-stats {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -849,7 +899,6 @@
       font-weight: 600;
     }
 
-    /* Section Header */
     .section-header {
       display: flex;
       align-items: center;
@@ -871,7 +920,6 @@
       color: var(--text-secondary);
     }
 
-    /* Category Cards */
     .category-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -960,7 +1008,6 @@
       color: var(--pink);
     }
 
-    /* History List */
     .history-section {
       margin-top: 24px;
     }
@@ -1084,7 +1131,6 @@
       color: var(--danger);
     }
 
-    /* FAB */
     .fab {
       position: fixed;
       bottom: 100px;
@@ -1114,7 +1160,6 @@
       transform: scale(0.95);
     }
 
-    /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -1164,7 +1209,6 @@
       font-weight: 600;
     }
 
-    /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -1237,7 +1281,6 @@
       padding: 20px;
     }
 
-    /* Form */
     .form-group {
       margin-bottom: 18px;
     }
@@ -1363,7 +1406,6 @@
       outline: none;
     }
 
-    /* Search */
     .search-container {
       position: relative;
       margin-bottom: 16px;
@@ -1420,7 +1462,6 @@
       border-radius: 2px;
     }
 
-    /* Month Picker */
     .month-picker-overlay {
       position: fixed;
       inset: 0;
@@ -1536,7 +1577,6 @@
       text-align: center;
     }
 
-    /* Notes */
     .notes-grid {
       display: flex;
       flex-direction: column;
@@ -1568,7 +1608,6 @@
       color: var(--warning);
     }
 
-    /* Export Section */
     .export-options {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1605,7 +1644,6 @@
       font-weight: 600;
     }
 
-    /* Suggestions Card */
     .suggestions-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -1656,7 +1694,6 @@
       color: var(--text-muted);
     }
 
-    /* Empty State */
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -1680,7 +1717,6 @@
       font-size: 14px;
     }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 110px;
@@ -1713,7 +1749,10 @@
       color: var(--danger);
     }
 
-    /* Responsive */
+    .hidden {
+      display: none !important;
+    }
+
     @media (min-width: 768px) {
       body {
         max-width: 480px;
@@ -1733,7 +1772,6 @@
       }
     }
 
-    /* Reduced Motion */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -1744,7 +1782,6 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header class="header">
     <div class="header-content">
       <div class="logo">
@@ -1770,12 +1807,9 @@
     </div>
   </header>
 
-  <!-- Main Content -->
   <main class="main-content">
-    <!-- Dashboard Section -->
     <section id="dashboard" class="section active">
       
-      <!-- 1. Balance Disponible -->
       <div class="balance-card">
         <div class="balance-label">Balance Disponible</div>
         <div class="balance-amount" id="balanceAmount">$0</div>
@@ -1811,7 +1845,6 @@
         </div>
       </div>
 
-      <!-- 2. Disponible Real -->
       <div class="real-available-card" id="realAvailableCard">
         <div class="real-available-header">
           <div class="real-available-title">
@@ -1828,14 +1861,15 @@
         </div>
       </div>
 
-      <!-- 3. Dinero para mi -->
-      <div class="personal-money-card">
+      <!-- Personal Money Card - Enhanced -->
+      <div class="personal-money-card" id="personalMoneyCard">
         <div class="personal-money-header">
           <div class="personal-money-title">
             <span>&#127873;</span> Dinero para mi
           </div>
           <div class="personal-money-badge">10% Flexible</div>
         </div>
+        
         <div class="personal-money-grid">
           <div class="personal-money-stat">
             <div class="personal-money-stat-label">Presupuesto</div>
@@ -1845,21 +1879,26 @@
             <div class="personal-money-stat-label">Gastado</div>
             <div class="personal-money-stat-value spent" id="personalSpent">$0</div>
           </div>
-          <div class="personal-money-stat">
-            <div class="personal-money-stat-label">Disponible</div>
+          <div class="personal-money-stat" id="personalRemainingStat">
+            <div class="personal-money-stat-label">Segun Presupuesto</div>
             <div class="personal-money-stat-value remaining" id="personalRemaining">$0</div>
           </div>
+          <div class="personal-money-stat highlight" id="realAvailablePersonalStat">
+            <div class="personal-money-stat-label">Disponible Real</div>
+            <div class="personal-money-stat-value real-available" id="realAvailablePersonal">$0</div>
+          </div>
         </div>
+        
         <div class="personal-progress-bar">
           <div class="personal-progress-fill safe" id="personalProgressFill" style="width: 0%"></div>
         </div>
+        
         <div class="personal-alert success" id="personalAlert">
           <span id="personalAlertIcon">&#9989;</span>
           <span id="personalAlertText">No has utilizado tu presupuesto personal todavia.</span>
         </div>
       </div>
 
-      <!-- Recommendation Card -->
       <div class="recommendation-card" id="recommendationCard">
         <div class="recommendation-header">
           <div class="recommendation-icon">&#128161;</div>
@@ -1905,7 +1944,6 @@
         </div>
       </div>
 
-      <!-- Status Card -->
       <div class="status-card">
         <div class="status-header">
           <div class="status-indicator green" id="statusIndicator">
@@ -1922,7 +1960,6 @@
         <div class="alerts-list" id="alertsList"></div>
       </div>
 
-      <!-- Suggestions Card -->
       <div class="suggestions-card" id="suggestionsCard">
         <div class="card-header">
           <span class="card-title">Sugerencias</span>
@@ -1930,7 +1967,6 @@
         <div id="suggestionsList"></div>
       </div>
 
-      <!-- Chart -->
       <div class="chart-container">
         <h3 class="chart-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1961,7 +1997,6 @@
         </div>
       </div>
 
-      <!-- Quick Stats -->
       <div class="quick-stats">
         <div class="stat-card" onclick="showSection('incomes')" tabindex="0" role="button">
           <div class="stat-icon income">
@@ -2005,7 +2040,6 @@
       </div>
     </section>
 
-    <!-- Incomes Section -->
     <section id="incomes" class="section">
       <div class="section-header">
         <h2 class="section-title">Ingresos</h2>
@@ -2031,7 +2065,6 @@
       </div>
     </section>
 
-    <!-- Expenses Section -->
     <section id="expenses" class="section">
       <div class="section-header">
         <h2 class="section-title">Gastos</h2>
@@ -2064,7 +2097,6 @@
       </div>
     </section>
 
-    <!-- Investments Section -->
     <section id="investments" class="section">
       <div class="section-header">
         <h2 class="section-title">Inversiones</h2>
@@ -2090,7 +2122,6 @@
       </div>
     </section>
 
-    <!-- Savings Section -->
     <section id="savings" class="section">
       <div class="section-header">
         <h2 class="section-title">Colchon de Ahorro</h2>
@@ -2116,7 +2147,6 @@
       </div>
     </section>
 
-    <!-- More Section -->
     <section id="more" class="section">
       <div class="section-header">
         <h2 class="section-title">Mas Opciones</h2>
@@ -2169,7 +2199,6 @@
     </section>
   </main>
 
-  <!-- FAB -->
   <button class="fab" onclick="openAddModal('income')" aria-label="Agregar nuevo registro">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
       <line x1="12" y1="5" x2="12" y2="19"/>
@@ -2177,7 +2206,6 @@
     </svg>
   </button>
 
-  <!-- Bottom Navigation -->
   <nav class="bottom-nav" role="navigation" aria-label="Navegacion principal">
     <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')" aria-label="Panel principal">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2219,7 +2247,6 @@
     </button>
   </nav>
 
-  <!-- Add/Edit Modal -->
   <div class="modal-overlay" id="addModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal">
       <div class="modal-header">
@@ -2282,7 +2309,6 @@
     </div>
   </div>
 
-  <!-- Month Picker -->
   <div class="month-picker-overlay" id="monthPicker" role="dialog" aria-modal="true" aria-labelledby="monthPickerTitle">
     <div class="month-picker">
       <div class="month-picker-header">
@@ -2311,14 +2337,12 @@
     </div>
   </div>
 
-  <!-- Toast -->
   <div class="toast" id="toast"></div>
 
   <script>
     // ===== CONSTANTS =====
     const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     
-    // Categorias de gastos NORMALES - NO descuentan de "Dinero para mi"
     const EXPENSE_CATEGORIES = [
       { id: 'arriendo', name: 'Arriendo', icon: '&#127968;', color: '#ef4444' },
       { id: 'agua', name: 'Agua', icon: '&#128167;', color: '#3b82f6' },
@@ -2332,7 +2356,6 @@
       { id: 'hormiga', name: 'Gastos Hormiga', icon: '&#128028;', color: '#84cc16' }
     ];
 
-    // Categorias de gastos PERSONALES - SI descuentan de "Dinero para mi"
     const PERSONAL_CATEGORIES = [
       { id: 'ropa', name: 'Ropa', icon: '&#128085;', color: '#f472b6', isPersonal: true },
       { id: 'ocio', name: 'Ocio', icon: '&#127919;', color: '#a855f7', isPersonal: true },
@@ -2342,7 +2365,6 @@
       { id: 'otros_personales', name: 'Otros Personales', icon: '&#128578;', color: '#ec4899', isPersonal: true }
     ];
 
-    // Todas las categorias combinadas
     const ALL_CATEGORIES = [...EXPENSE_CATEGORIES, ...PERSONAL_CATEGORIES];
 
     // ===== STATE INITIALIZATION =====
@@ -2411,7 +2433,6 @@
       }, 3000);
     }
 
-    // ===== FORMATO AUTOMATICO DE MILES =====
     function formatNumberWithThousands(num) {
       if (!num && num !== 0) return '';
       const numStr = String(Math.floor(Number(num)));
@@ -2601,9 +2622,17 @@
       }
     }
 
-    // ===== DINERO PARA MI - LOGICA CORREGIDA =====
+    // ===== DINERO PARA MI - NUEVA LOGICA =====
     function updatePersonalMoney() {
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {} };
+      
+      // Calcular totales del mes
+      const totalIncomes = calculateTotal(monthData.incomes);
+      const totalExpenses = calculateExpensesTotal(monthData.expenses);
+      const totalInvestments = calculateTotal(monthData.investments);
+      
+      // Balance disponible del mes (sin contar ahorros)
+      const balanceDisponible = totalIncomes - totalExpenses - totalInvestments;
       
       // Calcular presupuesto personal (10% del ultimo ingreso)
       let baseIncome = 0;
@@ -2614,32 +2643,26 @@
       
       const personalBudget = Math.round(baseIncome * 0.10);
       
-      // Calcular gastos en categorias personales (SOLO estas categorias descuentan)
+      // Calcular gastos en categorias personales
       let personalSpent = 0;
       PERSONAL_CATEGORIES.forEach(cat => {
         const expenses = monthData.expenses[cat.id] || [];
         personalSpent += calculateTotal(expenses);
       });
       
+      // Disponible segun presupuesto
       const personalRemaining = personalBudget - personalSpent;
+      
+      // ===== NUEVO: Disponible Personal Real =====
+      // Es el minimo entre lo que queda del presupuesto y el balance real disponible
+      const realAvailablePersonal = Math.max(0, Math.min(personalRemaining, balanceDisponible));
       
       // Actualizar UI
       document.getElementById('personalBudget').textContent = formatCurrency(personalBudget);
       document.getElementById('personalSpent').textContent = formatCurrency(personalSpent);
       
+      // Actualizar "Segun Presupuesto"
       const remainingEl = document.getElementById('personalRemaining');
-      const progressEl = document.getElementById('personalProgressFill');
-      const alertEl = document.getElementById('personalAlert');
-      const alertIconEl = document.getElementById('personalAlertIcon');
-      const alertTextEl = document.getElementById('personalAlertText');
-      
-      // Determinar porcentaje gastado
-      let percentage = 0;
-      if (personalBudget > 0) {
-        percentage = (personalSpent / personalBudget) * 100;
-      }
-      
-      // Actualizar valor disponible
       if (personalRemaining >= 0) {
         remainingEl.textContent = formatCurrency(personalRemaining);
         remainingEl.className = 'personal-money-stat-value remaining';
@@ -2648,11 +2671,22 @@
         remainingEl.className = 'personal-money-stat-value over';
       }
       
-      // Actualizar barra de progreso (max 100% visual)
+      // Actualizar "Disponible Real"
+      const realAvailableEl = document.getElementById('realAvailablePersonal');
+      const realAvailableStatEl = document.getElementById('realAvailablePersonalStat');
+      realAvailableEl.textContent = formatCurrency(realAvailablePersonal);
+      
+      // Determinar porcentaje gastado del presupuesto
+      let percentage = 0;
+      if (personalBudget > 0) {
+        percentage = (personalSpent / personalBudget) * 100;
+      }
+      
+      // Actualizar barra de progreso
+      const progressEl = document.getElementById('personalProgressFill');
       const displayPercentage = Math.min(percentage, 100);
       progressEl.style.width = `${displayPercentage}%`;
       
-      // Determinar clase de la barra
       if (percentage < 80) {
         progressEl.className = 'personal-progress-fill safe';
       } else if (percentage < 100) {
@@ -2661,34 +2695,76 @@
         progressEl.className = 'personal-progress-fill danger';
       }
       
-      // ===== LOGICA DE ALERTAS CORREGIDA =====
-      alertEl.classList.remove('hidden', 'success', 'info', 'warning', 'caution', 'danger');
+      // ===== CARD STYLING =====
+      const cardEl = document.getElementById('personalMoneyCard');
+      cardEl.className = 'personal-money-card';
       
-      if (personalSpent === 0) {
-        // ESCENARIO 1: Gastado = 0
-        alertEl.classList.add('success');
-        alertIconEl.innerHTML = '&#9989;';
-        alertTextEl.textContent = 'No has utilizado tu presupuesto personal todavia.';
-      } else if (percentage < 80) {
-        // ESCENARIO 2: Gastado entre 1% y 79%
-        alertEl.classList.add('info');
-        alertIconEl.innerHTML = '&#128309;';
-        alertTextEl.textContent = 'Presupuesto personal bajo control.';
-      } else if (percentage < 100) {
-        // ESCENARIO 3: Gastado entre 80% y 99%
+      // ===== ALERTA PRINCIPAL =====
+      const alertEl = document.getElementById('personalAlert');
+      const alertIconEl = document.getElementById('personalAlertIcon');
+      const alertTextEl = document.getElementById('personalAlertText');
+      
+      alertEl.classList.remove('hidden', 'success', 'info', 'warning', 'caution', 'danger', 'real-info');
+      
+      // Determinar estado y alertas
+      const isBudgetLimited = personalRemaining > balanceDisponible && balanceDisponible >= 0;
+      const isBudgetExceeded = personalRemaining < 0;
+      const isNoMoneyAvailable = balanceDisponible <= 0;
+      
+      // Estilo del stat de disponible real
+      realAvailableStatEl.className = 'personal-money-stat';
+      realAvailableEl.className = 'personal-money-stat-value real-available';
+      
+      if (isNoMoneyAvailable) {
+        // ESCENARIO: No hay dinero disponible
+        cardEl.classList.add('has-danger');
+        realAvailableStatEl.classList.add('danger-state');
+        realAvailableEl.className = 'personal-money-stat-value zero';
+        
+        alertEl.classList.add('danger');
+        alertIconEl.innerHTML = '&#128308;';
+        alertTextEl.textContent = 'No queda dinero disponible para gastos personales. Los gastos generales consumieron todo.';
+        
+      } else if (isBudgetLimited && realAvailablePersonal < personalRemaining) {
+        // ESCENARIO: El presupuesto personal excede el dinero real disponible
+        cardEl.classList.add('has-warning');
+        realAvailableStatEl.classList.add('warning-state');
+        realAvailableEl.className = 'personal-money-stat-value limited';
+        
         alertEl.classList.add('warning');
         alertIconEl.innerHTML = '&#9888;';
-        alertTextEl.textContent = 'Estas cerca de agotar tu presupuesto personal.';
-      } else if (percentage === 100 || (personalSpent === personalBudget && personalBudget > 0)) {
-        // ESCENARIO 4: Gastado = 100%
-        alertEl.classList.add('caution');
-        alertIconEl.innerHTML = '&#128994;';
-        alertTextEl.textContent = 'Has utilizado todo tu presupuesto personal.';
-      } else {
-        // ESCENARIO 5: Gastado > 100%
+        const diff = personalRemaining - realAvailablePersonal;
+        alertTextEl.textContent = `Tu presupuesto personal es mayor que el dinero disponible. Solo puedes usar ${formatCurrency(realAvailablePersonal)} de los ${formatCurrency(personalRemaining)} presupuestados.`;
+        
+      } else if (isBudgetExceeded) {
+        // ESCENARIO: Ya gasto mas de su presupuesto personal
         alertEl.classList.add('danger');
         alertIconEl.innerHTML = '&#128308;';
         alertTextEl.textContent = 'Has superado tu presupuesto personal y estas utilizando dinero destinado a otros objetivos.';
+        
+      } else if (personalSpent === 0) {
+        // ESCENARIO: No ha gastado nada
+        alertEl.classList.add('success');
+        alertIconEl.innerHTML = '&#9989;';
+        alertTextEl.textContent = 'No has utilizado tu presupuesto personal todavia.';
+        
+      } else if (percentage < 80) {
+        // ESCENARIO: Gastando normalmente
+        alertEl.classList.add('info');
+        alertIconEl.innerHTML = '&#128309;';
+        alertTextEl.textContent = 'Presupuesto personal bajo control.';
+        
+      } else if (percentage < 100) {
+        // ESCENARIO: Cerca del limite
+        alertEl.classList.add('caution');
+        alertIconEl.innerHTML = '&#128994;';
+        alertTextEl.textContent = 'Estas cerca de agotar tu presupuesto personal.';
+        
+      } else {
+        // ESCENARIO: Exacto al 100%
+        alertEl.classList.add('caution');
+        alertIconEl.innerHTML = '&#128994;';
+        alertTextEl.textContent = 'Has utilizado todo tu presupuesto personal.';
       }
     }
 
@@ -2875,7 +2951,6 @@
       const container = document.getElementById('expenseCategories');
       const monthData = appData.months[appData.currentMonth] || { expenses: {} };
       
-      // Categorias normales
       let html = EXPENSE_CATEGORIES.map(cat => {
         const expenses = monthData.expenses[cat.id] || [];
         const total = calculateTotal(expenses);
@@ -2889,7 +2964,6 @@
         `;
       }).join('');
       
-      // Categorias personales con badge
       html += PERSONAL_CATEGORIES.map(cat => {
         const expenses = monthData.expenses[cat.id] || [];
         const total = calculateTotal(expenses);
@@ -2906,7 +2980,6 @@
       
       container.innerHTML = html;
 
-      // Actualizar select del modal
       const select = document.getElementById('expenseCategory');
       let selectHtml = '<optgroup label="Gastos Generales">';
       selectHtml += EXPENSE_CATEGORIES.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
@@ -3309,15 +3382,7 @@
     }
 
     // ===== MONTH PICKER =====
-    function openMonthPicker() {
-      const parts = appData.currentMonth.split('-');
-      selectedYear = parseInt(parts[0]) || new Date().getFullYear();
-      document.getElementById('yearDisplay').textContent = selectedYear;
-      renderMonthPicker();
-      document.getElementById('monthPicker').classList.add('active');
-    }
-
-    function changeYear(delta) {
+        function changeYear(delta) {
       selectedYear += delta;
       document.getElementById('yearDisplay').textContent = selectedYear;
       renderMonthPicker();
@@ -3398,7 +3463,7 @@
       document.getElementById('searchResults').innerHTML = '';
     }
 
-        // ===== EXPORT/IMPORT =====
+    // ===== EXPORT/IMPORT =====
     function exportPDF() {
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [], savings: [] };
       const totalIncomes = calculateTotal(monthData.incomes);
@@ -3408,7 +3473,6 @@
       const [year, month] = appData.currentMonth.split('-');
       const monthName = MONTHS[parseInt(month) - 1];
 
-      // Calcular gastos personales
       let personalSpent = 0;
       PERSONAL_CATEGORIES.forEach(cat => {
         const expenses = monthData.expenses[cat.id] || [];
@@ -3418,6 +3482,7 @@
       const balance = totalIncomes - totalExpenses - totalInvestments;
       const realAvailable = balance - totalSavings;
       const personalBudget = Math.round(totalIncomes * 0.10);
+      const realAvailablePersonal = Math.max(0, Math.min(personalBudget - personalSpent, balance));
 
       const content = `
 ============================================
@@ -3441,7 +3506,8 @@ DINERO PARA MI (10% Flexible)
 -----------------------------
 Presupuesto:          ${formatCurrency(personalBudget)}
 Gastado:              ${formatCurrency(personalSpent)}
-Disponible:           ${formatCurrency(personalBudget - personalSpent)}
+Segun Presupuesto:    ${formatCurrency(personalBudget - personalSpent)}
+Disponible Real:      ${formatCurrency(realAvailablePersonal)}
 
 DISTRIBUCION RECOMENDADA
 ------------------------
@@ -3452,7 +3518,7 @@ Para mi (10%):        ${formatCurrency(totalIncomes * 0.10)}
 
 DETALLE DE INGRESOS
 -------------------
- ${monthData.incomes.length > 0 ? monthData.incomes.map(i => `* ${i.description || 'Ingreso'}: ${formatCurrency(i.amount)} (${formatDate(i.date)})`).join('\n') : 'Sin ingresos registrados'}
+ ${monthData.incomes.length > 0 ? monthData.incomes.map(i => `* ${i.description || 'Ingreso'}: ${formatCurrency(i.amount)} (${formatDate(i.date)})`).join('\n ') : 'Sin ingresos registrados'}
 
 DETALLE DE GASTOS
 -----------------
@@ -3465,7 +3531,7 @@ DETALLE DE GASTOS
 
 DETALLE DE INVERSIONES
 ----------------------
- ${monthData.investments.length > 0 ? monthData.investments.map(i => `* ${i.description || 'Inversion'}: ${formatCurrency(i.amount)} (${formatDate(i.date)})`).join('\n') : 'Sin inversiones registradas'}
+ ${monthData.investments.length > 0 ? monthData.investments.map(i => `* ${i.description || 'Inversion'}: ${formatCurrency(i.amount)} (${formatDate(i.date)})`).join('\n ') : 'Sin inversiones registradas'}
 
 DETALLE DE AHORROS (COLCHON)
 ----------------------------
@@ -3545,7 +3611,6 @@ DETALLE DE AHORROS (COLCHON)
         setTimeout(drawChart, 100);
       });
 
-      // Close modals on backdrop click
       document.querySelectorAll('.modal-overlay, .month-picker-overlay').forEach(overlay => {
         overlay.addEventListener('click', (e) => {
           if (e.target === overlay) {
@@ -3554,7 +3619,6 @@ DETALLE DE AHORROS (COLCHON)
         });
       });
 
-      // Keyboard navigation
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           document.querySelectorAll('.modal-overlay, .month-picker-overlay').forEach(m => m.classList.remove('active'));
@@ -3562,7 +3626,6 @@ DETALLE DE AHORROS (COLCHON)
       });
     }
 
-    // Start the app
     document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
