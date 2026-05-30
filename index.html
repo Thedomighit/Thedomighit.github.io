@@ -381,7 +381,7 @@
       color: var(--text-secondary);
     }
 
-    /* Personal Money Card - Enhanced */
+    /* Personal Money Card */
     .personal-money-card {
       background: linear-gradient(145deg, #1a1218 0%, #120d10 100%);
       border: 1px solid var(--border);
@@ -556,35 +556,153 @@
       border-left: 3px solid var(--danger);
     }
 
-    .personal-alert.real-info {
-      background: linear-gradient(135deg, var(--cyan-dim) 0%, var(--pink-dim) 100%);
-      color: var(--text-primary);
-      border-left: 3px solid var(--cyan);
+    /* Cushion Card - New */
+    .cushion-card {
+      background: linear-gradient(145deg, #1a1612 0%, #12100d 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .comparison-divider {
+    .cushion-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--warning-dim) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cushion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .cushion-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 12px 0;
-      padding: 8px 0;
-      border-top: 1px dashed var(--border);
-      border-bottom: 1px dashed var(--border);
     }
 
-    .comparison-divider span {
+    .cushion-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .cushion-btn {
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      border: none;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cushion-btn.withdraw {
+      background: var(--danger-dim);
+      color: var(--danger);
+    }
+
+    .cushion-btn.withdraw:hover, .cushion-btn.withdraw:focus {
+      background: rgba(239, 68, 68, 0.2);
+      outline: none;
+    }
+
+    .cushion-btn.deposit {
+      background: var(--warning-dim);
+      color: var(--warning);
+    }
+
+    .cushion-btn.deposit:hover, .cushion-btn.deposit:focus {
+      background: rgba(245, 158, 11, 0.2);
+      outline: none;
+    }
+
+    .cushion-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .cushion-stat {
+      text-align: center;
+      padding: 12px 8px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-md);
+    }
+
+    .cushion-stat-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+    }
+
+    .cushion-stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .cushion-stat-value.total { color: var(--warning); }
+    .cushion-stat-value.withdrawn { color: var(--danger); }
+    .cushion-stat-value.net { color: var(--accent); }
+
+    .cushion-progress {
+      margin-top: 12px;
+    }
+
+    .cushion-progress-label {
+      display: flex;
+      justify-content: space-between;
       font-size: 11px;
       color: var(--text-muted);
-      white-space: nowrap;
+      margin-bottom: 6px;
     }
 
-    .comparison-divider::before,
-    .comparison-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
+    .cushion-progress-bar {
+      height: 10px;
+      background: var(--bg-elevated);
+      border-radius: 5px;
+      overflow: hidden;
     }
+
+    .cushion-progress-fill {
+      height: 100%;
+      border-radius: 5px;
+      background: linear-gradient(90deg, var(--warning), var(--accent));
+      transition: width 0.3s ease;
+    }
+
+    .withdrawal-reason {
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
+    }
+
+    .withdrawal-reason.emergency { background: var(--danger-dim); color: var(--danger); }
+    .withdrawal-reason.low-income { background: var(--warning-dim); color: var(--warning); }
+    .withdrawal-reason.repair { background: var(--info-dim); color: var(--info); }
+    .withdrawal-reason.health { background: var(--pink-dim); color: var(--pink); }
+    .withdrawal-reason.other { background: var(--purple-dim); color: var(--purple); }
 
     .recommendation-card {
       background: linear-gradient(145deg, #1a1c20 0%, #121316 100%);
@@ -1046,6 +1164,15 @@
       border-left: 3px solid var(--pink);
     }
 
+    .history-item.withdrawal {
+      border-left: 3px solid var(--danger);
+      background: linear-gradient(90deg, var(--danger-dim) 0%, var(--bg-card) 30%);
+    }
+
+    .history-item.deposit {
+      border-left: 3px solid var(--warning);
+    }
+
     .history-item-left {
       display: flex;
       align-items: center;
@@ -1100,6 +1227,8 @@
     .history-amount.income { color: var(--accent); }
     .history-amount.expense { color: var(--danger); }
     .history-amount.personal { color: var(--pink); }
+    .history-amount.withdrawal { color: var(--danger); }
+    .history-amount.deposit { color: var(--warning); }
 
     .history-actions {
       display: flex;
@@ -1403,6 +1532,16 @@
 
     .btn-danger:hover, .btn-danger:focus {
       background: rgba(239, 68, 68, 0.2);
+      outline: none;
+    }
+
+    .btn-warning {
+      background: var(--warning-dim);
+      color: var(--warning);
+    }
+
+    .btn-warning:hover, .btn-warning:focus {
+      background: rgba(245, 158, 11, 0.2);
       outline: none;
     }
 
@@ -1749,6 +1888,33 @@
       color: var(--danger);
     }
 
+    .confirm-warning {
+      background: var(--warning-dim);
+      border: 1px solid var(--warning);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .confirm-warning-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .confirm-warning-text {
+      font-size: 14px;
+      color: var(--warning);
+      line-height: 1.5;
+    }
+
+    .confirm-warning-text strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
     .hidden {
       display: none !important;
     }
@@ -1861,7 +2027,51 @@
         </div>
       </div>
 
-      <!-- Personal Money Card - Enhanced -->
+      <!-- Cushion Card - New -->
+      <div class="cushion-card" id="cushionCard">
+        <div class="cushion-header">
+          <div class="cushion-title">
+            <span>&#128737;</span> Colchon de Emergencia
+          </div>
+          <div class="cushion-actions">
+            <button class="cushion-btn deposit" onclick="openAddModal('saving')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+              Depositar
+            </button>
+            <button class="cushion-btn withdraw" onclick="openWithdrawModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+              Retirar
+            </button>
+          </div>
+        </div>
+        
+        <div class="cushion-stats">
+          <div class="cushion-stat">
+            <div class="cushion-stat-label">Total Acumulado</div>
+            <div class="cushion-stat-value total" id="cushionTotal">$0</div>
+          </div>
+          <div class="cushion-stat">
+            <div class="cushion-stat-label">Retirado</div>
+            <div class="cushion-stat-value withdrawn" id="cushionWithdrawn">$0</div>
+          </div>
+          <div class="cushion-stat">
+            <div class="cushion-stat-label">Saldo Neto</div>
+            <div class="cushion-stat-value net" id="cushionNet">$0</div>
+          </div>
+        </div>
+        
+        <div class="cushion-progress">
+          <div class="cushion-progress-label">
+            <span>Meta: 6 meses de gastos</span>
+            <span id="cushionProgressPercent">0%</span>
+          </div>
+          <div class="cushion-progress-bar">
+            <div class="cushion-progress-fill" id="cushionProgressFill" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Money Card -->
       <div class="personal-money-card" id="personalMoneyCard">
         <div class="personal-money-header">
           <div class="personal-money-title">
@@ -1910,7 +2120,7 @@
         
         <div class="recommendation-grid" id="recommendationGrid">
           <div class="recommendation-item savings">
-            <div class="recommendation-item-icon">&#128737;&#65039;</div>
+            <div class="recommendation-item-icon">&#128737;</div>
             <div class="recommendation-item-label">Colchon</div>
             <div class="recommendation-item-percent">40%</div>
             <div class="recommendation-item-amount" id="recSavings">$0</div>
@@ -2127,14 +2337,50 @@
         <h2 class="section-title">Colchon de Ahorro</h2>
         <span class="section-badge" id="savingsCount">0 depositos</span>
       </div>
+      
+      <!-- Cushion Summary Card -->
+      <div class="cushion-card">
+        <div class="cushion-header">
+          <div class="cushion-title">
+            <span>&#128737;</span> Resumen del Colchon
+          </div>
+          <div class="cushion-actions">
+            <button class="cushion-btn deposit" onclick="openAddModal('saving')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+              Depositar
+            </button>
+            <button class="cushion-btn withdraw" onclick="openWithdrawModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+              Retirar
+            </button>
+          </div>
+        </div>
+        
+        <div class="cushion-stats">
+          <div class="cushion-stat">
+            <div class="cushion-stat-label">Total Acumulado</div>
+            <div class="cushion-stat-value total" id="savingsCushionTotal">$0</div>
+          </div>
+          <div class="cushion-stat">
+            <div class="cushion-stat-label">Retirado</div>
+            <div class="cushion-stat-value withdrawn" id="savingsCushionWithdrawn">$0</div>
+          </div>
+          <div class="cushion-stat">
+            <div class="cushion-stat-label">Saldo Neto</div>
+            <div class="cushion-stat-value net" id="savingsCushionNet">$0</div>
+          </div>
+        </div>
+      </div>
+
       <div class="card" style="border-left: 4px solid var(--warning);">
         <div class="balance-grid">
           <div class="balance-item" style="grid-column: span 2;">
-            <div class="balance-item-label">Total Ahorrado (Historico)</div>
+            <div class="balance-item-label">Total Ahorrado (Depositos)</div>
             <div class="balance-item-value savings" id="savingsTotal" style="font-size: 28px;">$0</div>
           </div>
         </div>
       </div>
+      
       <div class="history-section">
         <h3 class="history-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2144,6 +2390,17 @@
           Historial de Depositos
         </h3>
         <div class="history-list" id="savingsList"></div>
+      </div>
+      
+      <!-- Cushion History Section -->
+      <div class="history-section" style="margin-top: 32px;">
+        <h3 class="history-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          Historial del Colchon (Retiros y Reposiciones)
+        </h3>
+        <div class="history-list" id="cushionHistoryList"></div>
       </div>
     </section>
 
@@ -2247,6 +2504,7 @@
     </button>
   </nav>
 
+  <!-- Add/Edit Modal -->
   <div class="modal-overlay" id="addModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal">
       <div class="modal-header">
@@ -2309,6 +2567,74 @@
     </div>
   </div>
 
+  <!-- Withdraw Modal - New -->
+  <div class="modal-overlay" id="withdrawModal" role="dialog" aria-modal="true" aria-labelledby="withdrawModalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="withdrawModalTitle">Retirar del Colchon</h3>
+        <button class="modal-close" onclick="closeModal('withdrawModal')" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="confirm-warning">
+          <span class="confirm-warning-icon">&#9888;</span>
+          <div class="confirm-warning-text">
+            <strong>Estas retirando dinero de tu colchon de emergencia.</strong>
+            Este fondo esta destinado a situaciones imprevistas. Asegurate de que sea necesario.
+          </div>
+        </div>
+        
+        <form id="withdrawForm" onsubmit="handleWithdrawSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">Saldo disponible en el colchon</label>
+            <div style="font-family: 'Space Grotesk'; font-size: 24px; font-weight: 700; color: var(--warning);" id="withdrawAvailableBalance">$0</div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="withdrawAmount">Monto a Retirar</label>
+            <div class="amount-input-wrapper">
+              <span class="currency-prefix">$</span>
+              <input type="text" 
+                     class="form-input" 
+                     id="withdrawAmount" 
+                     placeholder="0"
+                     inputmode="numeric"
+                     autocomplete="off"
+                     required
+                     oninput="formatAmountInput(this)"
+                     onfocus="handleAmountFocus(this)"
+                     onblur="handleAmountBlur(this)">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="withdrawReason">Motivo del Retiro</label>
+            <select class="form-select" id="withdrawReason" required>
+              <option value="">Selecciona un motivo</option>
+              <option value="emergency">Emergencia</option>
+              <option value="low-income">Mes con menos ingresos</option>
+              <option value="repair">Reparacion</option>
+              <option value="health">Salud</option>
+              <option value="other">Otro</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="withdrawDescription">Descripcion (opcional)</label>
+            <input type="text" class="form-input" id="withdrawDescription" placeholder="Ej: Reparacion urgente del carro">
+          </div>
+          
+          <button type="submit" class="btn btn-warning">Confirmar Retiro</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Month Picker -->
   <div class="month-picker-overlay" id="monthPicker" role="dialog" aria-modal="true" aria-labelledby="monthPickerTitle">
     <div class="month-picker">
       <div class="month-picker-header">
@@ -2343,6 +2669,14 @@
     // ===== CONSTANTS =====
     const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     
+    const WITHDRAWAL_REASONS = {
+      emergency: 'Emergencia',
+      'low-income': 'Mes con menos ingresos',
+      repair: 'Reparacion',
+      health: 'Salud',
+      other: 'Otro'
+    };
+    
     const EXPENSE_CATEGORIES = [
       { id: 'arriendo', name: 'Arriendo', icon: '&#127968;', color: '#ef4444' },
       { id: 'agua', name: 'Agua', icon: '&#128167;', color: '#3b82f6' },
@@ -2376,6 +2710,10 @@
       if (saved) {
         try {
           appData = JSON.parse(saved);
+          // Ensure cushionWithdrawals exists for backwards compatibility
+          if (!appData.cushionWithdrawals) {
+            appData.cushionWithdrawals = [];
+          }
         } catch (e) {
           appData = createDefaultData();
         }
@@ -2388,6 +2726,7 @@
       return {
         currentMonth: getCurrentMonthKey(),
         months: {},
+        cushionWithdrawals: [],
         recommendation: {
           baseIncome: 0,
           savingsPercent: 40,
@@ -2419,6 +2758,21 @@
       try {
         const date = new Date(dateStr);
         return date.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' });
+      } catch (e) {
+        return 'Sin fecha';
+      }
+    }
+
+    function formatDateTime(dateStr) {
+      if (!dateStr) return 'Sin fecha';
+      try {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('es-CO', { 
+          day: 'numeric', 
+          month: 'short',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
       } catch (e) {
         return 'Sin fecha';
       }
@@ -2494,6 +2848,11 @@
         }
       });
       
+      // Ensure cushionWithdrawals exists
+      if (!appData.cushionWithdrawals) {
+        appData.cushionWithdrawals = [];
+      }
+      
       saveData();
     }
 
@@ -2525,11 +2884,56 @@
       }
     }
 
+    // ===== CALCULATION FUNCTIONS =====
+    function calculateTotal(arr) {
+      if (!arr || !Array.isArray(arr)) return 0;
+      return arr.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+    }
+
+    function calculateExpensesTotal(expenses) {
+      if (!expenses || typeof expenses !== 'object') return 0;
+      return Object.values(expenses).flat().reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+    }
+
+    function calculateTotalSavings() {
+      let total = 0;
+      if (appData.months) {
+        Object.values(appData.months).forEach(month => {
+          if (month.savings && Array.isArray(month.savings)) {
+            total += calculateTotal(month.savings);
+          }
+        });
+      }
+      return total;
+    }
+
+    function calculateTotalWithdrawals() {
+      if (!appData.cushionWithdrawals || !Array.isArray(appData.cushionWithdrawals)) return 0;
+      return appData.cushionWithdrawals
+        .filter(w => w.type === 'withdrawal')
+        .reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+    }
+
+    function calculateTotalReplenishments() {
+      if (!appData.cushionWithdrawals || !Array.isArray(appData.cushionWithdrawals)) return 0;
+      return appData.cushionWithdrawals
+        .filter(w => w.type === 'replenishment')
+        .reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+    }
+
+    function calculateNetCushion() {
+      const totalSavings = calculateTotalSavings();
+      const totalWithdrawn = calculateTotalWithdrawals();
+      const totalReplenished = calculateTotalReplenishments();
+      return totalSavings - totalWithdrawn + totalReplenished;
+    }
+
     // ===== DASHBOARD UPDATE =====
     function updateUI() {
       updateMonthDisplay();
       updateDashboard();
       updateRealAvailable();
+      updateCushionCard();
       updatePersonalMoney();
       updateRecommendation();
       updateStatusAnalysis();
@@ -2539,6 +2943,7 @@
       updateExpensesList();
       updateInvestmentsList();
       updateSavingsList();
+      updateCushionHistoryList();
       updateNotesList();
       drawChart();
     }
@@ -2580,6 +2985,35 @@
       document.getElementById('savingsCount').textContent = `${savingsCount} depositos`;
     }
 
+    // ===== CUSHION CARD UPDATE =====
+    function updateCushionCard() {
+      const totalSavings = calculateTotalSavings();
+      const totalWithdrawn = calculateTotalWithdrawals();
+      const netCushion = calculateNetCushion();
+      
+      document.getElementById('cushionTotal').textContent = formatCurrency(totalSavings);
+      document.getElementById('cushionWithdrawn').textContent = formatCurrency(totalWithdrawn);
+      document.getElementById('cushionNet').textContent = formatCurrency(netCushion);
+      
+      // Also update savings section
+      document.getElementById('savingsCushionTotal').textContent = formatCurrency(totalSavings);
+      document.getElementById('savingsCushionWithdrawn').textContent = formatCurrency(totalWithdrawn);
+      document.getElementById('savingsCushionNet').textContent = formatCurrency(netCushion);
+      
+      // Calculate progress towards 6 months of expenses
+      const monthData = appData.months[appData.currentMonth] || { expenses: {} };
+      const monthlyExpenses = calculateExpensesTotal(monthData.expenses);
+      const targetAmount = monthlyExpenses * 6;
+      
+      let progressPercent = 0;
+      if (targetAmount > 0) {
+        progressPercent = Math.min(100, (netCushion / targetAmount) * 100);
+      }
+      
+      document.getElementById('cushionProgressPercent').textContent = `${Math.round(progressPercent)}%`;
+      document.getElementById('cushionProgressFill').style.width = `${progressPercent}%`;
+    }
+
     // ===== DISPONIBLE REAL =====
     function updateRealAvailable() {
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [], savings: [] };
@@ -2587,10 +3021,10 @@
       const totalIncomes = calculateTotal(monthData.incomes);
       const totalExpenses = calculateExpensesTotal(monthData.expenses);
       const totalInvestments = calculateTotal(monthData.investments);
-      const totalSavings = calculateTotalSavings();
+      const netCushion = calculateNetCushion();
       
       const balance = totalIncomes - totalExpenses - totalInvestments;
-      const realAvailable = balance - totalSavings;
+      const realAvailable = balance - netCushion;
       
       const amountEl = document.getElementById('realAvailableAmount');
       const cardEl = document.getElementById('realAvailableCard');
@@ -2604,7 +3038,7 @@
       cardEl.className = 'real-available-card';
       badgeEl.className = 'protection-badge';
       
-      if (realAvailable > totalSavings * 0.2) {
+      if (realAvailable > netCushion * 0.2) {
         cardEl.classList.add('protected');
         badgeEl.classList.add('green');
         badgeTextEl.textContent = 'Colchon protegido';
@@ -2622,19 +3056,16 @@
       }
     }
 
-    // ===== DINERO PARA MI - NUEVA LOGICA =====
+    // ===== PERSONAL MONEY =====
     function updatePersonalMoney() {
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {} };
       
-      // Calcular totales del mes
       const totalIncomes = calculateTotal(monthData.incomes);
       const totalExpenses = calculateExpensesTotal(monthData.expenses);
       const totalInvestments = calculateTotal(monthData.investments);
       
-      // Balance disponible del mes (sin contar ahorros)
       const balanceDisponible = totalIncomes - totalExpenses - totalInvestments;
       
-      // Calcular presupuesto personal (10% del ultimo ingreso)
       let baseIncome = 0;
       if (monthData.incomes && monthData.incomes.length > 0) {
         const sortedIncomes = [...monthData.incomes].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -2643,25 +3074,18 @@
       
       const personalBudget = Math.round(baseIncome * 0.10);
       
-      // Calcular gastos en categorias personales
       let personalSpent = 0;
       PERSONAL_CATEGORIES.forEach(cat => {
         const expenses = monthData.expenses[cat.id] || [];
         personalSpent += calculateTotal(expenses);
       });
       
-      // Disponible segun presupuesto
       const personalRemaining = personalBudget - personalSpent;
-      
-      // ===== NUEVO: Disponible Personal Real =====
-      // Es el minimo entre lo que queda del presupuesto y el balance real disponible
       const realAvailablePersonal = Math.max(0, Math.min(personalRemaining, balanceDisponible));
       
-      // Actualizar UI
       document.getElementById('personalBudget').textContent = formatCurrency(personalBudget);
       document.getElementById('personalSpent').textContent = formatCurrency(personalSpent);
       
-      // Actualizar "Segun Presupuesto"
       const remainingEl = document.getElementById('personalRemaining');
       if (personalRemaining >= 0) {
         remainingEl.textContent = formatCurrency(personalRemaining);
@@ -2671,18 +3095,15 @@
         remainingEl.className = 'personal-money-stat-value over';
       }
       
-      // Actualizar "Disponible Real"
       const realAvailableEl = document.getElementById('realAvailablePersonal');
       const realAvailableStatEl = document.getElementById('realAvailablePersonalStat');
       realAvailableEl.textContent = formatCurrency(realAvailablePersonal);
       
-      // Determinar porcentaje gastado del presupuesto
       let percentage = 0;
       if (personalBudget > 0) {
         percentage = (personalSpent / personalBudget) * 100;
       }
       
-      // Actualizar barra de progreso
       const progressEl = document.getElementById('personalProgressFill');
       const displayPercentage = Math.min(percentage, 100);
       progressEl.style.width = `${displayPercentage}%`;
@@ -2695,99 +3116,65 @@
         progressEl.className = 'personal-progress-fill danger';
       }
       
-      // ===== CARD STYLING =====
       const cardEl = document.getElementById('personalMoneyCard');
       cardEl.className = 'personal-money-card';
       
-      // ===== ALERTA PRINCIPAL =====
       const alertEl = document.getElementById('personalAlert');
       const alertIconEl = document.getElementById('personalAlertIcon');
       const alertTextEl = document.getElementById('personalAlertText');
       
-      alertEl.classList.remove('hidden', 'success', 'info', 'warning', 'caution', 'danger', 'real-info');
+      alertEl.classList.remove('hidden', 'success', 'info', 'warning', 'caution', 'danger');
       
-      // Determinar estado y alertas
       const isBudgetLimited = personalRemaining > balanceDisponible && balanceDisponible >= 0;
       const isBudgetExceeded = personalRemaining < 0;
       const isNoMoneyAvailable = balanceDisponible <= 0;
       
-      // Estilo del stat de disponible real
       realAvailableStatEl.className = 'personal-money-stat';
       realAvailableEl.className = 'personal-money-stat-value real-available';
       
       if (isNoMoneyAvailable) {
-        // ESCENARIO: No hay dinero disponible
         cardEl.classList.add('has-danger');
         realAvailableStatEl.classList.add('danger-state');
         realAvailableEl.className = 'personal-money-stat-value zero';
         
         alertEl.classList.add('danger');
         alertIconEl.innerHTML = '&#128308;';
-        alertTextEl.textContent = 'No queda dinero disponible para gastos personales. Los gastos generales consumieron todo.';
+        alertTextEl.textContent = 'No queda dinero disponible para gastos personales.';
         
       } else if (isBudgetLimited && realAvailablePersonal < personalRemaining) {
-        // ESCENARIO: El presupuesto personal excede el dinero real disponible
         cardEl.classList.add('has-warning');
         realAvailableStatEl.classList.add('warning-state');
         realAvailableEl.className = 'personal-money-stat-value limited';
         
         alertEl.classList.add('warning');
         alertIconEl.innerHTML = '&#9888;';
-        const diff = personalRemaining - realAvailablePersonal;
-        alertTextEl.textContent = `Tu presupuesto personal es mayor que el dinero disponible. Solo puedes usar ${formatCurrency(realAvailablePersonal)} de los ${formatCurrency(personalRemaining)} presupuestados.`;
+        alertTextEl.textContent = `Tu presupuesto personal es mayor que el dinero disponible.`;
         
       } else if (isBudgetExceeded) {
-        // ESCENARIO: Ya gasto mas de su presupuesto personal
         alertEl.classList.add('danger');
         alertIconEl.innerHTML = '&#128308;';
-        alertTextEl.textContent = 'Has superado tu presupuesto personal y estas utilizando dinero destinado a otros objetivos.';
+        alertTextEl.textContent = 'Has superado tu presupuesto personal.';
         
       } else if (personalSpent === 0) {
-        // ESCENARIO: No ha gastado nada
         alertEl.classList.add('success');
         alertIconEl.innerHTML = '&#9989;';
         alertTextEl.textContent = 'No has utilizado tu presupuesto personal todavia.';
         
       } else if (percentage < 80) {
-        // ESCENARIO: Gastando normalmente
         alertEl.classList.add('info');
         alertIconEl.innerHTML = '&#128309;';
         alertTextEl.textContent = 'Presupuesto personal bajo control.';
         
       } else if (percentage < 100) {
-        // ESCENARIO: Cerca del limite
         alertEl.classList.add('caution');
         alertIconEl.innerHTML = '&#128994;';
         alertTextEl.textContent = 'Estas cerca de agotar tu presupuesto personal.';
         
       } else {
-        // ESCENARIO: Exacto al 100%
         alertEl.classList.add('caution');
         alertIconEl.innerHTML = '&#128994;';
         alertTextEl.textContent = 'Has utilizado todo tu presupuesto personal.';
       }
-    }
-
-    function calculateTotal(arr) {
-      if (!arr || !Array.isArray(arr)) return 0;
-      return arr.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-    }
-
-    function calculateExpensesTotal(expenses) {
-      if (!expenses || typeof expenses !== 'object') return 0;
-      return Object.values(expenses).flat().reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-    }
-
-    function calculateTotalSavings() {
-      let total = 0;
-      if (appData.months) {
-        Object.values(appData.months).forEach(month => {
-          if (month.savings && Array.isArray(month.savings)) {
-            total += calculateTotal(month.savings);
-          }
-        });
-      }
-      return total;
     }
 
     // ===== RECOMMENDATION SYSTEM =====
@@ -2827,7 +3214,7 @@
       const totalIncomes = calculateTotal(monthData.incomes);
       const totalExpenses = calculateExpensesTotal(monthData.expenses);
       const totalInvestments = calculateTotal(monthData.investments);
-      const totalSavings = calculateTotalSavings();
+      const netCushion = calculateNetCushion();
 
       let status = 'green';
       let statusTitle = 'Estado Saludable';
@@ -2835,11 +3222,11 @@
       const alerts = [];
 
       const balance = totalIncomes - totalExpenses - totalInvestments;
-      const realAvailable = balance - totalSavings;
+      const realAvailable = balance - netCushion;
       
       if (realAvailable < 0) {
         alerts.push({ type: 'danger', icon: '&#128737;', message: 'Estas utilizando dinero de tu colchon de emergencia.' });
-      } else if (realAvailable < totalSavings * 0.2) {
+      } else if (realAvailable < netCushion * 0.2) {
         alerts.push({ type: 'warning', icon: '&#9888;', message: 'Estas cerca de usar tu colchon de emergencia.' });
       }
 
@@ -2866,7 +3253,7 @@
           alerts.push({ type: 'info', icon: '&#128200;', message: 'Aun no has invertido este mes.' });
         }
 
-        if (totalSavings >= totalIncomes * 6) {
+        if (netCushion >= totalIncomes * 6) {
           alerts.push({ type: 'success', icon: '&#128737;', message: 'Colchon solido! +6 meses de respaldo.' });
         }
       }
@@ -2901,7 +3288,7 @@
 
       const totalIncomes = calculateTotal(monthData.incomes);
       const totalInvestments = calculateTotal(monthData.investments);
-      const totalSavings = calculateTotalSavings();
+      const netCushion = calculateNetCushion();
 
       if (totalIncomes === 0) {
         suggestions.push({
@@ -2921,7 +3308,7 @@
         });
       }
 
-      if (totalSavings === 0) {
+      if (netCushion === 0) {
         suggestions.push({
           icon: '&#128176;',
           text: 'Construir colchon (40% de ingresos)',
@@ -3097,13 +3484,13 @@
       allSavings.sort((a, b) => new Date(b.date) - new Date(a.date));
       
       container.innerHTML = allSavings.map(sav => `
-        <div class="history-item">
+        <div class="history-item deposit">
           <div class="history-item-left">
             <div class="history-icon" style="background: var(--warning-dim);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2V5z"/></svg></div>
             <div class="history-details"><h4>${sav.description || 'Ahorro'}</h4><span>${formatDate(sav.date)}</span></div>
           </div>
           <div class="history-right">
-            <div class="history-amount" style="color: var(--warning);">${formatCurrency(sav.amount)}</div>
+            <div class="history-amount deposit">${formatCurrency(sav.amount)}</div>
             <div class="history-actions">
               <button class="history-btn" onclick="editSaving('${sav.monthKey}', '${sav.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
               <button class="history-btn delete" onclick="deleteSaving('${sav.monthKey}', '${sav.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
@@ -3111,6 +3498,48 @@
           </div>
         </div>
       `).join('');
+    }
+
+    // ===== CUSHION HISTORY LIST - New =====
+    function updateCushionHistoryList() {
+      const container = document.getElementById('cushionHistoryList');
+      
+      if (!appData.cushionWithdrawals || appData.cushionWithdrawals.length === 0) {
+        container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><h3>Sin movimientos</h3><p>Los retiros y reposiciones apareceran aqui</p></div>`;
+        return;
+      }
+
+      const sorted = [...appData.cushionWithdrawals].sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      container.innerHTML = sorted.map(item => {
+        const isWithdrawal = item.type === 'withdrawal';
+        const reasonText = item.reason ? WITHDRAWAL_REASONS[item.reason] || item.reason : '';
+        const reasonClass = item.reason || 'other';
+        
+        return `
+          <div class="history-item ${isWithdrawal ? 'withdrawal' : 'deposit'}">
+            <div class="history-item-left">
+              <div class="history-icon" style="background: ${isWithdrawal ? 'var(--danger-dim)' : 'var(--accent-dim)'};">
+                ${isWithdrawal ? 
+                  '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>' :
+                  '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>'
+                }
+              </div>
+              <div class="history-details">
+                <h4>${item.description || (isWithdrawal ? 'Retiro del Colchon' : 'Reposicion al Colchon')}</h4>
+                <span>${formatDateTime(item.date)}${reasonText ? ' · ' + reasonText : ''}</span>
+                ${isWithdrawal && item.reason ? `<span class="withdrawal-reason ${reasonClass}">${reasonText}</span>` : ''}
+              </div>
+            </div>
+            <div class="history-right">
+              <div class="history-amount ${isWithdrawal ? 'withdrawal' : 'deposit'}">${isWithdrawal ? '-' : '+'}${formatCurrency(item.amount)}</div>
+              <div class="history-actions">
+                <button class="history-btn delete" onclick="deleteCushionRecord('${item.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     function updateNotesList() {
@@ -3288,6 +3717,75 @@
       }
     }
 
+    // ===== WITHDRAW MODAL - New =====
+    function openWithdrawModal() {
+      const netCushion = calculateNetCushion();
+      document.getElementById('withdrawAvailableBalance').textContent = formatCurrency(netCushion);
+      document.getElementById('withdrawAmount').value = '';
+      document.getElementById('withdrawReason').value = '';
+      document.getElementById('withdrawDescription').value = '';
+      
+      document.getElementById('withdrawModal').classList.add('active');
+      setTimeout(() => document.getElementById('withdrawAmount').focus(), 100);
+    }
+
+    function handleWithdrawSubmit(e) {
+      e.preventDefault();
+      
+      const amountInput = document.getElementById('withdrawAmount').value;
+      const amount = unformatNumber(amountInput);
+      const reason = document.getElementById('withdrawReason').value;
+      const description = document.getElementById('withdrawDescription').value.trim();
+      
+      const netCushion = calculateNetCushion();
+      
+      if (amount <= 0) {
+        showToast('Ingresa un monto valido', 'error');
+        return;
+      }
+      
+      if (amount > netCushion) {
+        showToast('El monto excede el saldo disponible', 'error');
+        return;
+      }
+      
+      if (!reason) {
+        showToast('Selecciona un motivo', 'error');
+        return;
+      }
+      
+      // Create withdrawal record
+      const withdrawal = {
+        id: Date.now().toString(),
+        type: 'withdrawal',
+        amount: amount,
+        reason: reason,
+        description: description || `Retiro: ${WITHDRAWAL_REASONS[reason]}`,
+        date: new Date().toISOString()
+      };
+      
+      if (!appData.cushionWithdrawals) {
+        appData.cushionWithdrawals = [];
+      }
+      
+      appData.cushionWithdrawals.push(withdrawal);
+      
+      closeModal('withdrawModal');
+      saveData();
+      updateUI();
+      
+      showToast(`Retiro de ${formatCurrency(amount)} registrado`, 'error');
+    }
+
+    function deleteCushionRecord(id) {
+      if (!confirm('Eliminar este registro?')) return;
+      
+      appData.cushionWithdrawals = appData.cushionWithdrawals.filter(r => r.id !== id);
+      saveData();
+      updateUI();
+      showToast('Registro eliminado', 'error');
+    }
+
     // ===== EDIT FUNCTIONS =====
     function editIncome(id) {
       const income = appData.months[appData.currentMonth].incomes.find(i => i.id === id);
@@ -3382,7 +3880,14 @@
     }
 
     // ===== MONTH PICKER =====
-        function changeYear(delta) {
+    function openMonthPicker() {
+      selectedYear = parseInt(appData.currentMonth.split('-')[0]);
+      document.getElementById('yearDisplay').textContent = selectedYear;
+      renderMonthPicker();
+      document.getElementById('monthPicker').classList.add('active');
+    }
+
+    function changeYear(delta) {
       selectedYear += delta;
       document.getElementById('yearDisplay').textContent = selectedYear;
       renderMonthPicker();
@@ -3440,6 +3945,13 @@
         });
       });
 
+      // Also search in cushion history
+      (appData.cushionWithdrawals || []).forEach(item => {
+        if ((item.description || '').toLowerCase().includes(q) || (item.reason || '').toLowerCase().includes(q)) {
+          results.push({ type: item.type === 'withdrawal' ? 'Retiro Colchon' : 'Reposicion Colchon', data: item, monthKey: appData.currentMonth });
+        }
+      });
+
       if (results.length === 0) {
         container.innerHTML = '<div class="empty-state" style="padding: 20px;"><p>No se encontraron resultados</p></div>';
         return;
@@ -3456,7 +3968,7 @@
     function goToResult(monthKey, type) {
       appData.currentMonth = monthKey;
       initializeMonthData();
-      const sectionMap = { 'Ingreso': 'incomes', 'Gasto': 'expenses', 'Inversion': 'investments', 'Ahorro': 'savings', 'Nota': 'more' };
+      const sectionMap = { 'Ingreso': 'incomes', 'Gasto': 'expenses', 'Inversion': 'investments', 'Ahorro': 'savings', 'Nota': 'more', 'Retiro Colchon': 'savings', 'Reposicion Colchon': 'savings' };
       showSection(sectionMap[type] || 'dashboard');
       updateMonthDisplay();
       document.getElementById('globalSearch').value = '';
@@ -3469,7 +3981,8 @@
       const totalIncomes = calculateTotal(monthData.incomes);
       const totalExpenses = calculateExpensesTotal(monthData.expenses);
       const totalInvestments = calculateTotal(monthData.investments);
-      const totalSavings = calculateTotalSavings();
+      const netCushion = calculateNetCushion();
+      const totalWithdrawn = calculateTotalWithdrawals();
       const [year, month] = appData.currentMonth.split('-');
       const monthName = MONTHS[parseInt(month) - 1];
 
@@ -3480,14 +3993,12 @@
       });
 
       const balance = totalIncomes - totalExpenses - totalInvestments;
-      const realAvailable = balance - totalSavings;
       const personalBudget = Math.round(totalIncomes * 0.10);
-      const realAvailablePersonal = Math.max(0, Math.min(personalBudget - personalSpent, balance));
 
       const content = `
 ============================================
    REPORTE FINANCIERO - ${monthName.toUpperCase()} ${year}
-   Generado por FinanzasPro
+   Generado por FinanzPro
 ============================================
 
 RESUMEN DEL MES
@@ -3497,17 +4008,24 @@ Gastos Totales:       ${formatCurrency(totalExpenses)}
 Inversiones:          ${formatCurrency(totalInvestments)}
 Balance:              ${formatCurrency(balance)}
 
-PROTECCION DEL COLCHON
-----------------------
-Colchon Acumulado:    ${formatCurrency(totalSavings)}
-Disponible Real:      ${formatCurrency(realAvailable)}
+COLCHON DE EMERGENCIA
+---------------------
+Total Depositado:     ${formatCurrency(calculateTotalSavings())}
+Total Retirado:       ${formatCurrency(totalWithdrawn)}
+Saldo Neto:           ${formatCurrency(netCushion)}
+
+HISTORIAL DE RETIROS DEL COLCHON
+--------------------------------
+ ${appData.cushionWithdrawals && appData.cushionWithdrawals.length > 0 ? 
+   appData.cushionWithdrawals.filter(w => w.type === 'withdrawal').map(w => 
+     `* ${formatDateTime(w.date)} - ${formatCurrency(w.amount)} - ${WITHDRAWAL_REASONS[w.reason] || w.reason}${w.description ? ' - ' + w.description : ''}`
+   ).join('\n ') : 'Sin retiros registrados'}
 
 DINERO PARA MI (10% Flexible)
 -----------------------------
 Presupuesto:          ${formatCurrency(personalBudget)}
 Gastado:              ${formatCurrency(personalSpent)}
-Segun Presupuesto:    ${formatCurrency(personalBudget - personalSpent)}
-Disponible Real:      ${formatCurrency(realAvailablePersonal)}
+Disponible:           ${formatCurrency(personalBudget - personalSpent)}
 
 DISTRIBUCION RECOMENDADA
 ------------------------
@@ -3543,7 +4061,7 @@ DETALLE DE AHORROS (COLCHON)
 }).filter(Boolean).join('') || '\nSin ahorros registrados'}
 
 ============================================
-   Fin del Reporte - FinanzasPro
+   Fin del Reporte - FinanzPro
 ============================================
       `;
 
@@ -3584,6 +4102,10 @@ DETALLE DE AHORROS (COLCHON)
           const imported = JSON.parse(e.target.result);
           if (imported.months && imported.currentMonth) {
             appData = imported;
+            // Ensure cushionWithdrawals exists for backwards compatibility
+            if (!appData.cushionWithdrawals) {
+              appData.cushionWithdrawals = [];
+            }
             saveData();
             initializeMonthData();
             updateUI();
