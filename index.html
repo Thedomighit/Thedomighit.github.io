@@ -4547,88 +4547,91 @@
 
     // ===== EXPORT/IMPORT =====
     function exportPDF() {
-      const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [], savings: [] };
-      const totalIncomes = calculateTotal(monthData.incomes);
-      const totalExpenses = calculateExpensesTotal(monthData.expenses);
-      const totalInvestments = calculateTotal(monthData.investments);
-      const netCushion = calculateNetCushion();
-      const totalWithdrawn = calculateTotalWithdrawals();
-      const [year, month] = appData.currentMonth.split('-');
-      const monthName = MONTHS[parseInt(month) - 1];
-      const currentDate = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+  const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [], savings: [] };
+  const totalIncomes = calculateTotal(monthData.incomes);
+  const totalExpenses = calculateExpensesTotal(monthData.expenses);
+  const totalInvestments = calculateTotal(monthData.investments);
+  const netCushion = calculateNetCushion();
+  const totalWithdrawn = calculateTotalWithdrawals();
+  const [year, month] = appData.currentMonth.split('-');
+  const monthName = MONTHS[parseInt(month) - 1];
+  const currentDate = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
 
-      let personalSpent = 0;
-      PERSONAL_CATEGORIES.forEach(cat => {
-        const expenses = monthData.expenses[cat.id] || [];
-        personalSpent += calculateTotal(expenses);
-      });
+  let personalSpent = 0;
+  PERSONAL_CATEGORIES.forEach(cat => {
+    const expenses = monthData.expenses[cat.id] || [];
+    personalSpent += calculateTotal(expenses);
+  });
 
-      const balance = totalIncomes - totalExpenses - totalInvestments;
-      const personalBudget = Math.round(totalIncomes * 0.10);
-      
-      // Calculate deductible expenses
-      let deductibleExpenses = 0;
-      Object.values(monthData.expenses || {}).flat().forEach(exp => {
-        if (exp.isDeductible) deductibleExpenses += Number(exp.amount) || 0;
-      });
-      const netIncome = totalIncomes - deductibleExpenses;
+  const balance = totalIncomes - totalExpenses - totalInvestments;
+  const personalBudget = Math.round(totalIncomes * 0.10);
+  
+  let deductibleExpenses = 0;
+  Object.values(monthData.expenses || {}).flat().forEach(exp => {
+    if (exp.isDeductible) deductibleExpenses += Number(exp.amount) || 0;
+  });
+  const netIncome = totalIncomes - deductibleExpenses;
 
-      const content = `
- ${'='.repeat(50)}
+  // Usar caracteres ASCII simples para compatibilidad
+  const line = '='.repeat(50);
+  const dash = '-'.repeat(50);
+
+  const content = `
+ ${line}
            FINANZASPRO - REPORTE FINANCIERO
- ${'='.repeat(50)}
+ ${line}
 
               ${monthName.toUpperCase()} ${year}
          Generado: ${currentDate}
 
- ${'='.repeat(50)}
+ ${line}
               RESUMEN EJECUTIVO
- ${'='.repeat(50)}
+ ${line}
 
   Ingresos Totales        ${formatCurrency(totalIncomes).padStart(20)}
   Gastos Totales          ${formatCurrency(totalExpenses).padStart(20)}
   Inversiones             ${formatCurrency(totalInvestments).padStart(20)}
-  ────────────────────────────────────────────
+  ------------------------------------------
   Balance                 ${formatCurrency(balance).padStart(20)}
 
- ${'─'.repeat(50)}
+ ${dash}
             COLCHON DE EMERGENCIA
- ${'─'.repeat(50)}
+ ${dash}
 
   Total Depositado        ${formatCurrency(calculateTotalSavings()).padStart(20)}
   Total Retirado          ${formatCurrency(totalWithdrawn).padStart(20)}
   Saldo Neto              ${formatCurrency(netCushion).padStart(20)}
   Meta (6 meses gastos)   ${formatCurrency(totalExpenses * 6).padStart(20)}
 
- ${'─'.repeat(50)}
+ ${dash}
             DINERO PARA MI (10%)
- ${'─'.repeat(50)}
+ ${dash}
 
   Presupuesto Asignado    ${formatCurrency(personalBudget).padStart(20)}
   Gastado                 ${formatCurrency(personalSpent).padStart(20)}
   Disponible              ${formatCurrency(personalBudget - personalSpent).padStart(20)}
 
- ${'─'.repeat(50)}
+ ${dash}
           DISTRIBUCION RECOMENDADA
- ${'─'.repeat(50)}
+ ${dash}
 
   Colchon (40%)           ${formatCurrency(totalIncomes * 0.40).padStart(20)}
   Inversion (30%)         ${formatCurrency(totalIncomes * 0.30).padStart(20)}
   Gastos (20%)            ${formatCurrency(totalIncomes * 0.20).padStart(20)}
   Para mi (10%)           ${formatCurrency(totalIncomes * 0.10).padStart(20)}
 
- ${'─'.repeat(50)}
+ ${dash}
            ESTADISTICAS FISCALES
- ${'─'.repeat(50)}
+ ${dash}
 
   Ingresos Brutos         ${formatCurrency(totalIncomes).padStart(20)}
   Gastos Deducibles       ${formatCurrency(deductibleExpenses).padStart(20)}
   Utilidad Neta           ${formatCurrency(netIncome).padStart(20)}
   Flujo Mensual           ${formatCurrency(balance).padStart(20)}
 
- ${'─'.repeat(50)}
+ ${dash}
             DETALLE DE INGRESOS
- ${'─'.repeat(50)}
+ ${dash}
  ${monthData.incomes.length > 0 ? monthData.incomes.map(i => {
   const source = i.source ? ` [${INCOME_SOURCES[i.source] || i.source}]` : '';
   const payment = i.paymentMethod ? ` (${PAYMENT_METHODS[i.paymentMethod] || i.paymentMethod})` : '';
@@ -4636,9 +4639,9 @@
   return `\n  * ${(i.description || 'Ingreso') + source + payment + ref}\n    Monto: ${formatCurrency(i.amount)} | Fecha: ${formatDate(i.date)}`;
 }).join('') : '\n  Sin ingresos registrados'}
 
- ${'─'.repeat(50)}
+ ${dash}
             DETALLE DE GASTOS
- ${'─'.repeat(50)}
+ ${dash}
  ${ALL_CATEGORIES.map(cat => {
   const expenses = monthData.expenses[cat.id] || [];
   const total = calculateTotal(expenses);
@@ -4650,32 +4653,32 @@
   }).join('\n')}` : '';
 }).filter(Boolean).join('') || '\n  Sin gastos registrados'}
 
- ${'─'.repeat(50)}
+ ${dash}
           DETALLE DE INVERSIONES
- ${'─'.repeat(50)}
+ ${dash}
  ${monthData.investments.length > 0 ? monthData.investments.map(i => `\n  * ${i.description || 'Inversion'}: ${formatCurrency(i.amount)} | ${formatDate(i.date)}`).join('') : '\n  Sin inversiones registradas'}
 
- ${'─'.repeat(50)}
+ ${dash}
           HISTORIAL DEL COLCHON
- ${'─'.repeat(50)}
+ ${dash}
  ${appData.cushionWithdrawals && appData.cushionWithdrawals.length > 0 ? 
   appData.cushionWithdrawals.map(w => {
     const isW = w.type === 'withdrawal';
     return `\n  ${isW ? '[-]' : '[+]'} ${w.description || (isW ? 'Retiro' : 'Reposicion')}: ${formatCurrency(w.amount)} | ${formatDateTime(w.date)}`;
   }).join('') : '\n  Sin movimientos registrados'}
 
- ${'─'.repeat(50)}
+ ${dash}
             DOCUMENTOS ALMACENADOS
- ${'─'.repeat(50)}
+ ${dash}
  ${appData.documents && appData.documents.length > 0 ? 
   appData.documents.map(d => {
     const typeLabel = d.type === 'invoice' ? 'Factura' : d.type === 'receipt' ? 'Recibo' : 'Soporte';
     return `\n  * ${d.name} [${typeLabel}]${d.reference ? ' Ref: ' + d.reference : ''}${d.amount > 0 ? ' - ' + formatCurrency(d.amount) : ''} | ${formatDate(d.date)}`;
   }).join('') : '\n  Sin documentos registrados'}
 
- ${'='.repeat(50)}
+ ${line}
               AVISO IMPORTANTE
- ${'='.repeat(50)}
+ ${line}
 
 Los calculos fiscales presentados son unicamente informativos
 y de caracter orientativo. No constituyen asesoramiento fiscal
@@ -4683,24 +4686,26 @@ ni contable. Para obligaciones tributarias oficiales, consulta
 a un contador profesional o la autoridad tributaria
 correspondiente en tu pais.
 
- ${'='.repeat(50)}
+ ${line}
         Fin del Reporte - FinanzasPro
         Pagina 1 de 1
- ${'='.repeat(50)}
-      `;
+ ${line}
+  `;
 
-      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `FinanzasPro_Reporte_${appData.currentMonth}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      
-      showToast('Reporte exportado correctamente', 'success');
-    }
+  // Agregar BOM UTF-8 para que los programas detecten correctamente la codificacion
+  const BOM = '\uFEFF';
+  const blob = new Blob([BOM + content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `FinanzasPro_Reporte_${appData.currentMonth}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  showToast('Reporte exportado correctamente', 'success');
+}
 
     function exportJSON() {
       const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
