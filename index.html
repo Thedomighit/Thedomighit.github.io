@@ -31,6 +31,8 @@
       --cyan-dim: rgba(6, 182, 212, 0.12);
       --pink: #ec4899;
       --pink-dim: rgba(236, 72, 153, 0.12);
+      --orange: #f97316;
+      --orange-dim: rgba(249, 115, 22, 0.12);
       --border: #27272a;
       --border-light: #3f3f46;
       --radius-sm: 8px;
@@ -491,14 +493,43 @@
 
     .personal-alert {
       margin-top: 12px;
-      padding: 10px 12px;
-      background: var(--danger-dim);
-      border-radius: var(--radius-sm);
-      font-size: 12px;
-      color: var(--danger);
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      line-height: 1.4;
+    }
+
+    .personal-alert.success {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-left: 3px solid var(--accent);
+    }
+
+    .personal-alert.info {
+      background: var(--cyan-dim);
+      color: var(--cyan);
+      border-left: 3px solid var(--cyan);
+    }
+
+    .personal-alert.warning {
+      background: var(--warning-dim);
+      color: var(--warning);
+      border-left: 3px solid var(--warning);
+    }
+
+    .personal-alert.caution {
+      background: var(--orange-dim);
+      color: var(--orange);
+      border-left: 3px solid var(--orange);
+    }
+
+    .personal-alert.danger {
+      background: var(--danger-dim);
+      color: var(--danger);
+      border-left: 3px solid var(--danger);
     }
 
     /* Recommendation Card */
@@ -1457,10 +1488,6 @@
       border-color: var(--accent);
     }
 
-    .month-picker-item.has-data {
-      position: relative;
-    }
-
     .month-picker-item.has-data::after {
       content: '';
       position: absolute;
@@ -1532,12 +1559,6 @@
       font-size: 15px;
       font-weight: 600;
       margin-bottom: 6px;
-    }
-
-    .note-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-bottom: 10px;
     }
 
     .note-amount {
@@ -1790,7 +1811,7 @@
         </div>
       </div>
 
-      <!-- 2. Disponible Real (Proteccion del Colchon) -->
+      <!-- 2. Disponible Real -->
       <div class="real-available-card" id="realAvailableCard">
         <div class="real-available-header">
           <div class="real-available-title">
@@ -1832,13 +1853,13 @@
         <div class="personal-progress-bar">
           <div class="personal-progress-fill safe" id="personalProgressFill" style="width: 0%"></div>
         </div>
-        <div class="personal-alert hidden" id="personalAlert">
-          <span>&#9888;</span>
-          <span id="personalAlertText">Has superado tu presupuesto personal</span>
+        <div class="personal-alert success" id="personalAlert">
+          <span id="personalAlertIcon">&#9989;</span>
+          <span id="personalAlertText">No has utilizado tu presupuesto personal todavia.</span>
         </div>
       </div>
 
-      <!-- RECOMMENDATION CARD -->
+      <!-- Recommendation Card -->
       <div class="recommendation-card" id="recommendationCard">
         <div class="recommendation-header">
           <div class="recommendation-icon">&#128161;</div>
@@ -2101,7 +2122,6 @@
         <h2 class="section-title">Mas Opciones</h2>
       </div>
       
-      <!-- Search -->
       <div class="search-container">
         <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"/>
@@ -2111,7 +2131,6 @@
       </div>
       <div class="search-results" id="searchResults"></div>
 
-      <!-- Notes -->
       <div class="card">
         <div class="card-header">
           <span class="card-title">Notas e Ideas</span>
@@ -2121,7 +2140,6 @@
         <div class="notes-grid" id="notesList"></div>
       </div>
 
-      <!-- Export -->
       <div class="card">
         <div class="card-header">
           <span class="card-title">Exportar Datos</span>
@@ -2300,7 +2318,7 @@
     // ===== CONSTANTS =====
     const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     
-    // Categorias de gastos normales
+    // Categorias de gastos NORMALES - NO descuentan de "Dinero para mi"
     const EXPENSE_CATEGORIES = [
       { id: 'arriendo', name: 'Arriendo', icon: '&#127968;', color: '#ef4444' },
       { id: 'agua', name: 'Agua', icon: '&#128167;', color: '#3b82f6' },
@@ -2314,13 +2332,14 @@
       { id: 'hormiga', name: 'Gastos Hormiga', icon: '&#128028;', color: '#84cc16' }
     ];
 
-    // Categorias de gastos PERSONALES (descuentan de "Dinero para mi")
+    // Categorias de gastos PERSONALES - SI descuentan de "Dinero para mi"
     const PERSONAL_CATEGORIES = [
-      { id: 'personal', name: 'Personal', icon: '&#128578;', color: '#ec4899', isPersonal: true },
       { id: 'ropa', name: 'Ropa', icon: '&#128085;', color: '#f472b6', isPersonal: true },
       { id: 'ocio', name: 'Ocio', icon: '&#127919;', color: '#a855f7', isPersonal: true },
       { id: 'entretenimiento', name: 'Entretenimiento', icon: '&#127916;', color: '#8b5cf6', isPersonal: true },
-      { id: 'compras_personales', name: 'Compras Personales', icon: '&#128722;', color: '#d946ef', isPersonal: true }
+      { id: 'compras_personales', name: 'Compras Personales', icon: '&#128722;', color: '#d946ef', isPersonal: true },
+      { id: 'salidas', name: 'Salidas', icon: '&#127863;', color: '#c026d3', isPersonal: true },
+      { id: 'otros_personales', name: 'Otros Personales', icon: '&#128578;', color: '#ec4899', isPersonal: true }
     ];
 
     // Todas las categorias combinadas
@@ -2540,7 +2559,7 @@
       document.getElementById('savingsCount').textContent = `${savingsCount} depositos`;
     }
 
-    // ===== NUEVO: DISPONIBLE REAL (PROTECCION DEL COLCHON) =====
+    // ===== DISPONIBLE REAL =====
     function updateRealAvailable() {
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [], savings: [] };
       
@@ -2549,13 +2568,9 @@
       const totalInvestments = calculateTotal(monthData.investments);
       const totalSavings = calculateTotalSavings();
       
-      // Balance disponible
       const balance = totalIncomes - totalExpenses - totalInvestments;
-      
-      // Disponible Real = Balance - Colchon
       const realAvailable = balance - totalSavings;
       
-      // Actualizar UI
       const amountEl = document.getElementById('realAvailableAmount');
       const cardEl = document.getElementById('realAvailableCard');
       const badgeEl = document.getElementById('protectionBadge');
@@ -2565,24 +2580,20 @@
       amountEl.textContent = formatCurrency(realAvailable);
       formulaEl.textContent = formatCurrency(realAvailable);
       
-      // Determinar estado de proteccion
       cardEl.className = 'real-available-card';
       badgeEl.className = 'protection-badge';
       
       if (realAvailable > totalSavings * 0.2) {
-        // Colchon protegido (mucho margen)
         cardEl.classList.add('protected');
         badgeEl.classList.add('green');
         badgeTextEl.textContent = 'Colchon protegido';
         amountEl.className = 'real-available-amount positive';
       } else if (realAvailable > 0) {
-        // Cerca de usar el colchon
         cardEl.classList.add('warning');
         badgeEl.classList.add('yellow');
         badgeTextEl.textContent = 'Cerca del colchon';
         amountEl.className = 'real-available-amount warning';
       } else {
-        // Usando el colchon
         cardEl.classList.add('danger');
         badgeEl.classList.add('red');
         badgeTextEl.textContent = 'Usando el colchon';
@@ -2590,7 +2601,7 @@
       }
     }
 
-    // ===== NUEVO: DINERO PARA MI =====
+    // ===== DINERO PARA MI - LOGICA CORREGIDA =====
     function updatePersonalMoney() {
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {} };
       
@@ -2603,7 +2614,7 @@
       
       const personalBudget = Math.round(baseIncome * 0.10);
       
-      // Calcular gastos en categorias personales
+      // Calcular gastos en categorias personales (SOLO estas categorias descuentan)
       let personalSpent = 0;
       PERSONAL_CATEGORIES.forEach(cat => {
         const expenses = monthData.expenses[cat.id] || [];
@@ -2619,29 +2630,65 @@
       const remainingEl = document.getElementById('personalRemaining');
       const progressEl = document.getElementById('personalProgressFill');
       const alertEl = document.getElementById('personalAlert');
+      const alertIconEl = document.getElementById('personalAlertIcon');
       const alertTextEl = document.getElementById('personalAlertText');
       
+      // Determinar porcentaje gastado
+      let percentage = 0;
+      if (personalBudget > 0) {
+        percentage = (personalSpent / personalBudget) * 100;
+      }
+      
+      // Actualizar valor disponible
       if (personalRemaining >= 0) {
         remainingEl.textContent = formatCurrency(personalRemaining);
         remainingEl.className = 'personal-money-stat-value remaining';
-        alertEl.classList.add('hidden');
       } else {
-        remainingEl.textContent = formatCurrency(Math.abs(personalRemaining)) + ' excedido';
+        remainingEl.textContent = '-' + formatCurrency(Math.abs(personalRemaining));
         remainingEl.className = 'personal-money-stat-value over';
-        alertEl.classList.remove('hidden');
-        alertTextEl.textContent = 'Has superado tu presupuesto personal y estas utilizando dinero destinado a otros objetivos.';
       }
       
-      // Actualizar barra de progreso
-      const percentage = personalBudget > 0 ? Math.min((personalSpent / personalBudget) * 100, 100) : 0;
-      progressEl.style.width = `${percentage}%`;
+      // Actualizar barra de progreso (max 100% visual)
+      const displayPercentage = Math.min(percentage, 100);
+      progressEl.style.width = `${displayPercentage}%`;
       
-      if (percentage < 70) {
+      // Determinar clase de la barra
+      if (percentage < 80) {
         progressEl.className = 'personal-progress-fill safe';
       } else if (percentage < 100) {
         progressEl.className = 'personal-progress-fill warning';
       } else {
         progressEl.className = 'personal-progress-fill danger';
+      }
+      
+      // ===== LOGICA DE ALERTAS CORREGIDA =====
+      alertEl.classList.remove('hidden', 'success', 'info', 'warning', 'caution', 'danger');
+      
+      if (personalSpent === 0) {
+        // ESCENARIO 1: Gastado = 0
+        alertEl.classList.add('success');
+        alertIconEl.innerHTML = '&#9989;';
+        alertTextEl.textContent = 'No has utilizado tu presupuesto personal todavia.';
+      } else if (percentage < 80) {
+        // ESCENARIO 2: Gastado entre 1% y 79%
+        alertEl.classList.add('info');
+        alertIconEl.innerHTML = '&#128309;';
+        alertTextEl.textContent = 'Presupuesto personal bajo control.';
+      } else if (percentage < 100) {
+        // ESCENARIO 3: Gastado entre 80% y 99%
+        alertEl.classList.add('warning');
+        alertIconEl.innerHTML = '&#9888;';
+        alertTextEl.textContent = 'Estas cerca de agotar tu presupuesto personal.';
+      } else if (percentage === 100 || (personalSpent === personalBudget && personalBudget > 0)) {
+        // ESCENARIO 4: Gastado = 100%
+        alertEl.classList.add('caution');
+        alertIconEl.innerHTML = '&#128994;';
+        alertTextEl.textContent = 'Has utilizado todo tu presupuesto personal.';
+      } else {
+        // ESCENARIO 5: Gastado > 100%
+        alertEl.classList.add('danger');
+        alertIconEl.innerHTML = '&#128308;';
+        alertTextEl.textContent = 'Has superado tu presupuesto personal y estas utilizando dinero destinado a otros objetivos.';
       }
     }
 
@@ -2711,14 +2758,13 @@
       let statusSubtitle = 'Buen control financiero';
       const alerts = [];
 
-      // Verificar proteccion del colchon
       const balance = totalIncomes - totalExpenses - totalInvestments;
       const realAvailable = balance - totalSavings;
       
       if (realAvailable < 0) {
-        alerts.push({ type: 'danger', icon: '&#128737;', message: 'Estas utilizando dinero de tu colchon de emergencia. Considera reducir gastos.' });
+        alerts.push({ type: 'danger', icon: '&#128737;', message: 'Estas utilizando dinero de tu colchon de emergencia.' });
       } else if (realAvailable < totalSavings * 0.2) {
-        alerts.push({ type: 'warning', icon: '&#9888;', message: 'Estas cerca de usar tu colchon de emergencia. Ten cuidado con los gastos.' });
+        alerts.push({ type: 'warning', icon: '&#9888;', message: 'Estas cerca de usar tu colchon de emergencia.' });
       }
 
       if (totalIncomes === 0) {
@@ -2733,23 +2779,19 @@
         if (expenseRatio > 0.5) {
           status = 'red';
           statusTitle = 'Gastos Elevados';
-          statusSubtitle = 'Reduce gastos para mayor ahorro';
+          statusSubtitle = 'Reduce gastos';
         } else if (expenseRatio > 0.3) {
           if (status !== 'red') status = 'yellow';
         }
 
         if (investmentRatio >= 0.25) {
-          alerts.push({ type: 'success', icon: '&#9989;', message: `Excelente! Inviertes el ${Math.round(investmentRatio * 100)}% de tus ingresos.` });
+          alerts.push({ type: 'success', icon: '&#9989;', message: `Inviertes el ${Math.round(investmentRatio * 100)}% de tus ingresos.` });
         } else if (investmentRatio === 0) {
           alerts.push({ type: 'info', icon: '&#128200;', message: 'Aun no has invertido este mes.' });
         }
 
         if (totalSavings >= totalIncomes * 6) {
-          alerts.push({ type: 'success', icon: '&#128737;', message: 'Colchon solido! Tienes mas de 6 meses de respaldo.' });
-        }
-
-        if (expenseRatio < 0.25 && investmentRatio >= 0.25) {
-          alerts.push({ type: 'success', icon: '&#127881;', message: 'Perfil de crecimiento! Gastos controlados e inversiones fuertes.' });
+          alerts.push({ type: 'success', icon: '&#128737;', message: 'Colchon solido! +6 meses de respaldo.' });
         }
       }
 
@@ -2833,7 +2875,7 @@
       const container = document.getElementById('expenseCategories');
       const monthData = appData.months[appData.currentMonth] || { expenses: {} };
       
-      // Mostrar categorias normales primero
+      // Categorias normales
       let html = EXPENSE_CATEGORIES.map(cat => {
         const expenses = monthData.expenses[cat.id] || [];
         const total = calculateTotal(expenses);
@@ -2847,7 +2889,7 @@
         `;
       }).join('');
       
-      // Agregar categorias personales con badge
+      // Categorias personales con badge
       html += PERSONAL_CATEGORIES.map(cat => {
         const expenses = monthData.expenses[cat.id] || [];
         const total = calculateTotal(expenses);
@@ -2864,7 +2906,7 @@
       
       container.innerHTML = html;
 
-      // Actualizar select
+      // Actualizar select del modal
       const select = document.getElementById('expenseCategory');
       let selectHtml = '<optgroup label="Gastos Generales">';
       selectHtml += EXPENSE_CATEGORIES.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
@@ -3356,7 +3398,7 @@
       document.getElementById('searchResults').innerHTML = '';
     }
 
-        // ===== EXPORT/IMPORT (CONTINUACION) =====
+        // ===== EXPORT/IMPORT =====
     function exportPDF() {
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [], savings: [] };
       const totalIncomes = calculateTotal(monthData.incomes);
@@ -3373,6 +3415,10 @@
         personalSpent += calculateTotal(expenses);
       });
 
+      const balance = totalIncomes - totalExpenses - totalInvestments;
+      const realAvailable = balance - totalSavings;
+      const personalBudget = Math.round(totalIncomes * 0.10);
+
       const content = `
 ============================================
    REPORTE FINANCIERO - ${monthName.toUpperCase()} ${year}
@@ -3384,18 +3430,18 @@ RESUMEN DEL MES
 Ingresos Totales:     ${formatCurrency(totalIncomes)}
 Gastos Totales:       ${formatCurrency(totalExpenses)}
 Inversiones:          ${formatCurrency(totalInvestments)}
-Balance:              ${formatCurrency(totalIncomes - totalExpenses - totalInvestments)}
+Balance:              ${formatCurrency(balance)}
 
 PROTECCION DEL COLCHON
 ----------------------
 Colchon Acumulado:    ${formatCurrency(totalSavings)}
-Disponible Real:      ${formatCurrency(totalIncomes - totalExpenses - totalInvestments - totalSavings)}
+Disponible Real:      ${formatCurrency(realAvailable)}
 
 DINERO PARA MI (10% Flexible)
 -----------------------------
-Presupuesto:          ${formatCurrency(totalIncomes * 0.10)}
+Presupuesto:          ${formatCurrency(personalBudget)}
 Gastado:              ${formatCurrency(personalSpent)}
-Disponible:           ${formatCurrency((totalIncomes * 0.10) - personalSpent)}
+Disponible:           ${formatCurrency(personalBudget - personalSpent)}
 
 DISTRIBUCION RECOMENDADA
 ------------------------
@@ -3421,8 +3467,8 @@ DETALLE DE INVERSIONES
 ----------------------
  ${monthData.investments.length > 0 ? monthData.investments.map(i => `* ${i.description || 'Inversion'}: ${formatCurrency(i.amount)} (${formatDate(i.date)})`).join('\n') : 'Sin inversiones registradas'}
 
-DETALLE DE AHORROS
-------------------
+DETALLE DE AHORROS (COLCHON)
+----------------------------
  ${Object.entries(appData.months).map(([mKey, mData]) => {
   const [y, m] = mKey.split('-');
   const mName = MONTHS[parseInt(m) - 1];
@@ -3431,7 +3477,7 @@ DETALLE DE AHORROS
 }).filter(Boolean).join('') || '\nSin ahorros registrados'}
 
 ============================================
-   Fin del Reporte
+   Fin del Reporte - FinanzasPro
 ============================================
       `;
 
