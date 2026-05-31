@@ -632,6 +632,16 @@
       outline: none;
     }
 
+    .cushion-btn.history {
+      background: var(--info-dim);
+      color: var(--info);
+    }
+
+    .cushion-btn.history:hover, .cushion-btn.history:focus {
+      background: rgba(59, 130, 246, 0.2);
+      outline: none;
+    }
+
     .cushion-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1173,6 +1183,11 @@
       border-left: 3px solid var(--warning);
     }
 
+    .history-item.replenishment {
+      border-left: 3px solid var(--accent);
+      background: linear-gradient(90deg, var(--accent-dim) 0%, var(--bg-card) 30%);
+    }
+
     .history-item-left {
       display: flex;
       align-items: center;
@@ -1229,6 +1244,7 @@
     .history-amount.personal { color: var(--pink); }
     .history-amount.withdrawal { color: var(--danger); }
     .history-amount.deposit { color: var(--warning); }
+    .history-amount.replenishment { color: var(--accent); }
 
     .history-actions {
       display: flex;
@@ -1258,6 +1274,11 @@
     .history-btn.delete:hover, .history-btn.delete:focus {
       background: var(--danger-dim);
       color: var(--danger);
+    }
+
+    .history-btn.edit:hover, .history-btn.edit:focus {
+      background: var(--info-dim);
+      color: var(--info);
     }
 
     .fab {
@@ -2382,6 +2403,10 @@
             <div class="cushion-progress-fill" id="cushionProgressFill" style="width: 0%"></div>
           </div>
         </div>
+        <button class="cushion-btn history" style="width: 100%; margin-top: 16px; justify-content: center;" onclick="showSection('savings')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Ver Historial Completo
+        </button>
       </div>
 
       <div class="personal-money-card" id="personalMoneyCard">
@@ -2690,6 +2715,7 @@
           </svg>
           Historial del Colchon (Retiros y Reposiciones)
         </h3>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Puedes editar o eliminar cualquier registro si cometiste un error</p>
         <div class="history-list" id="cushionHistoryList"></div>
       </div>
     </section>
@@ -3010,6 +3036,7 @@
           </div>
         </div>
         <form id="withdrawForm" onsubmit="handleWithdrawSubmit(event)">
+          <input type="hidden" id="editCushionId">
           <div class="form-group">
             <label class="form-label">Saldo disponible</label>
             <div style="font-family: 'Space Grotesk'; font-size: 24px; font-weight: 700; color: var(--warning);" id="withdrawAvailableBalance">$0</div>
@@ -3036,7 +3063,8 @@
             <label class="form-label" for="withdrawDescription">Descripcion (opcional)</label>
             <input type="text" class="form-input" id="withdrawDescription" placeholder="Ej: Reparacion urgente" style="font-size: 16px;">
           </div>
-          <button type="submit" class="btn btn-warning">Confirmar Retiro</button>
+          <button type="submit" class="btn btn-warning" id="withdrawSubmitBtn">Confirmar Retiro</button>
+          <button type="button" class="btn btn-danger hidden" id="deleteCushionBtn" onclick="deleteCushionRecordFromModal()">Eliminar Registro</button>
         </form>
       </div>
     </div>
@@ -3586,7 +3614,7 @@
         if (expenseRatio > 0.5) { status = 'red'; statusTitle = 'Gastos Elevados'; statusSubtitle = 'Reduce gastos'; }
         else if (expenseRatio > 0.3 && status !== 'red') status = 'yellow';
 
-        if (investmentRatio >= 0.25) {
+                if (investmentRatio >= 0.25) {
           alerts.push({ type: 'success', icon: '&#9989;', message: `Inviertes el ${Math.round(investmentRatio * 100)}% de tus ingresos.` });
         } else if (investmentRatio === 0) {
           alerts.push({ type: 'info', icon: '&#128200;', message: 'Aun no has invertido este mes.' });
@@ -3617,7 +3645,7 @@
       }
     }
 
-        // ===== RENDER LISTS =====
+    // ===== RENDER LISTS =====
     function renderExpenseCategories() {
       const container = document.getElementById('expenseCategories');
       const monthData = appData.months[appData.currentMonth] || { expenses: {} };
@@ -3686,7 +3714,7 @@
             <div class="history-right">
               <div class="history-amount income">${formatCurrency(income.amount)}</div>
               <div class="history-actions">
-                <button class="history-btn" onclick="editIncome('${income.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="history-btn edit" onclick="editIncome('${income.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
                 <button class="history-btn delete" onclick="deleteIncome('${income.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
               </div>
             </div>
@@ -3729,7 +3757,7 @@
             <div class="history-right">
               <div class="history-amount ${exp.isPersonal ? 'personal' : 'expense'}">${formatCurrency(exp.amount)}</div>
               <div class="history-actions">
-                <button class="history-btn" onclick="editExpense('${exp.categoryId}', '${exp.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="history-btn edit" onclick="editExpense('${exp.categoryId}', '${exp.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
                 <button class="history-btn delete" onclick="deleteExpense('${exp.categoryId}', '${exp.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
               </div>
             </div>
@@ -3757,7 +3785,7 @@
           <div class="history-right">
             <div class="history-amount" style="color: var(--info);">${formatCurrency(inv.amount)}</div>
             <div class="history-actions">
-              <button class="history-btn" onclick="editInvestment('${inv.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="history-btn edit" onclick="editInvestment('${inv.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
               <button class="history-btn delete" onclick="deleteInvestment('${inv.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
             </div>
           </div>
@@ -3791,7 +3819,7 @@
           <div class="history-right">
             <div class="history-amount deposit">${formatCurrency(sav.amount)}</div>
             <div class="history-actions">
-              <button class="history-btn" onclick="editSaving('${sav.monthKey}', '${sav.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="history-btn edit" onclick="editSaving('${sav.monthKey}', '${sav.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
               <button class="history-btn delete" onclick="deleteSaving('${sav.monthKey}', '${sav.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
             </div>
           </div>
@@ -3811,11 +3839,11 @@
       
       container.innerHTML = sorted.map(item => {
         const isWithdrawal = item.type === 'withdrawal';
+        const isReplenishment = item.type === 'replenishment';
         const reasonText = item.reason ? WITHDRAWAL_REASONS[item.reason] || item.reason : '';
-        const reasonClass = item.reason || 'other';
         
         return `
-          <div class="history-item ${isWithdrawal ? 'withdrawal' : 'deposit'}">
+          <div class="history-item ${isWithdrawal ? 'withdrawal' : 'replenishment'}">
             <div class="history-item-left">
               <div class="history-icon" style="background: ${isWithdrawal ? 'var(--danger-dim)' : 'var(--accent-dim)'};">
                 ${isWithdrawal ? 
@@ -3829,8 +3857,9 @@
               </div>
             </div>
             <div class="history-right">
-              <div class="history-amount ${isWithdrawal ? 'withdrawal' : 'deposit'}">${isWithdrawal ? '-' : '+'}${formatCurrency(item.amount)}</div>
+              <div class="history-amount ${isWithdrawal ? 'withdrawal' : 'replenishment'}">${isWithdrawal ? '-' : '+'}${formatCurrency(item.amount)}</div>
               <div class="history-actions">
+                <button class="history-btn edit" onclick="editCushionRecord('${item.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
                 <button class="history-btn delete" onclick="deleteCushionRecord('${item.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
               </div>
             </div>
@@ -3856,7 +3885,7 @@
               ${note.amount > 0 ? `<div class="note-amount">${formatCurrency(note.amount)}</div>` : ''}
             </div>
             <div class="history-actions" style="margin: 0;">
-              <button class="history-btn" onclick="editNote('${note.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="history-btn edit" onclick="editNote('${note.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
               <button class="history-btn delete" onclick="deleteNote('${note.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
             </div>
           </div>
@@ -3943,7 +3972,6 @@
         taxContent.classList.add('hidden');
       }
       
-      // Update form fields visibility
       updateFormFields();
     }
 
@@ -3970,22 +3998,18 @@
     function updateTaxStats() {
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [] };
       
-      // Gross income
       const grossIncome = calculateTotal(monthData.incomes);
       document.getElementById('taxGrossIncome').textContent = formatCurrency(grossIncome);
       
-      // Deductible expenses
       let deductibleExpenses = 0;
       Object.values(monthData.expenses || {}).flat().forEach(exp => {
         if (exp.isDeductible) deductibleExpenses += Number(exp.amount) || 0;
       });
       document.getElementById('taxDeductibleExpenses').textContent = formatCurrency(deductibleExpenses);
       
-      // Net income
       const netIncome = grossIncome - deductibleExpenses;
       document.getElementById('taxNetIncome').textContent = formatCurrency(netIncome);
       
-      // Monthly flow
       const totalExpenses = calculateExpensesTotal(monthData.expenses);
       const totalInvestments = calculateTotal(monthData.investments);
       const monthlyFlow = grossIncome - totalExpenses - totalInvestments;
@@ -3997,7 +4021,6 @@
       const currentYear = new Date().getFullYear();
       const years = [];
       
-      // Get years with data
       Object.keys(appData.months).forEach(monthKey => {
         const year = parseInt(monthKey.split('-')[0]);
         if (!years.includes(year)) years.push(year);
@@ -4010,7 +4033,6 @@
         <button class="yearly-tab ${index === 0 ? 'active' : ''}" onclick="selectYearTab(${year}, this)">${year}</button>
       `).join('');
       
-      // Draw chart for first year
       if (years.length > 0) drawYearlyChart(years[0]);
     }
 
@@ -4033,7 +4055,6 @@
       const width = rect.width;
       const height = rect.height;
 
-      // Get monthly data for the year
       const monthlyData = [];
       for (let m = 1; m <= 12; m++) {
         const monthKey = `${year}-${String(m).padStart(2, '0')}`;
@@ -4055,28 +4076,24 @@
       monthlyData.forEach((data, i) => {
         const groupX = 20 + i * (barWidth * 3 + groupGap);
         
-        // Income bar
         const incomeHeight = Math.max((data.income / maxValue) * (height - 30), 2);
         ctx.fillStyle = '#22c55e';
         ctx.beginPath();
         ctx.roundRect(groupX, height - incomeHeight - 20, barWidth, incomeHeight, 2);
         ctx.fill();
         
-        // Expense bar
         const expenseHeight = Math.max((data.expense / maxValue) * (height - 30), 2);
         ctx.fillStyle = '#ef4444';
         ctx.beginPath();
         ctx.roundRect(groupX + barWidth + 2, height - expenseHeight - 20, barWidth, expenseHeight, 2);
         ctx.fill();
         
-        // Investment bar
         const investmentHeight = Math.max((data.investment / maxValue) * (height - 30), 2);
         ctx.fillStyle = '#3b82f6';
         ctx.beginPath();
         ctx.roundRect(groupX + (barWidth + 2) * 2, height - investmentHeight - 20, barWidth, investmentHeight, 2);
         ctx.fill();
 
-        // Month label
         ctx.fillStyle = '#71717a';
         ctx.font = '9px DM Sans';
         ctx.textAlign = 'center';
@@ -4165,7 +4182,6 @@
       document.getElementById('deleteBtn').classList.add('hidden');
       document.getElementById('submitBtn').textContent = 'Guardar Registro';
       
-      // Reset tax fields
       document.getElementById('incomeSource').value = 'salary';
       document.getElementById('paymentMethod').value = 'transfer';
       document.getElementById('invoiceRef').value = '';
@@ -4183,11 +4199,9 @@
       const type = document.getElementById('recordType').value;
       document.getElementById('categoryGroup').style.display = type === 'expense' ? 'block' : 'none';
       
-      // Show tax fields for income if tax tracking is enabled
       const showTaxFields = appData.taxTrackingEnabled && type === 'income';
       document.getElementById('incomeTaxFields').classList.toggle('hidden', !showTaxFields);
       
-      // Show deductible checkbox for expenses if tax tracking is enabled
       const showDeductible = appData.taxTrackingEnabled && type === 'expense';
       document.getElementById('deductibleGroup').style.display = showDeductible ? 'block' : 'none';
       
@@ -4222,7 +4236,6 @@
         id: editId || Date.now().toString() 
       };
       
-      // Add tax-related fields for income
       if (type === 'income' && appData.taxTrackingEnabled) {
         record.source = document.getElementById('incomeSource').value;
         record.paymentMethod = document.getElementById('paymentMethod').value;
@@ -4230,7 +4243,6 @@
         record.documentType = document.getElementById('documentType').value;
       }
       
-      // Add deductible flag for expenses
       if (type === 'expense' && appData.taxTrackingEnabled) {
         record.isDeductible = document.getElementById('isDeductible').checked;
         record.invoiceRef = document.getElementById('invoiceRef').value.trim();
@@ -4284,6 +4296,10 @@
       document.getElementById('withdrawAmount').value = '';
       document.getElementById('withdrawReason').value = '';
       document.getElementById('withdrawDescription').value = '';
+      document.getElementById('editCushionId').value = '';
+      document.getElementById('withdrawModalTitle').textContent = 'Retirar del Colchon';
+      document.getElementById('withdrawSubmitBtn').textContent = 'Confirmar Retiro';
+      document.getElementById('deleteCushionBtn').classList.add('hidden');
       
       document.getElementById('withdrawModal').classList.add('active');
       setTimeout(() => document.getElementById('withdrawAmount').focus(), 100);
@@ -4292,6 +4308,7 @@
     function handleWithdrawSubmit(e) {
       e.preventDefault();
       
+      const editCushionId = document.getElementById('editCushionId').value;
       const amountInput = document.getElementById('withdrawAmount').value;
       const amount = unformatNumber(amountInput);
       const reason = document.getElementById('withdrawReason').value;
@@ -4304,7 +4321,7 @@
         return;
       }
       
-      if (amount > netCushion) {
+      if (!editCushionId && amount > netCushion) {
         showToast('El monto excede el saldo disponible', 'error');
         return;
       }
@@ -4314,28 +4331,70 @@
         return;
       }
       
-      const withdrawal = {
-        id: Date.now().toString(),
-        type: 'withdrawal',
-        amount: amount,
-        reason: reason,
-        description: description || `Retiro: ${WITHDRAWAL_REASONS[reason]}`,
-        date: new Date().toISOString()
-      };
-      
-      if (!appData.cushionWithdrawals) appData.cushionWithdrawals = [];
-      appData.cushionWithdrawals.push(withdrawal);
+      if (editCushionId) {
+        // Editing existing record
+        const record = appData.cushionWithdrawals.find(r => r.id === editCushionId);
+        if (record) {
+          record.amount = amount;
+          record.reason = reason;
+          record.description = description || `Retiro: ${WITHDRAWAL_REASONS[reason]}`;
+        }
+        showToast('Registro actualizado', 'success');
+      } else {
+        // New withdrawal
+        const withdrawal = {
+          id: Date.now().toString(),
+          type: 'withdrawal',
+          amount: amount,
+          reason: reason,
+          description: description || `Retiro: ${WITHDRAWAL_REASONS[reason]}`,
+          date: new Date().toISOString()
+        };
+        
+        if (!appData.cushionWithdrawals) appData.cushionWithdrawals = [];
+        appData.cushionWithdrawals.push(withdrawal);
+        showToast(`Retiro de ${formatCurrency(amount)} registrado`, 'error');
+      }
       
       closeModal('withdrawModal');
       saveData();
       updateUI();
+    }
+
+    // ===== EDIT CUSHION RECORD =====
+    function editCushionRecord(id) {
+      const record = appData.cushionWithdrawals.find(r => r.id === id);
+      if (!record) return;
       
-      showToast(`Retiro de ${formatCurrency(amount)} registrado`, 'error');
+      const netCushion = calculateNetCushion();
+      document.getElementById('withdrawAvailableBalance').textContent = formatCurrency(netCushion + record.amount); // Add back current amount for editing
+      document.getElementById('withdrawAmount').value = formatNumberWithThousands(record.amount);
+      document.getElementById('withdrawReason').value = record.reason || '';
+      document.getElementById('withdrawDescription').value = record.description || '';
+      document.getElementById('editCushionId').value = id;
+      document.getElementById('withdrawModalTitle').textContent = record.type === 'withdrawal' ? 'Editar Retiro' : 'Editar Reposicion';
+      document.getElementById('withdrawSubmitBtn').textContent = 'Guardar Cambios';
+      document.getElementById('deleteCushionBtn').classList.remove('hidden');
+      
+      document.getElementById('withdrawModal').classList.add('active');
     }
 
     function deleteCushionRecord(id) {
       if (!confirm('Eliminar este registro?')) return;
       appData.cushionWithdrawals = appData.cushionWithdrawals.filter(r => r.id !== id);
+      saveData();
+      updateUI();
+      showToast('Registro eliminado', 'error');
+    }
+
+    function deleteCushionRecordFromModal() {
+      const editCushionId = document.getElementById('editCushionId').value;
+      if (!editCushionId) return;
+      
+      if (!confirm('Eliminar este registro?')) return;
+      
+      appData.cushionWithdrawals = appData.cushionWithdrawals.filter(r => r.id !== editCushionId);
+      closeModal('withdrawModal');
       saveData();
       updateUI();
       showToast('Registro eliminado', 'error');
@@ -4382,7 +4441,6 @@
       document.getElementById('deleteBtn').classList.remove('hidden');
       document.getElementById('submitBtn').textContent = 'Actualizar Registro';
       
-      // Populate tax fields if available
       if (type === 'income') {
         document.getElementById('incomeSource').value = record.source || 'salary';
         document.getElementById('paymentMethod').value = record.paymentMethod || 'transfer';
@@ -4465,12 +4523,6 @@
       grid.innerHTML = MONTHS.map((month, i) => {
         const monthKey = `${selectedYear}-${String(i + 1).padStart(2, '0')}`;
         const isActive = monthKey === appData.currentMonth;
-        const hasData = appData.months[monthKey] && (
-          (appData.months[monthKey].incomes?.length > 0) ||
-          (appData.months[monthKey].investments?.length > 0) ||
-          (appData.months[monthKey].savings?.length > 0) ||
-          Object.values(appData.months[monthKey].expenses || {}).some(arr => arr?.length > 0)
-        );
         return `<div class="month-picker-item ${isActive ? 'active' : ''}" onclick="selectMonth('${monthKey}')" tabindex="0" role="button">${month}</div>`;
       }).join('');
     }
@@ -4522,6 +4574,11 @@
           results.push({ type: 'Documento', data: doc, monthKey: appData.currentMonth });
       });
 
+      (appData.cushionWithdrawals || []).forEach(item => {
+        if ((item.description || '').toLowerCase().includes(q)) 
+          results.push({ type: item.type === 'withdrawal' ? 'Retiro' : 'Reposicion', data: item, monthKey: appData.currentMonth });
+      });
+
       if (results.length === 0) {
         container.innerHTML = '<div class="empty-state" style="padding: 20px;"><p>No se encontraron resultados</p></div>';
         return;
@@ -4538,7 +4595,7 @@
     function goToResult(monthKey, type) {
       appData.currentMonth = monthKey;
       initializeMonthData();
-      const sectionMap = { 'Ingreso': 'incomes', 'Gasto': 'expenses', 'Inversion': 'investments', 'Ahorro': 'savings', 'Nota': 'more', 'Documento': 'taxes' };
+      const sectionMap = { 'Ingreso': 'incomes', 'Gasto': 'expenses', 'Inversion': 'investments', 'Ahorro': 'savings', 'Nota': 'more', 'Documento': 'taxes', 'Retiro': 'savings', 'Reposicion': 'savings' };
       showSection(sectionMap[type] || 'dashboard');
       updateMonthDisplay();
       document.getElementById('globalSearch').value = '';
@@ -4547,36 +4604,35 @@
 
     // ===== EXPORT/IMPORT =====
     function exportPDF() {
-  const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [], savings: [] };
-  const totalIncomes = calculateTotal(monthData.incomes);
-  const totalExpenses = calculateExpensesTotal(monthData.expenses);
-  const totalInvestments = calculateTotal(monthData.investments);
-  const netCushion = calculateNetCushion();
-  const totalWithdrawn = calculateTotalWithdrawals();
-  const [year, month] = appData.currentMonth.split('-');
-  const monthName = MONTHS[parseInt(month) - 1];
-  const currentDate = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+      const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [], savings: [] };
+      const totalIncomes = calculateTotal(monthData.incomes);
+      const totalExpenses = calculateExpensesTotal(monthData.expenses);
+      const totalInvestments = calculateTotal(monthData.investments);
+      const netCushion = calculateNetCushion();
+      const totalWithdrawn = calculateTotalWithdrawals();
+      const [year, month] = appData.currentMonth.split('-');
+      const monthName = MONTHS[parseInt(month) - 1];
+      const currentDate = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
 
-  let personalSpent = 0;
-  PERSONAL_CATEGORIES.forEach(cat => {
-    const expenses = monthData.expenses[cat.id] || [];
-    personalSpent += calculateTotal(expenses);
-  });
+      let personalSpent = 0;
+      PERSONAL_CATEGORIES.forEach(cat => {
+        const expenses = monthData.expenses[cat.id] || [];
+        personalSpent += calculateTotal(expenses);
+      });
 
-  const balance = totalIncomes - totalExpenses - totalInvestments;
-  const personalBudget = Math.round(totalIncomes * 0.10);
-  
-  let deductibleExpenses = 0;
-  Object.values(monthData.expenses || {}).flat().forEach(exp => {
-    if (exp.isDeductible) deductibleExpenses += Number(exp.amount) || 0;
-  });
-  const netIncome = totalIncomes - deductibleExpenses;
+      const balance = totalIncomes - totalExpenses - totalInvestments;
+      const personalBudget = Math.round(totalIncomes * 0.10);
+      
+      let deductibleExpenses = 0;
+      Object.values(monthData.expenses || {}).flat().forEach(exp => {
+        if (exp.isDeductible) deductibleExpenses += Number(exp.amount) || 0;
+      });
+      const netIncome = totalIncomes - deductibleExpenses;
 
-  // Usar caracteres ASCII simples para compatibilidad
-  const line = '='.repeat(50);
-  const dash = '-'.repeat(50);
+      const line = '='.repeat(50);
+      const dash = '-'.repeat(50);
 
-  const content = `
+      const content = `
  ${line}
            FINANZASPRO - REPORTE FINANCIERO
  ${line}
@@ -4692,20 +4748,19 @@ correspondiente en tu pais.
  ${line}
   `;
 
-  // Agregar BOM UTF-8 para que los programas detecten correctamente la codificacion
-  const BOM = '\uFEFF';
-  const blob = new Blob([BOM + content], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `FinanzasPro_Reporte_${appData.currentMonth}.txt`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  
-  showToast('Reporte exportado correctamente', 'success');
-}
+      const BOM = '\uFEFF';
+      const blob = new Blob([BOM + content], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `FinanzasPro_Reporte_${appData.currentMonth}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showToast('Reporte exportado correctamente', 'success');
+    }
 
     function exportJSON() {
       const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
