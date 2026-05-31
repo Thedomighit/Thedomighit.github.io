@@ -1281,6 +1281,7 @@
       color: var(--info);
     }
 
+    /* FAB with smart scroll behavior */
     .fab {
       position: fixed;
       bottom: 100px;
@@ -1297,13 +1298,55 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 20px var(--accent-glow);
-      transition: var(--transition);
       z-index: 90;
+      /* Smooth transitions for hide/show */
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.3s ease,
+                  box-shadow 0.3s ease;
+      will-change: transform, opacity;
+    }
+
+    /* Visible state with subtle entrance animation */
+    .fab.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Hidden state - slides down and fades out */
+    .fab.hidden {
+      opacity: 0;
+      transform: translateY(80px) scale(0.8);
+      pointer-events: none;
+      box-shadow: 0 0 0 transparent;
+    }
+
+    /* Entrance animation with bounce */
+    @keyframes fabEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.7);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.05);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .fab.entrance {
+      animation: fabEntrance 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
 
     .fab:hover, .fab:focus {
       transform: scale(1.1);
       outline: none;
+    }
+
+    .fab.hidden:hover, .fab.hidden:focus {
+      transform: translateY(80px) scale(0.8);
     }
 
     .fab:active {
@@ -2858,7 +2901,7 @@
     </section>
   </main>
 
-  <button class="fab" onclick="openAddModal('income')" aria-label="Agregar nuevo registro">
+  <button class="fab visible" onclick="openAddModal('income')" aria-label="Agregar nuevo registro" id="fabButton">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
       <line x1="12" y1="5" x2="12" y2="19"/>
       <line x1="5" y1="12" x2="19" y2="12"/>
@@ -2870,7 +2913,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="3" y="3" width="7" height="7"/>
         <rect x="14" y="3" width="7" height="7"/>
-        <rect x="14" y="14" width="7" height="7"/>
+        <rect x="14" y1="14" width="7" height="7"/>
         <rect x="3" y="14" width="7" height="7"/>
       </svg>
       <span>Panel</span>
@@ -3212,6 +3255,12 @@
     let appData = null;
     let selectedYear = new Date().getFullYear();
     
+    // FAB Scroll State
+    let fabScrollTimeout = null;
+    let isFabHidden = false;
+    let lastScrollY = 0;
+    let scrollThreshold = 5;
+
     function initializeAppData() {
       const saved = localStorage.getItem('finanzasProData');
       if (saved) {
@@ -3308,6 +3357,104 @@
       if (unformatNumber(input.value) === 0) input.value = '';
     }
 
+    // ===== FAB SCROLL BEHAVIOR =====
+    function initFabScrollBehavior() {
+      const fab = document.getElementById('fabButton');
+      
+      // Handle scroll events
+      let ticking = false;
+      
+      const handleScroll = () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const currentScrollY = window.scrollY;
+            const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+            
+            // Only hide if scrolling significantly
+            if (scrollDelta > scrollThreshold && !isFabHidden) {
+              hideFab();
+            }
+            
+            lastScrollY = currentScrollY;
+            ticking = false;
+          });
+          ticking = true;
+        }
+        
+        // Clear existing timeout
+        if (fabScrollTimeout) {
+          clearTimeout(fabScrollTimeout);
+        }
+        
+        // Set new timeout to show FAB after 2 seconds of no scrolling
+        fabScrollTimeout = setTimeout(() => {
+          showFab();
+        }, 2000);
+      };
+      
+      // Passive event listener for better performance
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      
+      // Touch events for mobile
+      let touchStartY = 0;
+      
+      document.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      
+      document.addEventListener('touchmove', (e) => {
+        const touchDelta = Math.abs(e.touches[0].clientY - touchStartY);
+        
+        if (touchDelta > 10 && !isFabHidden) {
+          hideFab();
+        }
+        
+        // Reset timeout on touch move
+        if (fabScrollTimeout) {
+          clearTimeout(fabScrollTimeout);
+        }
+        
+        fabScrollTimeout = setTimeout(() => {
+          showFab();
+        }, 2000);
+      }, { passive: true });
+      
+      document.addEventListener('touchend', () => {
+        // Reset timeout when touch ends
+        if (fabScrollTimeout) {
+          clearTimeout(fabScrollTimeout);
+        }
+        
+        fabScrollTimeout = setTimeout(() => {
+          showFab();
+        }, 2000);
+      }, { passive: true });
+    }
+    
+    function hideFab() {
+      const fab = document.getElementById('fabButton');
+      if (!isFabHidden && fab) {
+        fab.classList.remove('visible', 'entrance');
+        fab.classList.add('hidden');
+        isFabHidden = true;
+      }
+    }
+    
+    function showFab() {
+      const fab = document.getElementById('fabButton');
+      if (isFabHidden && fab) {
+        fab.classList.remove('hidden');
+        fab.classList.add('entrance');
+        isFabHidden = false;
+        
+        // Remove entrance class after animation completes
+        setTimeout(() => {
+          fab.classList.remove('entrance');
+          fab.classList.add('visible');
+        }, 400);
+      }
+    }
+
     // ===== DATA MANAGEMENT =====
     function saveData() {
       try { localStorage.setItem('finanzasProData', JSON.stringify(appData)); } catch (e) { console.error('Error saving data:', e); }
@@ -3339,6 +3486,9 @@
       if (navItem) navItem.classList.add('active');
       
       updateUI();
+      
+      // Show FAB when changing sections
+      showFab();
     }
 
     function closeModal(id) {
@@ -3614,7 +3764,7 @@
         if (expenseRatio > 0.5) { status = 'red'; statusTitle = 'Gastos Elevados'; statusSubtitle = 'Reduce gastos'; }
         else if (expenseRatio > 0.3 && status !== 'red') status = 'yellow';
 
-                if (investmentRatio >= 0.25) {
+        if (investmentRatio >= 0.25) {
           alerts.push({ type: 'success', icon: '&#9989;', message: `Inviertes el ${Math.round(investmentRatio * 100)}% de tus ingresos.` });
         } else if (investmentRatio === 0) {
           alerts.push({ type: 'info', icon: '&#128200;', message: 'Aun no has invertido este mes.' });
@@ -4332,7 +4482,6 @@
       }
       
       if (editCushionId) {
-        // Editing existing record
         const record = appData.cushionWithdrawals.find(r => r.id === editCushionId);
         if (record) {
           record.amount = amount;
@@ -4341,7 +4490,6 @@
         }
         showToast('Registro actualizado', 'success');
       } else {
-        // New withdrawal
         const withdrawal = {
           id: Date.now().toString(),
           type: 'withdrawal',
@@ -4367,7 +4515,7 @@
       if (!record) return;
       
       const netCushion = calculateNetCushion();
-      document.getElementById('withdrawAvailableBalance').textContent = formatCurrency(netCushion + record.amount); // Add back current amount for editing
+      document.getElementById('withdrawAvailableBalance').textContent = formatCurrency(netCushion + record.amount);
       document.getElementById('withdrawAmount').value = formatNumberWithThousands(record.amount);
       document.getElementById('withdrawReason').value = record.reason || '';
       document.getElementById('withdrawDescription').value = record.description || '';
@@ -4812,6 +4960,7 @@ correspondiente en tu pais.
       initializeMonthData();
       updateUI();
       renderExpenseCategories();
+      initFabScrollBehavior();
       
       window.addEventListener('resize', () => setTimeout(drawChart, 100));
 
