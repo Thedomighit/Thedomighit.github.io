@@ -130,6 +130,8 @@
       padding: 10px 16px;
       cursor: pointer;
       transition: var(--transition);
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .month-selector:hover, .month-selector:focus {
@@ -610,6 +612,8 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .cushion-btn.withdraw {
@@ -987,6 +991,8 @@
       padding: 16px;
       cursor: pointer;
       transition: var(--transition);
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .stat-card:hover, .stat-card:focus {
@@ -1064,6 +1070,8 @@
       transition: var(--transition);
       position: relative;
       overflow: hidden;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .category-card:hover, .category-card:focus {
@@ -1263,6 +1271,8 @@
       align-items: center;
       justify-content: center;
       transition: var(--transition);
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .history-btn:hover, .history-btn:focus {
@@ -1281,7 +1291,7 @@
       color: var(--info);
     }
 
-    /* FAB with smart scroll behavior */
+    /* FAB with improved behavior */
     .fab {
       position: fixed;
       bottom: 100px;
@@ -1298,61 +1308,36 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 20px var(--accent-glow);
-      z-index: 90;
-      /* Smooth transitions for hide/show */
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.3s ease,
-                  box-shadow 0.3s ease;
-      will-change: transform, opacity;
+      z-index: 50;
+      transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
+      pointer-events: auto;
     }
 
-    /* Visible state with subtle entrance animation */
     .fab.visible {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
 
-    /* Hidden state - slides down and fades out */
     .fab.hidden {
       opacity: 0;
-      transform: translateY(80px) scale(0.8);
+      transform: translateY(40px) scale(0.9);
       pointer-events: none;
-      box-shadow: 0 0 0 transparent;
-    }
-
-    /* Entrance animation with bounce */
-    @keyframes fabEntrance {
-      0% {
-        opacity: 0;
-        transform: translateY(40px) scale(0.7);
-      }
-      60% {
-        opacity: 1;
-        transform: translateY(-8px) scale(1.05);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .fab.entrance {
-      animation: fabEntrance 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
 
     .fab:hover, .fab:focus {
-      transform: scale(1.1);
+      transform: scale(1.08);
       outline: none;
-    }
-
-    .fab.hidden:hover, .fab.hidden:focus {
-      transform: translateY(80px) scale(0.8);
+      box-shadow: 0 6px 24px var(--accent-glow);
     }
 
     .fab:active {
       transform: scale(0.95);
     }
 
+    /* CRITICAL: Bottom Navigation - Always on top and clickable */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -1363,8 +1348,13 @@
       padding: 10px 8px 20px;
       display: flex;
       justify-content: space-around;
-      z-index: 100;
+      z-index: 1000;
       backdrop-filter: blur(16px);
+      /* CRITICAL: Ensure it always receives touch events */
+      pointer-events: auto;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .nav-item {
@@ -1380,26 +1370,61 @@
       background: transparent;
       color: var(--text-muted);
       min-width: 56px;
+      /* CRITICAL: Ensure each button is clickable */
+      pointer-events: auto;
+      touch-action: manipulation;
+      position: relative;
+      z-index: 1;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
-    .nav-item:hover, .nav-item:focus {
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-md);
+      background: transparent;
+      z-index: -1;
+      transition: background 0.2s ease;
+    }
+
+    .nav-item:hover::before {
       background: var(--bg-hover);
+    }
+
+    .nav-item:focus {
       outline: none;
+    }
+
+    .nav-item:focus::before {
+      background: var(--bg-hover);
+      box-shadow: 0 0 0 2px var(--accent);
     }
 
     .nav-item.active {
       color: var(--accent);
+    }
+
+    .nav-item.active::before {
       background: var(--accent-dim);
     }
 
     .nav-item svg {
       width: 22px;
       height: 22px;
+      pointer-events: none;
     }
 
     .nav-item span {
       font-size: 10px;
       font-weight: 600;
+      pointer-events: none;
+    }
+
+    /* Touch feedback for nav items */
+    .nav-item:active {
+      transform: scale(0.95);
     }
 
     .modal-overlay {
@@ -1407,7 +1432,7 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(8px);
-      z-index: 200;
+      z-index: 2000;
       display: none;
       align-items: flex-end;
       justify-content: center;
@@ -1462,6 +1487,7 @@
       align-items: center;
       justify-content: center;
       transition: var(--transition);
+      touch-action: manipulation;
     }
 
     .modal-close:hover, .modal-close:focus {
@@ -1562,6 +1588,7 @@
       font-weight: 700;
       cursor: pointer;
       transition: var(--transition);
+      touch-action: manipulation;
     }
 
     .btn-primary {
@@ -1669,7 +1696,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.85);
-      z-index: 300;
+      z-index: 2000;
       display: none;
       align-items: center;
       justify-content: center;
@@ -1719,6 +1746,7 @@
       border: 2px solid transparent;
       font-size: 13px;
       font-weight: 500;
+      touch-action: manipulation;
     }
 
     .month-picker-item:hover, .month-picker-item:focus {
@@ -1753,6 +1781,7 @@
       align-items: center;
       justify-content: center;
       transition: var(--transition);
+      touch-action: manipulation;
     }
 
     .year-btn:hover, .year-btn:focus {
@@ -1814,6 +1843,7 @@
       cursor: pointer;
       transition: var(--transition);
       text-align: center;
+      touch-action: manipulation;
     }
 
     .export-btn:hover, .export-btn:focus {
@@ -1919,10 +1949,11 @@
       padding: 14px 24px;
       font-size: 14px;
       font-weight: 500;
-      z-index: 400;
+      z-index: 3000;
       opacity: 0;
       transition: all 0.3s ease;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
     }
 
     .toast.show {
@@ -2255,6 +2286,7 @@
       cursor: pointer;
       transition: var(--transition);
       white-space: nowrap;
+      touch-action: manipulation;
     }
 
     .yearly-tab:hover {
@@ -2339,7 +2371,7 @@
         </div>
         <span class="logo-text">FinanzasPro</span>
       </div>
-      <button class="month-selector" onclick="openMonthPicker()" aria-label="Seleccionar mes">
+      <button class="month-selector" id="monthSelectorBtn" aria-label="Seleccionar mes">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
           <line x1="16" y1="2" x2="16" y2="6"/>
@@ -2413,11 +2445,11 @@
             <span>&#128737;</span> Colchon de Emergencia
           </div>
           <div class="cushion-actions">
-            <button class="cushion-btn deposit" onclick="openAddModal('saving')">
+            <button class="cushion-btn deposit" id="depositBtn" type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
               Depositar
             </button>
-            <button class="cushion-btn withdraw" onclick="openWithdrawModal()">
+            <button class="cushion-btn withdraw" id="withdrawBtn" type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
               Retirar
             </button>
@@ -2446,7 +2478,7 @@
             <div class="cushion-progress-fill" id="cushionProgressFill" style="width: 0%"></div>
           </div>
         </div>
-        <button class="cushion-btn history" style="width: 100%; margin-top: 16px; justify-content: center;" onclick="showSection('savings')">
+        <button class="cushion-btn history" style="width: 100%; margin-top: 16px; justify-content: center;" id="cushionHistoryBtn" type="button">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           Ver Historial Completo
         </button>
@@ -2572,8 +2604,8 @@
         </div>
       </div>
 
-      <div class="quick-stats">
-        <div class="stat-card" onclick="showSection('incomes')" tabindex="0" role="button">
+      <div class="quick-stats" id="quickStatsGrid">
+        <div class="stat-card" data-section="incomes" tabindex="0" role="button">
           <div class="stat-icon income">
             <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
               <line x1="12" y1="19" x2="12" y2="5"/>
@@ -2583,7 +2615,7 @@
           <div class="stat-label">Ingresos</div>
           <div class="stat-value" id="statIncomes">$0</div>
         </div>
-        <div class="stat-card" onclick="showSection('expenses')" tabindex="0" role="button">
+        <div class="stat-card" data-section="expenses" tabindex="0" role="button">
           <div class="stat-icon expense">
             <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"/>
@@ -2593,7 +2625,7 @@
           <div class="stat-label">Gastos</div>
           <div class="stat-value" id="statExpenses">$0</div>
         </div>
-        <div class="stat-card" onclick="showSection('investments')" tabindex="0" role="button">
+        <div class="stat-card" data-section="investments" tabindex="0" role="button">
           <div class="stat-icon investment">
             <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
               <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
@@ -2603,7 +2635,7 @@
           <div class="stat-label">Inversiones</div>
           <div class="stat-value" id="statInvestments">$0</div>
         </div>
-        <div class="stat-card" onclick="showSection('savings')" tabindex="0" role="button">
+        <div class="stat-card" data-section="savings" tabindex="0" role="button">
           <div class="stat-icon savings">
             <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
               <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2V5z"/>
@@ -2708,11 +2740,11 @@
             <span>&#128737;</span> Resumen del Colchon
           </div>
           <div class="cushion-actions">
-            <button class="cushion-btn deposit" onclick="openAddModal('saving')">
+            <button class="cushion-btn deposit" id="depositBtn2" type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
               Depositar
             </button>
-            <button class="cushion-btn withdraw" onclick="openWithdrawModal()">
+            <button class="cushion-btn withdraw" id="withdrawBtn2" type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
               Retirar
             </button>
@@ -2786,7 +2818,7 @@
             <span>&#128202;</span> Seguimiento Fiscal
           </div>
           <label class="toggle-switch">
-            <input type="checkbox" id="taxTrackingToggle" onchange="toggleTaxTracking()">
+            <input type="checkbox" id="taxTrackingToggle">
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -2799,7 +2831,7 @@
         <div class="tax-config-card">
           <div class="tax-config-header">
             <div class="tax-config-title">Configuracion de Porcentajes Fiscales</div>
-            <button class="card-badge" style="border: none; cursor: pointer;" onclick="saveTaxConfig()">Guardar</button>
+            <button class="card-badge" style="border: none; cursor: pointer;" id="saveTaxConfigBtn" type="button">Guardar</button>
           </div>
           <div id="taxConfigList"></div>
         </div>
@@ -2839,7 +2871,7 @@
         <div class="card">
           <div class="card-header">
             <span class="card-title">Documentos y Soportes</span>
-            <button class="card-badge" style="border: none; cursor: pointer;" onclick="openDocumentModal()">+ Agregar</button>
+            <button class="card-badge" style="border: none; cursor: pointer;" id="addDocumentBtn" type="button">+ Agregar</button>
           </div>
           <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
             Almacena referencias de facturas, recibos y soportes organizados por fecha.
@@ -2859,14 +2891,14 @@
           <circle cx="11" cy="11" r="8"/>
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
-        <input type="text" class="search-input" id="globalSearch" placeholder="Buscar en todos los registros..." oninput="handleSearch(this.value)">
+        <input type="text" class="search-input" id="globalSearch" placeholder="Buscar en todos los registros...">
       </div>
       <div class="search-results" id="searchResults"></div>
 
       <div class="card">
         <div class="card-header">
           <span class="card-title">Notas e Ideas</span>
-          <button class="card-badge" style="border: none; cursor: pointer;" onclick="openAddModal('note')">+ Nueva</button>
+          <button class="card-badge" style="border: none; cursor: pointer;" id="addNoteBtn" type="button">+ Nueva</button>
         </div>
         <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Anota tus ideas de inversion, gastos futuros o recordatorios.</p>
         <div class="notes-grid" id="notesList"></div>
@@ -2877,7 +2909,7 @@
           <span class="card-title">Exportar Datos</span>
         </div>
         <div class="export-options">
-          <button class="export-btn" onclick="exportPDF()">
+          <button class="export-btn" id="exportPdfBtn" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -2886,7 +2918,7 @@
             </svg>
             <span>Reporte PDF</span>
           </button>
-          <button class="export-btn" onclick="exportJSON()">
+          <button class="export-btn" id="exportJsonBtn" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
@@ -2895,21 +2927,22 @@
             <span>Backup JSON</span>
           </button>
         </div>
-        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importJSON(event)">
-        <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">Importar Backup JSON</button>
+        <input type="file" id="importFile" accept=".json" style="display: none;">
+        <button class="btn btn-secondary" id="importBtn" type="button">Importar Backup JSON</button>
       </div>
     </section>
   </main>
 
-  <button class="fab visible" onclick="openAddModal('income')" aria-label="Agregar nuevo registro" id="fabButton">
+  <button class="fab visible" id="fabButton" aria-label="Agregar nuevo registro" type="button">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
       <line x1="12" y1="5" x2="12" y2="19"/>
       <line x1="5" y1="12" x2="19" y2="12"/>
     </svg>
   </button>
 
-  <nav class="bottom-nav" role="navigation" aria-label="Navegacion principal">
-    <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')" aria-label="Panel principal">
+  <!-- CRITICAL: Navigation with highest z-index and proper touch handling -->
+  <nav class="bottom-nav" id="bottomNav" role="navigation" aria-label="Navegacion principal">
+    <button class="nav-item active" data-section="dashboard" type="button" aria-label="Panel principal">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="3" y="3" width="7" height="7"/>
         <rect x="14" y="3" width="7" height="7"/>
@@ -2918,21 +2951,21 @@
       </svg>
       <span>Panel</span>
     </button>
-    <button class="nav-item" data-section="incomes" onclick="showSection('incomes')" aria-label="Ingresos">
+    <button class="nav-item" data-section="incomes" type="button" aria-label="Ingresos">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="12" y1="19" x2="12" y2="5"/>
         <polyline points="5 12 12 5 19 12"/>
       </svg>
       <span>Ingresos</span>
     </button>
-    <button class="nav-item" data-section="expenses" onclick="showSection('expenses')" aria-label="Gastos">
+    <button class="nav-item" data-section="expenses" type="button" aria-label="Gastos">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="12" y1="5" x2="12" y2="19"/>
         <polyline points="19 12 12 19 5 12"/>
       </svg>
       <span>Gastos</span>
     </button>
-    <button class="nav-item" data-section="taxes" onclick="showSection('taxes')" aria-label="Impuestos">
+    <button class="nav-item" data-section="taxes" type="button" aria-label="Impuestos">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
         <polyline points="14 2 14 8 20 8"/>
@@ -2941,7 +2974,7 @@
       </svg>
       <span>Impuestos</span>
     </button>
-    <button class="nav-item" data-section="more" onclick="showSection('more')" aria-label="Mas opciones">
+    <button class="nav-item" data-section="more" type="button" aria-label="Mas opciones">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="1"/>
         <circle cx="19" cy="12" r="1"/>
@@ -2956,7 +2989,7 @@
     <div class="modal">
       <div class="modal-header">
         <h3 class="modal-title" id="modalTitle">Agregar Registro</h3>
-        <button class="modal-close" onclick="closeModal('addModal')" aria-label="Cerrar">
+        <button class="modal-close" id="closeAddModal" aria-label="Cerrar" type="button">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"/>
             <line x1="6" y1="6" x2="18" y2="18"/>
@@ -2964,7 +2997,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="addForm" onsubmit="handleFormSubmit(event)">
+        <form id="addForm">
           <input type="hidden" id="editId">
           <input type="hidden" id="editType">
           <input type="hidden" id="editCategory">
@@ -2972,7 +3005,7 @@
           
           <div class="form-group">
             <label class="form-label" for="recordType">Tipo de Registro</label>
-            <select class="form-select" id="recordType" required onchange="updateFormFields()">
+            <select class="form-select" id="recordType" required>
               <option value="income">Ingreso</option>
               <option value="expense">Gasto</option>
               <option value="investment">Inversion</option>
@@ -3032,10 +3065,7 @@
                      id="amount" 
                      placeholder="0"
                      inputmode="numeric"
-                     autocomplete="off"
-                     oninput="formatAmountInput(this)"
-                     onfocus="handleAmountFocus(this)"
-                     onblur="handleAmountBlur(this)">
+                     autocomplete="off">
             </div>
           </div>
           
@@ -3052,7 +3082,7 @@
           </div>
           
           <button type="submit" class="btn btn-primary" id="submitBtn">Guardar Registro</button>
-          <button type="button" class="btn btn-danger hidden" id="deleteBtn" onclick="deleteRecord()">Eliminar Registro</button>
+          <button type="button" class="btn btn-danger hidden" id="deleteBtn">Eliminar Registro</button>
         </form>
       </div>
     </div>
@@ -3063,7 +3093,7 @@
     <div class="modal">
       <div class="modal-header">
         <h3 class="modal-title" id="withdrawModalTitle">Retirar del Colchon</h3>
-        <button class="modal-close" onclick="closeModal('withdrawModal')" aria-label="Cerrar">
+        <button class="modal-close" id="closeWithdrawModal" aria-label="Cerrar" type="button">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"/>
             <line x1="6" y1="6" x2="18" y2="18"/>
@@ -3078,7 +3108,7 @@
             Este fondo esta destinado a situaciones imprevistas.
           </div>
         </div>
-        <form id="withdrawForm" onsubmit="handleWithdrawSubmit(event)">
+        <form id="withdrawForm">
           <input type="hidden" id="editCushionId">
           <div class="form-group">
             <label class="form-label">Saldo disponible</label>
@@ -3088,7 +3118,7 @@
             <label class="form-label" for="withdrawAmount">Monto a Retirar</label>
             <div class="amount-input-wrapper">
               <span class="currency-prefix">$</span>
-              <input type="text" class="form-input" id="withdrawAmount" placeholder="0" inputmode="numeric" autocomplete="off" required oninput="formatAmountInput(this)">
+              <input type="text" class="form-input" id="withdrawAmount" placeholder="0" inputmode="numeric" autocomplete="off" required>
             </div>
           </div>
           <div class="form-group">
@@ -3107,7 +3137,7 @@
             <input type="text" class="form-input" id="withdrawDescription" placeholder="Ej: Reparacion urgente" style="font-size: 16px;">
           </div>
           <button type="submit" class="btn btn-warning" id="withdrawSubmitBtn">Confirmar Retiro</button>
-          <button type="button" class="btn btn-danger hidden" id="deleteCushionBtn" onclick="deleteCushionRecordFromModal()">Eliminar Registro</button>
+          <button type="button" class="btn btn-danger hidden" id="deleteCushionBtn">Eliminar Registro</button>
         </form>
       </div>
     </div>
@@ -3118,7 +3148,7 @@
     <div class="modal">
       <div class="modal-header">
         <h3 class="modal-title">Agregar Documento</h3>
-        <button class="modal-close" onclick="closeModal('documentModal')" aria-label="Cerrar">
+        <button class="modal-close" id="closeDocumentModal" aria-label="Cerrar" type="button">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"/>
             <line x1="6" y1="6" x2="18" y2="18"/>
@@ -3126,7 +3156,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="documentForm" onsubmit="handleDocumentSubmit(event)">
+        <form id="documentForm">
           <div class="form-group">
             <label class="form-label" for="docName">Nombre del Documento</label>
             <input type="text" class="form-input" id="docName" placeholder="Ej: Factura electricidad" style="font-size: 16px;" required>
@@ -3147,7 +3177,7 @@
             <label class="form-label" for="docAmount">Monto (opcional)</label>
             <div class="amount-input-wrapper">
               <span class="currency-prefix">$</span>
-              <input type="text" class="form-input" id="docAmount" placeholder="0" inputmode="numeric" oninput="formatAmountInput(this)">
+              <input type="text" class="form-input" id="docAmount" placeholder="0" inputmode="numeric">
             </div>
           </div>
           <div class="form-group">
@@ -3165,7 +3195,7 @@
     <div class="month-picker">
       <div class="month-picker-header">
         <h3 class="month-picker-title" id="monthPickerTitle">Seleccionar Mes</h3>
-        <button class="modal-close" onclick="closeModal('monthPicker')" aria-label="Cerrar">
+        <button class="modal-close" id="closeMonthPicker" aria-label="Cerrar" type="button">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"/>
             <line x1="6" y1="6" x2="18" y2="18"/>
@@ -3173,13 +3203,13 @@
         </button>
       </div>
       <div class="year-selector">
-        <button class="year-btn" onclick="changeYear(-1)" aria-label="Ano anterior">
+        <button class="year-btn" id="prevYearBtn" aria-label="Ano anterior" type="button">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
         <span class="year-display" id="yearDisplay">2025</span>
-        <button class="year-btn" onclick="changeYear(1)" aria-label="Ano siguiente">
+        <button class="year-btn" id="nextYearBtn" aria-label="Ano siguiente" type="button">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
@@ -3254,12 +3284,28 @@
     // ===== STATE INITIALIZATION =====
     let appData = null;
     let selectedYear = new Date().getFullYear();
-    
-    // FAB Scroll State
     let fabScrollTimeout = null;
     let isFabHidden = false;
     let lastScrollY = 0;
-    let scrollThreshold = 5;
+    let navigationInitialized = false;
+
+    // ===== DOM REFERENCES (cached for performance) =====
+    let DOM = {};
+
+    function cacheDOMReferences() {
+      DOM = {
+        bottomNav: document.getElementById('bottomNav'),
+        fabButton: document.getElementById('fabButton'),
+        addModal: document.getElementById('addModal'),
+        withdrawModal: document.getElementById('withdrawModal'),
+        documentModal: document.getElementById('documentModal'),
+        monthPicker: document.getElementById('monthPicker'),
+        toast: document.getElementById('toast'),
+        currentMonthDisplay: document.getElementById('currentMonthDisplay'),
+        // Navigation items
+        navItems: null // Will be cached after DOM is ready
+      };
+    }
 
     function initializeAppData() {
       const saved = localStorage.getItem('finanzasProData');
@@ -3318,7 +3364,8 @@
     }
 
     function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
+      const toast = DOM.toast;
+      if (!toast) return;
       toast.textContent = message;
       toast.className = `toast ${type} show`;
       setTimeout(() => toast.classList.remove('show'), 3000);
@@ -3349,19 +3396,127 @@
       if (diff >= 0) input.setSelectionRange(newCursorPos, newCursorPos);
     }
 
-    function handleAmountFocus(input) {
-      if (input.value) setTimeout(() => input.setSelectionRange(0, input.value.length), 10);
-    }
-
-    function handleAmountBlur(input) {
-      if (unformatNumber(input.value) === 0) input.value = '';
-    }
-
-    // ===== FAB SCROLL BEHAVIOR =====
-    function initFabScrollBehavior() {
-      const fab = document.getElementById('fabButton');
+    // ===== CRITICAL: NAVIGATION SYSTEM =====
+    // This is the core fix - using event delegation and proper touch handling
+    
+    function initNavigation() {
+      if (navigationInitialized) {
+        console.log('Navigation already initialized, skipping...');
+        return;
+      }
       
-      // Handle scroll events
+      const bottomNav = DOM.bottomNav;
+      if (!bottomNav) {
+        console.error('Bottom nav not found!');
+        return;
+      }
+      
+      // Cache nav items
+      DOM.navItems = bottomNav.querySelectorAll('.nav-item');
+      
+      // CRITICAL: Use event delegation on the nav container
+      // This ensures clicks always work even if DOM changes
+      bottomNav.addEventListener('click', handleNavClick, { passive: true });
+      bottomNav.addEventListener('touchend', handleNavTouch, { passive: true });
+      
+      // Also add direct listeners to each nav item for redundancy
+      DOM.navItems.forEach(item => {
+        item.addEventListener('click', handleNavClick, { passive: true });
+        item.addEventListener('touchend', handleNavTouch, { passive: true });
+      });
+      
+      navigationInitialized = true;
+      console.log('Navigation initialized successfully');
+    }
+    
+    // Separate function to reinitialize if needed
+    function reinitializeNavigation() {
+      console.log('Reinitializing navigation...');
+      navigationInitialized = false;
+      initNavigation();
+    }
+    
+    function handleNavClick(e) {
+      // Find the nav-item that was clicked
+      const navItem = e.target.closest('.nav-item');
+      if (!navItem) return;
+      
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const sectionId = navItem.getAttribute('data-section');
+      if (sectionId) {
+        showSection(sectionId);
+      }
+    }
+    
+    function handleNavTouch(e) {
+      // Find the nav-item that was touched
+      const navItem = e.target.closest('.nav-item');
+      if (!navItem) return;
+      
+      // Prevent ghost clicks
+      e.preventDefault();
+      
+      const sectionId = navItem.getAttribute('data-section');
+      if (sectionId) {
+        showSection(sectionId);
+      }
+    }
+    
+    function showSection(sectionId) {
+      try {
+        // Hide all sections
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        
+        // Show target section
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.classList.add('active');
+        }
+        
+        // Update nav items
+        if (DOM.navItems) {
+          DOM.navItems.forEach(n => n.classList.remove('active'));
+          const activeItem = Array.from(DOM.navItems).find(n => n.getAttribute('data-section') === sectionId);
+          if (activeItem) {
+            activeItem.classList.add('active');
+          }
+        }
+        
+        // Update UI
+        updateUI();
+        
+        // Show FAB
+        showFab();
+        
+      } catch (error) {
+        console.error('Error in showSection:', error);
+        // Auto-recover
+        reinitializeNavigation();
+        showToast('Error de navegacion, reintenta...', 'error');
+      }
+    }
+    
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('active');
+      }
+    }
+    
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('active');
+      }
+    }
+
+    // ===== FAB BEHAVIOR =====
+    function initFabScrollBehavior() {
+      const fab = DOM.fabButton;
+      if (!fab) return;
+      
       let ticking = false;
       
       const handleScroll = () => {
@@ -3370,8 +3525,7 @@
             const currentScrollY = window.scrollY;
             const scrollDelta = Math.abs(currentScrollY - lastScrollY);
             
-            // Only hide if scrolling significantly
-            if (scrollDelta > scrollThreshold && !isFabHidden) {
+            if (scrollDelta > 5 && !isFabHidden) {
               hideFab();
             }
             
@@ -3381,77 +3535,33 @@
           ticking = true;
         }
         
-        // Clear existing timeout
         if (fabScrollTimeout) {
           clearTimeout(fabScrollTimeout);
         }
         
-        // Set new timeout to show FAB after 2 seconds of no scrolling
         fabScrollTimeout = setTimeout(() => {
           showFab();
         }, 2000);
       };
       
-      // Passive event listener for better performance
       window.addEventListener('scroll', handleScroll, { passive: true });
-      
-      // Touch events for mobile
-      let touchStartY = 0;
-      
-      document.addEventListener('touchstart', (e) => {
-        touchStartY = e.touches[0].clientY;
-      }, { passive: true });
-      
-      document.addEventListener('touchmove', (e) => {
-        const touchDelta = Math.abs(e.touches[0].clientY - touchStartY);
-        
-        if (touchDelta > 10 && !isFabHidden) {
-          hideFab();
-        }
-        
-        // Reset timeout on touch move
-        if (fabScrollTimeout) {
-          clearTimeout(fabScrollTimeout);
-        }
-        
-        fabScrollTimeout = setTimeout(() => {
-          showFab();
-        }, 2000);
-      }, { passive: true });
-      
-      document.addEventListener('touchend', () => {
-        // Reset timeout when touch ends
-        if (fabScrollTimeout) {
-          clearTimeout(fabScrollTimeout);
-        }
-        
-        fabScrollTimeout = setTimeout(() => {
-          showFab();
-        }, 2000);
-      }, { passive: true });
     }
     
     function hideFab() {
-      const fab = document.getElementById('fabButton');
+      const fab = DOM.fabButton;
       if (!isFabHidden && fab) {
-        fab.classList.remove('visible', 'entrance');
+        fab.classList.remove('visible');
         fab.classList.add('hidden');
         isFabHidden = true;
       }
     }
     
     function showFab() {
-      const fab = document.getElementById('fabButton');
+      const fab = DOM.fabButton;
       if (isFabHidden && fab) {
         fab.classList.remove('hidden');
-        fab.classList.add('entrance');
+        fab.classList.add('visible');
         isFabHidden = false;
-        
-        // Remove entrance class after animation completes
-        setTimeout(() => {
-          fab.classList.remove('entrance');
-          fab.classList.add('visible');
-        }, 400);
       }
     }
 
@@ -3473,37 +3583,6 @@
       if (!appData.taxConfig) appData.taxConfig = [...DEFAULT_TAX_CONFIG];
       if (!appData.documents) appData.documents = [];
       saveData();
-    }
-
-    // ===== UI FUNCTIONS =====
-    function showSection(sectionId) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      const section = document.getElementById(sectionId);
-      if (section) section.classList.add('active');
-      
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      const navItem = document.querySelector(`[data-section="${sectionId}"]`);
-      if (navItem) navItem.classList.add('active');
-      
-      updateUI();
-      
-      // Show FAB when changing sections
-      showFab();
-    }
-
-    function closeModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) modal.classList.remove('active');
-    }
-
-    function updateMonthDisplay() {
-      const parts = appData.currentMonth.split('-');
-      if (parts.length === 2) {
-        const year = parts[0];
-        const month = parseInt(parts[1]);
-        const monthName = MONTHS[month - 1] || 'Mes';
-        document.getElementById('currentMonthDisplay').textContent = `${monthName} ${year}`;
-      }
     }
 
     // ===== CALCULATION FUNCTIONS =====
@@ -3541,7 +3620,7 @@
       return calculateTotalSavings() - calculateTotalWithdrawals() + calculateTotalReplenishments();
     }
 
-    // ===== DASHBOARD UPDATE =====
+    // ===== UI UPDATE FUNCTIONS =====
     function updateUI() {
       updateMonthDisplay();
       updateDashboard();
@@ -3561,6 +3640,18 @@
       updateTaxUI();
     }
 
+    function updateMonthDisplay() {
+      const parts = appData.currentMonth.split('-');
+      if (parts.length === 2) {
+        const year = parts[0];
+        const month = parseInt(parts[1]);
+        const monthName = MONTHS[month - 1] || 'Mes';
+        if (DOM.currentMonthDisplay) {
+          DOM.currentMonthDisplay.textContent = `${monthName} ${year}`;
+        }
+      }
+    }
+
     function updateDashboard() {
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [], savings: [] };
       const totalIncomes = calculateTotal(monthData.incomes);
@@ -3569,46 +3660,61 @@
       const totalSavings = calculateTotalSavings();
       const balance = totalIncomes - totalExpenses - totalInvestments;
 
-      document.getElementById('balanceAmount').textContent = formatCurrency(balance);
-      document.getElementById('balanceAmount').className = `balance-amount ${balance >= 0 ? 'positive' : 'negative'}`;
-      document.getElementById('totalIncomes').textContent = formatCurrency(totalIncomes);
-      document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
-      document.getElementById('totalInvestments').textContent = formatCurrency(totalInvestments);
-      document.getElementById('totalSavings').textContent = formatCurrency(totalSavings);
-      document.getElementById('statIncomes').textContent = formatCurrency(totalIncomes);
-      document.getElementById('statExpenses').textContent = formatCurrency(totalExpenses);
-      document.getElementById('statInvestments').textContent = formatCurrency(totalInvestments);
-      document.getElementById('statSavings').textContent = formatCurrency(totalSavings);
-      document.getElementById('incomeTotal').textContent = formatCurrency(totalIncomes);
-      document.getElementById('expenseTotal').textContent = formatCurrency(totalExpenses);
-      document.getElementById('investmentTotal').textContent = formatCurrency(totalInvestments);
-      document.getElementById('savingsTotal').textContent = formatCurrency(totalSavings);
-      document.getElementById('incomeCount').textContent = `${monthData.incomes.length} registros`;
+      const balanceEl = document.getElementById('balanceAmount');
+      if (balanceEl) {
+        balanceEl.textContent = formatCurrency(balance);
+        balanceEl.className = `balance-amount ${balance >= 0 ? 'positive' : 'negative'}`;
+      }
+      
+      setTextContent('totalIncomes', formatCurrency(totalIncomes));
+      setTextContent('totalExpenses', formatCurrency(totalExpenses));
+      setTextContent('totalInvestments', formatCurrency(totalInvestments));
+      setTextContent('totalSavings', formatCurrency(totalSavings));
+      setTextContent('statIncomes', formatCurrency(totalIncomes));
+      setTextContent('statExpenses', formatCurrency(totalExpenses));
+      setTextContent('statInvestments', formatCurrency(totalInvestments));
+      setTextContent('statSavings', formatCurrency(totalSavings));
+      setTextContent('incomeTotal', formatCurrency(totalIncomes));
+      setTextContent('expenseTotal', formatCurrency(totalExpenses));
+      setTextContent('investmentTotal', formatCurrency(totalInvestments));
+      setTextContent('savingsTotal', formatCurrency(totalSavings));
+      setTextContent('incomeCount', `${monthData.incomes.length} registros`);
+      
       const expenseCount = Object.values(monthData.expenses || {}).flat().length;
-      document.getElementById('expenseCount').textContent = `${expenseCount} registros`;
-      document.getElementById('investmentCount').textContent = `${monthData.investments.length} registros`;
+      setTextContent('expenseCount', `${expenseCount} registros`);
+      setTextContent('investmentCount', `${monthData.investments.length} registros`);
+      
       const savingsCount = Object.values(appData.months).reduce((sum, m) => sum + (m.savings ? m.savings.length : 0), 0);
-      document.getElementById('savingsCount').textContent = `${savingsCount} depositos`;
+      setTextContent('savingsCount', `${savingsCount} depositos`);
+    }
+    
+    function setTextContent(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
     }
 
     function updateCushionCard() {
       const totalSavings = calculateTotalSavings();
       const totalWithdrawn = calculateTotalWithdrawals();
       const netCushion = calculateNetCushion();
-      document.getElementById('cushionTotal').textContent = formatCurrency(totalSavings);
-      document.getElementById('cushionWithdrawn').textContent = formatCurrency(totalWithdrawn);
-      document.getElementById('cushionNet').textContent = formatCurrency(netCushion);
-      document.getElementById('savingsCushionTotal').textContent = formatCurrency(totalSavings);
-      document.getElementById('savingsCushionWithdrawn').textContent = formatCurrency(totalWithdrawn);
-      document.getElementById('savingsCushionNet').textContent = formatCurrency(netCushion);
+      
+      setTextContent('cushionTotal', formatCurrency(totalSavings));
+      setTextContent('cushionWithdrawn', formatCurrency(totalWithdrawn));
+      setTextContent('cushionNet', formatCurrency(netCushion));
+      setTextContent('savingsCushionTotal', formatCurrency(totalSavings));
+      setTextContent('savingsCushionWithdrawn', formatCurrency(totalWithdrawn));
+      setTextContent('savingsCushionNet', formatCurrency(netCushion));
       
       const monthData = appData.months[appData.currentMonth] || { expenses: {} };
       const monthlyExpenses = calculateExpensesTotal(monthData.expenses);
       const targetAmount = monthlyExpenses * 6;
       let progressPercent = 0;
       if (targetAmount > 0) progressPercent = Math.min(100, (netCushion / targetAmount) * 100);
-      document.getElementById('cushionProgressPercent').textContent = `${Math.round(progressPercent)}%`;
-      document.getElementById('cushionProgressFill').style.width = `${progressPercent}%`;
+      
+      setTextContent('cushionProgressPercent', `${Math.round(progressPercent)}%`);
+      
+      const progressFill = document.getElementById('cushionProgressFill');
+      if (progressFill) progressFill.style.width = `${progressPercent}%`;
     }
 
     function updateRealAvailable() {
@@ -3626,17 +3732,20 @@
       const badgeTextEl = document.getElementById('protectionText');
       const formulaEl = document.getElementById('formulaResult');
       
-      amountEl.textContent = formatCurrency(realAvailable);
-      formulaEl.textContent = formatCurrency(realAvailable);
-      cardEl.className = 'real-available-card';
-      badgeEl.className = 'protection-badge';
+      if (amountEl) amountEl.textContent = formatCurrency(realAvailable);
+      if (formulaEl) formulaEl.textContent = formatCurrency(realAvailable);
       
-      if (realAvailable > netCushion * 0.2) {
-        cardEl.classList.add('protected'); badgeEl.classList.add('green'); badgeTextEl.textContent = 'Colchon protegido'; amountEl.className = 'real-available-amount positive';
-      } else if (realAvailable > 0) {
-        cardEl.classList.add('warning'); badgeEl.classList.add('yellow'); badgeTextEl.textContent = 'Cerca del colchon'; amountEl.className = 'real-available-amount warning';
-      } else {
-        cardEl.classList.add('danger'); badgeEl.classList.add('red'); badgeTextEl.textContent = 'Usando el colchon'; amountEl.className = 'real-available-amount negative';
+      if (cardEl) cardEl.className = 'real-available-card';
+      if (badgeEl) badgeEl.className = 'protection-badge';
+      
+      if (amountEl && cardEl && badgeEl && badgeTextEl) {
+        if (realAvailable > netCushion * 0.2) {
+          cardEl.classList.add('protected'); badgeEl.classList.add('green'); badgeTextEl.textContent = 'Colchon protegido'; amountEl.className = 'real-available-amount positive';
+        } else if (realAvailable > 0) {
+          cardEl.classList.add('warning'); badgeEl.classList.add('yellow'); badgeTextEl.textContent = 'Cerca del colchon'; amountEl.className = 'real-available-amount warning';
+        } else {
+          cardEl.classList.add('danger'); badgeEl.classList.add('red'); badgeTextEl.textContent = 'Usando el colchon'; amountEl.className = 'real-available-amount negative';
+        }
       }
     }
 
@@ -3663,52 +3772,74 @@
       const personalRemaining = personalBudget - personalSpent;
       const realAvailablePersonal = Math.max(0, Math.min(personalRemaining, balanceDisponible));
       
-      document.getElementById('personalBudget').textContent = formatCurrency(personalBudget);
-      document.getElementById('personalSpent').textContent = formatCurrency(personalSpent);
+            setTextContent('personalSpent', formatCurrency(personalSpent));
       
       const remainingEl = document.getElementById('personalRemaining');
-      if (personalRemaining >= 0) {
-        remainingEl.textContent = formatCurrency(personalRemaining); remainingEl.className = 'personal-money-stat-value remaining';
-      } else {
-        remainingEl.textContent = '-' + formatCurrency(Math.abs(personalRemaining)); remainingEl.className = 'personal-money-stat-value over';
+      if (remainingEl) {
+        if (personalRemaining >= 0) {
+          remainingEl.textContent = formatCurrency(personalRemaining);
+          remainingEl.className = 'personal-money-stat-value remaining';
+        } else {
+          remainingEl.textContent = '-' + formatCurrency(Math.abs(personalRemaining));
+          remainingEl.className = 'personal-money-stat-value over';
+        }
       }
       
       const realAvailableEl = document.getElementById('realAvailablePersonal');
       const realAvailableStatEl = document.getElementById('realAvailablePersonalStat');
-      realAvailableEl.textContent = formatCurrency(realAvailablePersonal);
+      if (realAvailableEl) realAvailableEl.textContent = formatCurrency(realAvailablePersonal);
       
       let percentage = personalBudget > 0 ? (personalSpent / personalBudget) * 100 : 0;
       const progressEl = document.getElementById('personalProgressFill');
-      const displayPercentage = Math.min(percentage, 100);
-      progressEl.style.width = `${displayPercentage}%`;
-      
-      if (percentage < 80) progressEl.className = 'personal-progress-fill safe';
-      else if (percentage < 100) progressEl.className = 'personal-progress-fill warning';
-      else progressEl.className = 'personal-progress-fill danger';
+      if (progressEl) {
+        const displayPercentage = Math.min(percentage, 100);
+        progressEl.style.width = `${displayPercentage}%`;
+        
+        if (percentage < 80) progressEl.className = 'personal-progress-fill safe';
+        else if (percentage < 100) progressEl.className = 'personal-progress-fill warning';
+        else progressEl.className = 'personal-progress-fill danger';
+      }
       
       const cardEl = document.getElementById('personalMoneyCard');
-      cardEl.className = 'personal-money-card';
       const alertEl = document.getElementById('personalAlert');
       const alertIconEl = document.getElementById('personalAlertIcon');
       const alertTextEl = document.getElementById('personalAlertText');
-      alertEl.classList.remove('hidden', 'success', 'info', 'warning', 'caution', 'danger');
+      
+      if (cardEl) cardEl.className = 'personal-money-card';
+      if (alertEl) alertEl.classList.remove('hidden', 'success', 'info', 'warning', 'caution', 'danger');
       
       const isNoMoneyAvailable = balanceDisponible <= 0;
       
-      realAvailableStatEl.className = 'personal-money-stat';
-      realAvailableEl.className = 'personal-money-stat-value real-available';
+      if (realAvailableStatEl && realAvailableEl) {
+        realAvailableStatEl.className = 'personal-money-stat';
+        realAvailableEl.className = 'personal-money-stat-value real-available';
+      }
       
-      if (isNoMoneyAvailable) {
-        cardEl.classList.add('has-danger'); realAvailableStatEl.classList.add('danger-state'); realAvailableEl.className = 'personal-money-stat-value zero';
-        alertEl.classList.add('danger'); alertIconEl.innerHTML = '&#128308;'; alertTextEl.textContent = 'No queda dinero disponible para gastos personales.';
-      } else if (personalSpent === 0) {
-        alertEl.classList.add('success'); alertIconEl.innerHTML = '&#9989;'; alertTextEl.textContent = 'No has utilizado tu presupuesto personal todavia.';
-      } else if (percentage < 80) {
-        alertEl.classList.add('info'); alertIconEl.innerHTML = '&#128309;'; alertTextEl.textContent = 'Presupuesto personal bajo control.';
-      } else if (percentage < 100) {
-        alertEl.classList.add('caution'); alertIconEl.innerHTML = '&#128994;'; alertTextEl.textContent = 'Estas cerca de agotar tu presupuesto personal.';
-      } else {
-        alertEl.classList.add('caution'); alertIconEl.innerHTML = '&#128994;'; alertTextEl.textContent = 'Has utilizado todo tu presupuesto personal.';
+      if (cardEl && alertEl && alertIconEl && alertTextEl) {
+        if (isNoMoneyAvailable) {
+          cardEl.classList.add('has-danger');
+          if (realAvailableStatEl) realAvailableStatEl.classList.add('danger-state');
+          if (realAvailableEl) realAvailableEl.className = 'personal-money-stat-value zero';
+          alertEl.classList.add('danger');
+          alertIconEl.innerHTML = '&#128308;';
+          alertTextEl.textContent = 'No queda dinero disponible para gastos personales.';
+        } else if (personalSpent === 0) {
+          alertEl.classList.add('success');
+          alertIconEl.innerHTML = '&#9989;';
+          alertTextEl.textContent = 'No has utilizado tu presupuesto personal todavia.';
+        } else if (percentage < 80) {
+          alertEl.classList.add('info');
+          alertIconEl.innerHTML = '&#128309;';
+          alertTextEl.textContent = 'Presupuesto personal bajo control.';
+        } else if (percentage < 100) {
+          alertEl.classList.add('caution');
+          alertIconEl.innerHTML = '&#128994;';
+          alertTextEl.textContent = 'Estas cerca de agotar tu presupuesto personal.';
+        } else {
+          alertEl.classList.add('caution');
+          alertIconEl.innerHTML = '&#128994;';
+          alertTextEl.textContent = 'Has utilizado todo tu presupuesto personal.';
+        }
       }
     }
 
@@ -3722,14 +3853,16 @@
       appData.recommendation = appData.recommendation || {};
       appData.recommendation.baseIncome = baseIncome;
       
-      document.getElementById('recSavings').textContent = formatCurrency(Math.round(baseIncome * 0.40));
-      document.getElementById('recInvestment').textContent = formatCurrency(Math.round(baseIncome * 0.30));
-      document.getElementById('recExpenses').textContent = formatCurrency(Math.round(baseIncome * 0.20));
-      document.getElementById('recFlexible').textContent = formatCurrency(Math.round(baseIncome * 0.10));
-      document.getElementById('recBaseIncome').textContent = formatCurrency(baseIncome);
+      setTextContent('recSavings', formatCurrency(Math.round(baseIncome * 0.40)));
+      setTextContent('recInvestment', formatCurrency(Math.round(baseIncome * 0.30)));
+      setTextContent('recExpenses', formatCurrency(Math.round(baseIncome * 0.20)));
+      setTextContent('recFlexible', formatCurrency(Math.round(baseIncome * 0.10)));
+      setTextContent('recBaseIncome', formatCurrency(baseIncome));
       
       const subtitle = document.getElementById('recommendationSubtitle');
-      subtitle.textContent = baseIncome > 0 ? 'Distribucion sugerida para crecimiento patrimonial' : 'Registra un ingreso para ver la distribucion recomendada';
+      if (subtitle) {
+        subtitle.textContent = baseIncome > 0 ? 'Distribucion sugerida para crecimiento patrimonial' : 'Registra un ingreso para ver la distribucion recomendada';
+      }
       saveData();
     }
 
@@ -3776,28 +3909,34 @@
       }
 
       const indicator = document.getElementById('statusIndicator');
-      indicator.className = `status-indicator ${status}`;
-      const iconColors = { green: '#22c55e', yellow: '#f59e0b', red: '#ef4444' };
-      indicator.innerHTML = status === 'green' ? 
-        `<svg viewBox="0 0 24 24" fill="none" stroke="${iconColors[status]}" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>` :
-        status === 'yellow' ?
-        `<svg viewBox="0 0 24 24" fill="none" stroke="${iconColors[status]}" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` :
-        `<svg viewBox="0 0 24 24" fill="none" stroke="${iconColors[status]}" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+      if (indicator) {
+        indicator.className = `status-indicator ${status}`;
+        const iconColors = { green: '#22c55e', yellow: '#f59e0b', red: '#ef4444' };
+        indicator.innerHTML = status === 'green' ? 
+          `<svg viewBox="0 0 24 24" fill="none" stroke="${iconColors[status]}" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>` :
+          status === 'yellow' ?
+          `<svg viewBox="0 0 24 24" fill="none" stroke="${iconColors[status]}" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` :
+          `<svg viewBox="0 0 24 24" fill="none" stroke="${iconColors[status]}" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+      }
 
-      document.getElementById('statusTitle').textContent = statusTitle;
-      document.getElementById('statusSubtitle').textContent = statusSubtitle;
+      setTextContent('statusTitle', statusTitle);
+      setTextContent('statusSubtitle', statusSubtitle);
 
       const alertsList = document.getElementById('alertsList');
-      if (alerts.length === 0) {
-        alertsList.innerHTML = '<div class="alert-item success"><span class="alert-icon">&#9989;</span>Tu situacion financiera esta bien.</div>';
-      } else {
-        alertsList.innerHTML = alerts.map(alert => `<div class="alert-item ${alert.type}"><span class="alert-icon">${alert.icon}</span>${alert.message}</div>`).join('');
+      if (alertsList) {
+        if (alerts.length === 0) {
+          alertsList.innerHTML = '<div class="alert-item success"><span class="alert-icon">&#9989;</span>Tu situacion financiera esta bien.</div>';
+        } else {
+          alertsList.innerHTML = alerts.map(alert => `<div class="alert-item ${alert.type}"><span class="alert-icon">${alert.icon}</span>${alert.message}</div>`).join('');
+        }
       }
     }
 
     // ===== RENDER LISTS =====
     function renderExpenseCategories() {
       const container = document.getElementById('expenseCategories');
+      if (!container) return;
+      
       const monthData = appData.months[appData.currentMonth] || { expenses: {} };
       
       let html = EXPENSE_CATEGORIES.map(cat => {
@@ -3805,7 +3944,7 @@
         const total = calculateTotal(expenses);
         
         return `
-          <div class="category-card" onclick="openAddModal('expense', '${cat.id}')" tabindex="0" role="button">
+          <div class="category-card" data-category="${cat.id}" tabindex="0" role="button">
             <div class="category-icon" style="background: ${cat.color}20; color: ${cat.color};">${cat.icon}</div>
             <div class="category-name">${cat.name}</div>
             <div class="category-amount ${total > 0 ? 'has-amount' : ''}">${formatCurrency(total)}</div>
@@ -3818,7 +3957,7 @@
         const total = calculateTotal(expenses);
         
         return `
-          <div class="category-card personal" onclick="openAddModal('expense', '${cat.id}')" tabindex="0" role="button">
+          <div class="category-card personal" data-category="${cat.id}" tabindex="0" role="button">
             <span class="category-badge">Para mi</span>
             <div class="category-icon" style="background: ${cat.color}20; color: ${cat.color};">${cat.icon}</div>
             <div class="category-name">${cat.name}</div>
@@ -3829,17 +3968,29 @@
       
       container.innerHTML = html;
 
+      // Add click handlers to category cards
+      container.querySelectorAll('.category-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const categoryId = card.getAttribute('data-category');
+          openAddModal('expense', categoryId);
+        });
+      });
+
       const select = document.getElementById('expenseCategory');
-      let selectHtml = '<optgroup label="Gastos Generales">';
-      selectHtml += EXPENSE_CATEGORIES.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
-      selectHtml += '</optgroup><optgroup label="Gastos Personales (Para mi)">';
-      selectHtml += PERSONAL_CATEGORIES.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
-      selectHtml += '</optgroup>';
-      select.innerHTML = selectHtml;
+      if (select) {
+        let selectHtml = '<optgroup label="Gastos Generales">';
+        selectHtml += EXPENSE_CATEGORIES.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
+        selectHtml += '</optgroup><optgroup label="Gastos Personales (Para mi)">';
+        selectHtml += PERSONAL_CATEGORIES.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
+        selectHtml += '</optgroup>';
+        select.innerHTML = selectHtml;
+      }
     }
 
     function updateIncomesList() {
       const container = document.getElementById('incomesList');
+      if (!container) return;
+      
       const monthData = appData.months[appData.currentMonth] || { incomes: [] };
       
       if (monthData.incomes.length === 0) {
@@ -3853,7 +4004,7 @@
         const paymentTag = income.paymentMethod ? `<span class="payment-method-tag">${PAYMENT_METHODS[income.paymentMethod] || income.paymentMethod}</span>` : '';
         
         return `
-          <div class="history-item">
+          <div class="history-item" data-id="${income.id}" data-type="income">
             <div class="history-item-left">
               <div class="history-icon" style="background: var(--accent-dim);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div>
               <div class="history-details">
@@ -3864,17 +4015,52 @@
             <div class="history-right">
               <div class="history-amount income">${formatCurrency(income.amount)}</div>
               <div class="history-actions">
-                <button class="history-btn edit" onclick="editIncome('${income.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-                <button class="history-btn delete" onclick="deleteIncome('${income.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <button class="history-btn edit" data-action="edit" data-id="${income.id}" data-type="income" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="history-btn delete" data-action="delete" data-id="${income.id}" data-type="income" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
               </div>
             </div>
           </div>
         `;
       }).join('');
+      
+      // Attach event listeners
+      attachHistoryListeners(container, 'income');
+    }
+    
+    function attachHistoryListeners(container, type) {
+      container.querySelectorAll('.history-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const action = btn.getAttribute('data-action');
+          const id = btn.getAttribute('data-id');
+          const btnType = btn.getAttribute('data-type');
+          const category = btn.getAttribute('data-category');
+          const monthKey = btn.getAttribute('data-month-key');
+          
+          if (action === 'edit') {
+            if (btnType === 'income') editIncome(id);
+            else if (btnType === 'expense') editExpense(category, id);
+            else if (btnType === 'investment') editInvestment(id);
+            else if (btnType === 'saving') editSaving(monthKey, id);
+            else if (btnType === 'note') editNote(id);
+            else if (btnType === 'cushion') editCushionRecord(id);
+          } else if (action === 'delete') {
+            if (btnType === 'income') deleteIncome(id);
+            else if (btnType === 'expense') deleteExpense(category, id);
+            else if (btnType === 'investment') deleteInvestment(id);
+            else if (btnType === 'saving') deleteSaving(monthKey, id);
+            else if (btnType === 'note') deleteNote(id);
+            else if (btnType === 'cushion') deleteCushionRecord(id);
+            else if (btnType === 'document') deleteDocument(id);
+          }
+        });
+      });
     }
 
     function updateExpensesList() {
       const container = document.getElementById('expensesList');
+      if (!container) return;
+      
       const monthData = appData.months[appData.currentMonth] || { expenses: {} };
       
       let allExpenses = [];
@@ -3896,7 +4082,7 @@
         const deductibleTag = exp.isDeductible ? '<span class="income-source-tag" style="background: var(--teal-dim); color: var(--teal);">Deducible</span>' : '';
         
         return `
-          <div class="history-item ${exp.isPersonal ? 'personal' : ''}">
+          <div class="history-item ${exp.isPersonal ? 'personal' : ''}" data-id="${exp.id}" data-type="expense" data-category="${exp.categoryId}">
             <div class="history-item-left">
               <div class="history-icon" style="background: ${exp.categoryColor}20;">${exp.categoryIcon}</div>
               <div class="history-details">
@@ -3907,17 +4093,21 @@
             <div class="history-right">
               <div class="history-amount ${exp.isPersonal ? 'personal' : 'expense'}">${formatCurrency(exp.amount)}</div>
               <div class="history-actions">
-                <button class="history-btn edit" onclick="editExpense('${exp.categoryId}', '${exp.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-                <button class="history-btn delete" onclick="deleteExpense('${exp.categoryId}', '${exp.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <button class="history-btn edit" data-action="edit" data-id="${exp.id}" data-type="expense" data-category="${exp.categoryId}" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="history-btn delete" data-action="delete" data-id="${exp.id}" data-type="expense" data-category="${exp.categoryId}" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
               </div>
             </div>
           </div>
         `;
       }).join('');
+      
+      attachHistoryListeners(container, 'expense');
     }
 
     function updateInvestmentsList() {
       const container = document.getElementById('investmentsList');
+      if (!container) return;
+      
       const monthData = appData.months[appData.currentMonth] || { investments: [] };
       
       if (monthData.investments.length === 0) {
@@ -3927,7 +4117,7 @@
 
       const sorted = [...monthData.investments].sort((a, b) => new Date(b.date) - new Date(a.date));
       container.innerHTML = sorted.map(inv => `
-        <div class="history-item">
+        <div class="history-item" data-id="${inv.id}" data-type="investment">
           <div class="history-item-left">
             <div class="history-icon" style="background: var(--info-dim);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
             <div class="history-details"><h4>${inv.description || 'Inversion'}</h4><span>${formatDate(inv.date)}</span></div>
@@ -3935,16 +4125,19 @@
           <div class="history-right">
             <div class="history-amount" style="color: var(--info);">${formatCurrency(inv.amount)}</div>
             <div class="history-actions">
-              <button class="history-btn edit" onclick="editInvestment('${inv.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-              <button class="history-btn delete" onclick="deleteInvestment('${inv.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+              <button class="history-btn edit" data-action="edit" data-id="${inv.id}" data-type="investment" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="history-btn delete" data-action="delete" data-id="${inv.id}" data-type="investment" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
             </div>
           </div>
         </div>
       `).join('');
+      
+      attachHistoryListeners(container, 'investment');
     }
 
     function updateSavingsList() {
       const container = document.getElementById('savingsList');
+      if (!container) return;
       
       let allSavings = [];
       Object.entries(appData.months).forEach(([monthKey, monthData]) => {
@@ -3961,7 +4154,7 @@
       allSavings.sort((a, b) => new Date(b.date) - new Date(a.date));
       
       container.innerHTML = allSavings.map(sav => `
-        <div class="history-item deposit">
+        <div class="history-item deposit" data-id="${sav.id}" data-type="saving" data-month-key="${sav.monthKey}">
           <div class="history-item-left">
             <div class="history-icon" style="background: var(--warning-dim);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2V5z"/></svg></div>
             <div class="history-details"><h4>${sav.description || 'Ahorro'}</h4><span>${formatDate(sav.date)}</span></div>
@@ -3969,16 +4162,19 @@
           <div class="history-right">
             <div class="history-amount deposit">${formatCurrency(sav.amount)}</div>
             <div class="history-actions">
-              <button class="history-btn edit" onclick="editSaving('${sav.monthKey}', '${sav.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-              <button class="history-btn delete" onclick="deleteSaving('${sav.monthKey}', '${sav.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+              <button class="history-btn edit" data-action="edit" data-id="${sav.id}" data-type="saving" data-month-key="${sav.monthKey}" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="history-btn delete" data-action="delete" data-id="${sav.id}" data-type="saving" data-month-key="${sav.monthKey}" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
             </div>
           </div>
         </div>
       `).join('');
+      
+      attachHistoryListeners(container, 'saving');
     }
 
     function updateCushionHistoryList() {
       const container = document.getElementById('cushionHistoryList');
+      if (!container) return;
       
       if (!appData.cushionWithdrawals || appData.cushionWithdrawals.length === 0) {
         container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><h3>Sin movimientos</h3><p>Los retiros y reposiciones apareceran aqui</p></div>`;
@@ -3989,11 +4185,10 @@
       
       container.innerHTML = sorted.map(item => {
         const isWithdrawal = item.type === 'withdrawal';
-        const isReplenishment = item.type === 'replenishment';
         const reasonText = item.reason ? WITHDRAWAL_REASONS[item.reason] || item.reason : '';
         
         return `
-          <div class="history-item ${isWithdrawal ? 'withdrawal' : 'replenishment'}">
+          <div class="history-item ${isWithdrawal ? 'withdrawal' : 'replenishment'}" data-id="${item.id}" data-type="cushion">
             <div class="history-item-left">
               <div class="history-icon" style="background: ${isWithdrawal ? 'var(--danger-dim)' : 'var(--accent-dim)'};">
                 ${isWithdrawal ? 
@@ -4009,17 +4204,21 @@
             <div class="history-right">
               <div class="history-amount ${isWithdrawal ? 'withdrawal' : 'replenishment'}">${isWithdrawal ? '-' : '+'}${formatCurrency(item.amount)}</div>
               <div class="history-actions">
-                <button class="history-btn edit" onclick="editCushionRecord('${item.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-                <button class="history-btn delete" onclick="deleteCushionRecord('${item.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <button class="history-btn edit" data-action="edit" data-id="${item.id}" data-type="cushion" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="history-btn delete" data-action="delete" data-id="${item.id}" data-type="cushion" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
               </div>
             </div>
           </div>
         `;
       }).join('');
+      
+      attachHistoryListeners(container, 'cushion');
     }
 
     function updateNotesList() {
       const container = document.getElementById('notesList');
+      if (!container) return;
+      
       const monthData = appData.months[appData.currentMonth] || { notes: [] };
       
       if (monthData.notes.length === 0) {
@@ -4028,19 +4227,21 @@
       }
 
       container.innerHTML = monthData.notes.map(note => `
-        <div class="note-card">
+        <div class="note-card" data-id="${note.id}" data-type="note">
           <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div>
               <div class="note-title">${note.description || 'Nota'}</div>
               ${note.amount > 0 ? `<div class="note-amount">${formatCurrency(note.amount)}</div>` : ''}
             </div>
             <div class="history-actions" style="margin: 0;">
-              <button class="history-btn edit" onclick="editNote('${note.id}')" aria-label="Editar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-              <button class="history-btn delete" onclick="deleteNote('${note.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+              <button class="history-btn edit" data-action="edit" data-id="${note.id}" data-type="note" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="history-btn delete" data-action="delete" data-id="${note.id}" data-type="note" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
             </div>
           </div>
         </div>
       `).join('');
+      
+      attachHistoryListeners(container, 'note');
     }
 
     // ===== CHART =====
@@ -4101,6 +4302,8 @@
     // ===== TAX MODULE FUNCTIONS =====
     function toggleTaxTracking() {
       const toggle = document.getElementById('taxTrackingToggle');
+      if (!toggle) return;
+      
       appData.taxTrackingEnabled = toggle.checked;
       saveData();
       updateTaxUI();
@@ -4109,17 +4312,19 @@
 
     function updateTaxUI() {
       const toggle = document.getElementById('taxTrackingToggle');
-      toggle.checked = appData.taxTrackingEnabled;
+      if (toggle) toggle.checked = appData.taxTrackingEnabled;
       
       const taxContent = document.getElementById('taxModuleContent');
-      if (appData.taxTrackingEnabled) {
-        taxContent.classList.remove('hidden');
-        renderTaxConfig();
-        updateTaxStats();
-        renderYearlyTabs();
-        renderDocuments();
-      } else {
-        taxContent.classList.add('hidden');
+      if (taxContent) {
+        if (appData.taxTrackingEnabled) {
+          taxContent.classList.remove('hidden');
+          renderTaxConfig();
+          updateTaxStats();
+          renderYearlyTabs();
+          renderDocuments();
+        } else {
+          taxContent.classList.add('hidden');
+        }
       }
       
       updateFormFields();
@@ -4127,6 +4332,8 @@
 
     function renderTaxConfig() {
       const container = document.getElementById('taxConfigList');
+      if (!container) return;
+      
       container.innerHTML = appData.taxConfig.map(config => `
         <div class="tax-config-item">
           <span class="tax-config-name">${config.name}</span>
@@ -4149,25 +4356,27 @@
       const monthData = appData.months[appData.currentMonth] || { incomes: [], expenses: {}, investments: [] };
       
       const grossIncome = calculateTotal(monthData.incomes);
-      document.getElementById('taxGrossIncome').textContent = formatCurrency(grossIncome);
+      setTextContent('taxGrossIncome', formatCurrency(grossIncome));
       
       let deductibleExpenses = 0;
       Object.values(monthData.expenses || {}).flat().forEach(exp => {
         if (exp.isDeductible) deductibleExpenses += Number(exp.amount) || 0;
       });
-      document.getElementById('taxDeductibleExpenses').textContent = formatCurrency(deductibleExpenses);
+      setTextContent('taxDeductibleExpenses', formatCurrency(deductibleExpenses));
       
       const netIncome = grossIncome - deductibleExpenses;
-      document.getElementById('taxNetIncome').textContent = formatCurrency(netIncome);
+      setTextContent('taxNetIncome', formatCurrency(netIncome));
       
       const totalExpenses = calculateExpensesTotal(monthData.expenses);
       const totalInvestments = calculateTotal(monthData.investments);
       const monthlyFlow = grossIncome - totalExpenses - totalInvestments;
-      document.getElementById('taxMonthlyFlow').textContent = formatCurrency(monthlyFlow);
+      setTextContent('taxMonthlyFlow', formatCurrency(monthlyFlow));
     }
 
     function renderYearlyTabs() {
       const container = document.getElementById('yearlyTabs');
+      if (!container) return;
+      
       const currentYear = new Date().getFullYear();
       const years = [];
       
@@ -4180,16 +4389,19 @@
       years.sort((a, b) => b - a);
       
       container.innerHTML = years.map((year, index) => `
-        <button class="yearly-tab ${index === 0 ? 'active' : ''}" onclick="selectYearTab(${year}, this)">${year}</button>
+        <button class="yearly-tab ${index === 0 ? 'active' : ''}" data-year="${year}" type="button">${year}</button>
       `).join('');
       
+      // Add click listeners
+      container.querySelectorAll('.yearly-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          container.querySelectorAll('.yearly-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          drawYearlyChart(parseInt(tab.getAttribute('data-year')));
+        });
+      });
+      
       if (years.length > 0) drawYearlyChart(years[0]);
-    }
-
-    function selectYearTab(year, btn) {
-      document.querySelectorAll('.yearly-tab').forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      drawYearlyChart(year);
     }
 
     function drawYearlyChart(year) {
@@ -4253,6 +4465,7 @@
 
     function renderDocuments() {
       const container = document.getElementById('documentsList');
+      if (!container) return;
       
       if (!appData.documents || appData.documents.length === 0) {
         container.innerHTML = `<div class="empty-state" style="padding: 24px;"><h3>Sin documentos</h3><p>Agrega facturas y soportes</p></div>`;
@@ -4262,7 +4475,7 @@
       const sorted = [...appData.documents].sort((a, b) => new Date(b.date) - new Date(a.date));
       
       container.innerHTML = sorted.map(doc => `
-        <div class="document-card">
+        <div class="document-card" data-id="${doc.id}" data-type="document">
           <div class="document-header">
             <div class="document-icon">&#128196;</div>
             <div class="document-info">
@@ -4272,51 +4485,14 @@
               <span class="document-type-badge ${doc.type}">${doc.type === 'invoice' ? 'Factura' : doc.type === 'receipt' ? 'Recibo' : 'Soporte'}</span>
             </div>
             <div class="history-actions">
-              <button class="history-btn delete" onclick="deleteDocument('${doc.id}')" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+              <button class="history-btn delete" data-action="delete" data-id="${doc.id}" data-type="document" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
             </div>
           </div>
           ${doc.notes ? `<p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">${doc.notes}</p>` : ''}
         </div>
       `).join('');
-    }
-
-    function openDocumentModal() {
-      document.getElementById('docName').value = '';
-      document.getElementById('docType').value = 'invoice';
-      document.getElementById('docReference').value = '';
-      document.getElementById('docAmount').value = '';
-      document.getElementById('docNotes').value = '';
-      document.getElementById('documentModal').classList.add('active');
-    }
-
-    function handleDocumentSubmit(e) {
-      e.preventDefault();
       
-      const doc = {
-        id: Date.now().toString(),
-        name: document.getElementById('docName').value.trim(),
-        type: document.getElementById('docType').value,
-        reference: document.getElementById('docReference').value.trim(),
-        amount: unformatNumber(document.getElementById('docAmount').value),
-        notes: document.getElementById('docNotes').value.trim(),
-        date: new Date().toISOString()
-      };
-      
-      if (!appData.documents) appData.documents = [];
-      appData.documents.push(doc);
-      
-      saveData();
-      renderDocuments();
-      closeModal('documentModal');
-      showToast('Documento guardado', 'success');
-    }
-
-    function deleteDocument(id) {
-      if (!confirm('Eliminar este documento?')) return;
-      appData.documents = appData.documents.filter(d => d.id !== id);
-      saveData();
-      renderDocuments();
-      showToast('Documento eliminado', 'error');
+      attachHistoryListeners(container, 'document');
     }
 
     // ===== FORM HANDLING =====
@@ -4341,7 +4517,7 @@
       if (category) document.getElementById('expenseCategory').value = category;
       
       updateFormFields();
-      document.getElementById('addModal').classList.add('active');
+      openModal('addModal');
       setTimeout(() => document.getElementById('amount').focus(), 100);
     }
 
@@ -4356,7 +4532,9 @@
       document.getElementById('deductibleGroup').style.display = showDeductible ? 'block' : 'none';
       
       const amountLabel = document.querySelector('label[for="amount"]');
-      amountLabel.textContent = type === 'note' ? 'Monto (opcional)' : 'Monto';
+      if (amountLabel) {
+        amountLabel.textContent = type === 'note' ? 'Monto (opcional)' : 'Monto';
+      }
       document.getElementById('amount').required = type !== 'note';
     }
 
@@ -4451,7 +4629,7 @@
       document.getElementById('withdrawSubmitBtn').textContent = 'Confirmar Retiro';
       document.getElementById('deleteCushionBtn').classList.add('hidden');
       
-      document.getElementById('withdrawModal').classList.add('active');
+      openModal('withdrawModal');
       setTimeout(() => document.getElementById('withdrawAmount').focus(), 100);
     }
 
@@ -4509,45 +4687,6 @@
       updateUI();
     }
 
-    // ===== EDIT CUSHION RECORD =====
-    function editCushionRecord(id) {
-      const record = appData.cushionWithdrawals.find(r => r.id === id);
-      if (!record) return;
-      
-      const netCushion = calculateNetCushion();
-      document.getElementById('withdrawAvailableBalance').textContent = formatCurrency(netCushion + record.amount);
-      document.getElementById('withdrawAmount').value = formatNumberWithThousands(record.amount);
-      document.getElementById('withdrawReason').value = record.reason || '';
-      document.getElementById('withdrawDescription').value = record.description || '';
-      document.getElementById('editCushionId').value = id;
-      document.getElementById('withdrawModalTitle').textContent = record.type === 'withdrawal' ? 'Editar Retiro' : 'Editar Reposicion';
-      document.getElementById('withdrawSubmitBtn').textContent = 'Guardar Cambios';
-      document.getElementById('deleteCushionBtn').classList.remove('hidden');
-      
-      document.getElementById('withdrawModal').classList.add('active');
-    }
-
-    function deleteCushionRecord(id) {
-      if (!confirm('Eliminar este registro?')) return;
-      appData.cushionWithdrawals = appData.cushionWithdrawals.filter(r => r.id !== id);
-      saveData();
-      updateUI();
-      showToast('Registro eliminado', 'error');
-    }
-
-    function deleteCushionRecordFromModal() {
-      const editCushionId = document.getElementById('editCushionId').value;
-      if (!editCushionId) return;
-      
-      if (!confirm('Eliminar este registro?')) return;
-      
-      appData.cushionWithdrawals = appData.cushionWithdrawals.filter(r => r.id !== editCushionId);
-      closeModal('withdrawModal');
-      saveData();
-      updateUI();
-      showToast('Registro eliminado', 'error');
-    }
-
     // ===== EDIT FUNCTIONS =====
     function editIncome(id) {
       const income = appData.months[appData.currentMonth].incomes.find(i => i.id === id);
@@ -4572,6 +4711,23 @@
     function editNote(id) {
       const note = appData.months[appData.currentMonth].notes.find(n => n.id === id);
       if (note) openEditModal('note', note);
+    }
+
+    function editCushionRecord(id) {
+      const record = appData.cushionWithdrawals.find(r => r.id === id);
+      if (!record) return;
+      
+      const netCushion = calculateNetCushion();
+      document.getElementById('withdrawAvailableBalance').textContent = formatCurrency(netCushion + record.amount);
+      document.getElementById('withdrawAmount').value = formatNumberWithThousands(record.amount);
+      document.getElementById('withdrawReason').value = record.reason || '';
+      document.getElementById('withdrawDescription').value = record.description || '';
+      document.getElementById('editCushionId').value = id;
+      document.getElementById('withdrawModalTitle').textContent = record.type === 'withdrawal' ? 'Editar Retiro' : 'Editar Reposicion';
+      document.getElementById('withdrawSubmitBtn').textContent = 'Guardar Cambios';
+      document.getElementById('deleteCushionBtn').classList.remove('hidden');
+      
+      openModal('withdrawModal');
     }
 
     function openEditModal(type, record) {
@@ -4603,7 +4759,7 @@
       }
       
       updateFormFields();
-      document.getElementById('addModal').classList.add('active');
+      openModal('addModal');
     }
 
     // ===== DELETE FUNCTIONS =====
@@ -4652,12 +4808,24 @@
       saveData(); updateUI(); showToast('Nota eliminada', 'error');
     }
 
+    function deleteCushionRecord(id) {
+      if (!confirm('Eliminar este registro?')) return;
+      appData.cushionWithdrawals = appData.cushionWithdrawals.filter(r => r.id !== id);
+      saveData(); updateUI(); showToast('Registro eliminado', 'error');
+    }
+
+    function deleteDocument(id) {
+      if (!confirm('Eliminar este documento?')) return;
+      appData.documents = appData.documents.filter(d => d.id !== id);
+      saveData(); renderDocuments(); showToast('Documento eliminado', 'error');
+    }
+
     // ===== MONTH PICKER =====
     function openMonthPicker() {
       selectedYear = parseInt(appData.currentMonth.split('-')[0]);
       document.getElementById('yearDisplay').textContent = selectedYear;
       renderMonthPicker();
-      document.getElementById('monthPicker').classList.add('active');
+      openModal('monthPicker');
     }
 
     function changeYear(delta) {
@@ -4668,11 +4836,21 @@
 
     function renderMonthPicker() {
       const grid = document.getElementById('monthGrid');
+      if (!grid) return;
+      
       grid.innerHTML = MONTHS.map((month, i) => {
         const monthKey = `${selectedYear}-${String(i + 1).padStart(2, '0')}`;
         const isActive = monthKey === appData.currentMonth;
-        return `<div class="month-picker-item ${isActive ? 'active' : ''}" onclick="selectMonth('${monthKey}')" tabindex="0" role="button">${month}</div>`;
+        return `<div class="month-picker-item ${isActive ? 'active' : ''}" data-month="${monthKey}" tabindex="0" role="button">${month}</div>`;
       }).join('');
+      
+      // Add click listeners
+      grid.querySelectorAll('.month-picker-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const monthKey = item.getAttribute('data-month');
+          selectMonth(monthKey);
+        });
+      });
     }
 
     function selectMonth(monthKey) {
@@ -4687,6 +4865,8 @@
     // ===== SEARCH =====
     function handleSearch(query) {
       const container = document.getElementById('searchResults');
+      if (!container) return;
+      
       if (!query.trim()) { container.innerHTML = ''; return; }
 
       const results = [];
@@ -4736,8 +4916,15 @@
         const highlighted = (r.data.description || r.data.name || 'Sin descripcion').replace(new RegExp(`(${query})`, 'gi'), '<mark>$1</mark>');
         const [year, month] = r.monthKey.split('-');
         const monthName = MONTHS[parseInt(month) - 1];
-        return `<div class="search-result-item" onclick="goToResult('${r.monthKey}', '${r.type}')" tabindex="0" role="button"><div style="display: flex; justify-content: space-between; align-items: center;"><div><span style="font-size: 11px; color: var(--text-muted);">${r.type} - ${monthName} ${year}</span><div style="font-weight: 500; margin-top: 2px;">${highlighted}</div></div><div style="font-family: 'Space Grotesk'; font-weight: 600; color: var(--accent);">${r.data.amount ? formatCurrency(r.data.amount) : ''}</div></div></div>`;
+        return `<div class="search-result-item" data-month="${r.monthKey}" data-type="${r.type}" tabindex="0" role="button"><div style="display: flex; justify-content: space-between; align-items: center;"><div><span style="font-size: 11px; color: var(--text-muted);">${r.type} - ${monthName} ${year}</span><div style="font-weight: 500; margin-top: 2px;">${highlighted}</div></div><div style="font-family: 'Space Grotesk'; font-weight: 600; color: var(--accent);">${r.data.amount ? formatCurrency(r.data.amount) : ''}</div></div></div>`;
       }).join('');
+      
+      // Add click listeners
+      container.querySelectorAll('.search-result-item').forEach(item => {
+        item.addEventListener('click', () => {
+          goToResult(item.getAttribute('data-month'), item.getAttribute('data-type'));
+        });
+      });
     }
 
     function goToResult(monthKey, type) {
@@ -4833,66 +5020,8 @@
   Utilidad Neta           ${formatCurrency(netIncome).padStart(20)}
   Flujo Mensual           ${formatCurrency(balance).padStart(20)}
 
- ${dash}
-            DETALLE DE INGRESOS
- ${dash}
- ${monthData.incomes.length > 0 ? monthData.incomes.map(i => {
-  const source = i.source ? ` [${INCOME_SOURCES[i.source] || i.source}]` : '';
-  const payment = i.paymentMethod ? ` (${PAYMENT_METHODS[i.paymentMethod] || i.paymentMethod})` : '';
-  const ref = i.invoiceRef ? ` Ref: ${i.invoiceRef}` : '';
-  return `\n  * ${(i.description || 'Ingreso') + source + payment + ref}\n    Monto: ${formatCurrency(i.amount)} | Fecha: ${formatDate(i.date)}`;
-}).join('') : '\n  Sin ingresos registrados'}
-
- ${dash}
-            DETALLE DE GASTOS
- ${dash}
- ${ALL_CATEGORIES.map(cat => {
-  const expenses = monthData.expenses[cat.id] || [];
-  const total = calculateTotal(expenses);
-  const personalTag = cat.isPersonal ? ' [Para mi]' : '';
-  return expenses.length > 0 ? `\n  ${cat.name}${personalTag}: ${formatCurrency(total)}\n${expenses.map(e => {
-    const ded = e.isDeductible ? ' [Deducible]' : '';
-    const ref = e.invoiceRef ? ` Ref: ${e.invoiceRef}` : '';
-    return `    - ${(e.description || 'Gasto') + ded + ref}: ${formatCurrency(e.amount)}`;
-  }).join('\n')}` : '';
-}).filter(Boolean).join('') || '\n  Sin gastos registrados'}
-
- ${dash}
-          DETALLE DE INVERSIONES
- ${dash}
- ${monthData.investments.length > 0 ? monthData.investments.map(i => `\n  * ${i.description || 'Inversion'}: ${formatCurrency(i.amount)} | ${formatDate(i.date)}`).join('') : '\n  Sin inversiones registradas'}
-
- ${dash}
-          HISTORIAL DEL COLCHON
- ${dash}
- ${appData.cushionWithdrawals && appData.cushionWithdrawals.length > 0 ? 
-  appData.cushionWithdrawals.map(w => {
-    const isW = w.type === 'withdrawal';
-    return `\n  ${isW ? '[-]' : '[+]'} ${w.description || (isW ? 'Retiro' : 'Reposicion')}: ${formatCurrency(w.amount)} | ${formatDateTime(w.date)}`;
-  }).join('') : '\n  Sin movimientos registrados'}
-
- ${dash}
-            DOCUMENTOS ALMACENADOS
- ${dash}
- ${appData.documents && appData.documents.length > 0 ? 
-  appData.documents.map(d => {
-    const typeLabel = d.type === 'invoice' ? 'Factura' : d.type === 'receipt' ? 'Recibo' : 'Soporte';
-    return `\n  * ${d.name} [${typeLabel}]${d.reference ? ' Ref: ' + d.reference : ''}${d.amount > 0 ? ' - ' + formatCurrency(d.amount) : ''} | ${formatDate(d.date)}`;
-  }).join('') : '\n  Sin documentos registrados'}
-
- ${line}
-              AVISO IMPORTANTE
- ${line}
-
-Los calculos fiscales presentados son unicamente informativos
-y de caracter orientativo. No constituyen asesoramiento fiscal
-ni contable. Para obligaciones tributarias oficiales, consulta
-a un contador profesional o la autoridad tributaria
-correspondiente en tu pais.
-
  ${line}
         Fin del Reporte - FinanzasPro
-        Pagina 1 de 1
  ${line}
   `;
 
@@ -4954,22 +5083,139 @@ correspondiente en tu pais.
       event.target.value = '';
     }
 
-    // ===== INITIALIZATION =====
-    function init() {
-      initializeAppData();
-      initializeMonthData();
-      updateUI();
-      renderExpenseCategories();
-      initFabScrollBehavior();
+    // ===== DOCUMENT FORM =====
+    function handleDocumentSubmit(e) {
+      e.preventDefault();
       
-      window.addEventListener('resize', () => setTimeout(drawChart, 100));
+      const doc = {
+        id: Date.now().toString(),
+        name: document.getElementById('docName').value.trim(),
+        type: document.getElementById('docType').value,
+        reference: document.getElementById('docReference').value.trim(),
+        amount: unformatNumber(document.getElementById('docAmount').value),
+        notes: document.getElementById('docNotes').value.trim(),
+        date: new Date().toISOString()
+      };
+      
+      if (!appData.documents) appData.documents = [];
+      appData.documents.push(doc);
+      
+      saveData();
+      renderDocuments();
+      closeModal('documentModal');
+      showToast('Documento guardado', 'success');
+    }
 
-      document.querySelectorAll('.modal-overlay, .month-picker-overlay').forEach(overlay => {
-        overlay.addEventListener('click', (e) => {
-          if (e.target === overlay) overlay.classList.remove('active');
+    // ===== EVENT LISTENERS SETUP =====
+    function setupEventListeners() {
+      // FAB button
+      const fab = DOM.fabButton;
+      if (fab) {
+        fab.addEventListener('click', () => openAddModal('income'));
+      }
+      
+      // Month selector
+      const monthSelectorBtn = document.getElementById('monthSelectorBtn');
+      if (monthSelectorBtn) {
+        monthSelectorBtn.addEventListener('click', openMonthPicker);
+      }
+      
+      // Close buttons for modals
+      document.getElementById('closeAddModal')?.addEventListener('click', () => closeModal('addModal'));
+      document.getElementById('closeWithdrawModal')?.addEventListener('click', () => closeModal('withdrawModal'));
+      document.getElementById('closeDocumentModal')?.addEventListener('click', () => closeModal('documentModal'));
+      document.getElementById('closeMonthPicker')?.addEventListener('click', () => closeModal('monthPicker'));
+      
+      // Year navigation
+      document.getElementById('prevYearBtn')?.addEventListener('click', () => changeYear(-1));
+      document.getElementById('nextYearBtn')?.addEventListener('click', () => changeYear(1));
+      
+      // Forms
+      document.getElementById('addForm')?.addEventListener('submit', handleFormSubmit);
+      document.getElementById('withdrawForm')?.addEventListener('submit', handleWithdrawSubmit);
+      document.getElementById('documentForm')?.addEventListener('submit', handleDocumentSubmit);
+      
+      // Delete button in form
+      document.getElementById('deleteBtn')?.addEventListener('click', deleteRecord);
+      document.getElementById('deleteCushionBtn')?.addEventListener('click', () => {
+        const editCushionId = document.getElementById('editCushionId').value;
+        if (editCushionId) {
+          deleteCushionRecord(editCushionId);
+          closeModal('withdrawModal');
+        }
+      });
+      
+      // Record type change
+      document.getElementById('recordType')?.addEventListener('change', updateFormFields);
+      
+      // Tax toggle
+      document.getElementById('taxTrackingToggle')?.addEventListener('change', toggleTaxTracking);
+      document.getElementById('saveTaxConfigBtn')?.addEventListener('click', saveTaxConfig);
+      
+      // Document button
+      document.getElementById('addDocumentBtn')?.addEventListener('click', () => {
+        document.getElementById('docName').value = '';
+        document.getElementById('docType').value = 'invoice';
+        document.getElementById('docReference').value = '';
+        document.getElementById('docAmount').value = '';
+        document.getElementById('docNotes').value = '';
+        openModal('documentModal');
+      });
+      
+      // Quick stats cards
+      document.querySelectorAll('.stat-card[data-section]').forEach(card => {
+        card.addEventListener('click', () => {
+          const section = card.getAttribute('data-section');
+          if (section) showSection(section);
         });
       });
-
+      
+      // Deposit buttons
+      document.getElementById('depositBtn')?.addEventListener('click', () => openAddModal('saving'));
+      document.getElementById('depositBtn2')?.addEventListener('click', () => openAddModal('saving'));
+      
+      // Withdraw buttons
+      document.getElementById('withdrawBtn')?.addEventListener('click', openWithdrawModal);
+      document.getElementById('withdrawBtn2')?.addEventListener('click', openWithdrawModal);
+      
+      // Cushion history button
+      document.getElementById('cushionHistoryBtn')?.addEventListener('click', () => showSection('savings'));
+      
+      // Note button
+      document.getElementById('addNoteBtn')?.addEventListener('click', () => openAddModal('note'));
+      
+      // Export/Import buttons
+      document.getElementById('exportPdfBtn')?.addEventListener('click', exportPDF);
+      document.getElementById('exportJsonBtn')?.addEventListener('click', exportJSON);
+      document.getElementById('importBtn')?.addEventListener('click', () => {
+        document.getElementById('importFile').click();
+      });
+      document.getElementById('importFile')?.addEventListener('change', importJSON);
+      
+      // Search
+      const globalSearch = document.getElementById('globalSearch');
+      if (globalSearch) {
+        globalSearch.addEventListener('input', (e) => handleSearch(e.target.value));
+      }
+      
+      // Amount input formatting
+      ['amount', 'withdrawAmount', 'docAmount'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+          input.addEventListener('input', () => formatAmountInput(input));
+        }
+      });
+      
+      // Modal overlay clicks
+      document.querySelectorAll('.modal-overlay, .month-picker-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) {
+            overlay.classList.remove('active');
+          }
+        });
+      });
+      
+      // Keyboard navigation
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           document.querySelectorAll('.modal-overlay, .month-picker-overlay').forEach(m => m.classList.remove('active'));
@@ -4977,6 +5223,44 @@ correspondiente en tu pais.
       });
     }
 
+    // ===== INITIALIZATION =====
+    function init() {
+      try {
+        // Cache DOM references
+        cacheDOMReferences();
+        
+        // Initialize data
+        initializeAppData();
+        initializeMonthData();
+        
+        // Setup navigation FIRST (critical)
+        initNavigation();
+        
+        // Setup all other event listeners
+        setupEventListeners();
+        
+        // Initial UI update
+        updateUI();
+        renderExpenseCategories();
+        
+        // Initialize FAB scroll behavior
+        initFabScrollBehavior();
+        
+        // Handle resize for chart
+        window.addEventListener('resize', () => setTimeout(drawChart, 100));
+        
+        console.log('App initialized successfully');
+        
+      } catch (error) {
+        console.error('Error during initialization:', error);
+        // Attempt recovery
+        setTimeout(() => {
+          reinitializeNavigation();
+        }, 500);
+      }
+    }
+
+    // Start the app
     document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
